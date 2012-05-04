@@ -1,3 +1,5 @@
+
+
 "===========
 "== vimrc ==
 "===========
@@ -97,5 +99,27 @@ au InsertLeave * hi StatusLine guifg=#586e75 guibg=#eee8d5 gui=none ctermfg=Blac
 autocmd WinEnter *  setlocal cursorline
 autocmd WinLeave *  setlocal nocursorline
 set cursorline
+
+" 全角スペースのハイライト(正規表現を使用している)
+scriptencoding utf-8
+augroup highlightIdegraphicSpace
+  autocmd!
+  autocmd ColorScheme * highlight IdeographicSpace term=underline ctermbg=DarkGreen guibg=DarkGreen
+  autocmd VimEnter,WinEnter * match IdeographicSpace /　/
+augroup END
+colorscheme default
+
+" encoding commands
+command! Utf8 edit ++enc=utf-8
+command! Sjis edit ++enc=sjis
+command! Eucjp edit ++enc=euc-jp
+command! Iso2022jp edit ++enc=iso-2202-jp
+command! Cp932 edit ++enc=cp932
+" change encoding commands
+command! ChgencUtf8 set fenc=utf-8
+command! ChgencSjis set fenc=sjis
+command! ChgencEucjp set fenc=euc-jp
+command! ChgencIso2022jp set fenc=iso-2202-jp
+command! ChgencCp932 set fenc=cp932
 
 " end of file
