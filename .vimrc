@@ -93,18 +93,18 @@ set statusline=%F%m%r%h%w\%=[TYPE=%Y]\[FORMAT=%{&ff}]\[ENC=%{&fileencoding}]\ [P
 au InsertEnter * hi StatusLine guifg=#eee8d5 guibg=#586e75 gui=none ctermfg=White ctermbg=Black cterm=none
 au InsertLeave * hi StatusLine guifg=#586e75 guibg=#eee8d5 gui=none ctermfg=Black ctermbg=White cterm=none
 
-" カーソルのある行をハイライト
+" カーソルのある行をハイライト(フォーカスが外れたらオフにする)
 autocmd WinEnter *  setlocal cursorline
 autocmd WinLeave *  setlocal nocursorline
 set cursorline
 
 " 全角スペースのハイライト(正規表現を使用している)
 scriptencoding utf-8
-augroup highlightIdegraphicSpace
-  autocmd!
-  autocmd ColorScheme * highlight IdeographicSpace term=underline ctermbg=DarkGreen guibg=DarkGreen
-  autocmd VimEnter,WinEnter * match IdeographicSpace /　/
-augroup END
+  augroup highlightIdegraphicSpace
+    autocmd!
+    autocmd ColorScheme * highlight IdeographicSpace term=underline ctermbg=DarkGreen guibg=DarkGreen
+    autocmd VimEnter,WinEnter * match IdeographicSpace /　/
+  augroup END
 colorscheme default
 
 " encoding commands
