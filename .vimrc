@@ -93,7 +93,7 @@ set statusline=%F%m%r%h%w\%=[TYPE=%Y]\[FORMAT=%{&ff}]\[ENC=%{&fileencoding}]\ [P
 au InsertEnter * hi StatusLine guifg=#eee8d5 guibg=#586e75 gui=none ctermfg=White ctermbg=Black cterm=none
 au InsertLeave * hi StatusLine guifg=#586e75 guibg=#eee8d5 gui=none ctermfg=Black ctermbg=White cterm=none
 
-" カーソルのある行をハイライト(フォーカスが外れたらオフにする)
+" カーソルのある行をハイライト(フォーカスが外れたらハイライトオフ)
 autocmd WinEnter *  setlocal cursorline
 autocmd WinLeave *  setlocal nocursorline
 set cursorline
