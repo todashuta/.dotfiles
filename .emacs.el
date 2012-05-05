@@ -3,6 +3,7 @@
 ;==============================
 ;; load-pathの追加
 ;(add-to-list 'load-path "~/Dropbox/dotfiles/emacs/site-lisp")
+;(add-to-list 'load-path "~/.emacs.d/site-lisp")
 
 ;; 言語を日本語にする
 (set-language-environment 'japanese)
