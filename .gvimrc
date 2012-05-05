@@ -26,6 +26,8 @@ set guioptions-=T         " ツールバー非表示
 "set showtabline=2         " タブを常に表示
 set guicursor=a:blinkon0  " カーソルを点滅させない
 set mousefocus            " マウス移動によるフォーカス切り替え有効化
+" IMのON/OFFでカーソルの色を変える
+hi CursorIM  guifg=black  guibg=red  gui=NONE  ctermfg=black  ctermbg=white  cterm=reverse
 
 " MacVimでアクティブ時と非アクティブ時の透明度を変える
 augroup hack234
