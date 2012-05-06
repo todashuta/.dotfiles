@@ -2,8 +2,8 @@
 ;== Emacs common settings... ==
 ;==============================
 ;; load-pathの追加
-;(add-to-list 'load-path "~/Dropbox/dotfiles/emacs/site-lisp")
 ;(add-to-list 'load-path "~/.emacs.d/site-lisp")
+;(add-to-list 'load-path "~/.emacs.d/site-lisp/emacs-color-theme-solarized")
 
 ;; 言語を日本語にする
 (set-language-environment 'japanese)
@@ -163,12 +163,7 @@
 (set-face-background 'modeline "gray8")
 (set-face-foreground 'modeline "LightSeaGreen")
 
-;===========================================================
 
-;====================================
-;== jaspace.el を使った全角空白、タブ、改行表示モード
-;== 切り替えは M-x jaspace-mode-on or -off
-;====================================
 (require 'jaspace)
 ;; 全角空白を表示させる。
 ;(setq jaspace-alternate-jaspace-string "□")
@@ -187,12 +182,10 @@
 ;; tabを半角スペース4つにする
 ;(setq default-tab-width 4)
 
-
 ;; 1行ずつスクロール
 (setq scroll-conservatively 35
       scroll-margin 0
       scroll-step 1)
 (setq comint-scroll-show-maximum-output t) ;; for shell-mode
-;===========================================================
 
 ;; end of file
