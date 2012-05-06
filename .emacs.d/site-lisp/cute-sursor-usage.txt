@@ -1,0 +1,7 @@
+有効化
+(ロード)
+(require 'cute-cursor)
+(cute-cursor t)
+
+無効化
+(cute-cursor nil)
