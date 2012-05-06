@@ -1,1 +1,52 @@
 ;; emacs settings.
+;; == Window ==========================
+(if window-system (progn
+   (set-background-color "Black")  ;; 背景色
+   (set-foreground-color "LightGray")  ;; 前景色
+   (set-cursor-color "Yellow") ;; Gray,Yellowなど
+   (set-frame-parameter nil 'alpha '(82 55))  ;; 透明度(アクティブ 非アクティブ)
+   (set-scroll-bar-mode 'right)  ;; スクロールバー右側
+   (tool-bar-mode nil)  ;; ツールバーなし
+;   (setq initial-frame-alist '((top . 22)(left . 3)(width . 166)(height . 38)))
+   ))
+
+;; == For Mac (Carbon Emacs) ==========
+;; フォントの変更 (fixed-width-fontset: carbon-font)
+;; 使えるフォント："hiramaru" "hirakaku_w3" "hirakaku_w6" "hirakaku_w8" "hiramin_w3" "hiramin_w6" "osaka"
+;; 使えるサイズ：7, 8, 9, 10, 12, 14, 16, 18, 20, 24
+(when (eq window-system 'mac)
+  (require 'carbon-font)
+  (fixed-width-set-fontset "hiramaru" 14))
+
+;; その他Mac用設定
+(when (eq window-system 'mac)
+  (setq mac-allow-anti-aliasing t)  ;; Quartz 2D のアンチエイリアスを利用する
+;  (mac-key-mode 1)  ;; Macのキーバインドを使う
+;  (setq mac-option-modifier 'meta)  ;; optionをメタキーにする(通常はCommandキーorESCキー)
+  )
+
+;; == フォント設定 for Ubuntu =========
+(when (eq window-system 'gnu/linux)
+(custom-set-faces
+ '(default ((t ( :inherit nil :stipple nil :inverse-video nil :box nil 
+   :strike-through nil :overline nil :underline nil :slant normal 
+   :weight normal :height 120 :width normal :foundry "unknown" 
+   :family "Ricty"
+   ))))))
+
+;; == For Windows =====================
+(when (eq window-system 'windows-nt)
+;; Windows向け設定
+)
+
+;; == solarized =======================
+;; color-theme を使う方式
+;(add-to-list 'load-path "~/.emacs.d/site-lisp")
+;(require 'color-theme)  ;; color-theme呼び出し
+;(require 'color-theme-solarized)
+
+;; "enable-theme"を使う方式
+;(add-to-list 'load-path "~/.emacs.d/site-lisp/emacs-color-theme-solarized")
+;(enable-theme 'solarized-dark)
+
+;; end  of file
