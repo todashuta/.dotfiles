@@ -13,7 +13,7 @@ if has('gui_macvim')
 	set noimdisable        " (KaoriYa)入力モードから抜ける時、自動で日本語入力をオフ
 	set imdisableactivate  " (KaoriYa)挿入モードで自動的に日本語入力をONにしない
 elseif has('win32') || has('win64')
-	" --Windows用設定 ------------
+	" -- Windows用設定 -----------
 	set guifont=Ricty:h14  " フォントの設定(for Windows)
 	set transparency=235   " 透明度の指定 (for Windows: 1~255; 200代がオススメ)
 	colorscheme solarized  " 色テーマ指定
