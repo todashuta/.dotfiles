@@ -1,14 +1,29 @@
-;; emacs settings.
+;; emacs settings
+
 ;; == Window ==========================
 (if window-system (progn
    (set-background-color "Black")  ;; 背景色
    (set-foreground-color "LightGray")  ;; 前景色
-   (set-cursor-color "Yellow") ;; Gray,Yellowなど
+   (set-cursor-color "Yellow") ;; Gray,Yellow など
    (set-frame-parameter nil 'alpha '(82 55))  ;; 透明度(アクティブ 非アクティブ)
    (set-scroll-bar-mode 'right)  ;; スクロールバー右側
    (tool-bar-mode nil)  ;; ツールバーなし
-;   (setq initial-frame-alist '((top . 22)(left . 3)(width . 166)(height . 38)))
    ))
+
+;; == Window size =====================
+;; 初期フレームの設定
+(setq initial-frame-alist
+      '((width . 80)    ; フレーム幅(文字数)
+        (height . 24))  ; フレーム高(文字数)
+;        (top . 22)
+;        (left . 3)
+        )
+
+;; 新規フレームのデフォルト設定
+(setq default-frame-alist
+      '((width . 80)    ; フレーム幅(文字数)
+        (height . 24))  ; フレーム高(文字数)
+        )
 
 ;; == For Mac (Carbon Emacs) ==========
 ;; フォントの変更 (fixed-width-fontset: carbon-font)
