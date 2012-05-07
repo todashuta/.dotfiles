@@ -41,16 +41,16 @@
   )
 
 ;; == フォント設定 for Ubuntu =========
-(when (eq window-system 'gnu/linux)
+(when (eq system-type 'gnu/linux)
 (custom-set-faces
- '(default ((t ( :inherit nil :stipple nil :inverse-video nil :box nil 
-   :strike-through nil :overline nil :underline nil :slant normal 
-   :weight normal :height 120 :width normal :foundry "unknown" 
-   :family "Ricty"
-   ))))))
+ '(default ((t (:inherit nil :stipple nil :background "Black"
+  :foreground "LightGray" :inverse-video nil :box nil :strike-through nil
+  :overline nil :underline nil :slant normal :weight normal :height 120
+  :width normal :foundry "unknown" :family "Ricty"))))))
 
 ;; == For Windows =====================
 (when (eq window-system 'windows-nt)
+;(when (eq system-type 'windows-nt)
 ;; Windows向け設定
 )
 
