@@ -49,9 +49,12 @@
   :width normal :foundry "unknown" :family "Ricty"))))))
 
 ;; == For Windows =====================
-(when (eq window-system 'windows-nt)
-;(when (eq system-type 'windows-nt)
-;; Windows向け設定
+(when (eq system-type 'windows-nt)
+(custom-set-faces
+ '(default ((t (:inherit nil :stipple nil :background "Black"
+  :foreground "LightGray" :inverse-video nil :box nil :strike-through nil
+  :overline nil :underline nil :slant normal :weight normal :height 143
+  :width normal :foundry "outline" :family "Ricty"))))))
 )
 
 ;; == solarized =======================
