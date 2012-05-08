@@ -2,12 +2,14 @@
 
 ;; == Window ==========================
 (if window-system (progn
+   (set-frame-parameter nil 'alpha '(82 55))  ;; 透明度(アクティブ 非アクティブ)
    (set-background-color "Black")  ;; 背景色
    (set-foreground-color "LightGray")  ;; 前景色
-   (set-cursor-color "Yellow") ;; Gray,Yellow など
-   (set-frame-parameter nil 'alpha '(82 55))  ;; 透明度(アクティブ 非アクティブ)
-   (set-scroll-bar-mode 'right)  ;; スクロールバー右側
+   (set-cursor-color "Yellow")  ;; Gray,Yellow など
+   (blink-cursor-mode 0)  ;; カーソルの点滅を止める
    (tool-bar-mode nil)  ;; ツールバーなし
+   (set-scroll-bar-mode 'right)  ;; スクロールバー右側
+;   (set-default 'line-spacing 7)  ;; 表示の行間を拡げる
    ))
 
 ;; == Window size =====================
@@ -55,7 +57,6 @@
   :foreground "LightGray" :inverse-video nil :box nil :strike-through nil
   :overline nil :underline nil :slant normal :weight normal :height 143
   :width normal :foundry "outline" :family "Ricty"))))))
-)
 
 ;; == solarized =======================
 ;; color-theme を使う方式
