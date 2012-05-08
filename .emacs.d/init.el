@@ -14,7 +14,7 @@
 ;; 初期フレームの設定
 (setq initial-frame-alist
       '((width . 80)    ; フレーム幅(文字数)
-        (height . 24)   ; フレーム高(文字数)
+        (height . 32)   ; フレーム高(文字数)
 ;        (top . 22)
 ;        (left . 3)
         ))
