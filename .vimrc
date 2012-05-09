@@ -86,7 +86,7 @@ set t_Co=256                        " 256色対応
 set showcmd                         " 入力中のコマンドを表示
 set visualbell                      " ビジュアルベル使用
 syntax on                           " 色づけをオン
-set ruler                           " ステータスラインにカーソル位置を表示
+"set ruler                           " ルーラー表示(ステータスライン変えてるため無意味)
 set number                          " 行番号を表示する
 set showmatch                       " 閉じ括弧が入力されたとき、対応する括弧を表示する
 set matchtime=3                     " showmatchの瞬間強調時間
@@ -98,20 +98,21 @@ set list                            " タブ文字、行末など不可視文字
 " listで表示される文字のフォーマット
 set listchars=tab:▸\ ,trail:›,eol:↲,precedes:«,extends:»
 
+" カーソルのある行をハイライト(フォーカスが外れたらハイライトオフ)
+autocmd WinEnter *  setlocal cursorline
+autocmd WinLeave *  setlocal nocursorline
+set cursorline
+
 " Status Line -----------------------------------
 set laststatus=2                    " ステータスラインを常に表示
 
 " ステータスラインの表示 ([フルパス]  [ファイルタイプ][改行コード][エンコード][カーソル位置][総行数])
 set statusline=%F%m%r%h%w\%=[TYPE=%Y]\[FORMAT=%{&ff}]\[ENC=%{&fileencoding}]\ [POS=%04l,%04v][%p%%]\ [LEN=%L]
 
-" 挿入モードとノーマルモードでステータスラインのカラーを変更(solarized-light用)
-au InsertEnter * hi StatusLine guifg=#eee8d5 guibg=#586e75 gui=none ctermfg=White ctermbg=Black cterm=none
-au InsertLeave * hi StatusLine guifg=#586e75 guibg=#eee8d5 gui=none ctermfg=Black ctermbg=White cterm=none
+" 挿入モードとノーマルモードでステータスラインのカラーを変更
+"au InsertEnter * hi StatusLine guifg=#ccdc90 guibg=#2E4340 gui=none ctermfg=White ctermbg=Black cterm=none
+"au InsertLeave * hi StatusLine guifg=#2E4340 guibg=#ccdc90 gui=none ctermfg=Black ctermbg=White cterm=none
 
-" カーソルのある行をハイライト(フォーカスが外れたらハイライトオフ)
-autocmd WinEnter *  setlocal cursorline
-autocmd WinLeave *  setlocal nocursorline
-set cursorline
 
 " 全角スペースのハイライト(正規表現を使用している)
 scriptencoding utf-8
