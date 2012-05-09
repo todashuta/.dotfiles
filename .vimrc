@@ -14,6 +14,7 @@ set history=50                      " ヒストリーの保存数
 set backspace=indent,eol,start      " バックスペースでインデントや改行を削除できるようにする
 set whichwrap=b,s,h,l,<,>,[,]       " カーソルを行頭、行末で止まらないようにする
 set virtualedit+=block              " 矩形選択で行末を超えてブロックを選択可能にする
+set splitright                      "vsplitで新規ウィンドウは右側にする
 set clipboard+=unnamed              " クリップボードをシステムと共有する
 "set lines=50                        " 縦幅
 "set columns=150                     " 横幅
@@ -38,6 +39,7 @@ set nowrapscan                      " ファイルの最後まで検索したら
 set ignorecase                      " 検索時に大文字小文字を区別しない
 set smartcase                       " 検索する文字に大文字が一つでもあった場合は区別する
 set wildmenu                        " コマンドライン補完を強化されたものにする
+set wildmode=longest,list,full      " 共通部まで補完,一覧,順番
 set hlsearch                        " 検索文字の強調表示
 
 " Key Remap -------------------------------------
@@ -55,6 +57,7 @@ noremap gh ^
 " glで行末に移動
 noremap gl $
 
+" 検索の候補を中央に表示
 nmap n nzz
 nmap N Nzz
 nmap * *zz
@@ -62,12 +65,21 @@ nmap # #zz
 nmap g* g*zz
 nmap g# g#zz
 
+" カッコの入力補助
 inoremap {} {}<LEFT>
 inoremap [] []<LEFT>
 inoremap () ()<LEFT>
 inoremap <> <><LEFT>
 inoremap "" ""<LEFT>
 inoremap '' ''<LEFT>
+
+" タブ切り替え
+nnoremap <C-Tab>   gt
+nnoremap <C-S-Tab> gT
+
+" バッファの切り替え
+"nnoremap <C-Tab>  :bn<CR>
+"nnoremap <C-S-Tab>  :bp<CR>
 
 " Visual ----------------------------------------
 set t_Co=256                        " 256色対応
@@ -79,7 +91,9 @@ set number                          " 行番号を表示する
 set showmatch                       " 閉じ括弧が入力されたとき、対応する括弧を表示する
 set matchtime=3                     " showmatchの瞬間強調時間
 set wrap                            " 画面幅で折り返す
-set colorcolumn=80                  " {数字}列目を強調表示
+if exists('&colorcolumn')
+  set colorcolumn=80                " {数字}列目を強調表示
+endif
 set list                            " タブ文字、行末など不可視文字を表示する
 " listで表示される文字のフォーマット
 set listchars=tab:▸\ ,trail:›,eol:↲,precedes:«,extends:»

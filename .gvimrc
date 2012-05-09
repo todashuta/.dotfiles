@@ -29,7 +29,9 @@ endif
 
 " Common settings
 set antialias             " アンチエイリアス有効化
-set ambiwidth=double      " UTF-8使用時に一部の記号を全角とみなす
+if exists('&ambiwidth')
+  set ambiwidth=double    " 全角記号でカーソルがずれないようにする
+endif
 set guioptions-=T         " ツールバー非表示
 "set showtabline=2         " タブを常に表示
 set guicursor=a:blinkon0  " カーソルを点滅させない
