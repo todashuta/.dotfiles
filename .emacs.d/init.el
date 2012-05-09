@@ -52,6 +52,7 @@
 
 ;; == For Windows =====================
 (when (eq system-type 'windows-nt)
+(setq default-directory "C:/Users/SHU/")  ;; 初期ディレクトリの設定
 (custom-set-faces
  '(default ((t (:inherit nil :stipple nil :background "Black"
   :foreground "LightGray" :inverse-video nil :box nil :strike-through nil
