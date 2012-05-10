@@ -51,10 +51,10 @@ noremap gk k
 " ESC二回押しで検索ハイライトを消去
 nnoremap <ESC><ESC> :nohlsearch<CR>
 
-" ghで空白を飛ばした行頭に移動
-noremap gh ^
-" glで行末に移動
-noremap gl $
+" ghで物理行頭に移動
+noremap gh g^
+" glで物理行末に移動
+noremap gl g$
 
 " 検索の候補を中央に表示
 nmap n nzz
