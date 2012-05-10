@@ -45,7 +45,7 @@ set mousefocus            " マウス移動によるフォーカス切り替え�
 hi CursorIM  guifg=black  guibg=red  gui=NONE  ctermfg=black  ctermbg=white  cterm=reverse
 "}}}
 
-"{{{  MacVimでアクティブ時と非アクティブ時の透明度を変える
+"{{{ MacVimでアクティブ時と非アクティブ時の透明度を変える
 augroup hack234
   autocmd!
   if has('mac')
