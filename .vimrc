@@ -1,6 +1,5 @@
-"===========
-"== vimrc ==
-"===========
+" .vimrc
+" https://github.com/todashuta/profiles
 
 " General ---------------------------------------
 set encoding=utf-8                  " エンコードをUTF-8にする
@@ -14,7 +13,7 @@ set history=50                      " ヒストリーの保存数
 set backspace=indent,eol,start      " バックスペースでインデントや改行を削除できるようにする
 set whichwrap=b,s,h,l,<,>,[,]       " カーソルを行頭、行末で止まらないようにする
 set virtualedit+=block              " 矩形選択で行末を超えてブロックを選択可能にする
-set splitright                      "vsplitで新規ウィンドウは右側にする
+set splitright                      " vsplitで新規ウィンドウは右側にする
 set clipboard+=unnamed              " クリップボードをシステムと共有する
 "set lines=50                        " 縦幅
 "set columns=150                     " 横幅
@@ -136,4 +135,4 @@ command! ChgencEucjp set fenc=euc-jp
 command! ChgencIso2022jp set fenc=iso-2202-jp
 command! ChgencCp932 set fenc=cp932
 
-" end of file
+" end of .vimrc

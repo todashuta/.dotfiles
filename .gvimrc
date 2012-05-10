@@ -1,10 +1,10 @@
-"============
-"== gvimrc ==
-"============
+" .gvimrc
+" https://github.com/todashuta/profiles
 
 " OS別Gvim設定
+
+"{{{ For Mac
 if has('gui_macvim')
-	" -- Mac用設定 ---------------
 	set guifont=Ricty:h18  " フォントの設定(for MacVim)
 	set transparency=4     " 透明度の指定 (for MacVim:透明化する場合は、「環境設定」「詳細」の「実験的レンダラを使用する」「インラインインプットメソッドを使用する」の両方をチェックすること)
 	colorscheme solarized  " 色テーマ指定
@@ -12,22 +12,27 @@ if has('gui_macvim')
 	syntax enable          " 色付け有効化
 	set noimdisable        " (KaoriYa)入力モードから抜ける時、自動で日本語入力をオフ
 	set imdisableactivate  " (KaoriYa)挿入モードで自動的に日本語入力をONにしない
+"}}}
+
+"{{{ For Windows
 elseif has('win32') || has('win64')
-	" -- Windows用設定 -----------
 	set guifont=Ricty:h14  " フォントの設定(for Windows)
 	set transparency=235   " 透明度の指定 (for Windows: 1~255; 200代がオススメ)
 	colorscheme solarized  " 色テーマ指定
 	set background=dark    " 色テーマの傾向
 	syntax enable          " 色付け有効化
+"}}}
+
+"{{{ For Linux/Ubuntu
 else
-	" -- Linux/Ubuntu用設定 ------
 	set guifont=Ricty\ 13  " フォントの設定(for Linux)
 	colorscheme zenburn    " 色テーマ指定
 	set background=dark    " 色テーマの傾向
 	syntax enable          " 色付け有効化
 endif
+"}}}
 
-" Common settings
+"{{{ Common settings
 set antialias             " アンチエイリアス有効化
 if exists('&ambiwidth')
   set ambiwidth=double    " 全角記号でカーソルがずれないようにする
@@ -38,8 +43,9 @@ set guicursor=a:blinkon0  " カーソルを点滅させない
 set mousefocus            " マウス移動によるフォーカス切り替え有効化
 " IMのON/OFFでカーソルの色を変える
 hi CursorIM  guifg=black  guibg=red  gui=NONE  ctermfg=black  ctermbg=white  cterm=reverse
+"}}}
 
-" MacVimでアクティブ時と非アクティブ時の透明度を変える
+"{{{  MacVimでアクティブ時と非アクティブ時の透明度を変える
 augroup hack234
   autocmd!
   if has('mac')
@@ -47,5 +53,6 @@ augroup hack234
     autocmd FocusLost * set transparency=30   " 非アクティブ時の透過率
   endif
 augroup END
+"}}}
 
-" end of file
+" end of .gvimrc
