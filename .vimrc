@@ -34,7 +34,7 @@ set shiftwidth=4                    " インデントの各段階に使われる
 
 " Search ----------------------------------------
 set incsearch                       " インクリメンタルサーチ
-set nowrapscan                      " ファイルの最後まで検索したらそこでやめる
+set wrapscan                        " ファイルの最後まで検索したら戻る
 set ignorecase                      " 検索時に大文字小文字を区別しない
 set smartcase                       " 検索する文字に大文字が一つでもあった場合は区別する
 set wildmenu                        " コマンドライン補完を強化されたものにする
