@@ -88,6 +88,7 @@ syntax on                           " 色づけをオン
 "set ruler                           " ルーラー表示(ステータスライン変えてるため無意味)
 set number                          " 行番号を表示する
 set showmatch                       " 閉じ括弧が入力されたとき、対応する括弧を表示する
+set matchpairs+=<:>                 " <>のカッコをマッチ対象にする
 set matchtime=3                     " showmatchの瞬間強調時間
 set wrap                            " 画面幅で折り返す
 if exists('&colorcolumn')
