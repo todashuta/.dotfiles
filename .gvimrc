@@ -29,7 +29,7 @@ elseif has('win32') || has('win64')
 
 "{{{ For Linux/Ubuntu
 else
-  set guifont=Ricty\ 13  " フォントの設定(for Linux)
+  set guifont=Ricty\ 12  " フォントの設定(for Linux)
   colorscheme zenburn    " 色テーマ指定
   set background=dark    " 色テーマの傾向
   syntax enable          " 色付け有効化
