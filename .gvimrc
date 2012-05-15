@@ -42,11 +42,20 @@ if exists('&ambiwidth')
   set ambiwidth=double    " 全角記号でカーソルがずれないようにする
 endif
 set guioptions-=T         " ツールバー非表示
+set guioptions=e          " tabをGUIにする
 "set showtabline=2         " タブを常に表示
 set guicursor=a:blinkon0  " カーソルを点滅させない
 set mousefocus            " マウス移動によるフォーカス切り替え有効化
 " IMのON/OFFでカーソルの色を変える
 hi CursorIM  guifg=black  guibg=red  gui=NONE  ctermfg=black  ctermbg=white  cterm=reverse
+"}}}
+
+"{{{ スクロールバーなし
+set guioptions-=r  " ウインドウ右側
+set guioptions-=R  " 分割されたウインドウ右側
+set guioptions-=l  " ウインドウ左側
+set guioptions-=L  " 分割されたウインドウ左側
+set guioptions-=b  " 水平スクロールバー
 "}}}
 
 "{{{ MacVimでアクティブ時と非アクティブ時の透明度を変える
