@@ -1,4 +1,5 @@
-# screenrc...
+# .screenrc
+# https://github.com/todashuta/profiles
 
 #==============================
 #== キーバインドに関する設定 ==
@@ -34,5 +35,4 @@ hardstatus alwayslastline "%{=b Wk} GNU Screen %{= gw} %=%{= gw} (%l) %Y-%m-%d %
 #==================================
 shell -${SHELL}
 
-
-# end of file
+# end of .screenrc
