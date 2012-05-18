@@ -29,4 +29,10 @@ caption always "%{= gw}%{gW}%-w%{= wk}%n %t%{-}%+w %=%{gw} $USER@$HOSTNAME[$LANG
 # 最下行の常に表示される部分の設定
 hardstatus alwayslastline "%{=b Wk} GNU Screen %{= gw} %=%{= gw} (%l) %Y-%m-%d %02c:%s"
 
+#==================================
+#== Using RVM inside GNU Screen  ==
+#==================================
+shell -${SHELL}
+
+
 # end of file
