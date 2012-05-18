@@ -1,4 +1,5 @@
-# zshrc.
+# .zshrc
+# https://github.com/todashuta/profiles
 
 #lsコマンド関連設定
 alias ls="ls -G"    #lsの結果に色付け
@@ -38,4 +39,4 @@ RPROMPT="%T"              # 右側のプロンプト(24時間制での現在時�
 PS1="${USER}@${HOST%%.*}:%~
 %(!.#.$) "
 
-# end of file
+# end of .zshrc
