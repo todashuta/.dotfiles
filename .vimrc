@@ -80,6 +80,10 @@ nnoremap <C-S-Tab> gT
 "nnoremap <C-Tab>  :bn<CR>
 "nnoremap <C-S-Tab>  :bp<CR>
 
+" ;でコマンド入力(;と:を入れ替え)
+noremap ; :
+noremap : ;
+
 " Visual ----------------------------------------
 set t_Co=256                        " 256色対応
 set showcmd                         " 入力中のコマンドを表示
