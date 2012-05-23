@@ -4,7 +4,7 @@
 " OS別Gvim設定 {{{
 
 if has('gui_macvim')
-  " For Mac {{{
+" For Mac {{{
   set guifont=Ricty:h18  " フォントの設定(for MacVim)
   set transparency=4     " 透明度の指定 (for MacVim:透明化する場合は、「環境設定」「詳細」の「実験的レンダラを使用する」「インラインインプットメソッドを使用する」の両方をチェックすること)
   colorscheme solarized  " 色テーマ指定
@@ -12,7 +12,7 @@ if has('gui_macvim')
   syntax enable          " 色付け有効化
   set noimdisable        " (KaoriYa)入力モードから抜ける時、自動で日本語入力をオフ
   set imdisableactivate  " (KaoriYa)挿入モードで自動的に日本語入力をONにしない
-  "}}}
+"}}}
 
 elseif has('win32') || has('win64')
 " For Windows {{{
@@ -25,15 +25,15 @@ elseif has('win32') || has('win64')
   set imsearch=0         " 検索開始時のIMオフ
   " 挿入モードでのIME状態を記憶させない
   inoremap <silent> <ESC> <ESC>:set iminsert=0<CR>
-  "}}}
+"}}}
 
 else
-  " For Linux/Ubuntu {{{
+" For Linux/Ubuntu {{{
   set guifont=Ricty\ 12  " フォントの設定(for Linux)
   colorscheme zenburn    " 色テーマ指定
   set background=dark    " 色テーマの傾向
   syntax enable          " 色付け有効化
-  "}}}
+"}}}
 
 endif
 
