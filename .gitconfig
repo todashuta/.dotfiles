@@ -1,6 +1,12 @@
+# .gitconfig
+# https://github.com/todashuta/profiles
+
 [color]
+	# colorの設定(自動で色付け)
 	status = auto
 	diff = auto
-	branche = auto
+	branch = auto
 	interactive = auto
 	grep = auto
+
+# end of .gitconfig
