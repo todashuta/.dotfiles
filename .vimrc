@@ -1,7 +1,7 @@
 " .vimrc
 " https://github.com/todashuta/profiles
 
-" General ---------------------------------------
+" General {{{ -----------------------------------
 set encoding=utf-8                " エンコードをUTF-8にする
 set nocompatible                  " viとの互換モードをOFF
 set shellslash                    " Windowsでディレクトリパスの区切り文字に / を使えるようにする
@@ -20,22 +20,25 @@ set virtualedit+=block            " 矩形選択で行末を超えてブロッ�
 set splitright                    " vsplitで新規ウィンドウは右側にする
 set clipboard+=unnamed            " OSのクリップボードを使用
 set clipboard=unnamed             " ヤンクした文字はシステムのクリップボードに入れる
+"}}}
 
-" File, Backup ----------------------------------
+" File, Backup {{{ ------------------------------
 set hidden                        " 編集中でも他のファイルを開けるようにする
 set autoread                      " 他で書き換えられたら自動で読み直す
 set nobackup                      " バックアップ取らない
 set noswapfile                    " スワップファイル作らない
+"}}}
 
-" Indent, Tab -----------------------------------
+" Indent, Tab {{{ -------------------------------
 "set autoindent                    " 新しい行のインデントを現在行と同じにする
 "set smartindent                   " 新しい行を作ったときに高度な自動インデントを行う
 set tabstop=4                     " タブで表示される空白の数
 set softtabstop=4                 " Tab押下時に4文字分移動(Tabかスペースかは別の設定)
 set shiftwidth=4                  " インデントの各段階に使われる空白の数
 "set expandtab                     " タブの代わりに空白文字を挿入する
+"}}}
 
-" Search ----------------------------------------
+" Search {{{ ------------------------------------
 set incsearch                     " インクリメンタルサーチ
 set wrapscan                      " ファイルの最後まで検索したら戻る
 set ignorecase                    " 検索時に大文字小文字を区別しない
@@ -43,8 +46,9 @@ set smartcase                     " 検索する文字に大文字が一つで�
 set wildmenu                      " コマンドライン補完を強化されたものにする
 set wildmode=longest,list,full    " 共通部まで補完,一覧,順番
 set hlsearch                      " 検索文字の強調表示
+"}}}
 
-" Key Remap -------------------------------------
+" Key Remap {{{ ---------------------------------
 " 表示行単位で移動する
 noremap j gj
 noremap k gk
@@ -86,8 +90,9 @@ nnoremap <C-S-Tab> gT
 " ;でコマンド入力(;と:を入れ替え)
 noremap ; :
 noremap : ;
+"}}}
 
-" Visual ----------------------------------------
+" Visual {{{ ------------------------------------
 set t_Co=256                " 256色対応
 set showcmd                 " 入力中のコマンドを表示
 set visualbell              " ビジュアルベル使用
@@ -109,8 +114,9 @@ set listchars=tab:▸\ ,trail:›,eol:↲,precedes:«,extends:»
 autocmd WinEnter *  setlocal cursorline
 autocmd WinLeave *  setlocal nocursorline
 set cursorline
+"}}}
 
-" Status Line -----------------------------------
+" Status Line {{{ -------------------------------
 set laststatus=2            " ステータスラインを常に表示
 
 " ステータスラインの表示 ([フルパス]  [ファイルタイプ][改行コード][エンコード][カーソル位置][総行数])
@@ -119,9 +125,9 @@ set statusline=%F%m%r%h%w\%=[TYPE=%Y]\[FORMAT=%{&ff}]\[ENC=%{&fileencoding}]\ [P
 " 挿入モードとノーマルモードでステータスラインのカラーを変更
 "au InsertEnter * hi StatusLine guifg=#ccdc90 guibg=#2E4340 gui=none ctermfg=White ctermbg=Black cterm=none
 "au InsertLeave * hi StatusLine guifg=#2E4340 guibg=#ccdc90 gui=none ctermfg=Black ctermbg=White cterm=none
+"}}}
 
-
-" 全角スペースのハイライト(正規表現を使用している)
+" 全角スペースのハイライト(正規表現を使用している) {{{
 scriptencoding utf-8
 augroup highlightIdeographicSpace
   autocmd!
@@ -129,18 +135,23 @@ augroup highlightIdeographicSpace
   autocmd VimEnter,WinEnter * match IdeographicSpace /　/
 augroup END
 colorscheme default
+"}}}
 
-" encoding commands
+" encoding commands {{{
 command! Utf8 edit ++enc=utf-8
 command! Sjis edit ++enc=sjis
 command! Eucjp edit ++enc=euc-jp
 command! Iso2022jp edit ++enc=iso-2202-jp
 command! Cp932 edit ++enc=cp932
-" change encoding commands
+"}}}
+
+" change encoding commands {{{
 command! ChgencUtf8 set fenc=utf-8
 command! ChgencSjis set fenc=sjis
 command! ChgencEucjp set fenc=euc-jp
 command! ChgencIso2022jp set fenc=iso-2202-jp
 command! ChgencCp932 set fenc=cp932
+"}}}
 
+" vim:foldmethod=marker
 " end of .vimrc
