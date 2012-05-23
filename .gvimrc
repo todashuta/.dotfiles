@@ -46,6 +46,8 @@ set guioptions=e          " tabをGUIにする
 "set showtabline=2         " タブを常に表示
 set guicursor=a:blinkon0  " カーソルを点滅させない
 set mousefocus            " マウス移動によるフォーカス切り替え有効化
+"set lines=24              " 縦幅
+"set columns=80            " 横幅
 " IMのON/OFFでカーソルの色を変える
 hi CursorIM  guifg=black  guibg=red  gui=NONE  ctermfg=black  ctermbg=white  cterm=reverse
 "}}}
