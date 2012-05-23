@@ -1,0 +1,6 @@
+[color]
+	status = auto
+	diff = auto
+	branche = auto
+	interactive = auto
+	grep = auto
