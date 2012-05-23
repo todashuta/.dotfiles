@@ -7,14 +7,19 @@ set nocompatible                    " viとの互換モードをOFF
 set shellslash                      " Windowsでディレクトリパスの区切り文字に / を使えるようにする
 set scrolloff=5                     " カーソルの上下に表示する行数(大きな数字を指定するとカーソルが真ん中になる)
 let g:netrw_liststyle=3             " ディレクトリ閲覧をツリー形式にする
-set autochdir                       " 現在ディレクトリを、開いているバッファのディレクトリにする
-set mouse=a                         " 全モードでマウスを有効化
+if has("autochdir")
+  set autochdir                     " 開いているバッファのディレクトリに自動で移動
+endif
+set mouse=a                         " ターミナルでマウスを有効化
+set guioptions+=a                   " 同上
+set ttymouse=xterm2                 " 同上
 set history=50                      " ヒストリーの保存数
 set backspace=indent,eol,start      " バックスペースでインデントや改行を削除できるようにする
 set whichwrap=b,s,h,l,<,>,[,]       " カーソルを行頭、行末で止まらないようにする
 set virtualedit+=block              " 矩形選択で行末を超えてブロックを選択可能にする
 set splitright                      " vsplitで新規ウィンドウは右側にする
-set clipboard+=unnamed              " クリップボードをシステムと共有する
+set clipboard+=unnamed              " OSのクリップボードを使用
+set clipboard=unnamed               " ヤンクした文字はシステムのクリップボードに入れる
 "set lines=50                        " 縦幅
 "set columns=150                     " 横幅
 
