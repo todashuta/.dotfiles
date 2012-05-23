@@ -1,0 +1,7 @@
+# .inputrc
+# https://github.com/todashuta/profiles
+
+# ファイル名補完機能で大文字と小文字の区別をなくす
+set completion-ignore-case on
+
+# end of .inputrc
