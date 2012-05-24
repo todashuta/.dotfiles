@@ -154,5 +154,11 @@ command! ChgencIso2022jp set fenc=iso-2202-jp
 command! ChgencCp932 set fenc=cp932
 "}}}
 
+" ローカル設定(~/.vimrc.local)があればそれを読み込む {{{
+if filereadable(expand('~/.vimrc.local'))
+  source ~/.vimrc.local
+endif
+"}}}
+
 " vim:foldmethod=marker
 " end of .vimrc
