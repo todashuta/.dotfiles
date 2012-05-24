@@ -73,5 +73,11 @@ augroup hack234
 augroup END
 "}}}
 
+" ローカル設定(~/.gvimrc.local)があればそれを読み込む {{{
+if filereadable(expand('~/.gvimrc.local'))
+  source ~/.gvimrc.local
+endif
+"}}}
+
 " vim:foldmethod=marker
 " end of .gvimrc
