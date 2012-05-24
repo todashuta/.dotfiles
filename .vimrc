@@ -2,6 +2,7 @@
 " https://github.com/todashuta/profiles
 
 " General {{{ -----------------------------------
+source ~/.vimrc.plugin            " plugin関連
 set encoding=utf-8                " エンコードをUTF-8にする
 set nocompatible                  " viとの互換モードをOFF
 set shellslash                    " Windowsでディレクトリパスの区切り文字に / を使えるようにする
