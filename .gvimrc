@@ -30,7 +30,7 @@ elseif has('win32') || has('win64')
 else
 " For Linux/Ubuntu {{{
   set guifont=Ricty\ 12  " フォントの設定(for Linux)
-  colorscheme zenburn    " 色テーマ指定
+  colorscheme molokai    " 色テーマ指定
   set background=dark    " 色テーマの傾向
   syntax enable          " 色付け有効化
 "}}}
