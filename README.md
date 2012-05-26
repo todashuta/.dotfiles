@@ -6,5 +6,6 @@ Dropboxで管理していたのをGithubに移行してみようかと
 
 ```
 Clone from github
-$ git clone git://github.com/todashuta/profiles.git
+$ mkdir ~/.profiles.d
+$ git clone git://github.com/todashuta/profiles.git ~/profiles.d
 ```
