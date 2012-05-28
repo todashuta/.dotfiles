@@ -39,4 +39,7 @@ RPROMPT="%T"              # 右側のプロンプト(24時間制での現在時�
 PS1="${USER}@${HOST%%.*}:%~
 %(!.#.$) "
 
+# インクリメンタル補完プラグイン
+source ~/.profiles.d/.zsh/plugin/incr*.zsh
+
 # end of .zshrc
