@@ -32,12 +32,11 @@ setopt list_packed
 ## 補完候補表示時などにピッピとビープ音をならないように設定
 setopt nolistbeep
 
-#RPROMPT="%T"              # 右側のプロンプト(24時間制での現在時刻)
-#setopt transient_rprompt  # 右側まで入力がきたら消す
-
 ## プロンプトの設定(単色二段式)
 PS1="${USER}@${HOST%%.*}:%~
 %(!.#.%%) "
+#RPROMPT="%T"              # 右側のプロンプト(24時間制での現在時刻)
+#setopt transient_rprompt  # 右側まで入力がきたら消す
 
 # インクリメンタル補完プラグイン
 source ~/.profiles.d/.zsh/plugin/incr*.zsh
