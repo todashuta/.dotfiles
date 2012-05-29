@@ -21,7 +21,7 @@ zstyle ':completion:*' matcher-list '' 'm:{a-z}={A-Z}' '+m:{A-Z}={a-z}'
 setopt auto_cd
 
 ## 移動したディレクトリを記録しておく。"cd -[Tab]"で移動履歴を一覧
-#setopt auto_pushd
+setopt auto_pushd
 
 ## コマンド訂正
 setopt correct
@@ -32,7 +32,7 @@ setopt list_packed
 ## 補完候補表示時などにピッピとビープ音をならないように設定
 setopt nolistbeep
 
-RPROMPT="%T"              # 右側のプロンプト(24時間制での現在時刻)
+#RPROMPT="%T"              # 右側のプロンプト(24時間制での現在時刻)
 #setopt transient_rprompt  # 右側まで入力がきたら消す
 
 ## プロンプトの設定(単色二段式)
