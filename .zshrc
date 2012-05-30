@@ -12,7 +12,7 @@ freebsd*|darwin*)
   ;;
 linux*)
   echo "test for linux"
-  alas ls="ls --color=auto"  # lsの結果に色付け(Linux)
+  alias ls="ls --color=auto"  # lsの結果に色付け(Linux)
   ;;
 esac
 
@@ -38,7 +38,7 @@ freebsd*|darwin*)
   alias cot='open -a CotEditor.app'
   ;;
 linux*)
-  echo "test for linux"
+
   ;;
 esac
 
