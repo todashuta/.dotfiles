@@ -4,29 +4,32 @@
 # emacsキーバインド
 bindkey -e
 
-# lsコマンド関連設定
-# OS別分岐
+# lsコマンド関連設定 {{{
+# OS別分岐 {{{
 case "${OSTYPE}" in
 freebsd*|darwin*)
   alias ls="ls -G"  # lsの結果に色付け(MacOS)
   ;;
 linux*)
-  echo "test for linux"
   alias ls="ls --color=auto"  # lsの結果に色付け(Linux)
   ;;
 esac
+# }}}
 
 alias ll="ls -alF"  #llでls -alFにする
 alias la="ls -A"    #laでls -Aにする
 alias l="ls -CF"    #lでls -CFにする
+# }}}
 
-# grep関連コマンドに色付け
+# grep関連コマンドに色付け {{{
 alias egrep='egrep --color=auto'
 alias fgrep='fgrep --color=auto'
 alias grep='grep --color=auto'
+# }}}
 
 alias rm='rm -i'
 
+# OS別エイリアス設定 {{{
 case "${OSTYPE}" in
 freebsd*|darwin*)
   alias emacs='/Applications/Emacs.app/Contents/MacOS/Emacs'
@@ -41,9 +44,11 @@ linux*)
 
   ;;
 esac
+# }}}
 
 
-# 補完機能
+
+# zsh補完機能設定 {{{
 autoload -U compinit
 compinit -u
 zstyle ':completion:*' matcher-list '' 'm:{a-z}={A-Z}' '+m:{A-Z}={a-z}'
@@ -63,13 +68,17 @@ setopt list_packed
 # 補完候補表示時などにピッピとビープ音をならないように設定
 setopt nolistbeep
 
-# プロンプトの設定(単色二段式)
-PS1="${USER}@${HOST%%.*}:%~
-%(!.#.%%) "
-#RPROMPT="%T"              # 右側のプロンプト(24時間制での現在時刻)
-#setopt transient_rprompt  # 右側まで入力がきたら消す
+# }}}
 
-# 履歴設定
+
+# プロンプトの設定(単色二段式)
+#PS1="${USER}@${HOST%%.*}:%~
+PS1="${USER}@${HOST%%.*} (%T)
+%(!.#.%%) "
+RPROMPT="[%~]"
+setopt transient_rprompt  # 右側まで入力がきたら消す
+
+# 履歴設定 {{{
 HISTFILE=$HOME/.zsh_history    # 履歴をファイルに保存する
 HISTSIZE=1000000               # メモリ内の履歴の数
 SAVEHIST=1000000               # 保存される履歴の数
@@ -80,8 +89,10 @@ setopt hist_ignore_all_dups    # 既にあるコマンド行は古い方を削�
 setopt hist_reduce_blanks      # コマンドラインの余計なスペースを排除
 setopt share_history           # 履歴ファイルを共有
 setopt hist_ignore_space       # 先頭に空白を入れると記録しない
+# }}}
 
 # インクリメンタル補完プラグイン
 source ~/.zsh/plugin/incr*.zsh
 
+# vim:foldmethod=marker
 # end of .zshrc
