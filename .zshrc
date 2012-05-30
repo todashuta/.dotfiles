@@ -38,6 +38,16 @@ PS1="${USER}@${HOST%%.*}:%~
 #RPROMPT="%T"              # 右側のプロンプト(24時間制での現在時刻)
 #setopt transient_rprompt  # 右側まで入力がきたら消す
 
+# 履歴保存設定
+HISTFILE=$HOME/.zsh_history           # 履歴をファイルに保存する
+HISTSIZE=1000000                      # メモリ内の履歴の数
+SAVEHIST=1000000                      # 保存される履歴の数
+setopt extended_history               # 履歴ファイルに時刻を記録
+setopt hist_ignore_dups               # 同じコマンドを重複して記録しない
+setopt share_history                  # 履歴ファイルを共有
+setopt hist_ignore_space              # 先頭に空白を入れると記録しない
+#function history-all { history -E 1 } # 全履歴の一覧を出力する
+
 # インクリメンタル補完プラグイン
 source ~/.zsh/plugin/incr*.zsh
 
