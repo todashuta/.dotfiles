@@ -39,6 +39,6 @@ PS1="${USER}@${HOST%%.*}:%~
 #setopt transient_rprompt  # 右側まで入力がきたら消す
 
 # インクリメンタル補完プラグイン
-source ~/.profiles.d/.zsh/plugin/incr*.zsh
+source ~/.zsh/plugin/incr*.zsh
 
 # end of .zshrc
