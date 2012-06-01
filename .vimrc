@@ -124,7 +124,7 @@ set cursorline
 set laststatus=2            " ステータスラインを常に表示
 
 " ステータスラインの表示 ([フルパス]  [ファイルタイプ:エンコード:改行コード] [カーソル位置/総行数] [%行位置])
-set statusline=%<%F%m%r%h%w%=[%Y:%{&fileencoding}:%{&ff}]\ [%3l/%L,%3v]\ [%3p%%]
+set statusline=%<%F%m%r%h%w%=[%Y:%{&fileencoding}:%{&ff}][%3l/%L,%3v]%3p%%
 
 " 挿入モードとノーマルモードでステータスラインのカラーを変更
 "au InsertEnter * hi StatusLine guifg=#ccdc90 guibg=#2E4340 gui=none ctermfg=White ctermbg=Black cterm=none
