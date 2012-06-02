@@ -8,6 +8,7 @@ bindkey -e
 # OS別分岐 {{{
 case "${OSTYPE}" in
 freebsd*|darwin*)
+  export LSCOLORS=gxfxcxdxbxegedabagacad
   alias ls="ls -G"  # lsの結果に色付け(MacOS)
   ;;
 linux*)
@@ -27,8 +28,6 @@ alias fgrep='fgrep --color=auto'
 alias grep='grep --color=auto'
 # }}}
 
-alias rm='rm -i'
-
 # OS別エイリアス設定 {{{
 case "${OSTYPE}" in
 freebsd*|darwin*)
@@ -45,7 +44,6 @@ linux*)
   ;;
 esac
 # }}}
-
 
 
 # zsh補完機能設定 {{{
@@ -71,12 +69,13 @@ setopt nolistbeep
 # }}}
 
 
-# プロンプトの設定(単色二段式)
+# プロンプトの設定 {{{
 #PS1="${USER}@${HOST%%.*}:%~
 PS1="${USER}@${HOST%%.*} (%T)
 %(!.#.%%) "
-RPROMPT="[%~]"
+RPROMPT="[%~]"            # 右側にフルパス表示
 setopt transient_rprompt  # 右側まで入力がきたら消す
+# }}}
 
 # 履歴設定 {{{
 HISTFILE=$HOME/.zsh_history    # 履歴をファイルに保存する
