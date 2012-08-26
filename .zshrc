@@ -11,7 +11,6 @@ fpath=(~/.zsh/functions/Completion ${fpath})
 # OS別分岐 {{{
 case "${OSTYPE}" in
 freebsd*|darwin*)
-  export LSCOLORS=gxfxcxdxbxegedabagacad
   alias ls="ls -G"  # lsの結果に色付け(MacOS)
   ;;
 linux*)
@@ -19,6 +18,9 @@ linux*)
   ;;
 esac
 # }}}
+
+export LSCOLORS=gxfxcxdxbxegedabagacad
+export LS_COLORS='di=36:ln=35:so=32:pi=33:ex=31:bd=34;46:cd=34;43:su=30;41:sg=36;40:tw=30;42:ow=30;43'
 
 alias ll="ls -alF"  #llでls -alFにする
 alias la="ls -A"    #laでls -Aにする
