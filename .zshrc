@@ -4,8 +4,8 @@
 # emacsキーバインド
 bindkey -e
 
-# コマンド補完追加
-fpath=(~/.zsh/functions/Completion ${fpath})
+# zsh-completions
+fpath=(/usr/local/share/zsh-completions $fpath)
 
 # lsコマンド関連設定 {{{
 # OS別分岐 {{{
