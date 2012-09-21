@@ -1,12 +1,6 @@
 # .zshrc
 # https://github.com/todashuta/profiles
 
-# emacsキーバインド
-bindkey -e
-
-# zsh-completions
-fpath=(/usr/local/share/zsh-completions $fpath)
-
 # lsコマンド関連設定 {{{
 # OS別分岐 {{{
 case "${OSTYPE}" in
@@ -52,6 +46,16 @@ esac
 
 
 # zsh補完機能設定 {{{
+
+# emacsキーバインド
+bindkey -e
+
+# zsh-completions
+fpath=(/usr/local/share/zsh-completions $fpath)
+
+# インクリメンタル補完プラグイン
+source ~/.zsh/plugin/incr*.zsh
+
 autoload -U compinit
 compinit -u
 zstyle ':completion:*' matcher-list '' 'm:{a-z}={A-Z}' '+m:{A-Z}={a-z}'
@@ -71,8 +75,13 @@ setopt list_packed
 # 補完候補表示時などにピッピとビープ音をならないように設定
 setopt nolistbeep
 
-# }}}
+# 明確なドットの指定なしで.から始まるファイルを補完
+setopt globdots
 
+# Tab連打で順に補完候補を自動で補完
+setopt auto_menu
+
+# }}}
 
 # プロンプトの設定 {{{
 #PS1="${USER}@${HOST%%.*}:%~
@@ -94,9 +103,6 @@ setopt hist_reduce_blanks      # コマンドラインの余計なスペース�
 setopt share_history           # 履歴ファイルを共有
 setopt hist_ignore_space       # 先頭に空白を入れると記録しない
 # }}}
-
-# インクリメンタル補完プラグイン
-source ~/.zsh/plugin/incr*.zsh
 
 # vim:foldmethod=marker
 # end of .zshrc
