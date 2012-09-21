@@ -44,9 +44,7 @@ linux*)
 esac
 # }}}
 
-
 # zsh補完機能設定 {{{
-
 # emacsキーバインド
 bindkey -e
 
@@ -59,6 +57,8 @@ source ~/.zsh/plugin/incr*.zsh
 autoload -U compinit
 compinit -u
 zstyle ':completion:*' matcher-list '' 'm:{a-z}={A-Z}' '+m:{A-Z}={a-z}'
+
+zstyle ':completion:*' list-separator '==>'
 
 # ディレクトリ名を入力するだけで移動
 setopt auto_cd
@@ -80,7 +80,6 @@ setopt globdots
 
 # Tab連打で順に補完候補を自動で補完
 setopt auto_menu
-
 # }}}
 
 # プロンプトの設定 {{{
@@ -102,6 +101,12 @@ setopt hist_ignore_all_dups    # 既にあるコマンド行は古い方を削�
 setopt hist_reduce_blanks      # コマンドラインの余計なスペースを排除
 setopt share_history           # 履歴ファイルを共有
 setopt hist_ignore_space       # 先頭に空白を入れると記録しない
+# }}}
+
+# cdのあと自動でls {{{
+function cd(){
+    builtin cd $@ && ls;
+}
 # }}}
 
 # vim:foldmethod=marker
