@@ -60,6 +60,12 @@ zstyle ':completion:*' matcher-list '' 'm:{a-z}={A-Z}' '+m:{A-Z}={a-z}'
 
 zstyle ':completion:*' list-separator '==>'
 
+# 補完候補を矢印キーなどで選択可能にする
+zstyle ':completion:*:default' menu select
+
+# 補完候補をLS_COLORSに合わせて色付け
+zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
+
 # ディレクトリ名を入力するだけで移動
 setopt auto_cd
 
