@@ -147,6 +147,7 @@ setopt hist_ignore_space       # 先頭に空白を入れると記録しない
 
 
 ## zsh設定追加 {{{
+#
 # zsh editor
 #
 autoload zed
