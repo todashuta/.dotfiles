@@ -70,7 +70,7 @@ fpath=(/usr/local/share/zsh-completions $fpath)
 
 # インクリメンタル補完プラグイン
 #
-#source ~/.zsh/plugin/incr*.zsh
+source ~/.zsh/plugin/incr*.zsh
 
 autoload -U compinit
 compinit -u
