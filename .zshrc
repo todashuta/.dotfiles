@@ -39,6 +39,7 @@ alias grep='grep --color=auto'
 
 
 ## OS別エイリアス設定 {{{
+#
 case "${OSTYPE}" in
 freebsd*|darwin*)
   alias emacs='/Applications/Emacs.app/Contents/MacOS/Emacs'
@@ -53,6 +54,7 @@ linux*)
 
   ;;
 esac
+
 # }}}
 
 
