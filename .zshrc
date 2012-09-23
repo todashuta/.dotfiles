@@ -1,7 +1,7 @@
 # .zshrc
 # https://github.com/todashuta/profiles
 
-# lsコマンド関連設定 {{{
+## lsコマンド関連設定 {{{
 # OS別分岐 {{{
 case "${OSTYPE}" in
 freebsd*|darwin*)
@@ -27,7 +27,7 @@ alias fgrep='fgrep --color=auto'
 alias grep='grep --color=auto'
 # }}}
 
-# OS別エイリアス設定 {{{
+## OS別エイリアス設定 {{{
 case "${OSTYPE}" in
 freebsd*|darwin*)
   alias emacs='/Applications/Emacs.app/Contents/MacOS/Emacs'
@@ -44,7 +44,7 @@ linux*)
 esac
 # }}}
 
-# zsh補完機能設定 {{{
+## zsh補完機能設定 {{{
 # emacsキーバインド
 bindkey -e
 
@@ -88,7 +88,7 @@ setopt globdots
 setopt auto_menu
 # }}}
 
-# プロンプトの設定 {{{
+## プロンプトの設定 {{{
 #PS1="${USER}@${HOST%%.*}:%~
 PS1="${USER}@${HOST%%.*} (%T)
 %(!.#.%%) "
@@ -96,7 +96,7 @@ RPROMPT="[%~]"            # 右側にフルパス表示
 setopt transient_rprompt  # 右側まで入力がきたら消す
 # }}}
 
-# 履歴設定 {{{
+## 履歴設定 {{{
 HISTFILE=$HOME/.zsh_history    # 履歴をファイルに保存する
 HISTSIZE=1000000               # メモリ内の履歴の数
 SAVEHIST=1000000               # 保存される履歴の数
@@ -107,6 +107,11 @@ setopt hist_ignore_all_dups    # 既にあるコマンド行は古い方を削�
 setopt hist_reduce_blanks      # コマンドラインの余計なスペースを排除
 setopt share_history           # 履歴ファイルを共有
 setopt hist_ignore_space       # 先頭に空白を入れると記録しない
+# }}}
+
+## zsh設定追加 {{{
+# zsh editor
+autoload zed
 # }}}
 
 # cdのあと自動でls {{{
