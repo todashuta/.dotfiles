@@ -2,7 +2,8 @@
 # https://github.com/todashuta/profiles
 
 # プロンプトのカスタマイズ
-PS1='\u@\h:\w\n\$ '
+#PS1='\u@\h:\w\n\$ '
+PS1="\[\e[32m\]\u@\h\[\e[0m\] \[\e[33m\]\w\[\e[0m\]\n\$ "
 
 # ヒストリー
 HISTCONTROL=ignoredups:ignorespace
