@@ -12,20 +12,18 @@ PS1="\[\e[32m\]\u@\h\[\e[0m\] \[\e[33m\]\w\[\e[0m\]\n\$ "
 
 ## History {{{
 #
-# ignorespace+ignoredups = ignoreboth
-#
-export HISTCONTROL=ignoreboth
+export HISTCONTROL=ignoreboth  # ignoreboth=ignorespace+ignoredups
 export HISTIGNORE="fg*:bg*:history*:cd*"
-HISTSIZE=10000
-HISTFILESIZE=100000
+HISTSIZE=10000             # 使用中のbashの履歴数
+HISTFILESIZE=100000        # ~/.bash_historyに記録する数
 
 # }}}
 
 
 ## コマンド履歴に時刻を追加 {{{
 #
-HISTTIMEFORMAT='%Y%m%d %T'
-export HISTTIMEFORMAT
+#HISTTIMEFORMAT='%Y%m%d %T'
+#export HISTTIMEFORMAT
 
 # }}}
 
