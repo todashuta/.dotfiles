@@ -23,7 +23,7 @@ HISTFILESIZE=100000
 
 
 # コマンド履歴に時刻を追加 {{{
-HISTTIMEFORMAT='%Y%m%d %T';
+HISTTIMEFORMAT='%Y%m%d %T'
 export HISTTIMEFORMAT
 
 # }}}
