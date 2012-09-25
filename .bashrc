@@ -1,14 +1,33 @@
 # .bashrc
 # https://github.com/todashuta/profiles
 
-# プロンプトのカスタマイズ
+
+## プロンプト {{{
+#
 #PS1='\u@\h:\w\n\$ '
 PS1="\[\e[32m\]\u@\h\[\e[0m\] \[\e[33m\]\w\[\e[0m\]\n\$ "
 
-# ヒストリー
-HISTCONTROL=ignoredups:ignorespace
-HISTSIZE=1000
-HISTFILESIZE=2000
+# }}}
+
+
+## History {{{
+#
+# ignorespace+ignoredups = ignoreboth
+#
+export HISTCONTROL=ignoreboth
+export HISTIGNORE="fg*:bg*:history*:cd*"
+HISTSIZE=10000
+HISTFILESIZE=100000
+
+# }}}
+
+
+# コマンド履歴に時刻を追加 {{{
+HISTTIMEFORMAT='%Y%m%d %T';
+export HISTTIMEFORMAT
+
+# }}}
+
 
 # OS別ls色付け分岐 {{{
 case "${OSTYPE}" in
@@ -21,7 +40,9 @@ linux*)
   alias ls="ls --color=auto"
   ;;
 esac
+
 #}}}
+
 
 # ls関連エイリアス
 alias ll='ls -alF'
@@ -35,6 +56,7 @@ alias egrep='egrep --color=auto'
 
 alias cd-='cd ~-'
 alias ..='cd ..'
+
 
 # OS別エイリアス設定 {{{
 case "${OSTYPE}" in
@@ -51,16 +73,21 @@ linux*)
 
   ;;
 esac
+
 # }}}
+
 
 # ~/.bash_aliases があれば読み込む
 if [ -f ~/.bash_aliases ]; then
     . ~/.bash_aliases
 fi
 
+
 # ローカル設定があれば読み込む
 if [ -f ~/.bashrc.local ]; then
     . ~/.bashrc.local
 fi
 
+
+# vim:foldmethod=marker
 # end of .bashrc
