@@ -22,14 +22,16 @@ HISTFILESIZE=100000
 # }}}
 
 
-# コマンド履歴に時刻を追加 {{{
+## コマンド履歴に時刻を追加 {{{
+#
 HISTTIMEFORMAT='%Y%m%d %T'
 export HISTTIMEFORMAT
 
 # }}}
 
 
-# OS別ls色付け分岐 {{{
+## OS別ls色付け分岐 {{{
+#
 case "${OSTYPE}" in
 freebsd*|darwin*)
   export LSCOLORS=gxfxcxdxbxegedabagacad
@@ -44,12 +46,14 @@ esac
 #}}}
 
 
-# ls関連エイリアス
+## ls関連エイリアス
+#
 alias ll='ls -alF'
 alias la='ls -A'
 alias l='ls -CF'
 
-# grep関連エイリアス
+## grep関連エイリアス
+#
 alias grep='grep --color=auto'
 alias fgrep='fgrep --color=auto'
 alias egrep='egrep --color=auto'
@@ -58,7 +62,8 @@ alias cd-='cd ~-'
 alias ..='cd ..'
 
 
-# OS別エイリアス設定 {{{
+## OS別エイリアス設定 {{{
+#
 case "${OSTYPE}" in
 freebsd*|darwin*)
   alias emacs='/Applications/Emacs.app/Contents/MacOS/Emacs'
@@ -77,13 +82,15 @@ esac
 # }}}
 
 
-# ~/.bash_aliases があれば読み込む
+## ~/.bash_aliases があれば読み込む
+#
 if [ -f ~/.bash_aliases ]; then
     . ~/.bash_aliases
 fi
 
 
-# ローカル設定があれば読み込む
+## ローカル設定があれば読み込む
+#
 if [ -f ~/.bashrc.local ]; then
     . ~/.bashrc.local
 fi
