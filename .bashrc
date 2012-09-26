@@ -4,7 +4,6 @@
 
 ## プロンプト {{{
 #
-#PS1='\u@\h:\w\n\$ '
 PS1="\[\e[32m\]\u@\h\[\e[0m\] \[\e[33m\]\w\[\e[0m\]\n\$ "
 
 # }}}
@@ -14,21 +13,17 @@ PS1="\[\e[32m\]\u@\h\[\e[0m\] \[\e[33m\]\w\[\e[0m\]\n\$ "
 #
 export HISTCONTROL=ignoreboth  # ignoreboth=ignorespace+ignoredups
 export HISTIGNORE="fg*:bg*:history*:cd*"
+
 HISTSIZE=10000             # 使用中のbashの履歴数
 HISTFILESIZE=100000        # ~/.bash_historyに記録する数
 
-# }}}
-
-
-## コマンド履歴に時刻を追加 {{{
-#
-#HISTTIMEFORMAT='%Y%m%d %T'
+#HISTTIMEFORMAT='%Y%m%d %T'  # コマンド履歴に時刻を追加
 #export HISTTIMEFORMAT
 
 # }}}
 
 
-## OS別ls色付け分岐 {{{
+## ls色付けOS別分岐 {{{
 #
 case "${OSTYPE}" in
 freebsd*|darwin*)
@@ -44,20 +39,28 @@ esac
 #}}}
 
 
-## ls関連エイリアス
+## エイリアス。 {{{
 #
+# ls
 alias ll='ls -alF'
 alias la='ls -A'
 alias l='ls -CF'
 
-## grep関連エイリアス
-#
+# grep
 alias grep='grep --color=auto'
 alias fgrep='fgrep --color=auto'
 alias egrep='egrep --color=auto'
 
+# cd
 alias cd-='cd ~-'
 alias ..='cd ..'
+
+# 確認付きファイル操作
+alias rmi='rm -i'
+alias mvi='mv -i'
+alias cpi='cp -i'
+
+# }}}
 
 
 ## OS別エイリアス設定 {{{
