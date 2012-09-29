@@ -43,4 +43,9 @@ hardstatus alwayslastline "%{=b Wk} GNU Screen %{= gw} %=%{= gw} (%l) %Y-%m-%d %
 shell -${SHELL}
 
 
+## ローカル設定の読み込み
+#
+source $HOME/.screenrc.local
+
+
 # end of .screenrc
