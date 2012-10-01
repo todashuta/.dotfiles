@@ -1,7 +1,9 @@
-;; emacs settings
+;; .init.el (.emacs.el): emacs settings
+;; https://github.com/todashuta/profiles
 
-;; Window {{{ -------------------------
 
+;;; Window colors {{{
+;;
 (if window-system (progn
    (set-frame-parameter nil 'alpha '(82 55))  ;; 透明度(アクティブ 非アクティブ)
    (set-background-color "Black")  ;; 背景色
@@ -15,8 +17,9 @@
 
 ;; }}}
 
-;; Window size {{{ --------------------
 
+;;; Window size {{{
+;;
 ;; 初期フレームの設定 {{{
 (setq initial-frame-alist
       '((width . 80)    ; フレーム幅(文字数)
@@ -24,6 +27,7 @@
 ;        (top . 22)
 ;        (left . 3)
         ))
+
 ;; }}}
 
 ;; 新規フレームのデフォルト設定 {{{
@@ -35,19 +39,24 @@
 
 ;; }}}
 
-;; For Mac (Carbon Emacs) {{{ ---------
 
+;;; For Mac (Carbon Emacs) {{{
+;;
 ;; フォントの変更 (fixed-width-fontset: carbon-font)
-;; 使えるフォント："hiramaru" "hirakaku_w3" "hirakaku_w6" "hirakaku_w8" "hiramin_w3" "hiramin_w6" "osaka"
-;; 使えるサイズ：7, 8, 9, 10, 12, 14, 16, 18, 20, 24
+;; 使えるフォント:
+;;     "hiramaru" "hirakaku_w3" "hirakaku_w6" "hirakaku_w8"
+;;     "hiramin_w3" "hiramin_w6" "osaka"
+;; 使えるサイズ:
+;;      7, 8, 9, 10, 12, 14, 16, 18, 20, 24
 (when (eq window-system 'mac)
   (require 'carbon-font)
   (fixed-width-set-fontset "hiramaru" 14))
 
 ;; }}}
 
-;; その他Mac用設定 {{{
 
+;;; その他Mac用設定 {{{
+;;
 (when (eq window-system 'mac)
   (setq mac-allow-anti-aliasing t)  ;; Quartz 2D のアンチエイリアスを利用する
 ;  (mac-key-mode 1)  ;; Macのキーバインドを使う
@@ -56,8 +65,9 @@
 
 ;; }}}
 
-;; フォント設定 for Ubuntu {{{ --------
 
+;;; フォント設定 for Ubuntu {{{
+;;
 (when (eq system-type 'gnu/linux)
 (custom-set-faces
  '(default ((t (:inherit nil :stipple nil :background "Black"
@@ -67,8 +77,9 @@
 
 ;; }}}
 
-;; For Windows {{{ --------------------
 
+;;; For Windows {{{
+;;
 (when (eq system-type 'windows-nt)
 (setq default-directory "C:/Users/SHU/")  ;; 初期ディレクトリの設定
 (custom-set-faces
@@ -79,8 +90,9 @@
 
 ;; }}}
 
-;; solarized {{{ ----------------------
 
+;;; solarized {{{
+;;
 ;; color-theme を使う方式
 ;(add-to-list 'load-path "~/.emacs.d/site-lisp")
 ;(require 'color-theme)  ;; color-theme呼び出し
@@ -92,5 +104,6 @@
 
 ;; }}}
 
+
 ;; vim:foldmethod=marker
-;; end  of file
+;; end  of .init.el
