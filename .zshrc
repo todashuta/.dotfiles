@@ -61,58 +61,65 @@ esac
 ## zsh補完機能設定 {{{
 #
 # emacsキーバインド
-#
 bindkey -e
 
+# スラッシュを単語の一部と見なさない
+# ==> C-w の単語削除時にディレクトリ単位で(スラッシュごとに)削除する
+WORDCHARS='*?_-.[]~=&;!#$%^(){}<>'
+
 # zsh-completions
-#
 fpath=(/usr/local/share/zsh-completions $fpath)
 
 # インクリメンタル補完プラグイン
-#
 source ~/.zsh/plugin/incr*.zsh
 
-autoload -U compinit
+# Use zsh completion system.
+autoload -Uz compinit
 compinit -u
+
 zstyle ':completion:*' matcher-list '' 'm:{a-z}={A-Z}' '+m:{A-Z}={a-z}'
 
 zstyle ':completion:*' list-separator '==>'
 
 # 補完候補を矢印キーなどで選択可能にする
-#
 zstyle ':completion:*:default' menu select
 
 # 補完候補をLS_COLORSに合わせて色付け
-#
 zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
 
 # ディレクトリ名を入力するだけで移動
-#
 setopt auto_cd
 
 # 移動したディレクトリを記録しておく。"cd -[Tab]"で移動履歴を一覧
-#
 setopt auto_pushd
 
+# Don't push multiple copies of the same directory onto the directory stack.
+# ディレクトリスタックに重複するものを記録しない
+setopt pushd_ignore_dups
+
 # コマンド訂正
-#
 setopt correct
 
 # 補完候補を詰めて表示する
-#
 setopt list_packed
 
 # 補完候補表示時などにピッピとビープ音をならないように設定
-#
 setopt nolistbeep
 
 # 明確なドットの指定なしで.から始まるファイルを補完
-#
 setopt globdots
 
 # Tab連打で順に補完候補を自動で補完
-#
 setopt auto_menu
+
+# サスペンド中のプロセスと同じコマンド名を実行した場合はリジューム
+setopt auto_resume
+
+# Don't show completions when using *.
+#setopt glob_complete
+
+# C-dでログアウトしない
+#setopt ignore_eof
 
 # }}}
 
@@ -149,7 +156,6 @@ setopt hist_ignore_space       # 先頭に空白を入れると記録しない
 ## zsh設定追加 {{{
 #
 # zsh editor
-#
 autoload zed
 
 # }}}
