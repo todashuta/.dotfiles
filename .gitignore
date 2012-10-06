@@ -2,3 +2,6 @@
 .DS_Store
 
 tmux*.log
+
+.zsh/.zsh_history
+.zsh/.zcompdump
