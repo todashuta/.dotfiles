@@ -42,16 +42,25 @@ alias grep='grep --color=auto'
 #
 case "${OSTYPE}" in
 freebsd*|darwin*)
-  alias emacs='/Applications/Emacs.app/Contents/MacOS/Emacs'
-  alias macvim='/Applications/MacVim.app/Contents/MacOS/MacVim'
-  alias vim='/Applications/MacVim.app/Contents/MacOS/Vim'
+  if [ -f /Applications/Emacs.app/Contents/MacOS/Emacs ]; then
+    alias emacs='/Applications/Emacs.app/Contents/MacOS/Emacs'
+  fi
+
+  if [ -f /Applications/MacVim.app/Contents/MacOS/MacVim ]; then
+    alias macvim='/Applications/MacVim.app/Contents/MacOS/MacVim'
+  fi
+
+  if [ -f /Applications/MacVim.app/Contents/MacOS/Vim ]; then
+    alias vim='/Applications/MacVim.app/Contents/MacOS/Vim'
+  fi
+
   alias firefox='open -a Firefox.app'
   alias safari='open -a Safari.app'
   alias kod='open -a Kod.app'
   alias cot='open -a CotEditor.app'
   ;;
 linux*)
-
+  # ここにlinux用設定記述する
   ;;
 esac
 
