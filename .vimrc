@@ -115,7 +115,8 @@ if exists('&colorcolumn')
 endif
 set list                    " タブ文字、行末など不可視文字を表示する
 " listで表示される文字のフォーマット
-set listchars=tab:▸\ ,trail:›,eol:↲,precedes:«,extends:»
+"set listchars=tab:▸\ ,trail:›,eol:↲,precedes:«,extends:»
+set listchars=tab:▸\ ,trail:›,eol:⏎,precedes:«,extends:»
 
 " カーソルのある行をハイライト(フォーカスが外れたらハイライトオフ)
 autocmd WinEnter *  setlocal cursorline
