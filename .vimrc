@@ -76,12 +76,12 @@ nmap g* g*zz
 nmap g# g#zz
 
 " カッコの入力補助
-inoremap {} {}<LEFT>
-inoremap [] []<LEFT>
-inoremap () ()<LEFT>
-inoremap <> <><LEFT>
-inoremap "" ""<LEFT>
-inoremap '' ''<LEFT>
+"inoremap {} {}<LEFT>
+"inoremap [] []<LEFT>
+"inoremap () ()<LEFT>
+"inoremap <> <><LEFT>
+"inoremap "" ""<LEFT>
+"inoremap '' ''<LEFT>
 
 " タブ切り替え
 nnoremap <C-Tab>   gt
