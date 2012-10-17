@@ -7,12 +7,12 @@
 
   <item>
     <name>LeaveInsMode with EISUU (Terminal)</name>
-    <appendix>Control+[ to Escape+EISUU</appendix>
+    <appendix>Control+[ to Control+[+EISUU</appendix>
     <appendix>Control+C to Control+C+EISUU</appendix>
     <appendix>Escape to Escape+EISUU</appendix>
     <identifier>private.app_terminal_esc_with_eisuu</identifier>
     <only>TERMINAL, VI, SUBLIMETEXT</only>
-    <autogen>--KeyToKey-- KeyCode::BRACKET_LEFT, VK_CONTROL, KeyCode::ESCAPE, KeyCode::JIS_EISUU</autogen>
+    <autogen>--KeyToKey-- KeyCode::BRACKET_LEFT, VK_CONTROL, KeyCode::BRACKET_LEFT, VK_CONTROL, KeyCode::JIS_EISUU</autogen>
     <autogen>--KeyToKey-- KeyCode::C, VK_CONTROL, KeyCode::C, VK_CONTROL, KeyCode::JIS_EISUU</autogen>
     <autogen>--KeyToKey-- KeyCode::ESCAPE, KeyCode::ESCAPE, KeyCode::JIS_EISUU</autogen>
   </item>
