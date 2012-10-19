@@ -9,10 +9,11 @@ set encoding=utf-8                " エンコードをUTF-8にする
 set nocompatible                  " viとの互換モードをOFF
 set shellslash                    " Windowsでディレクトリパスの区切り文字に / を使えるようにする
 set scrolloff=5                   " カーソルの上下に表示する行数(大きな数字を指定するとカーソルが真ん中になる)
-let g:netrw_liststyle=3           " ディレクトリ閲覧をツリー形式にする
-if has("autochdir")
-  set autochdir                   " 開いているバッファのディレクトリに自動で移動
-endif
+"let g:netrw_liststyle=3           " ディレクトリ閲覧をツリー形式にする
+augroup grlcd                     " 開いているバッファのディレクトリに自動で移動
+  autocmd!
+  autocmd BufEnter * lcd %:p:h
+augroup END
 set mouse=a                       " ターミナルでマウスを有効化
 set guioptions+=a                 " 同上
 set ttymouse=xterm2               " 同上
