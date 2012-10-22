@@ -6,7 +6,7 @@
   </appdef>
 
   <item>
-    <name>LeaveInsMode with EISUU (Terminal)</name>
+    <name>LeaveInsMode with EISUU on Terminal.</name>
     <appendix>Control+[ to Control+[+EISUU</appendix>
     <appendix>Control+C to Control+C+EISUU</appendix>
     <appendix>Escape to Escape+EISUU</appendix>
