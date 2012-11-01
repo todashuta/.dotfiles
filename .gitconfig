@@ -12,5 +12,6 @@
 	cm = commit -m
 	ss = status -sb
 	sl = shortlog -sn
+	difff = diff --word-diff
 
 # end of .gitconfig
