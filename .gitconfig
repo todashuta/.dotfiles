@@ -8,5 +8,9 @@
 	branch = auto
 	interactive = auto
 	grep = auto
+[alias]
+	cm = commit -m
+	ss = status -sb
+	sl = shortlog -sn
 
 # end of .gitconfig
