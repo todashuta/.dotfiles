@@ -140,7 +140,7 @@ PROMPT="%F{green}%n@%m%f %F{yellow}%50<...<%~%<<%f
 
 setopt transient_rprompt  # 右側まで入力がきたら消す
 
-setopt prompt_subst  # プロンプトに escape sequence (環境変数) を通す
+setopt prompt_subst  # プロンプトが表示されるたびにプロンプト文字列を評価、置換
 
 # }}}
 
