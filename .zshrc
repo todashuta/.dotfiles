@@ -133,17 +133,14 @@ setopt auto_resume
 # }}}
 
 
-## プロンプトに escape sequence (環境変数) を通す
-#
-setopt prompt_subst
-
-
 ## プロンプトの設定 {{{
 #
 PROMPT="%F{green}%n@%m%f %F{yellow}%50<...<%~%<<%f
 %(?.%F{blue}^_^%f.%F{red}@_@%f) ${WINDOW:+"[$WINDOW]"}%# "
 
 setopt transient_rprompt  # 右側まで入力がきたら消す
+
+setopt prompt_subst  # プロンプトに escape sequence (環境変数) を通す
 
 # }}}
 
