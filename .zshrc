@@ -136,7 +136,7 @@ setopt auto_resume
 ## プロンプトの設定 {{{
 #
 PROMPT="%F{green}%n@%m%f %F{yellow}%50<...<%~%<<%f
-%(?.%F{blue}^_^%f.%F{red}@_@%f) ${WINDOW:+"[$WINDOW]"}%# "
+%(?.%F{blue}(^_^)%f.%F{red}(@_@%)%f)${WINDOW:+"[$WINDOW]"}%# "
 
 setopt transient_rprompt  # 右側まで入力がきたら消す
 
