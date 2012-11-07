@@ -14,4 +14,7 @@
 	sl = shortlog -sn
 	difff = diff --word-diff
 
+[push]
+	default = simple
+
 # end of .gitconfig
