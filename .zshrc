@@ -77,7 +77,9 @@ bindkey -e
 WORDCHARS='*?_-.[]~=&;!#$%^(){}<>'
 
 # zsh-completions
-fpath=(/usr/local/share/zsh-completions $fpath)
+if [ -d /usr/local/share/zsh-completions ]; then
+  fpath=(/usr/local/share/zsh-completions $fpath)
+fi
 
 # インクリメンタル補完プラグイン
 source ~/.zsh/plugin/incr*.zsh
