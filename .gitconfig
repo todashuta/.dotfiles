@@ -13,6 +13,9 @@
 	ss = status -sb
 	sl = shortlog -sn
 	difff = diff --word-diff
+[core]
+	editor = vim
+	pager = lv -c
 #[push]
 ##	For Git Version 1.8
 #	default = simple
