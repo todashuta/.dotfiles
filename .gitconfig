@@ -16,6 +16,9 @@
 [core]
 	editor = vim
 	pager = lv -c
+[merge]
+	tool = vimdiff
+
 #[push]
 ##	For Git Version 1.8
 #	default = simple
