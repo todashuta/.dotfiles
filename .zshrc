@@ -43,11 +43,12 @@ alias grep='grep --color=auto'
 case "${OSTYPE}" in
 freebsd*|darwin*)
   if [ -f /Applications/Emacs.app/Contents/MacOS/Emacs ]; then
-    alias emacs='/Applications/Emacs.app/Contents/MacOS/Emacs'
+    alias emacs='/Applications/Emacs.app/Contents/MacOS/Emacs -nw'
+    alias cemacs='/Applications/Emacs.app/Contents/MacOS/Emacs'
   fi
 
   if [ -f /Applications/MacVim.app/Contents/MacOS/MacVim ]; then
-    alias macvim='/Applications/MacVim.app/Contents/MacOS/MacVim'
+    alias gvim='/Applications/MacVim.app/Contents/MacOS/MacVim'
   fi
 
   if [ -f /Applications/MacVim.app/Contents/MacOS/Vim ]; then
