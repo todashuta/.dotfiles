@@ -13,7 +13,9 @@ export ZDOTDIR=${HOME}/.zsh
 
 ## PATH settings
 #
-export PATH=/usr/local/sbin:/usr/local/bin:${PATH}
+if [ -f /usr/local/bin/brew ]; then
+  export PATH=/usr/local/sbin:/usr/local/bin:${PATH}
+fi
 
 
 ## Init rbenv

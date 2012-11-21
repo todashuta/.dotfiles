@@ -184,7 +184,9 @@ function cd(){
 
 ## ローカル設定があれば読み込む {{{
 #
-[ -f ~/.zshrc.local ] && source ~/.zshrc.local
+if [ -f ~/.zshrc.local ]; then
+  source ~/.zshrc.local
+fi
 
 # }}}
 
