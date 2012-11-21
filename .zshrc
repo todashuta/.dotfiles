@@ -88,6 +88,9 @@ source ~/.zsh/plugin/incr*.zsh
 # Use zsh completion system.
 autoload -Uz compinit
 compinit -u
+#autoload -Uz compinit && compinit -d ${ZDOTDIR}/.zcompdump
+#ZDOTDIR=${HOME}/.zsh
+#autoload -Uz compinit && compinit -d ${HOME}/.zsh/.zcompdump
 
 zstyle ':completion:*' matcher-list '' 'm:{a-z}={A-Z}' '+m:{A-Z}={a-z}'
 
