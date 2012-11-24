@@ -2,70 +2,13 @@
 # https://github.com/todashuta/profiles
 
 
-## lsコマンド関連設定 {{{
+profiles=${HOME}/.profiles.d
+source ${profiles}/functions
+
+
+## Aliases
 #
-# OS別分岐 {{{
-#
-case "${OSTYPE}" in
-freebsd*|darwin*)
-    alias ls="ls -G"              # lsの結果に色付け(MacOS)
-    ;;
-linux*)
-    alias ls="ls --color=auto"    # lsの結果に色付け(Linux)
-    ;;
-esac
-
-# }}}
-
-
-export LSCOLORS=gxfxcxdxbxegedabagacad
-export LS_COLORS='di=36:ln=35:so=32:pi=33:ex=31:bd=34;46:cd=34;43:su=30;41:sg=36;40:tw=30;42:ow=30;43'
-
-
-alias ll="ls -alF"    # llでls -alFにする
-alias la="ls -A"      # laでls -Aにする
-alias l="ls -CF"      # lでls -CFにする
-
-# }}}
-
-
-## grep関連コマンドに色付け {{{
-#
-alias egrep='egrep --color=auto'
-alias fgrep='fgrep --color=auto'
-alias grep='grep --color=auto'
-
-# }}}
-
-
-## OS別エイリアス設定 {{{
-#
-case "${OSTYPE}" in
-freebsd*|darwin*)
-    if [ -f /Applications/Emacs.app/Contents/MacOS/Emacs ]; then
-        alias emacs='/Applications/Emacs.app/Contents/MacOS/Emacs -nw'
-        alias cemacs='/Applications/Emacs.app/Contents/MacOS/Emacs'
-    fi
-
-    if [ -f /Applications/MacVim.app/Contents/MacOS/MacVim ]; then
-        alias gvim='/Applications/MacVim.app/Contents/MacOS/MacVim'
-    fi
-
-    if [ -f /Applications/MacVim.app/Contents/MacOS/Vim ]; then
-        alias vim='/Applications/MacVim.app/Contents/MacOS/Vim'
-    fi
-
-    alias firefox='open -a Firefox.app'
-    alias safari='open -a Safari.app'
-    alias kod='open -a Kod.app'
-    alias cot='open -a CotEditor.app'
-    ;;
-linux*)
-    # ここにlinux用設定記述する
-    ;;
-esac
-
-# }}}
+init_aliases
 
 
 ## zsh補完機能設定 {{{
@@ -79,7 +22,7 @@ WORDCHARS='*?_-.[]~=&;!#$%^(){}<>'
 
 # Activate zsh-completions
 if [ -d /usr/local/share/zsh-completions ]; then
-    fpath=(/usr/local/share/zsh-completions $fpath)
+	fpath=(/usr/local/share/zsh-completions $fpath)
 fi
 
 # インクリメンタル補完プラグイン
@@ -176,7 +119,7 @@ autoload zed
 ## ローカル設定があれば読み込む {{{
 #
 if [ -f ~/.zshrc.local ]; then
-    . ~/.zshrc.local
+	. ~/.zshrc.local
 fi
 
 # }}}
