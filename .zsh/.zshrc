@@ -8,11 +8,11 @@
 #
 case "${OSTYPE}" in
 freebsd*|darwin*)
-  alias ls="ls -G"  # lsの結果に色付け(MacOS)
-  ;;
+    alias ls="ls -G"  # lsの結果に色付け(MacOS)
+    ;;
 linux*)
-  alias ls="ls --color=auto"  # lsの結果に色付け(Linux)
-  ;;
+    alias ls="ls --color=auto"  # lsの結果に色付け(Linux)
+    ;;
 esac
 
 # }}}
@@ -42,27 +42,27 @@ alias grep='grep --color=auto'
 #
 case "${OSTYPE}" in
 freebsd*|darwin*)
-  if [ -f /Applications/Emacs.app/Contents/MacOS/Emacs ]; then
-    alias emacs='/Applications/Emacs.app/Contents/MacOS/Emacs -nw'
-    alias cemacs='/Applications/Emacs.app/Contents/MacOS/Emacs'
-  fi
+    if [ -f /Applications/Emacs.app/Contents/MacOS/Emacs ]; then
+        alias emacs='/Applications/Emacs.app/Contents/MacOS/Emacs -nw'
+        alias cemacs='/Applications/Emacs.app/Contents/MacOS/Emacs'
+    fi
 
-  if [ -f /Applications/MacVim.app/Contents/MacOS/MacVim ]; then
-    alias gvim='/Applications/MacVim.app/Contents/MacOS/MacVim'
-  fi
+    if [ -f /Applications/MacVim.app/Contents/MacOS/MacVim ]; then
+        alias gvim='/Applications/MacVim.app/Contents/MacOS/MacVim'
+    fi
 
-  if [ -f /Applications/MacVim.app/Contents/MacOS/Vim ]; then
-    alias vim='/Applications/MacVim.app/Contents/MacOS/Vim'
-  fi
+    if [ -f /Applications/MacVim.app/Contents/MacOS/Vim ]; then
+        alias vim='/Applications/MacVim.app/Contents/MacOS/Vim'
+    fi
 
-  alias firefox='open -a Firefox.app'
-  alias safari='open -a Safari.app'
-  alias kod='open -a Kod.app'
-  alias cot='open -a CotEditor.app'
-  ;;
+    alias firefox='open -a Firefox.app'
+    alias safari='open -a Safari.app'
+    alias kod='open -a Kod.app'
+    alias cot='open -a CotEditor.app'
+    ;;
 linux*)
-  # ここにlinux用設定記述する
-  ;;
+    # ここにlinux用設定記述する
+    ;;
 esac
 
 # }}}
@@ -77,9 +77,9 @@ bindkey -e
 # ==> C-w の単語削除時にディレクトリ単位で(スラッシュごとに)削除する
 WORDCHARS='*?_-.[]~=&;!#$%^(){}<>'
 
-# zsh-completions
+# Activate zsh-completions
 if [ -d /usr/local/share/zsh-completions ]; then
-  fpath=(/usr/local/share/zsh-completions $fpath)
+    fpath=(/usr/local/share/zsh-completions $fpath)
 fi
 
 # インクリメンタル補完プラグイン
@@ -130,7 +130,7 @@ setopt auto_resume
 #setopt glob_complete
 
 # C-dでログアウトしない
-#setopt ignore_eof
+setopt ignore_eof
 
 # }}}
 
@@ -173,19 +173,10 @@ autoload zed
 # }}}
 
 
-# cdのあと自動でls {{{
-#
-function cd(){
-    builtin cd $@ && ls;
-}
-
-# }}}
-
-
 ## ローカル設定があれば読み込む {{{
 #
 if [ -f ~/.zshrc.local ]; then
-  source ~/.zshrc.local
+    . ~/.zshrc.local
 fi
 
 # }}}
