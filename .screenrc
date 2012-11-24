@@ -38,11 +38,6 @@ hardstatus alwayslastline "%{=b Wk} GNU Screen %{= gw} %=%{= gw} (%l) %Y-%m-%d %
 # }}}
 
 
-## Using RVM inside GNU Screen
-##
-shell -${SHELL}
-
-
 ## ローカル設定の読み込み
 #
 source $HOME/.screenrc.local
