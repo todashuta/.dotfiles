@@ -1,0 +1,45 @@
+init_aliases() {
+	# color ls
+	case "${OSTYPE}" in
+	freebsd*|darwin*)
+		alias ls="ls -G"              # for Mac OS X
+		;;
+	linux*)
+		alias ls="ls --color=auto"    # for Linux
+		;;
+	esac
+
+	# General ls aliases
+	alias ll="ls -alF"
+	alias la="ls -A"
+	alias l="ls -CF"
+
+	# grep related
+	alias egrep='egrep --color=auto'
+	alias fgrep='fgrep --color=auto'
+	alias grep='grep --color=auto'
+
+	# Other aliases...
+	case "${OSTYPE}" in
+	freebsd*|darwin*)
+		# Use Carbon Emacs
+		if [ -f /Applications/Emacs.app/Contents/MacOS/Emacs ]; then
+			alias emacs='/Applications/Emacs.app/Contents/MacOS/Emacs -nw'
+			alias cemacs='/Applications/Emacs.app/Contents/MacOS/Emacs'
+		fi
+	
+		# Use GUI MacVim
+		if [ -f /Applications/MacVim.app/Contents/MacOS/MacVim ]; then
+			alias gvim='/Applications/MacVim.app/Contents/MacOS/MacVim'
+		fi
+	
+		# Use MacVim on Terminal
+		if [ -f /Applications/MacVim.app/Contents/MacOS/Vim ]; then
+			alias vim='/Applications/MacVim.app/Contents/MacOS/Vim'
+		fi
+		;;
+	linux*)
+		# Add aliases for linux here if needed.
+		;;
+	esac
+}
