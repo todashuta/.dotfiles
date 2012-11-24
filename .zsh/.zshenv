@@ -14,7 +14,7 @@ export ZDOTDIR=${HOME}/.zsh
 ## PATH settings
 #
 if [ -f /usr/local/bin/brew ]; then
-  export PATH=/usr/local/sbin:/usr/local/bin:${PATH}
+  export PATH=/usr/local/bin:/usr/local/sbin:${PATH}
 fi
 
 
