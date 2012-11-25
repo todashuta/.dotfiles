@@ -17,8 +17,15 @@ export LANG=ja_JP.UTF-8
 
 ## PATH settings
 #
+# Homebrew
 if [ -f /usr/local/bin/brew ]; then
 	export PATH=/usr/local/bin:/usr/local/sbin:${PATH}
+fi
+
+# MacPorts
+if [ -f /opt/local/bin/port ]; then
+	export PATH=/opt/local/bin:/opt/local/sbin:${PATH}
+	export DISPLAY=:0
 fi
 
 
