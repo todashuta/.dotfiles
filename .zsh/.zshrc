@@ -31,7 +31,8 @@ source ${ZDOTDIR}/plugin/incr*.zsh
 # Use zsh completion system!
 autoload -Uz compinit && compinit -u
 
-zstyle ':completion:*' matcher-list '' 'm:{a-z}={A-Z}' '+m:{A-Z}={a-z}'
+#zstyle ':completion:*' matcher-list '' 'm:{a-z}={A-Z}' '+m:{A-Z}={a-z}'
+zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
 
 zstyle ':completion:*' list-separator '==>'
 
@@ -104,6 +105,14 @@ setopt hist_ignore_all_dups         # 既にあるコマンド行は古い方を
 setopt hist_reduce_blanks           # コマンドラインの余計なスペースを排除
 setopt share_history                # 履歴ファイルを共有
 setopt hist_ignore_space            # 先頭に空白を入れると記録しない
+
+# マッチしたコマンドのヒストリを表示できるようにする
+#
+autoload history-search-end
+zle -N history-beginning-search-backward-end history-search-end
+zle -N history-beginning-search-forward-end history-search-end
+bindkey "^P" history-beginning-search-backward-end
+bindkey "^N" history-beginning-search-forward-end
 
 # }}}
 
