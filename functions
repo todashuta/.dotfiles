@@ -15,27 +15,32 @@ init_aliases() {
 	alias l="ls -CF"
 
 	# grep related
-	alias egrep='egrep --color=auto'
-	alias fgrep='fgrep --color=auto'
-	alias grep='grep --color=auto'
+	alias egrep="egrep --color=auto"
+	alias fgrep="fgrep --color=auto"
+	alias grep="grep --color=auto"
 
 	# Other aliases...
 	case "${OSTYPE}" in
 	freebsd*|darwin*)
 		# Use Carbon Emacs
 		if [ -f /Applications/Emacs.app/Contents/MacOS/Emacs ]; then
-			alias emacs='/Applications/Emacs.app/Contents/MacOS/Emacs -nw'
-			alias cemacs='/Applications/Emacs.app/Contents/MacOS/Emacs'
+			alias emacs="/Applications/Emacs.app/Contents/MacOS/Emacs -nw"
+			alias cemacs="/Applications/Emacs.app/Contents/MacOS/Emacs"
 		fi
 	
-		# Use GUI MacVim
-		if [ -f /Applications/MacVim.app/Contents/MacOS/MacVim ]; then
-			alias gvim='/Applications/MacVim.app/Contents/MacOS/MacVim'
-		fi
-	
-		# Use MacVim on Terminal
-		if [ -f /Applications/MacVim.app/Contents/MacOS/Vim ]; then
-			alias vim='/Applications/MacVim.app/Contents/MacOS/Vim'
+		# Use MacVim
+		if [ -d /Applications/MacVim.app ]; then
+			MacVim_PATH="/Applications/MacVim.app/Contents/MacOS"
+
+			# Use GUI MacVim
+			alias gvim="${MacVim_PATH}/MacVim"
+			alias gvimdiff="${MacVim_PATH}/mvimdiff"
+			alias gview="${MacVim_PATH}/mview"
+
+			# Use MacVim on Terminal
+			alias vim="${MacVim_PATH}/Vim"
+			alias vimdiff="${MacVim_PATH}/vimdiff"
+			alias view="${MacVim_PATH}/view"
 		fi
 		;;
 	linux*)
