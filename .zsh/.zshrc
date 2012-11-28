@@ -11,29 +11,34 @@ source ${profiles}/functions
 init_aliases
 
 
-## zsh補完機能設定 {{{
+## Completion configuration {{{
 #
-# emacsキーバインド
+# Emacs like keybind
 bindkey -e
 
-# スラッシュを単語の一部と見なさない
-# ==> C-w の単語削除時にディレクトリ単位で(スラッシュごとに)削除する
-WORDCHARS='*?_-.[]~=&;!#$%^(){}<>'
+# Use zsh completion system!
+autoload -Uz compinit && compinit -u
 
 # Activate zsh-completions
 if [ -d /usr/local/share/zsh-completions ]; then
 	fpath=(/usr/local/share/zsh-completions $fpath)
 fi
 
-# インクリメンタル補完プラグイン
+# Incremental completion on zsh
+# http://mimosa-pudica.net/zsh-incremental.html
 source ${ZDOTDIR}/plugin/incr*.zsh
 
-# Use zsh completion system!
-autoload -Uz compinit && compinit -u
+# スラッシュを単語の一部と見なさない
+# ==> C-w の単語削除時にディレクトリ単位で(スラッシュごとに)削除できる
+WORDCHARS='*?_-.[]~=&;!#$%^(){}<>'
 
+# Fuzzy match
 #zstyle ':completion:*' matcher-list '' 'm:{a-z}={A-Z}' '+m:{A-Z}={a-z}'
+
+# Ignore case
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
 
+# 補完候補でオプションとかの表示をするときに左右を分けてる部分の設定
 zstyle ':completion:*' list-separator '==>'
 
 # 補完候補を矢印キーなどで選択可能にする
@@ -45,7 +50,7 @@ zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
 # ディレクトリ名を入力するだけで移動
 setopt auto_cd
 
-# 移動したディレクトリを記録しておく。"cd -[Tab]"で移動履歴を一覧
+# 移動したディレクトリを記録しておく。"cd -[Tab]"で移動履歴を一覧表示
 setopt auto_pushd
 
 # Don't push multiple copies of the same directory onto the directory stack.
