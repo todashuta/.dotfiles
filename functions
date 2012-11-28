@@ -9,7 +9,7 @@ init_aliases() {
 		;;
 	esac
 
-	# General ls aliases
+	# ls related
 	alias ll="ls -alF"
 	alias la="ls -A"
 	alias l="ls -CF"
