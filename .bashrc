@@ -5,10 +5,20 @@
 ## プロンプト {{{
 #
 #PS1="\[\e[32m\]\u@\h\[\e[0m\] \[\e[33m\]\w\[\e[0m\]\n\$ "
+RED='\[\e[31m\]'
 GREEN='\[\e[32m\]'
+BLUE='\[\e[34m\]'
 YELLOW='\[\e[33m\]'
 RESET_COLOR='\[\e[0m\]'
-PS1="${GREEN}\u@\h${RESET_COLOR} ${YELLOW}\w${RESET_COLOR}\n\$ "
+
+case ${UID} in
+0)  # root
+	PS1="${RED}\u@\h${RESET_COLOR} ${BLUE}\w${RESET_COLOR}\n\$ "
+	;;
+*)  # Not root
+	PS1="${GREEN}\u@\h${RESET_COLOR} ${YELLOW}\w${RESET_COLOR}\n\$ "
+	;;
+esac
 
 # }}}
 
