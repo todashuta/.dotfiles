@@ -5,7 +5,7 @@
 
 if has('gui_macvim')
 " For Mac {{{
-  set guifont=Ricty:h18  " フォントの設定(for MacVim)
+  set guifont=Ricty\ InvisibleZWS:h18  " フォントの設定(for MacVim)
   set transparency=4     " 透明度の指定 (for MacVim:透明化する場合は、「環境設定」「詳細」の「実験的レンダラを使用する」「インラインインプットメソッドを使用する」の両方をチェックすること)
   colorscheme solarized  " 色テーマ指定
   set background=light   " 色テーマの傾向
