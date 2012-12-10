@@ -10,6 +10,13 @@ source ${profiles}/functions
 #
 init_aliases
 
+# Aliases works only on zsh
+alias -g L="| $PAGER"
+alias -g G="| grep"
+
+#alias -s pdf="open -a Preview.app"
+#alias -s html="vim"
+
 
 ## Completion configuration {{{
 #
@@ -78,6 +85,9 @@ setopt auto_resume
 # Don't show completions when using *.
 #setopt glob_complete
 
+# Use #, ~ and ^ as regular expression
+setopt extended_glob
+
 # C-dでログアウトしない
 setopt ignore_eof
 
@@ -86,8 +96,17 @@ setopt ignore_eof
 
 ## プロンプトの設定 {{{
 #
-PROMPT="%F{green}%n@%m%f %F{yellow}%50<...<%~%<<%f
-%(?.%F{blue}(^_^)%f.%F{red}(@_@%)%f)${WINDOW:+"[$WINDOW]"}%# "
+#return_face='%(?.%F{blue}(-_-)%f.%F{red}(x_x%)%f)'
+
+case ${UID} in
+0)  # root様のプロンプト
+	PROMPT="%F{red}%n@%m%f %F{blue}%50<...<%~%<<%f"$'\n'"%(?.%F{blue}(o_o)%f.%F{red}(@_@%)%f)${WINDOW:+"[$WINDOW]"}%# "
+	;;
+*)  # Non root
+	PROMPT="%F{green}%n@%m%f %F{yellow}%50<...<%~%<<%f"$'\n'"%(?.%F{blue}(^_^)%f.%F{red}(@_@%)%f)${WINDOW:+"[$WINDOW]"}%# "
+#	PROMPT="%F{green}%n@%m%f %F{yellow}%50<...<%~%<<%f"$'\n'"${return_face}${WINDOW:+"[$WINDOW]"}%# "
+	;;
+esac
 
 setopt transient_rprompt  # 右側まで入力がきたら消す
 
@@ -118,6 +137,9 @@ zle -N history-beginning-search-backward-end history-search-end
 zle -N history-beginning-search-forward-end history-search-end
 bindkey "^P" history-beginning-search-backward-end
 bindkey "^N" history-beginning-search-forward-end
+
+# 全てのヒストリを表示
+function history-all() { history -E 1 }
 
 # }}}
 
