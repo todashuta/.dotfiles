@@ -47,6 +47,7 @@ endif
 set guioptions-=T         " ツールバー非表示
 set guioptions=e          " tabをGUIにする
 "set showtabline=2         " タブを常に表示
+set cmdheight=1           " コマンドラインの高さ
 set guicursor=a:blinkon0  " カーソルを点滅させない
 set mousefocus            " マウス移動によるフォーカス切り替え有効化
 "set lines=24              " 縦幅

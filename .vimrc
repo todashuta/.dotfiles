@@ -102,6 +102,7 @@ noremap <CR> i<CR><ESC>
 
 " Visual {{{ ------------------------------------
 set t_Co=256                " 256色対応
+set cmdheight=1             " コマンドラインの高さ
 set showcmd                 " 入力中のコマンドを表示
 set visualbell              " ビジュアルベル使用
 syntax on                   " 色づけをオン
