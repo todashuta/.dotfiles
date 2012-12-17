@@ -22,3 +22,6 @@
 [submodule ".vim/bundle/calendar-vim"]
 	path = .vim/bundle/calendar-vim
 	url = https://github.com/mattn/calendar-vim.git
+[submodule ".vim/bundle/vim-colors-solarized"]
+	path = .vim/bundle/vim-colors-solarized
+	url = https://github.com/altercation/vim-colors-solarized.git
