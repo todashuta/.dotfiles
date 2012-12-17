@@ -4,3 +4,6 @@
 [submodule ".vim/bundle/neocomplcache"]
 	path = .vim/bundle/neocomplcache
 	url = https://github.com/Shougo/neocomplcache.git
+[submodule ".vim/bundle/zencoding-vim"]
+	path = .vim/bundle/zencoding-vim
+	url = https://github.com/mattn/zencoding-vim.git
