@@ -1,4 +1,6 @@
+" Init vim-pathogen
 call pathogen#runtime_append_all_bundles()
+
 
 " indent-guides {{{ ---------
 
@@ -12,5 +14,6 @@ let g:indent_guides_color_change_percent = 30
 let g:indent_guides_guide_size = 1
 
 "}}}
+
 
 " vim:foldmethod=marker
