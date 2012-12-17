@@ -19,3 +19,6 @@
 [submodule ".vim/bundle/vim-ref"]
 	path = .vim/bundle/vim-ref
 	url = https://github.com/thinca/vim-ref.git
+[submodule ".vim/bundle/calendar-vim"]
+	path = .vim/bundle/calendar-vim
+	url = https://github.com/mattn/calendar-vim.git
