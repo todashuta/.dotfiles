@@ -1,0 +1,6 @@
+[submodule ".vim/bundle/nyancat-vim"]
+	path = .vim/bundle/nyancat-vim
+	url = https://github.com/koron/nyancat-vim.git
+[submodule ".vim/bundle/neocomplcache"]
+	path = .vim/bundle/neocomplcache
+	url = https://github.com/Shougo/neocomplcache.git
