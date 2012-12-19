@@ -28,3 +28,6 @@
 [submodule ".vim/bundle/vim-emacscommandline"]
 	path = .vim/bundle/vim-emacscommandline
 	url = https://github.com/houtsnip/vim-emacscommandline.git
+[submodule ".vim/bundle/eregex.vim"]
+	path = .vim/bundle/eregex.vim
+	url = https://github.com/othree/eregex.vim.git
