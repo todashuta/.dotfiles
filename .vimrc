@@ -21,7 +21,8 @@ set history=50                    " ヒストリーの保存数
 set backspace=indent,eol,start    " バックスペースでインデントや改行を削除できるようにする
 set whichwrap=b,s,h,l,<,>,[,]     " カーソルを行頭、行末で止まらないようにする
 set virtualedit+=block            " 矩形選択で行末を超えてブロックを選択可能にする
-set splitright                    " vsplitで新規ウィンドウは右側にする
+set splitbelow                    " 横分割したら新規ウィンドウは下にする
+set splitright                    " 縦分割したら新規ウィンドウは右にする
 set clipboard+=unnamed            " OSのクリップボードを使用
 set clipboard=unnamed             " ヤンクした文字はシステムのクリップボードに入れる
 set modeline                      " modelineを有効にする
@@ -97,7 +98,7 @@ noremap ; :
 noremap : ;
 
 " ノーマルモードでも改行だけできるようにする
-noremap <CR> i<CR><ESC>
+"noremap <CR> i<CR><ESC>
 "}}}
 
 " Visual {{{ ------------------------------------
@@ -118,7 +119,8 @@ endif
 set list                    " タブ文字、行末など不可視文字を表示する
 " listで表示される文字のフォーマット
 "set listchars=tab:▸\ ,trail:›,eol:↲,precedes:«,extends:»
-set listchars=tab:▸\ ,trail:›,eol:⏎,precedes:«,extends:»
+"set listchars=tab:▸\ ,trail:›,eol:⏎,precedes:«,extends:»
+set listchars=tab:▸\ ,trail:›,eol:¬,precedes:«,extends:»
 
 " カーソルのある行をハイライト(フォーカスが外れたらハイライトオフ)
 autocmd WinEnter *  setlocal cursorline
@@ -137,12 +139,13 @@ set statusline=%<%F%m%r%h%w%=\ \ [%Y:%{&fileencoding}:%{&ff}][%3l/%L,%3v]%3p%%
 "au InsertLeave * hi StatusLine guifg=#2E4340 guibg=#ccdc90 gui=none ctermfg=Black ctermbg=White cterm=none
 "}}}
 
-" 全角スペースのハイライト(正規表現を使用している) {{{
+" 全角スペースのハイライト(正規表現でマッチさせて背景色を変えている) {{{
 scriptencoding utf-8
-augroup highlightIdeographicSpace
+augroup highlightZenkakuSpace
   autocmd!
-  autocmd ColorScheme * highlight IdeographicSpace term=underline ctermbg=DarkGreen guibg=DarkGreen
-  autocmd VimEnter,WinEnter * match IdeographicSpace /　/
+  autocmd Colorscheme * highlight ZenkakuSpace term=underline ctermbg=DarkGreen guibg=DarkGreen
+"  autocmd VimEnter,WinEnter * match ZenkakuSpace /\t\|\s\+$\|　/
+  autocmd VimEnter,WinEnter * match ZenkakuSpace /　/
 augroup END
 colorscheme default
 "}}}
