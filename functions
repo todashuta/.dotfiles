@@ -47,4 +47,6 @@ init_aliases() {
 		# Add aliases for linux here if needed.
 		;;
 	esac
+
+	alias tmux="tmux a || tmux"
 }
