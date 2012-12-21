@@ -78,12 +78,29 @@ nmap g* g*zz
 nmap g# g#zz
 
 " カッコの入力補助
-"inoremap {} {}<LEFT>
-"inoremap [] []<LEFT>
-"inoremap () ()<LEFT>
-"inoremap <> <><LEFT>
+"inoremap {{ {}<LEFT>
+"inoremap [[ []<LEFT>
+"inoremap (( ()<LEFT>
+"inoremap << <><LEFT>
 "inoremap "" ""<LEFT>
 "inoremap '' ''<LEFT>
+
+" カンマのあとに自動でスペースを追加
+inoremap , ,<Space>
+
+" 閉じタグを自動挿入
+augroup AutoCloseTag
+  autocmd!
+  autocmd FileType xml inoremap <buffer> </ </<C-x><C-o>
+  autocmd FileType html inoremap <buffer> </ </<C-x><C-o>
+augro END
+
+" ブラウザのようにspaceでページ送り、Shift-spaceで逆向き
+noremap <Space> <C-f>
+noremap <S-Space> <C-b>
+
+" Control-Spaceで次のバッファ
+noremap <C-Space> :bn<CR>
 
 " タブ切り替え
 nnoremap <C-Tab>   gt
