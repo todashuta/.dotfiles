@@ -149,6 +149,9 @@ function history-all() { history -E 1 }
 # zsh editor
 autoload zed
 
+# 以前に実行したコマンドを入力するコマンド"r"の無効化
+#disable r
+
 # }}}
 
 
