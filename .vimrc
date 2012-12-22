@@ -9,7 +9,6 @@ set encoding=utf-8                " エンコードをUTF-8にする
 set nocompatible                  " viとの互換モードをOFF
 set shellslash                    " Windowsでディレクトリパスの区切り文字に / を使えるようにする
 set scrolloff=2                   " カーソルの上下に表示する行数(大きな数字を指定するとカーソルが真ん中になる)
-"let g:netrw_liststyle=3           " ディレクトリ閲覧をツリー形式にする
 augroup grlcd                     " 開いているバッファのディレクトリに自動で移動
   autocmd!
   autocmd BufEnter * lcd %:p:h
@@ -35,9 +34,18 @@ set nobackup                      " バックアップ取らない
 set noswapfile                    " スワップファイル作らない
 "}}}
 
+" netrw (標準のファイラ) 設定 {{{ ---------------
+"let g:netrw_liststyle = 3         " ディレクトリ閲覧をツリー形式にする
+let g:netrw_altv = 1              " 'v'でファイルを開くときに右側に開く
+let g:netrw_alto = 1              " 'o'でファイルを開くときに下側に開く
+
+" CVSと.で始まるファイルは表示しない
+"let g:netrw_list_hide = 'CVS,\(^\|\s\s\)\zs\.\S\+'
+"}}}
+
 " Indent, Tab {{{ -------------------------------
 "set autoindent                    " 新しい行のインデントを現在行と同じにする
-"set smartindent                   " 新しい行を作ったときに高度な自動インデントを行う
+set smartindent                   " 新しい行を作ったときに高度な自動インデントを行う
 set tabstop=4                     " タブで表示される空白の数
 set softtabstop=4                 " Tab押下時に4文字分移動(Tabかスペースかは別の設定)
 set shiftwidth=4                  " インデントの各段階に使われる空白の数
@@ -91,8 +99,7 @@ inoremap , ,<Space>
 " 閉じタグを自動挿入
 augroup AutoCloseTag
   autocmd!
-  autocmd FileType xml inoremap <buffer> </ </<C-x><C-o>
-  autocmd FileType html inoremap <buffer> </ </<C-x><C-o>
+  autocmd FileType xml,html inoremap <buffer> </ </<C-x><C-o>
 augro END
 
 " ブラウザのようにspaceでページ送り、Shift-spaceで逆向き
