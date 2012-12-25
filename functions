@@ -50,3 +50,5 @@ init_aliases() {
 
 	alias tmux="tmux a || tmux"
 }
+
+# vim: set ft=sh :
