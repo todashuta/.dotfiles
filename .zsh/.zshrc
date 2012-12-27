@@ -13,6 +13,7 @@ init_aliases
 # Aliases works only on zsh
 alias -g L="| $PAGER"
 alias -g G="| grep"
+alias -g TW="| tw --pipe"
 
 #alias -s pdf="open -a Preview.app"
 #alias -s html="vim"
