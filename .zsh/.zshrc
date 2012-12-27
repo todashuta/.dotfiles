@@ -14,6 +14,7 @@ init_aliases
 alias -g L="| $PAGER"
 alias -g G="| grep"
 alias -g TW="| tw --pipe"
+alias -g V="| vim -"
 
 #alias -s pdf="open -a Preview.app"
 #alias -s html="vim"
