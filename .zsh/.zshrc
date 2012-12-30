@@ -56,6 +56,9 @@ zstyle ':completion:*:default' menu select
 # 補完候補をLS_COLORSに合わせて色付け
 zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
 
+# cd ../ するときに今いるディレクトリを補完候補から外す
+zstyle ':completion:*' ignore-parents parent pwd ..
+
 # ディレクトリ名を入力するだけで移動
 setopt auto_cd
 
@@ -107,6 +110,7 @@ case ${UID} in
 *)  # Non root
 	PROMPT="%F{green}%n@%m%f %F{yellow}%50<...<%~%<<%f"$'\n'"%(?.%F{blue}(^_^)%f.%F{red}(@_@%)%f)${WINDOW:+"[$WINDOW]"}%# "
 #	PROMPT="%F{green}%n@%m%f %F{yellow}%50<...<%~%<<%f"$'\n'"${return_face}${WINDOW:+"[$WINDOW]"}%# "
+	SPROMPT="%F{red}('_'%)? もしかして '%r' かな? [そう!(y), ちがう!(n),a,e]:%f "
 	;;
 esac
 
