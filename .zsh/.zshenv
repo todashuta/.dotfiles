@@ -38,8 +38,8 @@ fi
 
 ## Android SDK
 #
-if [ -d /usr/local/Cellar/android-sdk/r21 ]; then
-	export ANDROID_SDK_ROOT=/usr/local/Cellar/android-sdk/r21
+if [ -e /usr/local/opt/android-sdk ]; then
+	export ANDROID_SDK_ROOT=/usr/local/opt/android-sdk
 fi
 
 
