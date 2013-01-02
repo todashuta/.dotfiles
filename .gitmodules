@@ -54,3 +54,9 @@
 	path = .vim/bundle/vim-alignta
 	url = https://github.com/h1mesuke/vim-alignta.git
 	ignore = untracked
+[submodule ".vim/bundle/unite-outline"]
+	path = .vim/bundle/unite-outline
+	url = https://github.com/h1mesuke/unite-outline.git
+[submodule ".vim/bundle/VOoM"]
+	path = .vim/bundle/VOoM
+	url = https://github.com/vim-scripts/VOoM.git
