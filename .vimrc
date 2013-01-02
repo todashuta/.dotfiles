@@ -127,6 +127,12 @@ noremap : ;
 " ビジュアルモードでインデント変更後も選択を継続する
 vnoremap < <gv
 vnoremap > >gv
+
+" Shiftキー + 矢印キーで分割ウインドウのサイズを調節
+nnoremap <silent> <S-Left>  :wincmd <<CR>
+nnoremap <silent> <S-Right> :wincmd ><CR>
+nnoremap <silent> <S-Up>    :wincmd -<CR>
+nnoremap <silent> <S-Down>  :wincmd +<CR>
 "}}}
 
 " Visual {{{ ------------------------------------
