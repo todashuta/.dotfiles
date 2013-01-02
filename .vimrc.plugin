@@ -33,4 +33,8 @@ nnoremap ,/ /
 nnoremap ,? ?
 
 
+" %コマンドによるジャンプ機能を拡張する
+runtime macros/matchit.vim
+
+
 " vim:foldmethod=marker
