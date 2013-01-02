@@ -45,3 +45,12 @@
 [submodule ".vim/bundle/vim-surround"]
 	path = .vim/bundle/vim-surround
 	url = https://github.com/tpope/vim-surround.git
+	ignore = untracked
+[submodule ".vim/bundle/unite.vim"]
+	path = .vim/bundle/unite.vim
+	url = https://github.com/Shougo/unite.vim.git
+	ignore = untracked
+[submodule ".vim/bundle/vim-alignta"]
+	path = .vim/bundle/vim-alignta
+	url = https://github.com/h1mesuke/vim-alignta.git
+	ignore = untracked
