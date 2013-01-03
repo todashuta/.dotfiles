@@ -83,6 +83,8 @@ setopt globdots
 
 # Tab連打で順に補完候補を自動で補完
 setopt auto_menu
+# Shift-Tabで補完候補を逆順に回る
+bindkey "^[[Z" reverse-menu-complete
 
 # サスペンド中のプロセスと同じコマンド名を実行した場合はリジューム
 setopt auto_resume
