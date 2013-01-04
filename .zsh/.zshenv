@@ -53,6 +53,10 @@ else
 	export PAGER="less"
 fi
 
+# lessでソースコードに色付けする
+export LESS='-gj10 --no-init --quit-if-one-screen --RAW-CONTROL-CHARS'
+export LESSOPEN='| /usr/local/bin/src-hilite-lesspipe.sh %s'
+
 
 ## EDITOR
 #
