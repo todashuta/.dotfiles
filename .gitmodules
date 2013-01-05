@@ -62,3 +62,6 @@
 	path = .vim/bundle/VOoM
 	url = https://github.com/vim-scripts/VOoM.git
 	ignore = untracked
+[submodule ".vim/bundle/vim-css-color"]
+	path = .vim/bundle/vim-css-color
+	url = https://github.com/skammer/vim-css-color.git
