@@ -72,3 +72,6 @@ export ZLS_COLORS=$LS_COLORS
 
 
 # End of .zshenv
+
+
+export PATH=$PATH:$HOME/bin
