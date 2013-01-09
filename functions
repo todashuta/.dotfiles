@@ -33,7 +33,7 @@ init_aliases() {
 			MacVim_PATH="/Applications/MacVim.app/Contents/MacOS"
 
 			# Use GUI MacVim
-			alias gvim="${MacVim_PATH}/MacVim"
+			alias gvim="${MacVim_PATH}/mvim"
 			alias gvimdiff="${MacVim_PATH}/mvimdiff"
 			alias gview="${MacVim_PATH}/mview"
 
