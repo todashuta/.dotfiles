@@ -87,7 +87,7 @@ freebsd*|darwin*)
   fi
 
   if [ -f /Applications/MacVim.app/Contents/MacOS/MacVim ]; then
-    alias gvim='/Applications/MacVim.app/Contents/MacOS/MacVim'
+    alias gvim='/Applications/MacVim.app/Contents/MacOS/mvim'
   fi
 
   if [ -f /Applications/MacVim.app/Contents/MacOS/Vim ]; then
