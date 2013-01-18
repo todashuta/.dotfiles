@@ -2,16 +2,16 @@
 " https://github.com/todashuta/profiles
 
 " General {{{ -----------------------------------
+set nocompatible                  " viとの互換モードをOFF
 if filereadable(expand('~/.vimrc.plugin'))
-  source ~/.vimrc.plugin          " plugin設定あれば読み込み
+	source ~/.vimrc.plugin        " plugin設定あれば読み込み
 endif
 set encoding=utf-8                " エンコードをUTF-8にする
-set nocompatible                  " viとの互換モードをOFF
 set shellslash                    " Windowsでディレクトリパスの区切り文字に / を使えるようにする
 set scrolloff=2                   " カーソルの上下に表示する行数(大きな数字を指定するとカーソルが真ん中になる)
 augroup grlcd                     " 開いているバッファのディレクトリに自動で移動
-  autocmd!
-  autocmd BufEnter * lcd %:p:h
+	autocmd!
+	autocmd BufEnter * lcd %:p:h
 augroup END
 set mouse=a                       " ターミナルでマウスを有効化
 set guioptions+=a                 " 同上
@@ -98,8 +98,8 @@ inoremap , ,<Space>
 
 " 閉じタグを自動挿入
 augroup AutoCloseTag
-  autocmd!
-  autocmd FileType xml,html inoremap <buffer> </ </<C-x><C-o>
+	autocmd!
+	autocmd FileType xml,html inoremap <buffer> </ </<C-x><C-o>
 augro END
 
 " ブラウザのようにspaceでページ送り、Shift-spaceで逆向き
@@ -148,7 +148,7 @@ set matchpairs+=<:>         " <>のカッコをマッチ対象にする
 set matchtime=3             " showmatchの瞬間強調時間
 set wrap                    " 画面幅で折り返す
 if exists('&colorcolumn')
-  set colorcolumn=80        " {数字}列目を強調表示
+	set colorcolumn=80      " {数字}列目を強調表示
 endif
 set list                    " タブ文字、行末など不可視文字を表示する
 " listで表示される文字のフォーマット
@@ -176,10 +176,10 @@ set statusline=%<%F%m%r%h%w%=\ \ [%Y:%{&fileencoding}:%{&ff}][%3l/%L,%3v]%3p%%
 " 全角スペースのハイライト(正規表現でマッチさせて背景色を変えている) {{{
 scriptencoding utf-8
 augroup highlightZenkakuSpace
-  autocmd!
-  autocmd Colorscheme * highlight ZenkakuSpace term=underline ctermbg=DarkGreen guibg=DarkGreen
-"  autocmd VimEnter,WinEnter * match ZenkakuSpace /\t\|\s\+$\|　/
-  autocmd VimEnter,WinEnter * match ZenkakuSpace /　/
+	autocmd!
+	autocmd Colorscheme * highlight ZenkakuSpace term=underline ctermbg=DarkGreen guibg=DarkGreen
+	"autocmd VimEnter,WinEnter * match ZenkakuSpace /\t\|\s\+$\|　/
+	autocmd VimEnter,WinEnter * match ZenkakuSpace /　/
 augroup END
 colorscheme default
 "}}}
@@ -202,7 +202,7 @@ command! ChgencCp932 set fenc=cp932
 
 " ローカル設定(~/.vimrc.local)があればそれを読み込む {{{
 if filereadable(expand('~/.vimrc.local'))
-  source ~/.vimrc.local
+	source ~/.vimrc.local
 endif
 "}}}
 
