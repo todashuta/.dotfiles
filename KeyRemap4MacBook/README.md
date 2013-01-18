@@ -18,21 +18,19 @@ GUI版MacVimでは、挿入モードから抜けるときに自動で日本語�
 この private.xml では Sublime Text 2 でも使えるように設定をいくつか追加している。  
 単にターミナル上のVimだけで使えるようにしたいだけであれば、以下のとおり。
 
-```
-<?xml version="1.0"?>
-<root>
-  <item>
-    <name>Leave Insert Mode with EISUU on Terminal</name>
-    <appendix>Escape to EISUU+Escape</appendix>
-    <appendix>Control+C to EISUU+Control+C</appendix>
-    <appendix>Control+[ to EISUU+Control+[</appendix>
-    <identifier>private.app_terminal_esc_with_eisuu</identifier>
-    <only>TERMINAL, VI</only>
-    <autogen>--KeyToKey-- KeyCode::BRACKET_LEFT, VK_CONTROL, KeyCode::BRACKET_LEFT, VK_CONTROL, KeyCode::JIS_EISUU</autogen>
-    <autogen>--KeyToKey-- KeyCode::C, VK_CONTROL, KeyCode::C, VK_CONTROL, KeyCode::JIS_EISUU</autogen>
-    <autogen>--KeyToKey-- KeyCode::ESCAPE, KeyCode::ESCAPE, KeyCode::JIS_EISUU</autogen>
-  </item>
-</root>
-```
+	<?xml version="1.0"?>
+	<root>
+	  <item>
+	    <name>Leave Insert Mode with EISUU on Terminal</name>
+	    <appendix>Escape to EISUU+Escape</appendix>
+	    <appendix>Control+C to EISUU+Control+C</appendix>
+	    <appendix>Control+[ to EISUU+Control+[</appendix>
+	    <identifier>private.app_terminal_esc_with_eisuu</identifier>
+	    <only>TERMINAL, VI</only>
+	    <autogen>--KeyToKey-- KeyCode::BRACKET_LEFT, VK_CONTROL, KeyCode::BRACKET_LEFT, VK_CONTROL, KeyCode::JIS_EISUU</autogen>
+	    <autogen>--KeyToKey-- KeyCode::C, VK_CONTROL, KeyCode::C, VK_CONTROL, KeyCode::JIS_EISUU</autogen>
+	    <autogen>--KeyToKey-- KeyCode::ESCAPE, KeyCode::ESCAPE, KeyCode::JIS_EISUU</autogen>
+	  </item>
+	</root>
 
 既に private.xml に設定を記述していて追加する場合は`<item>…(省略)…</item>`を追加する。
