@@ -16,7 +16,7 @@ augroup END
 set mouse=a                       " ターミナルでマウスを有効化
 set guioptions+=a                 " 同上
 set ttymouse=xterm2               " 同上
-set history=50                    " ヒストリーの保存数
+set history=5000                  " ヒストリーの保存数
 set backspace=indent,eol,start    " バックスペースでインデントや改行を削除できるようにする
 set whichwrap=b,s,h,l,<,>,[,]     " カーソルを行頭、行末で止まらないようにする
 set virtualedit+=block            " 矩形選択で行末を超えてブロックを選択可能にする
