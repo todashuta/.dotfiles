@@ -94,5 +94,5 @@ endif
 "}}}
 
 
-" vim: set foldmethod=marker ts=2 sw=2 sts=2 et :
+" vim: set fdm=marker ts=2 sw=2 sts=2 et:
 " end of .gvimrc
