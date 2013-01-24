@@ -1,5 +1,5 @@
-" Init vim-pathogen
-call pathogen#runtime_append_all_bundles()
+" .vimrc.plugin
+" プラグイン関連の設定
 
 
 " indent-guides {{{ ---------
@@ -26,7 +26,7 @@ inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
 "}}}
 
 
-" ereger.vim
+" eregex.vim
 nnoremap / :M/
 nnoremap ? :M?
 nnoremap ,/ /

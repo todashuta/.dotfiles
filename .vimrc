@@ -1,11 +1,33 @@
 " .vimrc
 " https://github.com/todashuta/profiles
 
-" General {{{ -----------------------------------
-set nocompatible                  " viとの互換モードをOFF
-if filereadable(expand('~/.vimrc.plugin'))
-  source ~/.vimrc.plugin          " plugin設定あれば読み込み
+
+" Initialize {{{
+
+" viとの互換モードをOFF
+set nocompatible
+
+" Enable syntax color
+syntax enable
+filetype plugin on
+
+" Enable indent
+filetype indent on
+
+" Using pathogen.vim
+if filereadable(expand('~/.vim/autoload/pathogen.vim'))
+  call pathogen#runtime_append_all_bundles()
+  call pathogen#helptags()
 endif
+
+" plugin用設定ファイル読み込み
+if filereadable(expand('~/.vimrc.plugin'))
+  source ~/.vimrc.plugin
+endif
+
+" }}}
+
+" General {{{ -----------------------------------
 set encoding=utf-8                " エンコードをUTF-8にする
 set shellslash                    " Windowsでディレクトリパスの区切り文字に / を使えるようにする
 set scrolloff=2                   " カーソルの上下に表示する行数(大きな数字を指定するとカーソルが真ん中になる)
@@ -57,9 +79,14 @@ set incsearch                     " インクリメンタルサーチ
 set wrapscan                      " ファイルの最後まで検索したら戻る
 set ignorecase                    " 検索時に大文字小文字を区別しない
 set smartcase                     " 検索する文字に大文字が一つでもあった場合は区別する
+
+set hlsearch                      " 検索文字の強調表示
+
 set wildmenu                      " コマンドライン補完を強化されたものにする
 set wildmode=longest,list,full    " 共通部まで補完,一覧,順番
-set hlsearch                      " 検索文字の強調表示
+set wildignore+=.DS_Store         " wildmenu補完で除外するパターン
+"set wildignore+=*~,*.swp,*.tmp
+"set wildignore+=*.bmp,*.gif,*.ico,*.jpg,*.png
 "}}}
 
 " Key Remap {{{ ---------------------------------
@@ -133,6 +160,9 @@ nnoremap <silent> <S-Left>  :wincmd <<CR>
 nnoremap <silent> <S-Right> :wincmd ><CR>
 nnoremap <silent> <S-Up>    :wincmd -<CR>
 nnoremap <silent> <S-Down>  :wincmd +<CR>
+
+" Yで行末までヤンク
+nnoremap Y y$
 "}}}
 
 " Visual {{{ ------------------------------------
@@ -140,7 +170,6 @@ set t_Co=256                " 256色対応
 set cmdheight=1             " コマンドラインの高さ
 set showcmd                 " 入力中のコマンドを表示
 set visualbell              " ビジュアルベル使用
-syntax on                   " 色づけをオン
 "set ruler                   " ルーラー表示(ステータスライン変えてるため無意味)
 set number                  " 行番号を表示する
 set showmatch               " 閉じ括弧が入力されたとき、対応する括弧を表示する
@@ -184,7 +213,7 @@ augroup END
 colorscheme default
 "}}}
 
-" encoding commands {{{
+" Encoding commands {{{
 command! Utf8 edit ++enc=utf-8
 command! Sjis edit ++enc=sjis
 command! Eucjp edit ++enc=euc-jp
@@ -192,7 +221,7 @@ command! Iso2022jp edit ++enc=iso-2202-jp
 command! Cp932 edit ++enc=cp932
 "}}}
 
-" change encoding commands {{{
+" Change encoding commands {{{
 command! ChgencUtf8 set fenc=utf-8
 command! ChgencSjis set fenc=sjis
 command! ChgencEucjp set fenc=euc-jp
@@ -200,11 +229,14 @@ command! ChgencIso2022jp set fenc=iso-2202-jp
 command! ChgencCp932 set fenc=cp932
 "}}}
 
-" ローカル設定(~/.vimrc.local)があればそれを読み込む {{{
+" I don't use MODULA2.
+autocmd BufNewFile,BufRead *.md set filetype=markdown
+
+" ローカル設定(~/.vimrc.local)があれば読み込む {{{
 if filereadable(expand('~/.vimrc.local'))
   source ~/.vimrc.local
 endif
 "}}}
 
-" vim: set foldmethod=marker ts=2 sw=2 sts=2 et :
+" vim: set fdm=marker ts=2 sw=2 sts=2 et:
 " end of .vimrc
