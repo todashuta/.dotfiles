@@ -1,40 +1,50 @@
 " .vimrc.plugin
 " プラグイン関連の設定
 
-
-" indent-guides {{{ ---------
-
+" indent-guides {{{
+"
 " indent-guidesを最初から有効にする
 "let g:indent_guides_enable_on_vim_startup = 1
-
 " 色の変化の幅
 let g:indent_guides_color_change_percent = 30
-
 " ガイド幅
 let g:indent_guides_guide_size = 1
 
 "}}}
 
-
 " neocomplcache {{{
-
-let g:neocomplcache_enable_at_startup = 1  " 起動時に有効化
-
-" <TAB>: completion.
+"
+" 起動時に有効化
+let g:neocomplcache_enable_at_startup = 1
+" TABで補完できるようにする
 inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
+" 補完候補の一番先頭を選択状態にする
+let g:neocomplcache_enable_auto_select = 1
+" ポップアップメニューで表示される候補の数 (初期値: 100)
+"let g:neocomplcache_max_list = 20
+" Undo
+inoremap <expr><C-g> neocomplcache#undo_completion()
+" <C-h>, <BS>: Close popup and delete backward char.
+inoremap <expr><C-h> neocomplcache#smart_close_popup()."\<C-h>"
+inoremap <expr><BS> neocomplcache#smart_close_popup()."\<C-h>"
 
 "}}}
 
-
-" eregex.vim
+" eregex.vim {{{
+"
 nnoremap / :M/
 nnoremap ? :M?
 nnoremap ,/ /
 nnoremap ,? ?
 
+"}}}
 
+" Others {{{
+"
 " %コマンドによるジャンプ機能を拡張する
 runtime macros/matchit.vim
 
+"}}}
 
 " vim:foldmethod=marker
+" End of .vimrc.plugin

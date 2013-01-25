@@ -159,7 +159,7 @@ nmap g# g#zz
 "inoremap '' ''<LEFT>
 
 " カンマのあとに自動でスペースを追加
-inoremap , ,<Space>
+"inoremap , ,<Space>
 
 " 閉じタグを自動挿入 {{{
 augroup AutoCloseTag
