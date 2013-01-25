@@ -1,10 +1,10 @@
 " .vimrc
 " https://github.com/todashuta/profiles
 
+" Initialize: "{{{
+"
 
-" Initialize {{{
-
-" viとの互換モードをOFF
+" Be IMproved.
 set nocompatible
 
 " Enable syntax color
@@ -27,69 +27,107 @@ endif
 
 " }}}
 
-" General {{{ -----------------------------------
-set encoding=utf-8                " エンコードをUTF-8にする
-set shellslash                    " Windowsでディレクトリパスの区切り文字に / を使えるようにする
-set scrolloff=2                   " カーソルの上下に表示する行数(大きな数字を指定するとカーソルが真ん中になる)
-augroup grlcd                     " 開いているバッファのディレクトリに自動で移動
-  autocmd!
-  autocmd BufEnter * lcd %:p:h
-augroup END
-set mouse=a                       " ターミナルでマウスを有効化
-set guioptions+=a                 " 同上
-set ttymouse=xterm2               " 同上
-set history=1000                  " ヒストリーの保存数
-set backspace=indent,eol,start    " バックスペースでインデントや改行を削除できるようにする
-set whichwrap=b,s,h,l,<,>,[,]     " カーソルを行頭、行末で止まらないようにする
-set virtualedit+=block            " 矩形選択で行末を超えてブロックを選択可能にする
-set splitbelow                    " 横分割したら新規ウィンドウは下にする
-set splitright                    " 縦分割したら新規ウィンドウは右にする
-set clipboard+=unnamed            " OSのクリップボードを使用
-set clipboard=unnamed             " ヤンクした文字はシステムのクリップボードに入れる
-set modeline                      " modelineを有効にする
+" General: "{{{
+"
+" エンコードをUTF-8にする
+set encoding=utf-8
+" Windowsでディレクトリパスの区切り文字に / を使えるようにする
+set shellslash
+" カーソルの上下に表示する行数(大きな数字を指定するとカーソルが真ん中になる)
+set scrolloff=2
+
+" ヒストリーの保存数
+set history=1000
+
+" バックスペースでインデントや改行を削除できるようにする
+set backspace=indent,eol,start
+" カーソルを行頭、行末で止まらないようにする
+set whichwrap=b,s,h,l,<,>,[,]
+" 矩形選択で行末を超えてブロックを選択可能にする
+set virtualedit+=block
+
+" 横分割したら新規ウィンドウは下にする
+set splitbelow
+" 縦分割したら新規ウィンドウは右にする
+set splitright
+
+" OSのクリップボードを使用
+set clipboard+=unnamed
+" ヤンクした文字はシステムのクリップボードに入れる
+set clipboard=unnamed
+
+" modelineを有効にする
+set modeline
+
+" ターミナルでマウスを有効化
+set mouse=a
+set guioptions+=a
+set ttymouse=xterm2
+
 "}}}
 
-" File, Backup {{{ ------------------------------
-set hidden                        " 編集中でも他のファイルを開けるようにする
-set autoread                      " 他で書き換えられたら自動で読み直す
-set nobackup                      " バックアップ取らない
-set noswapfile                    " スワップファイル作らない
+" File,Backup: "{{{
+"
+" 編集中でも他のファイルを開けるようにする
+set hidden
+" 他で書き換えられたら自動で読み直す
+set autoread
+" バックアップファイルを作らない
+set nobackup
+" スワップファイル作らない
+set noswapfile
+
 "}}}
 
-" netrw (標準のファイラ) 設定 {{{ ---------------
-"let g:netrw_liststyle = 3         " ディレクトリ閲覧をツリー形式にする
-let g:netrw_altv = 1              " 'v'でファイルを開くときに右側に開く
-let g:netrw_alto = 1              " 'o'でファイルを開くときに下側に開く
+" Indent,Tab: "{{{
+"
 
-" CVSと.で始まるファイルは表示しない
-"let g:netrw_list_hide = 'CVS,\(^\|\s\s\)\zs\.\S\+'
+" 新しい行のインデントを現在行と同じにする
+"set autoindent
+" 新しい行を作ったときに高度な自動インデントを行う
+set smartindent
+" タブで表示される空白の数
+set tabstop=4
+" Tab押下時に4文字分移動(Tabかスペースかは別の設定)
+set softtabstop=4
+" インデントの各段階に使われる空白の数
+set shiftwidth=4
+" タブの代わりに空白文字を挿入する
+"set expandtab
+" Smart insert tab setting.
+"set smarttab
+
 "}}}
 
-" Indent, Tab {{{ -------------------------------
-"set autoindent                    " 新しい行のインデントを現在行と同じにする
-set smartindent                   " 新しい行を作ったときに高度な自動インデントを行う
-set tabstop=4                     " タブで表示される空白の数
-set softtabstop=4                 " Tab押下時に4文字分移動(Tabかスペースかは別の設定)
-set shiftwidth=4                  " インデントの各段階に使われる空白の数
-"set expandtab                     " タブの代わりに空白文字を挿入する
-"}}}
+" Search: "{{{
+"
 
-" Search {{{ ------------------------------------
-set incsearch                     " インクリメンタルサーチ
-set wrapscan                      " ファイルの最後まで検索したら戻る
-set ignorecase                    " 検索時に大文字小文字を区別しない
-set smartcase                     " 検索する文字に大文字が一つでもあった場合は区別する
+" インクリメンタルサーチ
+set incsearch
+" ファイルの最後まで検索したら戻る
+set wrapscan
+" 検索時に大文字小文字を区別しない
+set ignorecase
+" 検索する文字に大文字が一つでもあった場合は区別する
+set smartcase
 
-set hlsearch                      " 検索文字の強調表示
+" 検索文字の強調表示
+set hlsearch
 
-set wildmenu                      " コマンドライン補完を強化されたものにする
-set wildmode=longest,list,full    " 共通部まで補完,一覧,順番
-set wildignore+=.DS_Store         " wildmenu補完で除外するパターン
+" wildmenu: コマンドライン補完を強化されたものにする
+set wildmenu
+" 共通部まで補完,一覧,順番
+set wildmode=longest,list,full
+" wildmenu補完で除外するパターン
+set wildignore+=.DS_Store
 "set wildignore+=*~,*.swp,*.tmp
 "set wildignore+=*.bmp,*.gif,*.ico,*.jpg,*.png
+
 "}}}
 
-" Key Remap {{{ ---------------------------------
+" Key Mappings: "{{{
+"
+
 " 表示行単位で移動する
 noremap j gj
 noremap k gk
@@ -123,11 +161,12 @@ nmap g# g#zz
 " カンマのあとに自動でスペースを追加
 inoremap , ,<Space>
 
-" 閉じタグを自動挿入
+" 閉じタグを自動挿入 {{{
 augroup AutoCloseTag
   autocmd!
   autocmd FileType xml,html inoremap <buffer> </ </<C-x><C-o>
 augro END
+"}}}
 
 " ブラウザのようにspaceでページ送り、Shift-spaceで逆向き
 noremap <Space> <C-f>
@@ -163,23 +202,42 @@ nnoremap <silent> <S-Down>  :wincmd +<CR>
 
 " Yで行末までヤンク
 nnoremap Y y$
+
 "}}}
 
-" Visual {{{ ------------------------------------
-set t_Co=256                " 256色対応
-set cmdheight=1             " コマンドラインの高さ
-set showcmd                 " 入力中のコマンドを表示
-set visualbell              " ビジュアルベル使用
-"set ruler                   " ルーラー表示(ステータスライン変えてるため無意味)
-set number                  " 行番号を表示する
-set showmatch               " 閉じ括弧が入力されたとき、対応する括弧を表示する
-set matchpairs+=<:>         " <>のカッコをマッチ対象にする
-set matchtime=3             " showmatchの瞬間強調時間
-set wrap                    " 画面幅で折り返す
+" Visual: "{{{
+
+" 256色対応
+set t_Co=256
+" コマンドラインの高さ
+set cmdheight=1
+" 入力中のコマンドを表示
+set showcmd
+" ビジュアルベル使用
+set visualbell
+
+" ルーラー表示(ステータスライン変えてるため無意味)
+"set ruler
+" 行番号を表示する
+set number
+
+" 閉じ括弧が入力されたとき、対応する括弧を表示する
+set showmatch
+" <>のカッコをマッチ対象にする
+set matchpairs+=<:>
+" showmatchの瞬間強調時間
+set matchtime=3
+
+" 画面幅で折り返す
+set wrap
+
+" {数字}列目を強調表示
 if exists('&colorcolumn')
-  set colorcolumn=80        " {数字}列目を強調表示
+  set colorcolumn=80
 endif
-set list                    " タブ文字、行末など不可視文字を表示する
+
+" タブ文字、行末など不可視文字を表示する
+set list
 " listで表示される文字のフォーマット
 "set listchars=tab:▸\ ,trail:›,eol:↲,precedes:«,extends:»
 "set listchars=tab:▸\ ,trail:›,eol:⏎,precedes:«,extends:»
@@ -189,10 +247,13 @@ set listchars=tab:▸\ ,trail:›,eol:¬,precedes:«,extends:»
 autocmd WinEnter *  setlocal cursorline
 autocmd WinLeave *  setlocal nocursorline
 set cursorline
+
 "}}}
 
-" Status Line {{{ -------------------------------
-set laststatus=2            " ステータスラインを常に表示
+" Status Line: "{{{
+"
+" ステータスラインを常に表示
+set laststatus=2
 
 " ステータスラインの表示 ([フルパス]  [ファイルタイプ:エンコード:改行コード] [カーソル位置/総行数] [%行位置])
 set statusline=%<%F%m%r%h%w%=\ \ [%Y:%{&fileencoding}:%{&ff}][%3l/%L,%3v]%3p%%
@@ -200,9 +261,12 @@ set statusline=%<%F%m%r%h%w%=\ \ [%Y:%{&fileencoding}:%{&ff}][%3l/%L,%3v]%3p%%
 " 挿入モードとノーマルモードでステータスラインのカラーを変更
 "au InsertEnter * hi StatusLine guifg=#ccdc90 guibg=#2E4340 gui=none ctermfg=White ctermbg=Black cterm=none
 "au InsertLeave * hi StatusLine guifg=#2E4340 guibg=#ccdc90 gui=none ctermfg=Black ctermbg=White cterm=none
+
 "}}}
 
-" 全角スペースのハイライト(正規表現でマッチさせて背景色を変えている) {{{
+" 全角スペースのハイライト(正規表現でマッチさせて背景色を変えている): "{{{
+"
+
 scriptencoding utf-8
 augroup highlightZenkakuSpace
   autocmd!
@@ -211,31 +275,65 @@ augroup highlightZenkakuSpace
   autocmd VimEnter,WinEnter * match ZenkakuSpace /　/
 augroup END
 colorscheme default
+
 "}}}
 
-" Encoding commands {{{
+" Encoding commands: "{{{
+"
+" Open encoding commands
 command! Utf8 edit ++enc=utf-8
 command! Sjis edit ++enc=sjis
 command! Eucjp edit ++enc=euc-jp
 command! Iso2022jp edit ++enc=iso-2202-jp
 command! Cp932 edit ++enc=cp932
-"}}}
 
-" Change encoding commands {{{
+" Change encoding commands
 command! ChgencUtf8 set fenc=utf-8
 command! ChgencSjis set fenc=sjis
 command! ChgencEucjp set fenc=euc-jp
 command! ChgencIso2022jp set fenc=iso-2202-jp
 command! ChgencCp932 set fenc=cp932
+
 "}}}
 
+" 開いているバッファのディレクトリに自動で移動: "{{{
+
+augroup grlcd
+  autocmd!
+  autocmd BufEnter * lcd %:p:h
+augroup END
+
+"}}}
+
+" netrw.vim (標準のファイラ) 設定: "{{{
+
+" ディレクトリ閲覧をツリー形式にする
+"let g:netrw_liststyle = 3
+
+" 'v'でファイルを開くときに右側に開く
+let g:netrw_altv = 1
+
+" 'o'でファイルを開くときに下側に開く
+let g:netrw_alto = 1
+
+" CVSと.で始まるファイルは表示しない
+"let g:netrw_list_hide = 'CVS,\(^\|\s\s\)\zs\.\S\+'
+
+"}}}
+
+" Others: "{{{
+"
 " I don't use MODULA2.
 autocmd BufNewFile,BufRead *.md set filetype=markdown
 
-" ローカル設定(~/.vimrc.local)があれば読み込む {{{
+"}}}
+
+" ローカル設定(~/.vimrc.local)があれば読み込む: "{{{
+
 if filereadable(expand('~/.vimrc.local'))
   source ~/.vimrc.local
 endif
+
 "}}}
 
 " vim: set fdm=marker ts=2 sw=2 sts=2 et:
