@@ -7,18 +7,40 @@
 " Be IMproved.
 set nocompatible
 
+" NeoBundle
+if has('vim_starting')
+  set runtimepath+=~/.vim/bundle/neobundle.vim/
+endif
+
+call neobundle#rc(expand('~/.vim/bundle/'))
+
+" Github repos
+NeoBundle 'koron/nyancat-vim'
+NeoBundle 'Shougo/neocomplcache'
+NeoBundle 'mattn/zencoding-vim'
+NeoBundle 'thinca/vim-quickrun'
+"NeoBundle 'gregsexton/VimCalc'
+NeoBundle 'nathanaelkane/vim-indent-guides'
+NeoBundle 'thinca/vim-ref'
+"NeoBundle 'mattn/calendar-vim'
+NeoBundle 'altercation/vim-colors-solarized'
+NeoBundle 'houtsnip/vim-emacscommandline'
+NeoBundle 'othree/eregex.vim'
+NeoBundle 'tpope/vim-surround'
+NeoBundle 'Shougo/unite.vim'
+NeoBundle 'h1mesuke/vim-alignta'
+"NeoBundle 'h1mesuke/unite-outline'
+NeoBundle 'vim-scripts/VOoM'
+"NeoBundle 'skammer/vim-css-color'
+NeoBundle 'scrooloose/nerdtree'
+
+filetype plugin indent on    " Required!
+
+" Installation check
+NeoBundleCheck
+
 " Enable syntax color
 syntax enable
-filetype plugin on
-
-" Enable indent
-filetype indent on
-
-" Using pathogen.vim
-if filereadable(expand('~/.vim/autoload/pathogen.vim'))
-  call pathogen#runtime_append_all_bundles()
-  "call pathogen#helptags()
-endif
 
 " plugin用設定ファイル読み込み
 if filereadable(expand('~/.vimrc.plugin'))
