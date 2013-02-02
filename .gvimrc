@@ -87,6 +87,13 @@ augroup END
 "}}}
 
 
+" GVimでだけ使うプラグイン読み込み {{{
+
+NeoBundleSource vim-css-color
+
+"}}}
+
+
 " ローカル設定(~/.gvimrc.local)があればそれを読み込む {{{
 if filereadable(expand('~/.gvimrc.local'))
   source ~/.gvimrc.local
