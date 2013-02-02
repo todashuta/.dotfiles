@@ -17,7 +17,7 @@ filetype indent on
 " Using pathogen.vim
 if filereadable(expand('~/.vim/autoload/pathogen.vim'))
   call pathogen#runtime_append_all_bundles()
-  call pathogen#helptags()
+  "call pathogen#helptags()
 endif
 
 " plugin用設定ファイル読み込み
