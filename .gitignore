@@ -8,3 +8,6 @@ tmux*.log
 
 .emacs.d/games/*
 .emacs.d/auto-save-list/*
+
+.vim/bundle/*
+!.vim/bundle/neobundle.vim
