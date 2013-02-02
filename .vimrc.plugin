@@ -19,7 +19,7 @@ let g:neocomplcache_enable_at_startup = 1
 " TABで補完できるようにする
 inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
 " 補完候補の一番先頭を選択状態にする
-let g:neocomplcache_enable_auto_select = 1
+"let g:neocomplcache_enable_auto_select = 1
 " ポップアップメニューで表示される候補の数 (初期値: 100)
 "let g:neocomplcache_max_list = 20
 " Undo
