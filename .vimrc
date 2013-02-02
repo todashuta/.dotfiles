@@ -15,24 +15,42 @@ endif
 call neobundle#rc(expand('~/.vim/bundle/'))
 
 " Github repos
-NeoBundle 'koron/nyancat-vim'
+NeoBundleLazy 'koron/nyancat-vim'
 NeoBundle 'Shougo/neocomplcache'
-NeoBundle 'mattn/zencoding-vim'
+NeoBundleLazy 'mattn/zencoding-vim', {
+      \ 'autoload' : {
+      \     'filetypes' : ['html','css']
+      \    }
+      \ }
 NeoBundle 'thinca/vim-quickrun'
-"NeoBundle 'gregsexton/VimCalc'
-NeoBundle 'nathanaelkane/vim-indent-guides'
-NeoBundle 'thinca/vim-ref'
-"NeoBundle 'mattn/calendar-vim'
+NeoBundleLazy 'gregsexton/VimCalc'
+NeoBundleLazy 'nathanaelkane/vim-indent-guides'
+NeoBundleLazy 'thinca/vim-ref'
+NeoBundleLazy 'mattn/calendar-vim'
 NeoBundle 'altercation/vim-colors-solarized'
 NeoBundle 'houtsnip/vim-emacscommandline'
 NeoBundle 'othree/eregex.vim'
 NeoBundle 'tpope/vim-surround'
 NeoBundle 'Shougo/unite.vim'
 NeoBundle 'h1mesuke/vim-alignta'
-"NeoBundle 'h1mesuke/unite-outline'
+NeoBundleLazy 'h1mesuke/unite-outline',
+      \ { 'depends' : 'Shougo/unite.vim' }
 NeoBundle 'vim-scripts/VOoM'
-"NeoBundle 'skammer/vim-css-color'
+NeoBundleLazy 'skammer/vim-css-color'
 NeoBundle 'scrooloose/nerdtree'
+NeoBundle 'troydm/easybuffer.vim'
+NeoBundle 'vim-scripts/DirDo.vim'
+NeoBundle 'Shougo/vimfiler',
+      \ { 'depends' : 'Shougo/unite.vim' }
+NeoBundle 'Shougo/vimproc', {
+      \ 'build' : {
+      \     'windows' : 'make -f make_mingw32.mak',
+      \     'cygwin' : 'make -f make_cygwin.mak',
+      \     'mac' : 'make -f make_mac.mak',
+      \     'unix' : 'make -f make_unix.mak',
+      \    },
+      \ }
+NeoBundle 'Shougo/vimshell'
 
 filetype plugin indent on    " Required!
 
