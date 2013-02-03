@@ -361,18 +361,18 @@ endif
 " Encoding commands: "{{{
 "
 " Open encoding commands
-command! Utf8 edit ++enc=utf-8
-command! Sjis edit ++enc=sjis
-command! Eucjp edit ++enc=euc-jp
-command! Iso2022jp edit ++enc=iso-2202-jp
-command! Cp932 edit ++enc=cp932
+command! Utf8      edit ++encoding=utf-8
+command! Sjis      edit ++encoding=sjis
+command! Eucjp     edit ++encoding=euc-jp
+command! Iso2022jp edit ++encoding=iso-2202-jp
+command! Cp932     edit ++encoding=cp932
 
 " Change encoding commands
-command! ChgEncUtf8 set fenc=utf-8
-command! ChgEncSjis set fenc=sjis
-command! ChgEncEucjp set fenc=euc-jp
-command! ChgEncIso2022jp set fenc=iso-2202-jp
-command! ChgEncCp932 set fenc=cp932
+command! ChgEncUtf8      set fileencoding=utf-8
+command! ChgEncSjis      set fileencoding=sjis
+command! ChgEncEucjp     set fileencoding=euc-jp
+command! ChgEncIso2022jp set fileencoding=iso-2202-jp
+command! ChgEncCp932     set fileencoding=cp932
 
 "}}}
 
