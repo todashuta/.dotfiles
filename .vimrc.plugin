@@ -18,6 +18,8 @@ let g:indent_guides_guide_size = 1
 let g:neocomplcache_enable_at_startup = 1
 " TABで補完できるようにする
 inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
+" Shift-Tabで逆順に回る
+inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
 " 補完候補の一番先頭を選択状態にする
 "let g:neocomplcache_enable_auto_select = 1
 " ポップアップメニューで表示される候補の数 (初期値: 100)
@@ -52,6 +54,15 @@ noremap <C-U><C-A> :UniteWithBufferDir -buffer-name=files buffer file_mru bookma
 " C-U 二連打で終了する
 au FileType unite nnoremap <silent> <buffer> <C-U><C-U> :q<CR>
 au FileType unite inoremap <silent> <buffer> <C-U><C-U> <Esc>:q<CR>
+
+"}}}
+
+" vim-smartchr {{{
+"
+"inoremap <expr> = smartchr#one_of(' = ', ' == ', ' === ', '=')
+inoremap <expr> , smartchr#one_of(', ', ',')
+inoremap <expr> : smartchr#one_of(': ', ' : ', ':')
+inoremap <buffer> <expr> . smartchr#loop('.',  ' . ',  '..', '...')
 
 "}}}
 

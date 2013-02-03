@@ -7,6 +7,13 @@
 " Be IMproved.
 set nocompatible
 
+let s:is_windows = has('win16') || has('win32') || has('win64')
+let s:is_cygwin = has('win32unix')
+let s:is_mac = !s:is_windows && !s:is_cygwin
+      \ && (has('mac') || has('macunix') || has('gui_macvim') ||
+      \   (!executable('xdg-open') &&
+      \     system('uname') =~? '^darwin'))
+
 " NeoBundle
 if has('vim_starting')
   set runtimepath+=~/.vim/bundle/neobundle.vim/
@@ -28,7 +35,7 @@ NeoBundleLazy 'nathanaelkane/vim-indent-guides'
 NeoBundleLazy 'thinca/vim-ref'
 NeoBundleLazy 'mattn/calendar-vim'
 NeoBundle 'altercation/vim-colors-solarized'
-NeoBundle 'houtsnip/vim-emacscommandline'
+"NeoBundle 'houtsnip/vim-emacscommandline'
 NeoBundle 'othree/eregex.vim'
 NeoBundle 'tpope/vim-surround'
 NeoBundle 'Shougo/unite.vim'
@@ -50,7 +57,9 @@ NeoBundle 'Shougo/vimproc', {
       \     'unix' : 'make -f make_unix.mak',
       \    },
       \ }
-NeoBundle 'Shougo/vimshell'
+NeoBundle 'Shougo/vimshell',
+      \ { 'depends' : 'Shougo/vimproc' }
+NeoBundle 'kana/vim-smartchr'
 
 filetype plugin indent on    " Required!
 
@@ -243,6 +252,27 @@ nnoremap <silent> <S-Down>  :wincmd +<CR>
 " Yで行末までヤンク
 nnoremap Y y$
 
+" Command-Line mode keymappings (Emacs like)
+" <C-a>: move to head.
+cnoremap <C-a>    <Home>
+" <C-b>: previous char.
+cnoremap <C-b>    <Left>
+" <C-d>: delete char.
+cnoremap <C-d>    <Del>
+" <C-e>: move to end.
+cnoremap <C-e>    <End>
+" <C-f>: next char.
+cnoremap <C-f>    <Right>
+" <C-n>: next history.
+cnoremap <C-n>    <Down>
+" <C-p>: previous history.
+cnoremap <C-p>    <Up>
+" <C-k>: delete to end.
+cnoremap <C-k> <C-\>e getcmdpos() == 1 ?
+      \ '' :  getcmdline()[: getcmdpos()-2]<CR>
+" <C-y>:  paste.
+cnoremap <C-y>    <C-r>*
+
 "}}}
 
 " Visual: "{{{
@@ -279,9 +309,13 @@ endif
 " タブ文字、行末など不可視文字を表示する
 set list
 " listで表示される文字のフォーマット
-"set listchars=tab:▸\ ,trail:›,eol:↲,precedes:«,extends:»
-"set listchars=tab:▸\ ,trail:›,eol:⏎,precedes:«,extends:»
-set listchars=tab:▸\ ,trail:›,eol:¬,precedes:«,extends:»
+if s:is_windows
+  set listchars=tab:>-,trail:-,eol:$,extends:>,precedes:<
+else
+  set listchars=tab:▸\ ,trail:›,eol:¬,precedes:«,extends:»
+  "set listchars=tab:▸\ ,trail:›,eol:↲,precedes:«,extends:»
+  "set listchars=tab:▸\ ,trail:›,eol:⏎,precedes:«,extends:»
+endif
 
 " カーソルのある行をハイライト(フォーカスが外れたらハイライトオフ)
 autocmd WinEnter *  setlocal cursorline
