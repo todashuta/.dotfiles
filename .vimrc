@@ -1,6 +1,8 @@
 " .vimrc
 " https://github.com/todashuta/profiles
 
+scriptencoding utf-8
+
 " Initialize: "{{{
 "
 
@@ -273,12 +275,17 @@ cnoremap <C-k> <C-\>e getcmdpos() == 1 ?
 " <C-y>:  paste.
 cnoremap <C-y>    <C-r>*
 
+" don't move on *
+nnoremap * *<C-o>
+
 "}}}
 
 " Visual: "{{{
 
 " 256色対応
 set t_Co=256
+" カラースキーム
+colorscheme solarized
 " コマンドラインの高さ
 set cmdheight=1
 " 入力中のコマンドを表示
@@ -332,23 +339,22 @@ set laststatus=2
 " ステータスラインの表示 ([フルパス]  [ファイルタイプ:エンコード:改行コード] [カーソル位置/総行数] [%行位置])
 set statusline=%<%F%m%r%h%w%=\ \ [%Y:%{&fileencoding}:%{&ff}][%3l/%L,%3v]%3p%%
 
-" 挿入モードとノーマルモードでステータスラインのカラーを変更
-"au InsertEnter * hi StatusLine guifg=#ccdc90 guibg=#2E4340 gui=none ctermfg=White ctermbg=Black cterm=none
-"au InsertLeave * hi StatusLine guifg=#2E4340 guibg=#ccdc90 gui=none ctermfg=Black ctermbg=White cterm=none
-
 "}}}
 
-" 全角スペースのハイライト(正規表現でマッチさせて背景色を変えている): "{{{
+" 全角スペースのハイライト(正規表現でマッチさせて背景色を変える): "{{{
 "
-
-scriptencoding utf-8
-augroup highlightZenkakuSpace
-  autocmd!
-  autocmd Colorscheme * highlight ZenkakuSpace term=underline ctermbg=DarkGreen guibg=DarkGreen
-  "autocmd VimEnter,WinEnter * match ZenkakuSpace /\t\|\s\+$\|　/
-  autocmd VimEnter,WinEnter * match ZenkakuSpace /　/
-augroup END
-colorscheme default
+if has('syntax')
+  syntax enable
+  function! ActivateInvisibleIndicator()
+    highlight ZenkakuSpace term=underline ctermbg=64 guibg=#719e07
+    match ZenkakuSpace /　/
+  endfunction
+  augroup InvisibleIndicator
+    autocmd!
+    autocmd BufEnter,VimEnter,WinEnter * call ActivateInvisibleIndicator()
+    autocmd ColorScheme * call ActivateInvisibleIndicator()
+  augroup END
+endif
 
 "}}}
 
@@ -362,11 +368,11 @@ command! Iso2022jp edit ++enc=iso-2202-jp
 command! Cp932 edit ++enc=cp932
 
 " Change encoding commands
-command! ChgencUtf8 set fenc=utf-8
-command! ChgencSjis set fenc=sjis
-command! ChgencEucjp set fenc=euc-jp
-command! ChgencIso2022jp set fenc=iso-2202-jp
-command! ChgencCp932 set fenc=cp932
+command! ChgEncUtf8 set fenc=utf-8
+command! ChgEncSjis set fenc=sjis
+command! ChgEncEucjp set fenc=euc-jp
+command! ChgEncIso2022jp set fenc=iso-2202-jp
+command! ChgEncCp932 set fenc=cp932
 
 "}}}
 
@@ -392,6 +398,65 @@ let g:netrw_alto = 1
 
 " CVSと.で始まるファイルは表示しない
 "let g:netrw_list_hide = 'CVS,\(^\|\s\s\)\zs\.\S\+'
+
+"}}}
+
+" 挿入モード時、ステータスラインの色を変更 {{{
+" https://github.com/fuenor/vim-statusline/blob/master/insert-statusline.vim
+"
+" 挿入モード時の色指定 (SOLARIZEDに合わせてる)
+if !exists('g:hi_insert')
+  let g:hi_insert = '
+      \ highlight StatusLine
+        \ guifg=#073642 guibg=#b58900 gui=none
+        \ ctermfg=235 ctermbg=136 cterm=none
+        \ '
+endif
+
+" Linux等でESC後にすぐ反映されない場合、次行以降のコメントを解除してください
+ if has('unix') && !has('gui_running')
+   " ESC後にすぐ反映されない場合
+   inoremap <silent> <ESC> <ESC>
+   inoremap <silent> <C-[> <ESC>
+ endif
+
+if has('syntax')
+  augroup InsertHook
+    autocmd!
+    autocmd InsertEnter * call s:StatusLine('Enter')
+    autocmd InsertLeave * call s:StatusLine('Leave')
+  augroup END
+endif
+
+let s:slhlcmd = ''
+function! s:StatusLine(mode)
+  if a:mode == 'Enter'
+    silent! let s:slhlcmd = 'highlight ' . s:GetHighlight('StatusLine')
+    silent exec g:hi_insert
+  else
+    highlight clear StatusLine
+    silent exec s:slhlcmd
+  endif
+endfunction
+
+function! s:GetHighlight(hi)
+  redir => hl
+  exec 'highlight '.a:hi
+  redir END
+  let hl = substitute(hl, '[\r\n]', '', 'g')
+  let hl = substitute(hl, 'xxx', '', '')
+  return hl
+endfunction
+
+" }}}
+
+" 挿入モードに入ったとき一時的に検索のハイライトをオフにする {{{
+
+augroup search_matches
+  au!
+  au InsertEnter * :setlocal nohlsearch
+  au InsertLeave * :setlocal hlsearch
+augroup END
 
 "}}}
 
