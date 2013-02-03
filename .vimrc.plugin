@@ -66,6 +66,15 @@ inoremap <buffer> <expr> . smartchr#loop('.',  ' . ',  '..', '...')
 
 "}}}
 
+" zencoding-vim {{{
+"
+let g:user_zen_leader_key = '<C-y>'
+let g:user_zen_settings = {
+      \ 'lang' : 'ja',
+      \ }
+
+"}}}
+
 " eregex.vim {{{
 "
 nnoremap / :M/
@@ -84,5 +93,5 @@ noremap <C-N><C-N> :NERDTreeToggle<CR>
 
 "}}}
 
-" vim:foldmethod=marker
+" vim: set fdm=marker ts=2 sw=2 sts=2 et:
 " End of .vimrc.plugin
