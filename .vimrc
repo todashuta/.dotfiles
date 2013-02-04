@@ -216,7 +216,7 @@ nmap g# g#zz
 augroup AutoCloseTag
   autocmd!
   autocmd FileType xml,html inoremap <buffer> </ </<C-x><C-o>
-augro END
+augroup END
 "}}}
 
 " ブラウザのようにspaceでページ送り、Shift-spaceで逆向き
@@ -457,6 +457,17 @@ augroup search_matches
   au InsertEnter * :setlocal nohlsearch
   au InsertLeave * :setlocal hlsearch
 augroup END
+
+"}}}
+
+" Auto diffupdate on diff mode {{{
+"
+if &diff
+  augroup auto_diffupdate
+    au!
+    au InsertLeave * :diffupdate
+  augroup END
+endif
 
 "}}}
 
