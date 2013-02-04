@@ -216,9 +216,6 @@ nmap g# g#zz
 "inoremap "" ""<LEFT>
 "inoremap '' ''<LEFT>
 
-" カンマのあとに自動でスペースを追加
-"inoremap , ,<Space>
-
 " 閉じタグを自動挿入 {{{
 augroup AutoCloseTag
   autocmd!
@@ -227,8 +224,8 @@ augroup END
 "}}}
 
 " ブラウザのようにspaceでページ送り、Shift-spaceで逆向き
-noremap <Space> <C-f>
-noremap <S-Space> <C-b>
+"noremap <Space> <C-f>
+"noremap <S-Space> <C-b>
 
 " Control-Spaceで次のバッファ
 noremap <C-Space> :bn<CR>
@@ -304,6 +301,8 @@ set visualbell
 "set ruler
 " 行番号を表示する
 set number
+" 相対的な行番号の表示
+"set relativenumber
 
 " 閉じ括弧が入力されたとき、対応する括弧を表示する
 set showmatch
@@ -393,16 +392,13 @@ augroup END
 "}}}
 
 " netrw.vim (標準のファイラ) 設定: "{{{
-
+"
 " ディレクトリ閲覧をツリー形式にする
 "let g:netrw_liststyle = 3
-
 " 'v'でファイルを開くときに右側に開く
 let g:netrw_altv = 1
-
 " 'o'でファイルを開くときに下側に開く
 let g:netrw_alto = 1
-
 " CVSと.で始まるファイルは表示しない
 "let g:netrw_list_hide = 'CVS,\(^\|\s\s\)\zs\.\S\+'
 
