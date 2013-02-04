@@ -24,32 +24,11 @@ endif
 call neobundle#rc(expand('~/.vim/bundle/'))
 
 " Github repos
-NeoBundleLazy 'koron/nyancat-vim'
 NeoBundle 'Shougo/neocomplcache'
-NeoBundleLazy 'mattn/zencoding-vim', {
-      \ 'autoload' : {
-      \     'filetypes' : ['html','css']
-      \    }
-      \ }
-NeoBundle 'thinca/vim-quickrun'
-NeoBundleLazy 'gregsexton/VimCalc'
-NeoBundleLazy 'nathanaelkane/vim-indent-guides'
-NeoBundleLazy 'thinca/vim-ref'
-NeoBundleLazy 'mattn/calendar-vim'
-NeoBundle 'altercation/vim-colors-solarized'
-"NeoBundle 'houtsnip/vim-emacscommandline'
-NeoBundle 'othree/eregex.vim'
-NeoBundle 'tpope/vim-surround'
 NeoBundle 'Shougo/unite.vim'
-NeoBundle 'h1mesuke/vim-alignta'
-NeoBundleLazy 'h1mesuke/unite-outline',
-      \ { 'depends' : 'Shougo/unite.vim' }
-NeoBundle 'vim-scripts/VOoM'
-NeoBundleLazy 'skammer/vim-css-color'
-NeoBundle 'scrooloose/nerdtree'
-NeoBundle 'troydm/easybuffer.vim'
-NeoBundle 'vim-scripts/DirDo.vim'
 NeoBundle 'Shougo/vimfiler',
+      \ { 'depends' : 'Shougo/unite.vim' }
+NeoBundleLazy 'h1mesuke/unite-outline',
       \ { 'depends' : 'Shougo/unite.vim' }
 NeoBundle 'Shougo/vimproc', {
       \ 'build' : {
@@ -61,7 +40,30 @@ NeoBundle 'Shougo/vimproc', {
       \ }
 NeoBundle 'Shougo/vimshell',
       \ { 'depends' : 'Shougo/vimproc' }
+NeoBundle 'altercation/vim-colors-solarized'
+NeoBundle 'othree/eregex.vim'
+NeoBundle 'vim-scripts/VOoM'
+NeoBundle 'scrooloose/nerdtree'
+NeoBundle 'thinca/vim-quickrun'
+NeoBundle 'h1mesuke/vim-alignta'
+NeoBundle 'tpope/vim-surround'
+NeoBundle 'troydm/easybuffer.vim'
+NeoBundle 'vim-scripts/DirDo.vim'
 NeoBundle 'kana/vim-smartchr'
+NeoBundle 'kana/vim-submode'
+NeoBundle 'glidenote/memolist.vim'
+"NeoBundle 'houtsnip/vim-emacscommandline'
+NeoBundleLazy 'mattn/zencoding-vim', {
+      \ 'autoload' : {
+      \     'filetypes' : ['html','css']
+      \    }
+      \ }
+NeoBundleLazy 'thinca/vim-ref'
+NeoBundleLazy 'gregsexton/VimCalc'
+NeoBundleLazy 'mattn/calendar-vim'
+NeoBundleLazy 'nathanaelkane/vim-indent-guides'
+NeoBundleLazy 'skammer/vim-css-color'
+NeoBundleLazy 'koron/nyancat-vim'
 
 filetype plugin indent on    " Required!
 
