@@ -38,8 +38,6 @@ NeoBundle 'Shougo/vimproc', {
       \     'unix' : 'make -f make_unix.mak',
       \    },
       \ }
-NeoBundle 'Shougo/vimshell',
-      \ { 'depends' : 'Shougo/vimproc' }
 NeoBundle 'altercation/vim-colors-solarized'
 NeoBundle 'othree/eregex.vim'
 NeoBundle 'vim-scripts/VOoM'
@@ -52,11 +50,18 @@ NeoBundle 'vim-scripts/DirDo.vim'
 NeoBundle 'kana/vim-smartchr'
 NeoBundle 'kana/vim-submode'
 NeoBundle 'glidenote/memolist.vim'
+NeoBundle 'hallison/vim-markdown'
 "NeoBundle 'houtsnip/vim-emacscommandline'
+NeoBundleLazy 'Shougo/vimshell', {
+      \ 'depends' : 'Shougo/vimproc',
+      \ 'autoload' : {
+      \     'commands' : ['VimShell']
+      \    },
+      \ }
 NeoBundleLazy 'mattn/zencoding-vim', {
       \ 'autoload' : {
       \     'filetypes' : ['html','css']
-      \    }
+      \    },
       \ }
 NeoBundleLazy 'thinca/vim-ref'
 NeoBundleLazy 'gregsexton/VimCalc'
