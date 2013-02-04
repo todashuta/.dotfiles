@@ -408,8 +408,8 @@ let g:netrw_alto = 1
 if !exists('g:hi_insert')
   let g:hi_insert = '
       \ highlight StatusLine
-        \ guifg=#073642  guibg=#b58900  gui=none
-        \ ctermfg=235    ctermbg=136    cterm=none
+        \ guifg=#073642 guibg=#b58900 gui=none
+        \ ctermfg=235   ctermbg=136   cterm=none
         \ '
 endif
 
