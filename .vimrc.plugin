@@ -63,12 +63,17 @@ au FileType unite inoremap <silent> <buffer> <C-U><C-U> <Esc>:q<CR>
 inoremap <expr> , smartchr#one_of(', ', ',')
 inoremap <expr> : smartchr#one_of(': ', ' : ', ':')
 inoremap <buffer> <expr> . smartchr#loop('.',  ' . ',  '..', '...')
+augroup MyAutoCommands
+  autocmd!
+  autocmd FileType css inoremap <expr> : smartchr#one_of(':')
+augroup END
 
 "}}}
 
 " zencoding-vim {{{
 "
-let g:user_zen_leader_key = '<C-y>'
+"let g:user_zen_leader_key = '<C-y>'
+let g:user_zen_leader_key = '<C-e>'
 let g:user_zen_settings = {
       \ 'lang' : 'ja',
       \ }
@@ -89,7 +94,8 @@ nnoremap ,? ?
 " %コマンドによるジャンプ機能を拡張する
 runtime macros/matchit.vim
 " NERDTreeToggle
-noremap <C-N><C-N> :NERDTreeToggle<CR>
+"noremap <C-N><C-N> :NERDTreeToggle<CR>
+noremap <Space>f  :<C-u>NERDTreeToggle<CR>
 
 "}}}
 

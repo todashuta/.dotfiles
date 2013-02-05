@@ -18,6 +18,16 @@ let s:is_mac = !s:is_windows && !s:is_cygwin
 let s:is_linux = !s:is_windows && !s:is_cygwin && !s:is_mac &&
       \   system('uname') =~? 'linux'
 
+" Reset all autocmd defined in this file.
+augroup MyAutoCommands
+  autocmd!
+augroup END
+
+if s:is_windows
+  " Windowsでディレクトリパスの区切り文字に / を使えるようにする
+  set shellslash
+endif
+
 " NeoBundle
 if has('vim_starting')
   set runtimepath+=~/.vim/bundle/neobundle.vim/
@@ -91,8 +101,6 @@ endif
 "
 " エンコードをUTF-8にする
 set encoding=utf-8
-" Windowsでディレクトリパスの区切り文字に / を使えるようにする
-set shellslash
 " カーソルの上下に表示する行数(大きな数字を指定するとカーソルが真ん中になる)
 set scrolloff=2
 
@@ -104,6 +112,7 @@ set backspace=indent,eol,start
 " カーソルを行頭、行末で止まらないようにする
 set whichwrap=b,s,h,l,<,>,[,]
 " 矩形選択で行末を超えてブロックを選択可能にする
+set virtualedit&
 set virtualedit+=block
 
 " 横分割したら新規ウィンドウは下にする
@@ -112,6 +121,7 @@ set splitbelow
 set splitright
 
 " OSのクリップボードを使用
+set clipboard&
 set clipboard+=unnamed
 " ヤンクした文字はシステムのクリップボードに入れる
 set clipboard=unnamed
@@ -121,6 +131,7 @@ set modeline
 
 " ターミナルでマウスを有効化
 set mouse=a
+set guioptions&
 set guioptions+=a
 set ttymouse=xterm2
 
@@ -179,6 +190,7 @@ set wildmenu
 " 共通部まで補完,一覧,順番
 set wildmode=longest,list,full
 " wildmenu補完で除外するパターン
+set wildignore&
 set wildignore+=.DS_Store
 "set wildignore+=*~,*.swp,*.tmp
 "set wildignore+=*.bmp,*.gif,*.ico,*.jpg,*.png
@@ -219,7 +231,7 @@ nmap g# g#zz
 "inoremap '' ''<LEFT>
 
 " 閉じタグを自動挿入 {{{
-augroup AutoCloseTag
+augroup MyAutoCommands
   autocmd!
   autocmd FileType xml,html inoremap <buffer> </ </<C-x><C-o>
 augroup END
@@ -284,6 +296,29 @@ cnoremap <C-y>    <C-r>*
 " don't move on *
 nnoremap * *<C-o>
 
+" Quick edit and reload .vimrc
+nnoremap <silent> <Space>.  :<C-u>edit $MYVIMRC<CR>
+nnoremap <silent> <Space>s. :<C-u>source $MYVIMRC<CR>
+
+" Toggle wrap
+nnoremap <silent> <Space>w
+      \ :<C-u>setlocal wrap!
+      \ \|    setlocal wrap?<CR>
+
+" Toggle number
+nnoremap <silent> <Space>n
+      \ :<C-u>setlocal number!
+      \ \|    setlocal number?<CR>
+
+" レジスタの内容を確認
+nnoremap <Space>r  :<C-u>registers<CR>
+
+" マークの内容を確認
+nnoremap <Space>m  :<C-u>marks<CR>
+
+" :helpを3倍の速度で引く
+nnoremap <C-h>  :<C-u>help<Space>
+
 "}}}
 
 " Visual: "{{{
@@ -309,6 +344,7 @@ set number
 " 閉じ括弧が入力されたとき、対応する括弧を表示する
 set showmatch
 " <>のカッコをマッチ対象にする
+set matchpairs&
 set matchpairs+=<:>
 " showmatchの瞬間強調時間
 set matchtime=3
@@ -333,7 +369,7 @@ else
 endif
 
 " カーソルのある行をハイライト(フォーカスが外れたらハイライトオフ)
-augroup LocalCursorline
+augroup MyAutoCommands
   autocmd!
   autocmd WinEnter *  setlocal cursorline
   autocmd WinLeave *  setlocal nocursorline
@@ -371,7 +407,7 @@ endif
 
 " Encoding commands: "{{{
 "
-" Open encoding commands
+" Reopen as each encodings
 command! Utf8      edit ++encoding=utf-8
 command! Sjis      edit ++encoding=sjis
 command! Eucjp     edit ++encoding=euc-jp
@@ -389,7 +425,7 @@ command! ChgEncCp932     set fileencoding=cp932
 
 " 開いているバッファのディレクトリに自動で移動: "{{{
 
-augroup AutoBufferlcd
+augroup MyAutoCommands
   autocmd!
   autocmd BufEnter * lcd %:p:h
 augroup END
@@ -460,7 +496,7 @@ endfunction
 
 " 挿入モードに入ったとき一時的に検索のハイライトをオフにする {{{
 
-augroup search_matches
+augroup MyAutoCommands
   autocmd!
   autocmd InsertEnter * :setlocal nohlsearch
   autocmd InsertLeave * :setlocal hlsearch
@@ -471,7 +507,7 @@ augroup END
 " Auto diffupdate on diff mode {{{
 "
 if &diff
-  augroup auto_diffupdate
+  augroup MyAutoCommands
     autocmd!
     autocmd InsertLeave * :diffupdate
   augroup END
@@ -482,7 +518,7 @@ endif
 " Others: "{{{
 "
 " I don't use MODULA2.
-augroup use_markdown
+augroup MyAutoCommands
   autocmd!
   autocmd BufNewFile,BufRead *.md set filetype=markdown
 augroup END
@@ -496,6 +532,14 @@ if filereadable(expand('~/.vimrc.local'))
 endif
 
 "}}}
+
+" Finalize {{{
+
+if !exists('s:loaded_vimrc')
+  let s:loaded_vimrc = 1
+endif
+
+" }}}
 
 " vim: set fdm=marker ts=2 sw=2 sts=2 et:
 " end of .vimrc
