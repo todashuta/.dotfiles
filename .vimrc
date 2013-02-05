@@ -230,19 +230,16 @@ nmap g# g#zz
 "inoremap "" ""<LEFT>
 "inoremap '' ''<LEFT>
 
-" 閉じタグを自動挿入 {{{
-augroup MyAutoCommands
+" html,xmlの閉じタグを自動挿入 {{{
+augroup AutoCloseTag
   autocmd!
   autocmd FileType xml,html inoremap <buffer> </ </<C-x><C-o>
 augroup END
 "}}}
 
-" ブラウザのようにspaceでページ送り、Shift-spaceで逆向き
-"noremap <Space> <C-f>
-"noremap <S-Space> <C-b>
-
-" Control-Spaceで次のバッファ
-noremap <C-Space> :bn<CR>
+" ブラウザのようにSpaceでページ送り、Shift-Spaceで逆向き
+"noremap <Space> <PageDown>
+"noremap <S-Space> <PageUp>
 
 " タブ切り替え
 nnoremap <C-Tab>   gt
@@ -262,6 +259,10 @@ noremap : ;
 " ビジュアルモードでインデント変更後も選択を継続する
 vnoremap < <gv
 vnoremap > >gv
+
+" ノーマルモードのインデントの操作をビジュアルモードと同様にする
+nnoremap < <<
+nnoremap > >>
 
 " Shiftキー + 矢印キーで分割ウインドウのサイズを調節
 nnoremap <silent> <S-Left>  :wincmd <<CR>
@@ -334,7 +335,8 @@ colorscheme solarized
 set cmdheight=1
 " 入力中のコマンドを表示
 set showcmd
-" ビジュアルベル使用
+" ベル無効化
+set t_vb=
 set visualbell
 
 " ルーラー表示(ステータスライン変えてるため無意味)
@@ -373,9 +375,8 @@ endif
 
 " カーソルのある行をハイライト(フォーカスが外れたらハイライトオフ)
 augroup MyAutoCommands
-  autocmd!
-  autocmd WinEnter *  setlocal cursorline
-  autocmd WinLeave *  setlocal nocursorline
+  autocmd WinEnter * :setlocal cursorline
+  autocmd WinLeave * :setlocal nocursorline
 augroup END
 set cursorline
 
@@ -399,8 +400,7 @@ if has('syntax')
     highlight ZenkakuSpace term=underline ctermbg=64 guibg=#719e07
     match ZenkakuSpace /　/
   endfunction
-  augroup InvisibleIndicator
-    autocmd!
+  augroup MyAutoCommands
     autocmd BufEnter,VimEnter,WinEnter * call ActivateInvisibleIndicator()
     autocmd ColorScheme * call ActivateInvisibleIndicator()
   augroup END
@@ -428,7 +428,7 @@ command! ChgEncCp932     set fileencoding=cp932
 
 " 開いているバッファのディレクトリに自動で移動: "{{{
 
-augroup MyAutoCommands
+augroup grlcd
   autocmd!
   autocmd BufEnter * lcd %:p:h
 augroup END
@@ -500,7 +500,6 @@ endfunction
 " 挿入モードに入ったとき一時的に検索のハイライトをオフにする {{{
 
 augroup MyAutoCommands
-  autocmd!
   autocmd InsertEnter * :setlocal nohlsearch
   autocmd InsertLeave * :setlocal hlsearch
 augroup END
@@ -510,7 +509,7 @@ augroup END
 " Auto diffupdate on diff mode {{{
 "
 if &diff
-  augroup MyAutoCommands
+  augroup AutoDiffUpdate
     autocmd!
     autocmd InsertLeave * :diffupdate
   augroup END
@@ -522,7 +521,6 @@ endif
 "
 " I don't use MODULA2.
 augroup MyAutoCommands
-  autocmd!
   autocmd BufNewFile,BufRead *.md set filetype=markdown
 augroup END
 
