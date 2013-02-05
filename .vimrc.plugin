@@ -38,6 +38,7 @@ inoremap <expr><BS> neocomplcache#smart_close_popup()."\<C-h>"
 "let g:unite_enable_start_insert = 1
 " バッファ一覧
 noremap <C-U><C-B> :Unite buffer<CR>
+nnoremap <Space>b :<C-u>Unite buffer<CR>
 " ファイル一覧
 noremap <C-U><C-F> :UniteWithBufferDir -buffer-name=files file<CR>
 " 最近使ったファイルの一覧
