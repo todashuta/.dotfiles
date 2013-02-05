@@ -19,7 +19,7 @@ let s:is_linux = !s:is_windows && !s:is_cygwin && !s:is_mac &&
       \   system('uname') =~? 'linux'
 
 " Reset all autocmd defined in this file.
-augroup MyAutoCommands
+augroup MyAutoCmd
   autocmd!
 augroup END
 
@@ -230,12 +230,8 @@ nmap g# g#zz
 "inoremap "" ""<LEFT>
 "inoremap '' ''<LEFT>
 
-" html,xmlの閉じタグを自動挿入 {{{
-augroup AutoCloseTag
-  autocmd!
-  autocmd FileType xml,html inoremap <buffer> </ </<C-x><C-o>
-augroup END
-"}}}
+" html,xmlの閉じタグを自動挿入
+autocmd MyAutoCmd FileType xml,html inoremap <buffer> </ </<C-x><C-o>
 
 " ブラウザのようにSpaceでページ送り、Shift-Spaceで逆向き
 "noremap <Space> <PageDown>
@@ -374,11 +370,8 @@ else
 endif
 
 " カーソルのある行をハイライト(フォーカスが外れたらハイライトオフ)
-augroup CurrentBufferCursorline
-  autocmd!
-  autocmd WinEnter * :setlocal cursorline
-  autocmd WinLeave * :setlocal nocursorline
-augroup END
+autocmd MyAutoCmd WinEnter * setlocal cursorline
+autocmd MyAutoCmd WinLeave * setlocal nocursorline
 set cursorline
 
 "}}}
@@ -397,15 +390,12 @@ set statusline=%<%F%m%r%h%w%=\ \ [%Y:%{&fileencoding}:%{&ff}][%3l/%L,%3v]%3p%%
 "
 if has('syntax')
   syntax enable
-  function! ActivateInvisibleIndicator()
+  function! HighlightZenkakuSpace()
     highlight ZenkakuSpace term=underline ctermbg=64 guibg=#719e07
     match ZenkakuSpace /　/
   endfunction
-  augroup InvisibleIndicator
-    autocmd!
-    autocmd BufEnter,VimEnter,WinEnter * call ActivateInvisibleIndicator()
-    autocmd ColorScheme * call ActivateInvisibleIndicator()
-  augroup END
+    autocmd MyAutoCmd BufEnter,VimEnter,WinEnter * call HighlightZenkakuSpace()
+    autocmd MyAutoCmd ColorScheme * call HighlightZenkakuSpace()
 endif
 
 "}}}
@@ -430,10 +420,7 @@ command! ChgEncCp932     set fileencoding=cp932
 
 " 開いているバッファのディレクトリに自動で移動: "{{{
 
-augroup grlcd
-  autocmd!
-  autocmd BufEnter * lcd %:p:h
-augroup END
+autocmd MyAutoCmd BufEnter * lcd %:p:h
 
 "}}}
 
@@ -501,21 +488,15 @@ endfunction
 
 " 挿入モードに入ったとき一時的に検索のハイライトをオフにする {{{
 
-augroup HlsearchInsertOff
-  autocmd!
-  autocmd InsertEnter * :setlocal nohlsearch
-  autocmd InsertLeave * :setlocal hlsearch
-augroup END
+autocmd MyAutoCmd InsertEnter * setlocal nohlsearch
+autocmd MyAutoCmd InsertLeave * setlocal hlsearch
 
 "}}}
 
 " Auto diffupdate on diff mode {{{
 "
 if &diff
-  augroup AutoDiffUpdate
-    autocmd!
-    autocmd InsertLeave * :diffupdate
-  augroup END
+  autocmd MyAutoCmd InsertLeave * diffupdate
 endif
 
 "}}}
@@ -523,10 +504,7 @@ endif
 " Others: "{{{
 "
 " I don't use MODULA2.
-augroup UseMarkdown
-  autocmd!
-  autocmd BufNewFile,BufRead *.md set filetype=markdown
-augroup END
+autocmd MyAutoCmd BufNewFile,BufRead *.md set filetype=markdown
 
 "}}}
 
