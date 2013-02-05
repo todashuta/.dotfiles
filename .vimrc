@@ -319,6 +319,9 @@ nnoremap <Space>m  :<C-u>marks<CR>
 " :helpを3倍の速度で引く
 nnoremap <C-h>  :<C-u>help<Space>
 
+" :close
+nnoremap <Space>c  :<C-u>close<CR>
+
 "}}}
 
 " Visual: "{{{
