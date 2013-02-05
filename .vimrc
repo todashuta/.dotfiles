@@ -374,7 +374,8 @@ else
 endif
 
 " カーソルのある行をハイライト(フォーカスが外れたらハイライトオフ)
-augroup MyAutoCommands
+augroup CurrentBufferCursorline
+  autocmd!
   autocmd WinEnter * :setlocal cursorline
   autocmd WinLeave * :setlocal nocursorline
 augroup END
@@ -400,7 +401,8 @@ if has('syntax')
     highlight ZenkakuSpace term=underline ctermbg=64 guibg=#719e07
     match ZenkakuSpace /　/
   endfunction
-  augroup MyAutoCommands
+  augroup InvisibleIndicator
+    autocmd!
     autocmd BufEnter,VimEnter,WinEnter * call ActivateInvisibleIndicator()
     autocmd ColorScheme * call ActivateInvisibleIndicator()
   augroup END
@@ -499,7 +501,8 @@ endfunction
 
 " 挿入モードに入ったとき一時的に検索のハイライトをオフにする {{{
 
-augroup MyAutoCommands
+augroup HlsearchInsertOff
+  autocmd!
   autocmd InsertEnter * :setlocal nohlsearch
   autocmd InsertLeave * :setlocal hlsearch
 augroup END
@@ -520,7 +523,8 @@ endif
 " Others: "{{{
 "
 " I don't use MODULA2.
-augroup MyAutoCommands
+augroup UseMarkdown
+  autocmd!
   autocmd BufNewFile,BufRead *.md set filetype=markdown
 augroup END
 
