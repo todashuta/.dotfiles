@@ -15,6 +15,8 @@ let s:is_mac = !s:is_windows && !s:is_cygwin
       \ && (has('mac') || has('macunix') || has('gui_macvim') ||
       \   (!executable('xdg-open') &&
       \     system('uname') =~? '^darwin'))
+let s:is_linux = !s:is_windows && !s:is_cygwin && !s:is_mac &&
+      \   system('uname') =~? 'linux'
 
 " NeoBundle
 if has('vim_starting')
@@ -331,8 +333,11 @@ else
 endif
 
 " カーソルのある行をハイライト(フォーカスが外れたらハイライトオフ)
-autocmd WinEnter *  setlocal cursorline
-autocmd WinLeave *  setlocal nocursorline
+augroup LocalCursorline
+  autocmd!
+  autocmd WinEnter *  setlocal cursorline
+  autocmd WinLeave *  setlocal nocursorline
+augroup END
 set cursorline
 
 "}}}
@@ -384,7 +389,7 @@ command! ChgEncCp932     set fileencoding=cp932
 
 " 開いているバッファのディレクトリに自動で移動: "{{{
 
-augroup grlcd
+augroup AutoBufferlcd
   autocmd!
   autocmd BufEnter * lcd %:p:h
 augroup END
@@ -456,9 +461,9 @@ endfunction
 " 挿入モードに入ったとき一時的に検索のハイライトをオフにする {{{
 
 augroup search_matches
-  au!
-  au InsertEnter * :setlocal nohlsearch
-  au InsertLeave * :setlocal hlsearch
+  autocmd!
+  autocmd InsertEnter * :setlocal nohlsearch
+  autocmd InsertLeave * :setlocal hlsearch
 augroup END
 
 "}}}
@@ -467,8 +472,8 @@ augroup END
 "
 if &diff
   augroup auto_diffupdate
-    au!
-    au InsertLeave * :diffupdate
+    autocmd!
+    autocmd InsertLeave * :diffupdate
   augroup END
 endif
 
@@ -477,7 +482,10 @@ endif
 " Others: "{{{
 "
 " I don't use MODULA2.
-autocmd BufNewFile,BufRead *.md set filetype=markdown
+augroup use_markdown
+  autocmd!
+  autocmd BufNewFile,BufRead *.md set filetype=markdown
+augroup END
 
 "}}}
 
