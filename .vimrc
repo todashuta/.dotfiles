@@ -112,8 +112,7 @@ set backspace=indent,eol,start
 " カーソルを行頭、行末で止まらないようにする
 set whichwrap=b,s,h,l,<,>,[,]
 " 矩形選択で行末を超えてブロックを選択可能にする
-set virtualedit&
-set virtualedit+=block
+set virtualedit& virtualedit+=block
 
 " 横分割したら新規ウィンドウは下にする
 set splitbelow
@@ -121,18 +120,16 @@ set splitbelow
 set splitright
 
 " OSのクリップボードを使用
-set clipboard&
-set clipboard+=unnamed
+set clipboard& clipboard+=unnamed
 " ヤンクした文字はシステムのクリップボードに入れる
-set clipboard=unnamed
+"set clipboard=unnamed
 
 " modelineを有効にする
 set modeline
 
 " ターミナルでマウスを有効化
 set mouse=a
-set guioptions&
-set guioptions+=a
+set guioptions& guioptions+=a
 set ttymouse=xterm2
 
 "}}}
@@ -214,13 +211,13 @@ noremap gh g^
 " glで物理行末に移動
 noremap gl g$
 
-" 検索の候補を中央に表示
-nmap n nzz
-nmap N Nzz
-nmap * *zz
-nmap # #zz
-nmap g* g*zz
-nmap g# g#zz
+" Centering search result and open fold.
+nnoremap n nzzzv
+nnoremap N Nzzzv
+nnoremap * *zzzv
+nnoremap # #zzzv
+nnoremap g* g*zzzv
+nnoremap g# g#zzzv
 
 " カッコの入力補助
 "inoremap {{ {}<LEFT>
@@ -231,7 +228,9 @@ nmap g# g#zz
 "inoremap '' ''<LEFT>
 
 " html,xmlの閉じタグを自動挿入
-autocmd MyAutoCmd FileType xml,html inoremap <buffer> </ </<C-x><C-o>
+if exists('&omnifunc')
+  autocmd MyAutoCmd FileType xml,html inoremap <buffer> </ </<C-x><C-o>
+endif
 
 " ブラウザのようにSpaceでページ送り、Shift-Spaceで逆向き
 "noremap <Space> <PageDown>
@@ -250,7 +249,7 @@ noremap ; :
 noremap : ;
 
 " ノーマルモードでも改行だけできるようにする
-"noremap <CR> i<CR><ESC>
+"nnoremap <CR> i<CR><ESC>
 
 " ビジュアルモードでインデント変更後も選択を継続する
 vnoremap < <gv
@@ -295,7 +294,11 @@ nnoremap * *<C-o>
 
 " Quick edit and reload .vimrc
 nnoremap <silent> <Space>.  :<C-u>edit $MYVIMRC<CR>
-nnoremap <silent> <Space>s. :<C-u>source $MYVIMRC<CR>
+nnoremap <silent> <Space>g. :<C-u>edit $MYGVIMRC<CR>
+nnoremap <silent> <Space>s. :<C-u>source $MYVIMRC
+                             \ \| if has('gui_running')
+                             \ \|  source $MYGVIMRC
+                             \ \| endif <CR>
 
 " Toggle wrap
 nnoremap <silent> <Space>w
@@ -306,6 +309,9 @@ nnoremap <silent> <Space>w
 nnoremap <silent> <Space>n
       \ :<C-u>setlocal number!
       \ \|    setlocal number?<CR>
+
+" Release Space Key for Mappings below. (not required)
+nnoremap <Space> <Nop>
 
 " レジスタの内容を確認
 nnoremap <Space>r  :<C-u>registers<CR>
@@ -318,6 +324,22 @@ nnoremap <C-h>  :<C-u>help<Space>
 
 " :close
 nnoremap <Space>c  :<C-u>close<CR>
+
+" PasteToggle
+"nnoremap <Space>p  :<C-u>
+"set pastetoggle=<Space>p
+nnoremap <Space>p  :<C-u>setlocal paste mouse=<CR>
+
+" 画面分割
+nnoremap <Space>S :<C-u>split<CR>
+"nnoremap <Space>sp :<C-u>split<CR>
+nnoremap <Space>V :<C-u>vsplit<CR>
+"nnoremap <Space>v :<C-u>vsplit<CR>
+
+nnoremap q <Nop>
+"nnoremap Q q
+nnoremap K <Nop>
+"nnoremap qK K
 
 "}}}
 
@@ -345,8 +367,7 @@ set number
 " 閉じ括弧が入力されたとき、対応する括弧を表示する
 set showmatch
 " <>のカッコをマッチ対象にする
-set matchpairs&
-set matchpairs+=<:>
+set matchpairs& matchpairs+=<:>
 " showmatchの瞬間強調時間
 set matchtime=3
 
@@ -369,10 +390,10 @@ else
   "set listchars=tab:▸\ ,trail:›,eol:⏎,precedes:«,extends:»
 endif
 
-" カーソルのある行をハイライト(フォーカスが外れたらハイライトオフ)
+" カーソルのあるところでだけ行ハイライト(フォーカスが外れたらハイライトオフ)
 autocmd MyAutoCmd WinEnter * setlocal cursorline
 autocmd MyAutoCmd WinLeave * setlocal nocursorline
-set cursorline
+setlocal cursorline
 
 "}}}
 
@@ -394,8 +415,7 @@ if has('syntax')
     highlight ZenkakuSpace term=underline ctermbg=64 guibg=#719e07
     match ZenkakuSpace /　/
   endfunction
-    autocmd MyAutoCmd BufEnter,VimEnter,WinEnter * call HighlightZenkakuSpace()
-    autocmd MyAutoCmd ColorScheme * call HighlightZenkakuSpace()
+  autocmd MyAutoCmd VimEnter,WinEnter,ColorScheme * call HighlightZenkakuSpace()
 endif
 
 "}}}
@@ -493,11 +513,45 @@ autocmd MyAutoCmd InsertLeave * setlocal hlsearch
 
 "}}}
 
-" Auto diffupdate on diff mode {{{
+" Automatic diffupdate on diff mode {{{
 "
-if &diff
-  autocmd MyAutoCmd InsertLeave * diffupdate
-endif
+autocmd MyAutoCmd InsertLeave *
+      \ if &diff | diffupdate | echo 'diffupdated' | endif
+
+"}}}
+
+" Automatic paste disable {{{
+"
+autocmd MyAutoCmd InsertLeave *
+      \ if &paste | set nopaste mouse=a | echo 'nopaste' | endif
+
+"}}}
+
+" Plugin's setting {{{
+"
+" neocomplcache
+" indent-guides
+" unite.vim
+" vim-smartchr
+" zencoding.vim
+" eregex.vim
+" nerdtree
+" Others
+" SOLARIZED
+
+"}}}
+
+" Enable omni completion {{{
+"
+augroup MyAutoCmd
+  autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
+  autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
+  "autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
+  autocmd FileType php setlocal omnifunc=phpcomplete#CompletePHP
+  "autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
+  autocmd FileType ruby setlocal omnifunc=rubycomplete#Complete
+  autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
+augroup END
 
 "}}}
 
@@ -505,6 +559,9 @@ endif
 "
 " I don't use MODULA2.
 autocmd MyAutoCmd BufNewFile,BufRead *.md set filetype=markdown
+
+" If true Vim master, use English help file.
+set helplang& helplang=en,ja
 
 "}}}
 
@@ -521,6 +578,8 @@ endif
 if !exists('s:loaded_vimrc')
   let s:loaded_vimrc = 1
 endif
+
+set secure
 
 " }}}
 
