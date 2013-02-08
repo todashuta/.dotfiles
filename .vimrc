@@ -217,11 +217,13 @@ nnoremap # #zzzv
 nnoremap g* g*zzzv
 nnoremap g# g#zzzv
 
+" Don't move on *
+nnoremap * *<C-o>
+
 " Centering <C-o>, <C-i>
 nnoremap <C-o> <C-o>zz
 nnoremap <C-i> <C-i>zz
 
-" カッコの入力補助
 " Input support the parentheses.
 "inoremap {{ {}<LEFT>
 "inoremap [[ []<LEFT>
@@ -291,9 +293,6 @@ cnoremap <C-k> <C-\>e getcmdpos() == 1 ?
       \ '' :  getcmdline()[: getcmdpos()-2]<CR>
 " <C-y>:  paste.
 cnoremap <C-y>    <C-r>*
-
-" don't move on *
-nnoremap * *<C-o>
 
 " Quick edit and reload .vimrc
 nnoremap <silent> <Space>.  :<C-u>edit $MYVIMRC<CR>
@@ -394,9 +393,9 @@ if exists('&colorcolumn')
   autocmd MyAutoCmd InsertLeave * setlocal colorcolumn=""
 endif
 
-" タブ文字、行末など不可視文字を表示する
+" Indicate tab, wrap, trailing spaces and eol or not.
 set list
-" listで表示される文字のフォーマット
+" Strings to use in 'list' mode and for the :list command.
 if s:is_windows
   set listchars=tab:>-,trail:-,eol:$,extends:>,precedes:<
 else
@@ -456,19 +455,6 @@ command! ChgEncCp932     set fileencoding=cp932
 " 開いているバッファのディレクトリに自動で移動: "{{{
 
 autocmd MyAutoCmd BufEnter * lcd %:p:h
-
-"}}}
-
-" netrw.vim (標準のファイラ) 設定: "{{{
-"
-" ディレクトリ閲覧をツリー形式にする
-"let g:netrw_liststyle = 3
-" 'v'でファイルを開くときに右側に開く
-let g:netrw_altv = 1
-" 'o'でファイルを開くときに下側に開く
-let g:netrw_alto = 1
-" CVSと.で始まるファイルは表示しない
-"let g:netrw_list_hide = 'CVS,\(^\|\s\s\)\zs\.\S\+'
 
 "}}}
 
@@ -629,7 +615,27 @@ nnoremap <Space>u :<C-u>UniteWithBufferDir -buffer-name=files buffer file_mru bo
 
 " SOLARIZED {{{
 
-" SOLARIZED SOLARIZED SOLARIZED
+" Visibility of `listchars' (normal, high, low)
+let g:solarized_visibility='low'
+" Toggle background key (Light or Dark)
+call togglebg#map("<F5>")
+" On iTerm2, distinguish the settings by $ITERM_PROFILE
+if !has('gui_running')
+  if $ITERM_PROFILE =~? 'solarized' && $ITERM_PROFILE =~? 'light'
+    let g:solarized_termcolors=16
+    set background=light
+    colorscheme solarized
+  elseif $ITERM_PROFILE =~? 'solarized' && $ITERM_PROFILE =~? 'dark'
+    let g:solarized_termcolors=16
+    set background=dark
+    colorscheme solarized
+  else
+    let g:solarized_termcolors=256
+    set background=light
+    colorscheme solarized
+    "colorscheme jellybeans
+  endif
+endif
 
 "}}}
 
@@ -654,6 +660,19 @@ augroup END
 let g:indent_guides_color_change_percent = 30
 " ガイド幅
 let g:indent_guides_guide_size = 1
+
+"}}}
+
+" netrw.vim (標準のファイラ) 設定: "{{{
+"
+" ディレクトリ閲覧をツリー形式にする
+"let g:netrw_liststyle = 3
+" 'v'でファイルを開くときに右側に開く
+let g:netrw_altv = 1
+" 'o'でファイルを開くときに下側に開く
+let g:netrw_alto = 1
+" CVSと.で始まるファイルは表示しない
+"let g:netrw_list_hide = 'CVS,\(^\|\s\s\)\zs\.\S\+'
 
 "}}}
 
@@ -709,7 +728,7 @@ set helplang& helplang=en,ja
 
 "}}}
 
-" Load local config file: "{{{
+" Load local and temporary config file: "{{{
 
 if filereadable(expand('~/.vimrc.local'))
   source ~/.vimrc.local
