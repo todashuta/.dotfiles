@@ -24,7 +24,7 @@ augroup MyAutoCmd
 augroup END
 
 if s:is_windows
-  " Windowsでディレクトリパスの区切り文字に / を使えるようにする
+  " Exchange path separator to slash on Windows.
   set shellslash
 endif
 
@@ -90,11 +90,6 @@ NeoBundleCheck
 " Enable syntax color
 syntax enable
 
-" plugin用設定ファイル読み込み
-if filereadable(expand('~/.vimrc.plugin'))
-  source ~/.vimrc.plugin
-endif
-
 " }}}
 
 " General: "{{{
@@ -121,8 +116,6 @@ set splitright
 
 " OSのクリップボードを使用
 set clipboard& clipboard+=unnamed
-" ヤンクした文字はシステムのクリップボードに入れる
-"set clipboard=unnamed
 
 " modelineを有効にする
 set modeline
@@ -219,6 +212,10 @@ nnoremap # #zzzv
 nnoremap g* g*zzzv
 nnoremap g# g#zzzv
 
+" Centering <C-o>, <C-i>
+nnoremap <C-o> <C-o>zz
+nnoremap <C-i> <C-i>zz
+
 " カッコの入力補助
 "inoremap {{ {}<LEFT>
 "inoremap [[ []<LEFT>
@@ -297,7 +294,7 @@ nnoremap <silent> <Space>.  :<C-u>edit $MYVIMRC<CR>
 nnoremap <silent> <Space>g. :<C-u>edit $MYGVIMRC<CR>
 nnoremap <silent> <Space>s. :<C-u>source $MYVIMRC
                              \ \| if has('gui_running')
-                             \ \|  source $MYGVIMRC
+                             \ \|   source $MYGVIMRC
                              \ \| endif <CR>
 
 " Toggle wrap
@@ -314,21 +311,21 @@ nnoremap <silent> <Space>n
 nnoremap <Space> <Nop>
 
 " レジスタの内容を確認
-nnoremap <Space>r  :<C-u>registers<CR>
+nnoremap <Space>r :<C-u>registers<CR>
 
 " マークの内容を確認
-nnoremap <Space>m  :<C-u>marks<CR>
+nnoremap <Space>m :<C-u>marks<CR>
 
 " :helpを3倍の速度で引く
-nnoremap <C-h>  :<C-u>help<Space>
+nnoremap <C-h> :<C-u>help<Space>
 
 " :close
-nnoremap <Space>c  :<C-u>close<CR>
+nnoremap <Space>c :<C-u>close<CR>
 
 " PasteToggle
-"nnoremap <Space>p  :<C-u>
+"nnoremap <Space>p :<C-u>
 "set pastetoggle=<Space>p
-nnoremap <Space>p  :<C-u>setlocal paste mouse=<CR>
+nnoremap <Space>p :<C-u>setlocal paste mouse=<CR>
 
 " 画面分割
 nnoremap <Space>S :<C-u>split<CR>
@@ -340,6 +337,9 @@ nnoremap q <Nop>
 "nnoremap Q q
 nnoremap K <Nop>
 "nnoremap qK K
+
+"noremap <Space>j <C-f>
+"noremap <Space>k <C-b>
 
 "}}}
 
@@ -375,9 +375,16 @@ set matchtime=3
 set wrap
 
 " {数字}列目を強調表示
-if exists('&colorcolumn')
-  set colorcolumn=80
-endif
+"if exists('&colorcolumn')
+"  set colorcolumn=80
+"endif
+
+" colorcolumn+
+" http://hanschen.org/2012/10/24/
+" http://stackoverflow.com/questions/2447109/showing-a-different-background-colour-in-vim-past-80-characters
+"autocmd MyAutoCmd InsertEnter * setlocal colorcolumn=80
+autocmd MyAutoCmd InsertEnter * execute "setlocal colorcolumn=".join(range(81,335),',')
+autocmd MyAutoCmd InsertLeave * setlocal colorcolumn=""
 
 " タブ文字、行末など不可視文字を表示する
 set list
@@ -506,7 +513,7 @@ endfunction
 
 " }}}
 
-" 挿入モードに入ったとき一時的に検索のハイライトをオフにする {{{
+" When enter insert mode, disable hlsearch temporary. {{{
 
 autocmd MyAutoCmd InsertEnter * setlocal nohlsearch
 autocmd MyAutoCmd InsertLeave * setlocal hlsearch
@@ -527,17 +534,127 @@ autocmd MyAutoCmd InsertLeave *
 
 "}}}
 
-" Plugin's setting {{{
+"-----------------------------------------------------------------------------
+" Plugin: "{{{
 "
-" neocomplcache
-" indent-guides
-" unite.vim
-" vim-smartchr
-" zencoding.vim
-" eregex.vim
-" nerdtree
-" Others
-" SOLARIZED
+
+" neocomplcache.vim {{{
+
+" Launches neocomplcache automatically on vim startup.
+let g:neocomplcache_enable_at_startup = 1
+" <TAB>: completion.
+inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
+" <Shift-TAB>: Reverse completion.
+inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+" AutoCompPop like behavior.
+"let g:neocomplcache_enable_auto_select = 1
+" The number of candidates in popup menu. (Default: 100)
+"let g:neocomplcache_max_list = 20
+" Undo
+inoremap <expr><C-g> neocomplcache#undo_completion()
+" <C-h>, <BS>: Close popup and delete backward char.
+inoremap <expr><C-h> neocomplcache#smart_close_popup()."\<C-h>"
+inoremap <expr><BS> neocomplcache#smart_close_popup()."\<C-h>"
+
+"}}}
+
+" zencoding.vim {{{
+
+"let g:user_zen_leader_key = '<C-y>'
+let g:user_zen_leader_key = '<C-e>'
+let g:user_zen_settings = {
+      \ 'lang' : 'ja',
+      \ }
+
+"}}}
+
+" eregex.vim {{{
+
+nnoremap / :M/
+nnoremap ? :M?
+nnoremap ,/ /
+nnoremap ,? ?
+
+"}}}
+
+" NERDTree {{{
+
+" NERDTreeToggle
+"noremap <C-N><C-N> :NERDTreeToggle<CR>
+noremap <Space>f  :<C-u>NERDTreeToggle<CR>
+" Disables display of the 'Bookmarks' and 'help'.
+let NERDTreeMinimalUI = 1
+" Display hidden files (i.e. "dot files").
+let NERDTreeShowHidden = 1
+
+"}}}
+
+" unite.vim {{{
+
+" 入力モードで開始する
+"let g:unite_enable_start_insert = 1
+" バッファ一覧
+noremap <C-U><C-B> :Unite buffer<CR>
+" ファイル一覧
+noremap <C-U><C-F> :UniteWithBufferDir -buffer-name=files file<CR>
+" 最近使ったファイルの一覧
+noremap <C-U><C-R> :Unite file_mru<CR>
+" レジスタ一覧
+noremap <C-U><C-Y> :Unite -buffer-name=register register<CR>
+" ファイルとバッファ
+noremap <C-U><C-U> :Unite buffer file_mru<CR>
+" 全部
+noremap <C-U><C-A> :UniteWithBufferDir -buffer-name=files buffer file_mru bookmark file<CR>
+" ESCキーを3回押すと終了する
+"au FileType unite nnoremap <silent> <buffer> <ESC><ESC><ESC> :q<CR>
+"au FileType unite inoremap <silent> <buffer> <Esc><Esc><ESC> <Esc>:q<CR>
+" C-U 二連打で終了する
+autocmd MyAutoCmd FileType unite nnoremap <silent> <buffer> <C-U><C-U> :q<CR>
+autocmd MyAutoCmd FileType unite inoremap <silent> <buffer> <C-U><C-U> <Esc>:q<CR>
+
+nnoremap <Space>b :<C-u>Unite buffer<CR>
+nnoremap <Space>y :<C-u>Unite -buffer-name=register register<CR>
+nnoremap <Space>u :<C-u>UniteWithBufferDir -buffer-name=files buffer file_mru bookmark file<CR>
+"autocmd MyAutoCmd FileType unite nnoremap <silent><buffer> <Space>u :<C-u>q<CR>
+
+"}}}
+
+" SOLARIZED {{{
+
+" SOLARIZED SOLARIZED SOLARIZED
+
+"}}}
+
+" vim-smartchr {{{
+
+"inoremap <expr> = smartchr#one_of(' = ', ' == ', ' === ', '=')
+inoremap <expr> , smartchr#one_of(', ', ',')
+inoremap <expr> : smartchr#one_of(': ', ' : ', ':')
+inoremap <buffer> <expr> . smartchr#loop('.',  ' . ',  '..', '...')
+
+augroup MyAutoCmd
+  autocmd FileType css inoremap <expr> : smartchr#one_of(':')
+augroup END
+
+"}}}
+
+" indent-guides {{{
+
+" indent-guidesを最初から有効にする
+"let g:indent_guides_enable_on_vim_startup = 1
+" 色の変化の幅
+let g:indent_guides_color_change_percent = 30
+" ガイド幅
+let g:indent_guides_guide_size = 1
+
+"}}}
+
+" Others {{{
+
+" Expand the jump functions of % command (e.g. HTML tags, if/else/endif, etc.)
+runtime macros/matchit.vim
+
+"}}}
 
 "}}}
 
@@ -557,15 +674,16 @@ augroup END
 
 " Others: "{{{
 "
-" I don't use MODULA2.
-autocmd MyAutoCmd BufNewFile,BufRead *.md set filetype=markdown
+
+" I don't want to use MODULA2 syntax to *.md.
+autocmd MyAutoCmd BufNewFile,BufRead *.md setlocal filetype=markdown
 
 " If true Vim master, use English help file.
 set helplang& helplang=en,ja
 
 "}}}
 
-" ローカル設定(~/.vimrc.local)があれば読み込む: "{{{
+" Load local config file: "{{{
 
 if filereadable(expand('~/.vimrc.local'))
   source ~/.vimrc.local
@@ -573,7 +691,7 @@ endif
 
 "}}}
 
-" Finalize {{{
+" Finalize: "{{{
 
 if !exists('s:loaded_vimrc')
   let s:loaded_vimrc = 1
