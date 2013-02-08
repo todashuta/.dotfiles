@@ -99,10 +99,10 @@ set encoding=utf-8
 " カーソルの上下に表示する行数(大きな数字を指定するとカーソルが真ん中になる)
 set scrolloff=2
 
-" ヒストリーの保存数
+" A history of ":" commands, and a history of previous search patterns.
 set history=1000
 
-" バックスペースでインデントや改行を削除できるようにする
+" Enable backspace delete indent and newline.
 set backspace=indent,eol,start
 " カーソルを行頭、行末で止まらないようにする
 set whichwrap=b,s,h,l,<,>,[,]
@@ -114,16 +114,19 @@ set splitbelow
 " 縦分割したら新規ウィンドウは右にする
 set splitright
 
-" OSのクリップボードを使用
+" Use clipboard register. (i.e. Use OS's clipboard.)
 set clipboard& clipboard+=unnamed
 
-" modelineを有効にする
+" Enable modeline.
 set modeline
 
-" ターミナルでマウスを有効化
+" Enable the use of the mouse.
 set mouse=a
 set guioptions& guioptions+=a
 set ttymouse=xterm2
+
+" Indicates a fast terminal connection.
+set ttyfast
 
 "}}}
 
@@ -157,22 +160,24 @@ set shiftwidth=4
 "set expandtab
 " Smart insert tab setting.
 "set smarttab
+" Disable auto wrap.
+autocmd MyAutoCmd FileType * setlocal textwidth=0
 
 "}}}
 
 " Search: "{{{
 "
 
-" インクリメンタルサーチ
+" Enable incremental search.
 set incsearch
-" ファイルの最後まで検索したら戻る
+" Searchs wrap around the end of the file.
 set wrapscan
-" 検索時に大文字小文字を区別しない
+" Ignore the case of nornal letters.
 set ignorecase
-" 検索する文字に大文字が一つでもあった場合は区別する
+" If the search pattern contains upper case characters, override ignorecase option.
 set smartcase
 
-" 検索文字の強調表示
+" Highlight search results.
 set hlsearch
 
 " wildmenu: コマンドライン補完を強化されたものにする
@@ -190,18 +195,18 @@ set wildignore+=.DS_Store
 " Key Mappings: "{{{
 "
 
-" 表示行単位で移動する
+" Move cursor by display line.
 noremap j gj
 noremap k gk
 noremap gj j
 noremap gk k
 
-" ESC二回押しで検索ハイライトを消去
+" Clear highlight of search results.
 nnoremap <ESC><ESC> :nohlsearch<CR>
 
-" ghで物理行頭に移動
+" Move to the first non-blank characters of the screen line.
 noremap gh g^
-" glで物理行末に移動
+" Move to the last characters of the screen line.
 noremap gl g$
 
 " Centering search result and open fold.
@@ -217,6 +222,7 @@ nnoremap <C-o> <C-o>zz
 nnoremap <C-i> <C-i>zz
 
 " カッコの入力補助
+" Input support the parentheses.
 "inoremap {{ {}<LEFT>
 "inoremap [[ []<LEFT>
 "inoremap (( ()<LEFT>
@@ -382,9 +388,11 @@ set wrap
 " colorcolumn+
 " http://hanschen.org/2012/10/24/
 " http://stackoverflow.com/questions/2447109/showing-a-different-background-colour-in-vim-past-80-characters
-"autocmd MyAutoCmd InsertEnter * setlocal colorcolumn=80
-autocmd MyAutoCmd InsertEnter * execute "setlocal colorcolumn=".join(range(81,335),',')
-autocmd MyAutoCmd InsertLeave * setlocal colorcolumn=""
+if exists('&colorcolumn')
+  "autocmd MyAutoCmd InsertEnter * setlocal colorcolumn=80
+  autocmd MyAutoCmd InsertEnter * execute "setlocal colorcolumn=".join(range(81,335),',')
+  autocmd MyAutoCmd InsertLeave * setlocal colorcolumn=""
+endif
 
 " タブ文字、行末など不可視文字を表示する
 set list
@@ -514,7 +522,7 @@ endfunction
 " }}}
 
 " When enter insert mode, disable hlsearch temporary. {{{
-
+"
 autocmd MyAutoCmd InsertEnter * setlocal nohlsearch
 autocmd MyAutoCmd InsertLeave * setlocal hlsearch
 
@@ -534,7 +542,7 @@ autocmd MyAutoCmd InsertLeave *
 
 "}}}
 
-"-----------------------------------------------------------------------------
+"------------------------------------------------------------------------------
 " Plugin: "{{{
 "
 
@@ -672,6 +680,24 @@ augroup END
 
 "}}}
 
+" Commands: "{{{
+"
+" ToggleListChars {{{
+
+function! ToggleListChars()
+  if &listchars=~ '^tab:>-'
+    set listchars=tab:▸\ ,trail:›,eol:¬,precedes:«,extends:»
+  else
+    set listchars=tab:>-,trail:-,eol:$,extends:>,precedes:<
+  endif
+endfunction
+
+command! ToggleListChars :call ToggleListChars()
+
+"}}}
+
+"}}}
+
 " Others: "{{{
 "
 
@@ -697,6 +723,7 @@ if !exists('s:loaded_vimrc')
   let s:loaded_vimrc = 1
 endif
 
+" See :help secure
 set secure
 
 " }}}
