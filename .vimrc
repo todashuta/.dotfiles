@@ -52,17 +52,31 @@ NeoBundle 'Shougo/vimproc', {
       \ }
 NeoBundle 'altercation/vim-colors-solarized'
 NeoBundle 'othree/eregex.vim'
-NeoBundle 'vim-scripts/VOoM'
+NeoBundleLazy 'vim-scripts/VOoM', {
+      \ 'autoload' : {
+      \     'filetypes' : ['html','markdown','python','latex']
+      \    },
+      \ }
 NeoBundle 'scrooloose/nerdtree'
 NeoBundle 'thinca/vim-quickrun'
 NeoBundle 'h1mesuke/vim-alignta'
-NeoBundle 'tpope/vim-surround'
+NeoBundleLazy 'tpope/vim-surround', { 'autoload' : {
+      \ 'insert' : 1,
+      \ }}
 NeoBundle 'troydm/easybuffer.vim'
 NeoBundle 'vim-scripts/DirDo.vim'
-NeoBundle 'kana/vim-smartchr'
+NeoBundleLazy 'kana/vim-smartchr', { 'autoload' : {
+      \ 'insert' : 1,
+      \ }}
 NeoBundle 'kana/vim-submode'
-NeoBundle 'glidenote/memolist.vim'
-NeoBundle 'hallison/vim-markdown'
+NeoBundleLazy 'glidenote/memolist.vim', { 'autoload' : {
+      \ 'commands' : ['MemoGrep','MemoList','MemoNew']
+      \ }}
+NeoBundleLazy 'hallison/vim-markdown', {
+      \ 'autoload' : {
+      \     'filetypes' : ['markdown']
+      \    },
+      \ }
 "NeoBundle 'houtsnip/vim-emacscommandline'
 NeoBundleLazy 'Shougo/vimshell', {
       \ 'depends' : 'Shougo/vimproc',
@@ -75,12 +89,25 @@ NeoBundleLazy 'mattn/zencoding-vim', {
       \     'filetypes' : ['html','css']
       \    },
       \ }
-NeoBundleLazy 'thinca/vim-ref'
+NeoBundleLazy 'thinca/vim-ref', { 'autoload' : {
+      \ 'commands' : 'Ref'
+      \ }}
 NeoBundleLazy 'gregsexton/VimCalc'
 NeoBundleLazy 'mattn/calendar-vim'
 NeoBundleLazy 'nathanaelkane/vim-indent-guides'
 NeoBundleLazy 'skammer/vim-css-color'
+NeoBundleLazy 'lilydjwg/colorizer'
 NeoBundleLazy 'koron/nyancat-vim'
+NeoBundleLazy 'hail2u/vim-css3-syntax', {
+      \ 'autoload' : {
+      \     'filetypes' : ['html','css']
+      \    },
+      \ }
+NeoBundleLazy 'othree/html5.vim', {
+      \ 'autoload' : {
+      \     'filetypes' : ['html','css']
+      \    },
+      \ }
 
 filetype plugin indent on    " Required!
 
@@ -127,6 +154,9 @@ set ttymouse=xterm2
 
 " Indicates a fast terminal connection.
 set ttyfast
+
+" Don't redraw while macro executing.
+set lazyredraw
 
 "}}}
 
@@ -308,9 +338,11 @@ nnoremap <silent> <Space>w
       \ \|    setlocal wrap?<CR>
 
 " Toggle number
+"nnoremap <silent> <Space>n
+"      \ :<C-u>setlocal number!
+"      \ \|    setlocal number?<CR>
 nnoremap <silent> <Space>n
-      \ :<C-u>setlocal number!
-      \ \|    setlocal number?<CR>
+      \ :<C-u>call ChangeLineNumberMode()<CR>
 
 " Release Space Key for Mappings below. (not required)
 nnoremap <Space> <Nop>
@@ -330,7 +362,9 @@ nnoremap <Space>c :<C-u>close<CR>
 " PasteToggle
 "nnoremap <Space>p :<C-u>
 "set pastetoggle=<Space>p
-nnoremap <Space>p :<C-u>setlocal paste mouse=<CR>
+"nnoremap <Space>p :<C-u>setlocal paste mouse=<CR>
+nnoremap <silent> <Space>p
+      \ :<C-u>call ToggleOption('paste')<CR>:set mouse=<CR>
 
 " 画面分割
 nnoremap <Space>S :<C-u>split<CR>
@@ -399,7 +433,9 @@ set list
 if s:is_windows
   set listchars=tab:>-,trail:-,eol:$,extends:>,precedes:<
 else
-  set listchars=tab:▸\ ,trail:›,eol:¬,precedes:«,extends:»
+  set listchars=tab:▸\ ,trail:›,precedes:«,extends:»
+  "set listchars=tab:▸\ ,trail:･,eol:¬,precedes:«,extends:»
+  "set listchars=tab:▸\ ,trail:›,eol:¬,precedes:«,extends:»
   "set listchars=tab:▸\ ,trail:›,eol:↲,precedes:«,extends:»
   "set listchars=tab:▸\ ,trail:›,eol:⏎,precedes:«,extends:»
 endif
@@ -416,8 +452,15 @@ setlocal cursorline
 " ステータスラインを常に表示
 set laststatus=2
 
-" ステータスラインの表示 ([フルパス]  [ファイルタイプ:エンコード:改行コード] [カーソル位置/総行数] [%行位置])
-set statusline=%<%F%m%r%h%w%=\ \ [%Y:%{&fileencoding}:%{&ff}][%3l/%L,%3v]%3p%%
+" Set statusline.
+let &statusline = ''
+let &statusline .= '[%2n] '        " Buffer number
+let &statusline .= '%<%F'          " Full path to the file in the buffer.
+let &statusline .= '%m%r%h%w'      " Modified flag, Readonly flag, Help flag, Preview flag
+let &statusline .= '%=  '          " Separation point between left and right, and Spaces.
+let &statusline .= '[%{&filetype}:%{&fileencoding}:%{&fileformat}] '
+let &statusline .= '[%3l/%L,%3v]'  " Line number / Number of lines in buffer, Virtual column number.
+let &statusline .= '%3p%%'         " Percentage through file in lines as in |CTRL-G|.
 
 "}}}
 
@@ -536,6 +579,8 @@ autocmd MyAutoCmd InsertLeave *
 
 " Launches neocomplcache automatically on vim startup.
 let g:neocomplcache_enable_at_startup = 1
+" <CR>: Close popup and save indent.
+inoremap <expr><CR> neocomplcache#smart_close_popup() . "\<CR>"
 " <TAB>: completion.
 inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
 " <Shift-TAB>: Reverse completion.
@@ -544,8 +589,10 @@ inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
 "let g:neocomplcache_enable_auto_select = 1
 " The number of candidates in popup menu. (Default: 100)
 "let g:neocomplcache_max_list = 20
-" Undo
+" <C-g>: Undo completion.
 inoremap <expr><C-g> neocomplcache#undo_completion()
+" <C-l>: Complete common string.
+inoremap <expr><C-l> neocomplcache#complete_common_string()
 " <C-h>, <BS>: Close popup and delete backward char.
 inoremap <expr><C-h> neocomplcache#smart_close_popup()."\<C-h>"
 inoremap <expr><BS> neocomplcache#smart_close_popup()."\<C-h>"
@@ -610,6 +657,7 @@ nnoremap <Space>b :<C-u>Unite buffer<CR>
 nnoremap <Space>y :<C-u>Unite -buffer-name=register register<CR>
 nnoremap <Space>u :<C-u>UniteWithBufferDir -buffer-name=files buffer file_mru bookmark file<CR>
 "autocmd MyAutoCmd FileType unite nnoremap <silent><buffer> <Space>u :<C-u>q<CR>
+autocmd MyAutoCmd FileType unite imap <buffer> <C-w> <Plug>(unite_delete_backward_path)
 
 "}}}
 
@@ -705,13 +753,39 @@ augroup END
 
 function! ToggleListChars()
   if &listchars=~ '^tab:>-'
-    set listchars=tab:▸\ ,trail:›,eol:¬,precedes:«,extends:»
+    "set listchars=tab:▸\ ,trail:›,eol:¬,precedes:«,extends:»
+    set listchars=tab:▸\ ,trail:›,precedes:«,extends:»
   else
     set listchars=tab:>-,trail:-,eol:$,extends:>,precedes:<
   endif
 endfunction
 
 command! ToggleListChars :call ToggleListChars()
+
+"}}}
+
+" Toggle options {{{
+
+function! ToggleOption(option_name)
+  execute 'setlocal' a:option_name.'!'
+  execute 'setlocal' a:option_name.'?'
+endfunction
+
+"}}}
+
+" Toggle number {{{
+
+function! ChangeLineNumberMode()
+  if &number == 0 && &relativenumber == 0
+    set number | set number?
+  elseif &number == 1
+    set relativenumber | set relativenumber?
+  elseif &relativenumber == 1
+    set norelativenumber
+    "set relativenumber?
+    echo 'nonumber norelativenumber'
+  endif
+endfunction
 
 "}}}
 
