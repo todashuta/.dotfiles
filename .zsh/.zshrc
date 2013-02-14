@@ -160,6 +160,11 @@ autoload zed
 # 以前に実行したコマンドを入力するコマンド"r"の無効化
 #disable r
 
+# zsh-syntax-highlighting
+if [ -f ~/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ]; then
+	source ~/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+fi
+
 # }}}
 
 
