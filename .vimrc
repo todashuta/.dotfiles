@@ -63,7 +63,7 @@ NeoBundle 'h1mesuke/vim-alignta'
 NeoBundleLazy 'tpope/vim-surround', { 'autoload' : {
       \ 'insert' : 1,
       \ }}
-NeoBundle 'troydm/easybuffer.vim'
+"NeoBundle 'troydm/easybuffer.vim'
 NeoBundle 'vim-scripts/DirDo.vim'
 NeoBundleLazy 'kana/vim-smartchr', { 'autoload' : {
       \ 'insert' : 1,
@@ -92,12 +92,18 @@ NeoBundleLazy 'mattn/zencoding-vim', {
 NeoBundleLazy 'thinca/vim-ref', { 'autoload' : {
       \ 'commands' : 'Ref'
       \ }}
-NeoBundleLazy 'gregsexton/VimCalc'
-NeoBundleLazy 'mattn/calendar-vim'
+NeoBundleLazy 'gregsexton/VimCalc', { 'autoload' : {
+      \ 'commands' : 'Calc'
+      \ }}
+NeoBundleLazy 'mattn/calendar-vim', { 'autoload' : {
+      \ 'commands' : ['Calendar','CalendarH']
+      \ }}
 NeoBundleLazy 'nathanaelkane/vim-indent-guides'
 NeoBundleLazy 'skammer/vim-css-color'
 NeoBundleLazy 'lilydjwg/colorizer'
-NeoBundleLazy 'koron/nyancat-vim'
+NeoBundleLazy 'koron/nyancat-vim', { 'autoload' : {
+      \ 'commands' : ['Nyancat','Nyancat2']
+      \ }}
 NeoBundleLazy 'hail2u/vim-css3-syntax', {
       \ 'autoload' : {
       \     'filetypes' : ['html','css']
@@ -108,6 +114,14 @@ NeoBundleLazy 'othree/html5.vim', {
       \     'filetypes' : ['html','css']
       \    },
       \ }
+NeoBundleLazy 'kana/vim-smartinput', { 'autoload' : {
+      \ 'insert' : 1,
+      \ }}
+NeoBundle 'kien/ctrlp.vim'
+NeoBundleLazy 'basyura/TweetVim', { 'depends' :
+      \ ['basyura/twibill.vim','tyru/open-browser.vim'],
+      \ 'autoload' : { 'commands' : 'TweetVimHomeTimeline' }}
+NeoBundle 'Lokaltog/vim-powerline'
 
 filetype plugin indent on    " Required!
 
@@ -242,13 +256,16 @@ noremap gl g$
 " Centering search result and open fold.
 nnoremap n nzzzv
 nnoremap N Nzzzv
-nnoremap * *zzzv
-nnoremap # #zzzv
+"nnoremap * *zzzv
+"nnoremap # #zzzv
 nnoremap g* g*zzzv
 nnoremap g# g#zzzv
 
 " Don't move on *
 nnoremap * *<C-o>
+
+" Don't move on #
+nnoremap # #<C-o>
 
 " Centering <C-o>, <C-i>
 nnoremap <C-o> <C-o>zz
@@ -325,8 +342,8 @@ cnoremap <C-k> <C-\>e getcmdpos() == 1 ?
 cnoremap <C-y>    <C-r>*
 
 " Quick edit and reload .vimrc
-nnoremap <silent> <Space>.  :<C-u>edit $MYVIMRC<CR>
-nnoremap <silent> <Space>g. :<C-u>edit $MYGVIMRC<CR>
+nnoremap <silent> <Space>.  :<C-u>tabedit $MYVIMRC<CR>
+nnoremap <silent> <Space>g. :<C-u>tabedit $MYGVIMRC<CR>
 nnoremap <silent> <Space>s. :<C-u>source $MYVIMRC
                              \ \| if has('gui_running')
                              \ \|   source $MYGVIMRC
@@ -380,27 +397,32 @@ nnoremap K <Nop>
 "noremap <Space>j <C-f>
 "noremap <Space>k <C-b>
 
+" コピーした文字で繰り返し上書きペーストする
+vnoremap <silent> <C-p> "0p<CR>
+
 "}}}
 
 " Visual: "{{{
 
-" 256色対応
+" Set title of the window to the value of 'titlestring'.
+set title
+" Enable 256 color terminal.
 set t_Co=256
-" カラースキーム
+" Color scheme
 colorscheme solarized
-" コマンドラインの高さ
+" Number of screen lines to use for the command-line.
 set cmdheight=1
-" 入力中のコマンドを表示
+" Show (partial) command in the last line of the screen.
 set showcmd
-" ベル無効化
+" Disable bell.
 set t_vb=
 set visualbell
 
-" ルーラー表示(ステータスライン変えてるため無意味)
+" Show the line and column number of the cursor position, separated by a comma.
 "set ruler
-" 行番号を表示する
+" Show line number.
 set number
-" 相対的な行番号の表示
+" Show line number relative to the line with the cursor.
 "set relativenumber
 
 " 閉じ括弧が入力されたとき、対応する括弧を表示する
@@ -421,10 +443,21 @@ set wrap
 " colorcolumn+
 " http://hanschen.org/2012/10/24/
 " http://stackoverflow.com/questions/2447109/showing-a-different-background-colour-in-vim-past-80-characters
+"if exists('&colorcolumn')
+"  "autocmd MyAutoCmd InsertEnter * setlocal colorcolumn=80
+"  autocmd MyAutoCmd InsertEnter * execute "setlocal colorcolumn=".join(range(81,335),',')
+"  autocmd MyAutoCmd InsertLeave * setlocal colorcolumn=""
+"endif
+
 if exists('&colorcolumn')
-  "autocmd MyAutoCmd InsertEnter * setlocal colorcolumn=80
-  autocmd MyAutoCmd InsertEnter * execute "setlocal colorcolumn=".join(range(81,335),',')
-  autocmd MyAutoCmd InsertLeave * setlocal colorcolumn=""
+  autocmd MyAutoCmd BufEnter,VimResized * call s:ColorcolumnPlus()
+  function! s:ColorcolumnPlus()
+    if &columns >= 85
+      execute "setlocal colorcolumn=".join(range(81,335),',')
+    else
+      setlocal colorcolumn=""
+    endif
+  endfunction
 endif
 
 " Indicate tab, wrap, trailing spaces and eol or not.
@@ -453,14 +486,32 @@ setlocal cursorline
 set laststatus=2
 
 " Set statusline.
-let &statusline = ''
-let &statusline .= '[%2n] '        " Buffer number
-let &statusline .= '%<%F'          " Full path to the file in the buffer.
-let &statusline .= '%m%r%h%w'      " Modified flag, Readonly flag, Help flag, Preview flag
-let &statusline .= '%=  '          " Separation point between left and right, and Spaces.
-let &statusline .= '[%{&filetype}:%{&fileencoding}:%{&fileformat}] '
-let &statusline .= '[%3l/%L,%3v]'  " Line number / Number of lines in buffer, Virtual column number.
-let &statusline .= '%3p%%'         " Percentage through file in lines as in |CTRL-G|.
+"function! s:my_statusline()
+"  if &columns >= 80    " Long version
+"    let &statusline = ''
+"    let &statusline .= '%{&paste ? "  [PASTE]" : ""}'  " Paste mode Indicator
+"    let &statusline .= ' [%2n]'         " Buffer number
+"    let &statusline .= ' %<%F'          " Full path to the file in the buffer.
+"    let &statusline .= '%m%r%h%w'       " Modified flag, Readonly flag, Help flag, Preview flag
+"    let &statusline .= '%= '            " Separation point between left and right, and Space.
+"    let &statusline .= ' [%{strlen(&ft) ? &ft : "no ft"}]
+"                        \[%{(&fenc == "" ? &enc : &fenc)}]
+"                        \[%{&fileformat}]'
+"    let &statusline .= ' [%4l/%L:%3v]'  " Line number / Number of lines in buffer, Virtual column number.
+"    let &statusline .= ' %3p%% '        " Percentage through file in lines as in |CTRL-G|.
+"  else                 " Short version
+"    let &statusline = ''
+"    let &statusline .= '%{&paste ? "[P]" : ""}'  " Paste mode Indicator
+"    let &statusline .= '%<%t'         " File name of file in the buffer.
+"    let &statusline .= '%m%r%h%w'     " Modified flag, Readonly flag, Help flag, Preview flag
+"    let &statusline .= '%= '          " Separation point between left and right, and Space.
+"    let &statusline .= '[%{&filetype}:%{&fileencoding}:%{&fileformat}]'
+"    let &statusline .= '[%3l:%2v]'    " Line number, Virtual column number.
+"    let &statusline .= '%3p%%'        " Percentage through file in lines as in |CTRL-G|.
+"  endif
+"endfunction
+"
+"autocmd MyAutoCmd VimEnter,VimResized * call s:my_statusline()
 
 "}}}
 
@@ -468,11 +519,11 @@ let &statusline .= '%3p%%'         " Percentage through file in lines as in |CTR
 "
 if has('syntax')
   syntax enable
-  function! HighlightZenkakuSpace()
+  function! s:HighlightZenkakuSpace()
     highlight ZenkakuSpace term=underline ctermbg=64 guibg=#719e07
     match ZenkakuSpace /　/
   endfunction
-  autocmd MyAutoCmd VimEnter,WinEnter,ColorScheme * call HighlightZenkakuSpace()
+  autocmd MyAutoCmd VimEnter,WinEnter,ColorScheme * call s:HighlightZenkakuSpace()
 endif
 
 "}}}
@@ -505,48 +556,47 @@ autocmd MyAutoCmd BufEnter * lcd %:p:h
 " https://github.com/fuenor/vim-statusline/blob/master/insert-statusline.vim
 "
 " 挿入モード時の色指定 (SOLARIZEDに合わせてる)
-if !exists('g:hi_insert')
-  let g:hi_insert = '
-      \ highlight StatusLine
-        \ guifg=#073642 guibg=#b58900 gui=none
-        \ ctermfg=235   ctermbg=136   cterm=none
-        \ '
-endif
-
+""if !exists('g:hi_insert')
+""  let g:hi_insert = 'highlight StatusLine
+""        \ guifg=#073642 guibg=#b58900 gui=none
+""        \ ctermfg=235   ctermbg=136   cterm=none
+""        \ '
+""endif
+""
 " Linux等でESC後にすぐ反映されない場合、次行以降のコメントを解除してください
  if has('unix') && !has('gui_running')
    " ESC後にすぐ反映されない場合
    inoremap <silent> <ESC> <ESC>
    inoremap <silent> <C-[> <ESC>
  endif
-
-if has('syntax')
-  augroup InsertHook
-    autocmd!
-    autocmd InsertEnter * call s:StatusLine('Enter')
-    autocmd InsertLeave * call s:StatusLine('Leave')
-  augroup END
-endif
-
-let s:slhlcmd = ''
-function! s:StatusLine(mode)
-  if a:mode == 'Enter'
-    silent! let s:slhlcmd = 'highlight ' . s:GetHighlight('StatusLine')
-    silent exec g:hi_insert
-  else
-    highlight clear StatusLine
-    silent exec s:slhlcmd
-  endif
-endfunction
-
-function! s:GetHighlight(hi)
-  redir => hl
-  exec 'highlight '.a:hi
-  redir END
-  let hl = substitute(hl, '[\r\n]', '', 'g')
-  let hl = substitute(hl, 'xxx', '', '')
-  return hl
-endfunction
+""
+""if has('syntax')
+""  augroup InsertHook
+""    autocmd!
+""    autocmd InsertEnter * call s:StatusLine('Enter')
+""    autocmd InsertLeave * call s:StatusLine('Leave')
+""  augroup END
+""endif
+""
+""let s:slhlcmd = ''
+""function! s:StatusLine(mode)
+""  if a:mode == 'Enter'
+""    silent! let s:slhlcmd = 'highlight ' . s:GetHighlight('StatusLine')
+""    silent exec g:hi_insert
+""  else
+""    highlight clear StatusLine
+""    silent exec s:slhlcmd
+""  endif
+""endfunction
+""
+""function! s:GetHighlight(hi)
+""  redir => hl
+""  exec 'highlight '.a:hi
+""  redir END
+""  let hl = substitute(hl, '[\r\n]', '', 'g')
+""  let hl = substitute(hl, 'xxx', '', '')
+""  return hl
+""endfunction
 
 " }}}
 
@@ -594,8 +644,8 @@ inoremap <expr><C-g> neocomplcache#undo_completion()
 " <C-l>: Complete common string.
 inoremap <expr><C-l> neocomplcache#complete_common_string()
 " <C-h>, <BS>: Close popup and delete backward char.
-inoremap <expr><C-h> neocomplcache#smart_close_popup()."\<C-h>"
-inoremap <expr><BS> neocomplcache#smart_close_popup()."\<C-h>"
+"inoremap <expr><C-h> neocomplcache#smart_close_popup()."\<C-h>"
+"inoremap <expr><BS> neocomplcache#smart_close_popup()."\<BS>"
 
 "}}}
 
@@ -673,15 +723,18 @@ if !has('gui_running')
     let g:solarized_termcolors=16
     set background=light
     colorscheme solarized
+    let g:Powerline_colorscheme = 'solarized'
   elseif $ITERM_PROFILE =~? 'solarized' && $ITERM_PROFILE =~? 'dark'
     let g:solarized_termcolors=16
     set background=dark
     colorscheme solarized
+    let g:Powerline_colorscheme = 'solarized16'
   else
     let g:solarized_termcolors=256
     set background=light
     colorscheme solarized
     "colorscheme jellybeans
+    let g:Powerline_colorscheme = 'default'
   endif
 endif
 
@@ -689,7 +742,7 @@ endif
 
 " vim-smartchr {{{
 
-"inoremap <expr> = smartchr#one_of(' = ', ' == ', ' === ', '=')
+inoremap <expr> = smartchr#one_of(' = ', ' == ', ' === ', '=')
 inoremap <expr> , smartchr#one_of(', ', ',')
 inoremap <expr> : smartchr#one_of(': ', ' : ', ':')
 inoremap <buffer> <expr> . smartchr#loop('.',  ' . ',  '..', '...')
@@ -721,6 +774,22 @@ let g:netrw_altv = 1
 let g:netrw_alto = 1
 " CVSと.で始まるファイルは表示しない
 "let g:netrw_list_hide = 'CVS,\(^\|\s\s\)\zs\.\S\+'
+
+"}}}
+
+" vim-powerline {{{
+"
+"let g:Powerline_symbols = 'fancy'            " Requires a patched font.
+"let g:Powerline_colorscheme = 'solarized'    " light
+"let g:Powerline_colorscheme = 'solarized16'  " dark
+"let g:Powerline_cache_enabled = 0
+let g:Powerline_stl_path_style = 'relative'
+let g:Powerline_dividers_override = ['', '', '', '❮']
+let g:Powerline_symbols_override = {
+      \ 'LINE': '',
+      \ }
+"call Pl#Theme#ReplaceSegment('lineinfo', 'scrollpercent')
+"call Pl#Theme#ReplaceSegment('scrollpercent', 'lineinfo')
 
 "}}}
 
@@ -775,17 +844,23 @@ endfunction
 
 " Toggle number {{{
 
-function! ChangeLineNumberMode()
-  if &number == 0 && &relativenumber == 0
-    set number | set number?
-  elseif &number == 1
-    set relativenumber | set relativenumber?
-  elseif &relativenumber == 1
-    set norelativenumber
-    "set relativenumber?
-    echo 'nonumber norelativenumber'
-  endif
-endfunction
+if exists('&relativenumber')
+  function! ChangeLineNumberMode()
+    if &number == 0 && &relativenumber == 0
+      set number | set number?
+    elseif &number == 1
+      set relativenumber | set relativenumber?
+    elseif &relativenumber == 1
+      set norelativenumber
+      "set relativenumber?
+      echo 'nonumber norelativenumber'
+    endif
+  endfunction
+else
+  function! ChangeLineNumberMode()
+    set number! | set number?
+  endfunction
+endif
 
 "}}}
 
@@ -794,7 +869,19 @@ endfunction
 " Others: "{{{
 "
 
-" I don't want to use MODULA2 syntax to *.md.
+" Editing binary file.
+" See :help hex-editing
+augroup BinaryXXD
+  autocmd!
+  autocmd BufReadPre   *.bin let &binary=1
+  autocmd BufReadPost  * if &binary | silent %!xxd -g 1
+  autocmd BufReadPost  *   setlocal filetype=xxd | endif
+  autocmd BufWritePre  * if &binary | %!xxd -r | endif
+  autocmd BufWritePost * if &binary | silent %!xxd -g 1
+  autocmd BufWritePost *   setlocal nomodified | endif
+augroup END
+
+" I don't want to use Modula-2 syntax to *.md.
 autocmd MyAutoCmd BufNewFile,BufRead *.md setlocal filetype=markdown
 
 " If true Vim master, use English help file.
