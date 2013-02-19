@@ -799,6 +799,20 @@ if has('unix') && !has('gui_running')
   vnoremap <silent> <C-[> <ESC>
 endif
 
+function! s:powerline_solarized_adjuster()
+  if g:colors_name == 'solarized'
+    if &background == 'light'
+      let g:Powerline_colorscheme = 'solarized'
+      PowerlineReloadColorscheme
+    else
+      let g:Powerline_colorscheme = 'solarized16'
+      PowerlineReloadColorscheme
+    endif
+  endif
+endfunction
+
+autocmd MyAutoCmd ColorScheme * call s:powerline_solarized_adjuster()
+
 "}}}
 
 " Others {{{
