@@ -563,12 +563,12 @@ autocmd MyAutoCmd BufEnter * lcd %:p:h
 ""        \ '
 ""endif
 ""
-" Linux等でESC後にすぐ反映されない場合、次行以降のコメントを解除してください
- if has('unix') && !has('gui_running')
-   " ESC後にすぐ反映されない場合
-   inoremap <silent> <ESC> <ESC>
-   inoremap <silent> <C-[> <ESC>
- endif
+""" Linux等でESC後にすぐ反映されない場合、次行以降のコメントを解除してください
+"" if has('unix') && !has('gui_running')
+""   " ESC後にすぐ反映されない場合
+""   inoremap <silent> <ESC> <ESC>
+""   inoremap <silent> <C-[> <ESC>
+"" endif
 ""
 ""if has('syntax')
 ""  augroup InsertHook
@@ -790,6 +790,14 @@ let g:Powerline_symbols_override = {
       \ }
 "call Pl#Theme#ReplaceSegment('lineinfo', 'scrollpercent')
 "call Pl#Theme#ReplaceSegment('scrollpercent', 'lineinfo')
+
+" CUI上でESC後すぐに反映させる
+if has('unix') && !has('gui_running')
+  inoremap <silent> <ESC> <ESC>
+  inoremap <silent> <C-[> <ESC>
+  vnoremap <silent> <ESC> <ESC>
+  vnoremap <silent> <C-[> <ESC>
+endif
 
 "}}}
 
