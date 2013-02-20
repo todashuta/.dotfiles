@@ -135,9 +135,9 @@ syntax enable
 
 " General: "{{{
 "
-" エンコードをUTF-8にする
+" Use the UTF-8 encoding inside Vim.
 set encoding=utf-8
-" カーソルの上下に表示する行数(大きな数字を指定するとカーソルが真ん中になる)
+" Minimal number of screen lines to keep above and below the cursor.
 set scrolloff=2
 
 " A history of ":" commands, and a history of previous search patterns.
@@ -145,14 +145,14 @@ set history=1000
 
 " Enable backspace delete indent and newline.
 set backspace=indent,eol,start
-" カーソルを行頭、行末で止まらないようにする
+" Allow h, l, <Left> and <Right> to move to the previous/next line.
 set whichwrap=b,s,h,l,<,>,[,]
-" 矩形選択で行末を超えてブロックを選択可能にする
+" Enable virtualedit in visual block mode.
 set virtualedit& virtualedit+=block
 
-" 横分割したら新規ウィンドウは下にする
+" Splitting a window will put the new window below the current one.
 set splitbelow
-" 縦分割したら新規ウィンドウは右にする
+" Splitting a window will put the new window right of the current one.
 set splitright
 
 " Use clipboard register. (i.e. Use OS's clipboard.)
@@ -176,32 +176,28 @@ set lazyredraw
 
 " File,Backup: "{{{
 "
-" 編集中でも他のファイルを開けるようにする
+" Display another buffer when current buffer isn't saved.
 set hidden
-" 他で書き換えられたら自動で読み直す
+" Auto reload if file is changed.
 set autoread
-" バックアップファイルを作らない
-set nobackup
-" スワップファイル作らない
-set noswapfile
+" Don't create backup files.
+set nobackup noswapfile
 
 "}}}
 
 " Indent,Tab: "{{{
 "
 
-" 新しい行のインデントを現在行と同じにする
-"set autoindent
-" 新しい行を作ったときに高度な自動インデントを行う
-set smartindent
-" タブで表示される空白の数
+" Enable smart indent.
+set autoindent smartindent
+" Number of spaces that a <Tab> in the file counts for.
 set tabstop=4
-" Tab押下時に4文字分移動(Tabかスペースかは別の設定)
-set softtabstop=4
-" インデントの各段階に使われる空白の数
+" Number of spaces to use for each step of (auto)indent.
 set shiftwidth=4
-" タブの代わりに空白文字を挿入する
+" Expand tab to spaces.
 "set expandtab
+" See :help softtabstop
+set softtabstop=4
 " Smart insert tab setting.
 "set smarttab
 " Disable auto wrap.
@@ -224,11 +220,11 @@ set smartcase
 " Highlight search results.
 set hlsearch
 
-" wildmenu: コマンドライン補完を強化されたものにする
+" Command-line completion operates in an enhanced mode.
 set wildmenu
-" 共通部まで補完,一覧,順番
+" Complete Longest common string, List all matches and complete the next full match.
 set wildmode=longest,list,full
-" wildmenu補完で除外するパターン
+" These patterns is ignored when completing file or directory names.
 set wildignore&
 set wildignore+=.DS_Store
 "set wildignore+=*~,*.swp,*.tmp
@@ -279,7 +275,7 @@ nnoremap <C-i> <C-i>zz
 "inoremap "" ""<LEFT>
 "inoremap '' ''<LEFT>
 
-" html,xmlの閉じタグを自動挿入
+" Auto insert close tags of xml and html.
 if exists('&omnifunc')
   autocmd MyAutoCmd FileType xml,html inoremap <buffer> </ </<C-x><C-o>
 endif
@@ -368,13 +364,13 @@ nnoremap <silent> <Space>n
 " Release Space Key for Mappings below. (not required)
 nnoremap <Space> <Nop>
 
-" レジスタの内容を確認
+" Look see registers.
 nnoremap <Space>r :<C-u>registers<CR>
 
-" マークの内容を確認
+" Look see marks.
 nnoremap <Space>m :<C-u>marks<CR>
 
-" :helpを3倍の速度で引く
+" Use :help three times more than regular speed.
 nnoremap <C-h> :<C-u>help<Space>
 
 " :close
@@ -387,7 +383,7 @@ nnoremap <Space>o :<C-u>only<CR>
 nnoremap <silent> <Space>p
       \ :<C-u>call ToggleOption('paste')<CR>:set mouse=<CR>
 
-" 画面分割
+" Split window.
 nnoremap <Space>S :<C-u>split<CR>
 nnoremap <Space>V :<C-u>vsplit<CR>
 
@@ -427,14 +423,13 @@ set number
 " Show line number relative to the line with the cursor.
 "set relativenumber
 
-" 閉じ括弧が入力されたとき、対応する括弧を表示する
+" When a bracket is inserted, briefly jump to the matching one.
 set showmatch
-" <>のカッコをマッチ対象にする
-set matchpairs& matchpairs+=<:>
-" showmatchの瞬間強調時間
 set matchtime=3
+" Highlight a pair of <>.
+set matchpairs& matchpairs+=<:>
 
-" 画面幅で折り返す
+" Lines longer than the width of the window will wrap.
 set wrap
 
 " {数字}列目を強調表示
@@ -475,7 +470,7 @@ else
   "set listchars=tab:▸\ ,trail:›,eol:⏎,precedes:«,extends:»
 endif
 
-" カーソルのあるところでだけ行ハイライト(フォーカスが外れたらハイライトオフ)
+" Highlight cursor line.
 autocmd MyAutoCmd WinEnter * setlocal cursorline
 autocmd MyAutoCmd WinLeave * setlocal nocursorline
 setlocal cursorline
@@ -484,7 +479,7 @@ setlocal cursorline
 
 " Status Line: "{{{
 "
-" ステータスラインを常に表示
+" Show status line always.
 set laststatus=2
 
 " Set statusline.
@@ -517,7 +512,7 @@ set laststatus=2
 
 "}}}
 
-" 全角スペースのハイライト(正規表現でマッチさせて背景色を変える): "{{{
+" Highlight japanese zenkaku space. "{{{
 "
 if has('syntax')
   syntax enable
