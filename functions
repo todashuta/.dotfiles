@@ -42,6 +42,10 @@ init_aliases() {
 			alias vimdiff="${MacVim_PATH}/vimdiff"
 			alias view="${MacVim_PATH}/view"
 		fi
+
+		# topコマンド (CPU使用率ソート)
+		# 項目: PID,コマンド名,ユーザ,CPU使用率,メモリ,スレッド,状態,時間
+		alias top="top -o cpu -stats pid,command,user,cpu,rsize,vsize,th,pstate,time"
 		;;
 	linux*)
 		# Add aliases for linux here if needed.
@@ -50,11 +54,6 @@ init_aliases() {
 
 	alias tmux="tmux a || tmux"
 	alias vi=vim
-
-	# topコマンド
-	# CPU使用率ソート
-	# 項目: PID,コマンド名,ユーザ,CPU使用率,メモリ,スレッド,状態,時間
-	alias top="top -o cpu -stats pid,command,user,cpu,rsize,vsize,th,pstate,time"
 }
 
 # vim: set ft=sh :
