@@ -802,11 +802,15 @@ endif
 function! s:powerline_solarized_adjuster()
   if g:colors_name == 'solarized'
     if &background == 'light'
-      let g:Powerline_colorscheme = 'solarized'
-      PowerlineReloadColorscheme
+      if exists(':PowerlineReloadColorscheme')
+        let g:Powerline_colorscheme = 'solarized'
+        PowerlineReloadColorscheme
+      endif
     else
-      let g:Powerline_colorscheme = 'solarized16'
-      PowerlineReloadColorscheme
+      if exists(':PowerlineReloadColorscheme')
+        let g:Powerline_colorscheme = 'solarized16'
+        PowerlineReloadColorscheme
+      endif
     endif
   endif
 endfunction
