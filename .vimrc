@@ -351,13 +351,17 @@ nnoremap <silent> <Space>s. :<C-u>source $MYVIMRC
 
 " Toggle wrap
 nnoremap <silent> <Space>w
-      \ :<C-u>setlocal wrap!
-      \ \|    setlocal wrap?<CR>
+      \ :<C-u>call ToggleOption('wrap')<CR>
 
-" Toggle number
+" Toggle listchars
+nnoremap <silent> <Space>l
+      \ :<C-u>call ToggleOption('list')<CR>
+
+" Toggle number.
 "nnoremap <silent> <Space>n
-"      \ :<C-u>setlocal number!
-"      \ \|    setlocal number?<CR>
+"      \ :<C-u>call ToggleOption('number')<CR>
+
+" Change line number mode.
 nnoremap <silent> <Space>n
       \ :<C-u>call ChangeLineNumberMode()<CR>
 
@@ -376,18 +380,16 @@ nnoremap <C-h> :<C-u>help<Space>
 " :close
 nnoremap <Space>c :<C-u>close<CR>
 
+" :only
+nnoremap <Space>o :<C-u>only<CR>
+
 " PasteToggle
-"nnoremap <Space>p :<C-u>
-"set pastetoggle=<Space>p
-"nnoremap <Space>p :<C-u>setlocal paste mouse=<CR>
 nnoremap <silent> <Space>p
       \ :<C-u>call ToggleOption('paste')<CR>:set mouse=<CR>
 
 " 画面分割
 nnoremap <Space>S :<C-u>split<CR>
-"nnoremap <Space>sp :<C-u>split<CR>
 nnoremap <Space>V :<C-u>vsplit<CR>
-"nnoremap <Space>v :<C-u>vsplit<CR>
 
 nnoremap q <Nop>
 "nnoremap Q q
@@ -661,10 +663,10 @@ let g:user_zen_settings = {
 
 " eregex.vim {{{
 
-nnoremap / :M/
-nnoremap ? :M?
-nnoremap ,/ /
-nnoremap ,? ?
+"nnoremap / :M/
+"nnoremap ? :M?
+nnoremap ,/ :M/
+nnoremap ,? :M?
 
 "}}}
 
@@ -744,12 +746,12 @@ endif
 
 inoremap <expr> = smartchr#one_of(' = ', ' == ', ' === ', '=')
 inoremap <expr> , smartchr#one_of(', ', ',')
-inoremap <expr> : smartchr#one_of(': ', ' : ', ':')
-inoremap <buffer> <expr> . smartchr#loop('.',  ' . ',  '..', '...')
+"inoremap <expr> : smartchr#one_of(': ', ' : ', ':')
+"inoremap <buffer> <expr> . smartchr#loop('.',  ' . ',  '..', '...')
 
-augroup MyAutoCmd
-  autocmd FileType css inoremap <expr> : smartchr#one_of(':')
-augroup END
+"augroup MyAutoCmd
+"  autocmd FileType css inoremap <expr> : smartchr#one_of(':')
+"augroup END
 
 "}}}
 
@@ -844,10 +846,10 @@ augroup END
 
 " Commands: "{{{
 "
-" ToggleListChars {{{
+" Change listchars {{{
 
-function! ToggleListChars()
-  if &listchars=~ '^tab:>-'
+function! s:change_listchars()
+  if &listchars =~ '^tab:>-'
     "set listchars=tab:▸\ ,trail:›,eol:¬,precedes:«,extends:»
     set listchars=tab:▸\ ,trail:›,precedes:«,extends:»
   else
@@ -855,7 +857,7 @@ function! ToggleListChars()
   endif
 endfunction
 
-command! ToggleListChars :call ToggleListChars()
+command! ChangeListChars :call s:change_listchars()
 
 "}}}
 
@@ -868,7 +870,7 @@ endfunction
 
 "}}}
 
-" Toggle number {{{
+" Change line number mode {{{
 
 if exists('&relativenumber')
   function! ChangeLineNumberMode()
