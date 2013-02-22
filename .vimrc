@@ -35,12 +35,15 @@ endif
 
 call neobundle#rc(expand('~/.vim/bundle/'))
 
-" Github repos
+" Github repositories.
 NeoBundle 'Shougo/neocomplcache'
 NeoBundle 'Shougo/unite.vim'
-NeoBundle 'Shougo/vimfiler',
-      \ { 'depends' : 'Shougo/unite.vim' }
-NeoBundleLazy 'h1mesuke/unite-outline',
+NeoBundleLazy 'Shougo/vimfiler', {
+      \ 'depends' : 'Shougo/unite.vim',
+      \ 'autoload' : {
+      \     'commands' : ['VimFiler']
+      \ }}
+NeoBundle 'h1mesuke/unite-outline',
       \ { 'depends' : 'Shougo/unite.vim' }
 NeoBundle 'Shougo/vimproc', {
       \ 'build' : {
@@ -51,18 +54,25 @@ NeoBundle 'Shougo/vimproc', {
       \    },
       \ }
 NeoBundle 'altercation/vim-colors-solarized'
-NeoBundle 'othree/eregex.vim'
+NeoBundleLazy 'othree/eregex.vim', {
+      \ 'autoload' : {
+      \     'commands' : ['E2v', 'M', 'S', 'G', 'G!', 'V']
+      \ }}
 NeoBundleLazy 'vim-scripts/VOoM', {
       \ 'autoload' : {
       \     'filetypes' : ['html','markdown','python','latex']
       \    },
       \ }
 NeoBundle 'scrooloose/nerdtree'
-NeoBundle 'thinca/vim-quickrun'
-NeoBundle 'h1mesuke/vim-alignta'
-NeoBundleLazy 'tpope/vim-surround', { 'autoload' : {
-      \ 'insert' : 1,
+NeoBundleLazy 'thinca/vim-quickrun', {
+      \ 'autoload' : {
+      \     'mappings' : [['nxo', '<Plug>(quickrun)']],
       \ }}
+NeoBundleLazy 'h1mesuke/vim-alignta', {
+      \ 'autoload' : {
+      \     'commands' : ['Alignta', 'Align']
+      \ }}
+NeoBundle 'tpope/vim-surround'
 "NeoBundle 'troydm/easybuffer.vim'
 NeoBundle 'vim-scripts/DirDo.vim'
 NeoBundleLazy 'kana/vim-smartchr', { 'autoload' : {
@@ -70,13 +80,12 @@ NeoBundleLazy 'kana/vim-smartchr', { 'autoload' : {
       \ }}
 NeoBundle 'kana/vim-submode'
 NeoBundleLazy 'glidenote/memolist.vim', { 'autoload' : {
-      \ 'commands' : ['MemoGrep','MemoList','MemoNew']
+      \ 'commands' : ['MemoGrep', 'MemoList', 'MemoNew']
       \ }}
 NeoBundleLazy 'hallison/vim-markdown', {
       \ 'autoload' : {
       \     'filetypes' : ['markdown']
-      \    },
-      \ }
+      \ }}
 "NeoBundle 'houtsnip/vim-emacscommandline'
 NeoBundleLazy 'Shougo/vimshell', {
       \ 'depends' : 'Shougo/vimproc',
@@ -98,9 +107,15 @@ NeoBundleLazy 'gregsexton/VimCalc', { 'autoload' : {
 NeoBundleLazy 'mattn/calendar-vim', { 'autoload' : {
       \ 'commands' : ['Calendar','CalendarH']
       \ }}
-NeoBundleLazy 'nathanaelkane/vim-indent-guides'
+NeoBundleLazy 'nathanaelkane/vim-indent-guides', {
+      \ 'autoload' : {
+      \     'mappings' : [['nxo', '<Plug>IndentGuidesToggle']],
+      \ }}
 NeoBundleLazy 'skammer/vim-css-color'
-NeoBundleLazy 'lilydjwg/colorizer'
+NeoBundleLazy 'lilydjwg/colorizer', {
+      \ 'autoload' : {
+      \     'mappings' : [['nxo', '<Plug>Colorizer']]
+      \ }}
 NeoBundleLazy 'koron/nyancat-vim', { 'autoload' : {
       \ 'commands' : ['Nyancat','Nyancat2']
       \ }}
@@ -120,8 +135,12 @@ NeoBundleLazy 'kana/vim-smartinput', { 'autoload' : {
 NeoBundle 'kien/ctrlp.vim'
 NeoBundleLazy 'basyura/TweetVim', { 'depends' :
       \ ['basyura/twibill.vim','tyru/open-browser.vim'],
-      \ 'autoload' : { 'commands' : 'TweetVimHomeTimeline' }}
+      \ 'autoload' : { 'commands' : [
+      \     'TweetVimHomeTimeline', 'TweetVimMentions', 'TweetVimSay'
+      \ ]}}
 NeoBundle 'Lokaltog/vim-powerline'
+NeoBundleLazy 'thinca/vim-painter', { 'autoload' : {
+      \ 'commands' : 'PainterStart' }}
 
 filetype plugin indent on    " Required!
 
@@ -398,6 +417,16 @@ nnoremap K <Nop>
 " コピーした文字で繰り返し上書きペーストする
 vnoremap <silent> <C-p> "0p<CR>
 
+" markdownで、行頭か行頭からいくつかのタブの後の'-'に半角スペースを足す
+augroup MyAutoCmd
+  autocmd FileType markdown
+    \ inoremap <buffer><expr> - search('^\t*\%#', 'bcn')? '- ' : '-'
+"  autocmd FileType markdown
+"    \ inoremap <buffer><expr> # search('^#*\s*\%#', 'bcn')?
+"    \ smartchr#one_of('# ', '## ', '### ', '#### ', '##### ', '###### ', '#')
+"    \ : '#'
+augroup END
+
 "}}}
 
 " Visual: "{{{
@@ -450,9 +479,9 @@ if exists('&colorcolumn')
   autocmd MyAutoCmd BufEnter,VimResized * call s:ColorcolumnPlus()
   function! s:ColorcolumnPlus()
     if &columns >= 85
-      execute "setlocal colorcolumn=".join(range(81,335),',')
+      execute "setlocal colorcolumn=" . join(range(81,335),',')
     else
-      setlocal colorcolumn=""
+      execute "setlocal colorcolumn=" . 0
     endif
   endfunction
 endif
@@ -682,17 +711,17 @@ let NERDTreeShowHidden = 1
 " 入力モードで開始する
 "let g:unite_enable_start_insert = 1
 " バッファ一覧
-noremap <C-U><C-B> :Unite buffer<CR>
+noremap <C-U><C-B> :Unite -buffer-name=Buffers buffer<CR>
 " ファイル一覧
-noremap <C-U><C-F> :UniteWithBufferDir -buffer-name=files file<CR>
+noremap <C-U><C-F> :UniteWithBufferDir -buffer-name=Files file<CR>
 " 最近使ったファイルの一覧
-noremap <C-U><C-R> :Unite file_mru<CR>
+noremap <C-U><C-R> :Unite -buffer-name=Recent file_mru<CR>
 " レジスタ一覧
-noremap <C-U><C-Y> :Unite -buffer-name=register register<CR>
+noremap <C-U><C-Y> :Unite -buffer-name=Registers register<CR>
 " ファイルとバッファ
 noremap <C-U><C-U> :Unite buffer file_mru<CR>
 " 全部
-noremap <C-U><C-A> :UniteWithBufferDir -buffer-name=files buffer file_mru bookmark file<CR>
+noremap <C-U><C-A> :UniteWithBufferDir -buffer-name=All buffer file_mru bookmark file<CR>
 " ESCキーを3回押すと終了する
 "au FileType unite nnoremap <silent> <buffer> <ESC><ESC><ESC> :q<CR>
 "au FileType unite inoremap <silent> <buffer> <Esc><Esc><ESC> <Esc>:q<CR>
@@ -700,9 +729,10 @@ noremap <C-U><C-A> :UniteWithBufferDir -buffer-name=files buffer file_mru bookma
 autocmd MyAutoCmd FileType unite nnoremap <silent> <buffer> <C-U><C-U> :q<CR>
 autocmd MyAutoCmd FileType unite inoremap <silent> <buffer> <C-U><C-U> <Esc>:q<CR>
 
-nnoremap <Space>b :<C-u>Unite buffer<CR>
-nnoremap <Space>y :<C-u>Unite -buffer-name=register register<CR>
-nnoremap <Space>u :<C-u>UniteWithBufferDir -buffer-name=files buffer file_mru bookmark file<CR>
+nnoremap <Space>b :<C-u>Unite -buffer-name=Buffers buffer<CR>
+nnoremap <Space>y :<C-u>Unite -buffer-name=Registers register<CR>
+nnoremap <Space>u :<C-u>UniteWithBufferDir -buffer-name=Files buffer file_mru bookmark file<CR>
+nnoremap <Space>- :<C-u>Unite -buffer-name=Outline outline<CR>
 "autocmd MyAutoCmd FileType unite nnoremap <silent><buffer> <Space>u :<C-u>q<CR>
 autocmd MyAutoCmd FileType unite imap <buffer> <C-w> <Plug>(unite_delete_backward_path)
 
@@ -739,14 +769,21 @@ endif
 
 " vim-smartchr {{{
 
-inoremap <expr> = smartchr#one_of(' = ', ' == ', ' === ', '=')
-inoremap <expr> , smartchr#one_of(', ', ',')
-"inoremap <expr> : smartchr#one_of(': ', ' : ', ':')
-"inoremap <buffer> <expr> . smartchr#loop('.',  ' . ',  '..', '...')
+let bundle = neobundle#get('vim-smartchr')
+function! bundle.hooks.on_source(bundle)
 
-"augroup MyAutoCmd
-"  autocmd FileType css inoremap <expr> : smartchr#one_of(':')
-"augroup END
+  inoremap <expr> = smartchr#one_of(' = ', ' == ', ' === ', '=')
+  inoremap <expr> , smartchr#one_of(', ', ',')
+  "inoremap <expr> : smartchr#one_of(': ', ' : ', ':')
+  "inoremap <buffer> <expr> . smartchr#loop('.',  ' . ',  '..', '...')
+
+  "augroup MyAutoCmd
+  "  autocmd FileType css inoremap <expr> : smartchr#one_of(':')
+  "augroup END
+
+endfunction
+
+unlet bundle
 
 "}}}
 
@@ -813,6 +850,55 @@ function! s:powerline_solarized_adjuster()
 endfunction
 
 autocmd MyAutoCmd ColorScheme * call s:powerline_solarized_adjuster()
+
+"}}}
+
+" vimshell {{{
+
+let bundle = neobundle#get('vimshell')
+function! bundle.hooks.on_source(bundle)
+  " Prompt.
+  let g:vimshell_user_prompt = 'fnamemodify(getcwd(), ":~")'
+  let g:vimshell_prompt = '% '
+
+  autocmd MyAutoCmd FileType vimshell call s:vimshell_settings()
+  function! s:vimshell_settings()
+    " Aliases
+    call vimshell#set_alias('ls', 'ls -G')
+    call vimshell#set_alias('ll', 'ls -alFG')
+    call vimshell#set_alias('la', 'ls -AG')
+    call vimshell#set_alias('l',  'ls -CFG')
+    call vimshell#set_alias('cl', 'clear')
+    call vimshell#set_alias('edit', 'vim --split=tabedit $$args')
+    call vimshell#set_alias('quicklook', 'qlmanage -p $$args')
+  endfunction
+
+endfunction
+unlet bundle
+
+"}}}
+
+" vim-indent-guides {{{
+
+nmap <silent> <Leader>ig <Plug>IndentGuidesToggle
+
+"}}}
+
+" colorizer.vim {{{
+
+nmap <silent> <Leader>tc <Plug>Colorizer
+
+"}}}
+
+" quickrun.vim {{{
+
+nmap <silent> <Leader>r <Plug>(quickrun)
+
+let g:quickrun_config = {}
+let g:quickrun_config['_'] = {
+      \ 'runner' : 'vimproc',
+      \ 'split' : 'below'
+      \ }
 
 "}}}
 
