@@ -141,6 +141,10 @@ NeoBundleLazy 'basyura/TweetVim', { 'depends' :
 NeoBundle 'Lokaltog/vim-powerline'
 NeoBundleLazy 'thinca/vim-painter', { 'autoload' : {
       \ 'commands' : 'PainterStart' }}
+NeoBundleLazy 'thinca/vim-scouter', {
+      \ 'autoload' : {
+      \     'commands' : ['Scouter', 'Scouter!']
+      \ }}
 
 filetype plugin indent on    " Required!
 
