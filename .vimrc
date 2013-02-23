@@ -18,6 +18,10 @@ let s:is_mac = !s:is_windows && !s:is_cygwin
 let s:is_linux = !s:is_windows && !s:is_cygwin && !s:is_mac &&
       \   system('uname') =~? 'linux'
 
+" Define <Leader>, <LocalLeader>
+let g:mapleader = '\'
+"let g:maplocalleader = ','
+
 " Reset all autocmd defined in this file.
 augroup MyAutoCmd
   autocmd!
@@ -37,6 +41,8 @@ call neobundle#rc(expand('~/.vim/bundle/'))
 
 " Github repositories.
 NeoBundle 'Shougo/neocomplcache'
+NeoBundle 'Shougo/neosnippet', { 'depends' :
+      \ ['Shougo/neocomplcache', 'honza/snipmate-snippets'] }
 NeoBundle 'Shougo/unite.vim'
 NeoBundleLazy 'Shougo/vimfiler', {
       \ 'depends' : 'Shougo/unite.vim',
@@ -290,30 +296,16 @@ nnoremap # #<C-o>
 nnoremap <C-o> <C-o>zz
 nnoremap <C-i> <C-i>zz
 
-" Input support the parentheses.
-"inoremap {{ {}<LEFT>
-"inoremap [[ []<LEFT>
-"inoremap (( ()<LEFT>
-"inoremap << <><LEFT>
-"inoremap "" ""<LEFT>
-"inoremap '' ''<LEFT>
-
 " Auto insert close tags of xml and html.
 if exists('&omnifunc')
   autocmd MyAutoCmd FileType xml,html inoremap <buffer> </ </<C-x><C-o>
 endif
 
-" ブラウザのようにSpaceでページ送り、Shift-Spaceで逆向き
-"noremap <Space> <PageDown>
-"noremap <S-Space> <PageUp>
-
 " タブ切り替え
-nnoremap <C-Tab>   gt
-nnoremap <C-S-Tab> gT
-
-" バッファの切り替え
-"nnoremap <C-Tab>  :bn<CR>
-"nnoremap <C-S-Tab>  :bp<CR>
+if has('gui_running')
+  nnoremap <C-Tab>   gt
+  nnoremap <C-S-Tab> gT
+endif
 
 " ;でコマンド入力(;と:を入れ替え)
 noremap ; :
@@ -323,12 +315,18 @@ noremap : ;
 "nnoremap <CR> i<CR><ESC>
 
 " ビジュアルモードでインデント変更後も選択を継続する
-vnoremap < <gv
-vnoremap > >gv
+xnoremap < <gv
+xnoremap > >gv
 
 " ノーマルモードのインデントの操作をビジュアルモードと同様にする
 nnoremap < <<
 nnoremap > >>
+
+" Indent
+if has('gui_running')
+  xnoremap <Tab> >gv
+  xnoremap <S-Tab> <gv
+endif
 
 " Shiftキー + 矢印キーで分割ウインドウのサイズを調節
 nnoremap <silent> <S-Left>  :wincmd <<CR>
@@ -419,7 +417,7 @@ nnoremap K <Nop>
 "noremap <Space>k <C-b>
 
 " コピーした文字で繰り返し上書きペーストする
-vnoremap <silent> <C-p> "0p<CR>
+xnoremap <silent> <C-p> "0p<CR>
 
 " markdownで、行頭か行頭からいくつかのタブの後の'-'に半角スペースを足す
 augroup MyAutoCmd
@@ -430,6 +428,12 @@ augroup MyAutoCmd
 "    \ smartchr#one_of('# ', '## ', '### ', '#### ', '##### ', '###### ', '#')
 "    \ : '#'
 augroup END
+
+" <C-f>, <C-b>: page move.
+inoremap <expr><C-f>  pumvisible() ? "\<PageDown>" : "\<Right>"
+inoremap <expr><C-b>  pumvisible() ? "\<PageUp>"   : "\<Left>"
+" <C-y>: paste.
+"inoremap <expr><C-y>  pumvisible() ? neocomplcache#close_popup() : "\<C-r>\""
 
 "}}}
 
@@ -659,23 +663,57 @@ autocmd MyAutoCmd InsertLeave *
 
 " Launches neocomplcache automatically on vim startup.
 let g:neocomplcache_enable_at_startup = 1
-" <CR>: Close popup and save indent.
-inoremap <expr><CR> neocomplcache#smart_close_popup() . "\<CR>"
-" <TAB>: completion.
-inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
-" <Shift-TAB>: Reverse completion.
-inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
-" AutoCompPop like behavior.
-"let g:neocomplcache_enable_auto_select = 1
-" The number of candidates in popup menu. (Default: 100)
-"let g:neocomplcache_max_list = 20
-" <C-g>: Undo completion.
-inoremap <expr><C-g> neocomplcache#undo_completion()
-" <C-l>: Complete common string.
-inoremap <expr><C-l> neocomplcache#complete_common_string()
-" <C-h>, <BS>: Close popup and delete backward char.
-"inoremap <expr><C-h> neocomplcache#smart_close_popup()."\<C-h>"
-"inoremap <expr><BS> neocomplcache#smart_close_popup()."\<BS>"
+
+let bundle = neobundle#get('neocomplcache')
+function! bundle.hooks.on_source(bundle)
+  " <CR>: Close popup and save indent.
+  inoremap <expr><CR> neocomplcache#smart_close_popup() . "\<CR>"
+
+  " <TAB>: completion.
+  inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
+  " <Shift-TAB>: Reverse completion.
+  inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+
+  " AutoCompPop like behavior.
+  "let g:neocomplcache_enable_auto_select = 1
+  " The number of candidates in popup menu. (Default: 100)
+  "let g:neocomplcache_max_list = 20
+  " <C-g>: Undo completion.
+  inoremap <expr><C-g> neocomplcache#undo_completion()
+  " <C-l>: Complete common string.
+  inoremap <expr><C-l> neocomplcache#complete_common_string()
+
+  " <C-h>, <BS>: Close popup and delete backward char.
+  "inoremap <expr><C-h> neocomplcache#smart_close_popup()."\<C-h>"
+  "inoremap <expr><BS> neocomplcache#smart_close_popup()."\<BS>"
+
+  " Filename completion.
+  inoremap <expr><C-x><C-f>  neocomplcache#manual_filename_complete()
+
+endfunction
+unlet bundle
+
+"}}}
+
+" neosnippet.vim {{{
+
+let bundle = neobundle#get('neosnippet')
+function! bundle.hooks.on_source(bundle)
+  " Plugin key-mappings.
+  imap <C-k>  <Plug>(neosnippet_expand_or_jump)
+  smap <C-k>  <Plug>(neosnippet_expand_or_jump)
+
+  " For snippet_complete marker.
+  if has('conceal')
+    set conceallevel=2 concealcursor=i
+  endif
+
+  let g:neosnippet#snippets_directory = '~/.vim/bundle/snipmate-snippets/snippets'
+  "let g:neosnippet#snippets_directory = '~/.vim/bundle/snipmate-snippets/snippets,~/.vim/snippets'
+
+endfunction
+
+unlet bundle
 
 "}}}
 
@@ -715,28 +753,34 @@ let NERDTreeShowHidden = 1
 " 入力モードで開始する
 "let g:unite_enable_start_insert = 1
 " バッファ一覧
-noremap <C-U><C-B> :Unite -buffer-name=Buffers buffer<CR>
+nnoremap <C-u><C-b> :<C-u>Unite -buffer-name=Buffers buffer<CR>
+nnoremap <Space>ub  :<C-u>Unite -buffer-name=Buffers buffer<CR>
 " ファイル一覧
-noremap <C-U><C-F> :UniteWithBufferDir -buffer-name=Files file<CR>
+nnoremap <C-u><C-f> :<C-u>UniteWithBufferDir -buffer-name=Files file<CR>
+nnoremap <Space>uf  :<C-u>UniteWithBufferDir -buffer-name=Files file<CR>
 " 最近使ったファイルの一覧
-noremap <C-U><C-R> :Unite -buffer-name=Recent file_mru<CR>
+nnoremap <C-u><C-r> :<C-u>Unite -buffer-name=Recent file_mru<CR>
+nnoremap <Space>ur  :<C-u>Unite -buffer-name=Recent file_mru<CR>
 " レジスタ一覧
-noremap <C-U><C-Y> :Unite -buffer-name=Registers register<CR>
+nnoremap <C-u><C-y> :<C-u>Unite -buffer-name=Registers register<CR>
+nnoremap <Space>uy  :<C-u>Unite -buffer-name=Registers register<CR>
 " ファイルとバッファ
-noremap <C-U><C-U> :Unite buffer file_mru<CR>
+nnoremap <C-u><C-u> :<C-u>Unite buffer file_mru<CR>
+nnoremap <Space>uu  :<C-u>Unite buffer file_mru<CR>
 " 全部
-noremap <C-U><C-A> :UniteWithBufferDir -buffer-name=All buffer file_mru bookmark file<CR>
+nnoremap <C-u><C-a> :<C-u>UniteWithBufferDir -buffer-name=All buffer file_mru bookmark file<CR>
+nnoremap <Space>ua  :<C-u>UniteWithBufferDir -buffer-name=All buffer file_mru bookmark file<CR>
 " ESCキーを3回押すと終了する
 "au FileType unite nnoremap <silent> <buffer> <ESC><ESC><ESC> :q<CR>
 "au FileType unite inoremap <silent> <buffer> <Esc><Esc><ESC> <Esc>:q<CR>
 " C-U 二連打で終了する
-autocmd MyAutoCmd FileType unite nnoremap <silent> <buffer> <C-U><C-U> :q<CR>
-autocmd MyAutoCmd FileType unite inoremap <silent> <buffer> <C-U><C-U> <Esc>:q<CR>
-
-nnoremap <Space>b :<C-u>Unite -buffer-name=Buffers buffer<CR>
-nnoremap <Space>y :<C-u>Unite -buffer-name=Registers register<CR>
-nnoremap <Space>u :<C-u>UniteWithBufferDir -buffer-name=Files buffer file_mru bookmark file<CR>
-nnoremap <Space>- :<C-u>Unite -buffer-name=Outline outline<CR>
+"autocmd MyAutoCmd FileType unite nnoremap <silent> <buffer> <C-U><C-U> :q<CR>
+"autocmd MyAutoCmd FileType unite inoremap <silent> <buffer> <C-U><C-U> <Esc>:q<CR>
+" Unite outline
+nnoremap <Space>-   :<C-u>Unite -buffer-name=Outline outline<CR>
+" TweetVim
+nnoremap <C-u><C-t> :<C-u>Unite -buffer-name=TweetVim tweetvim<CR>
+nnoremap <Space>ut  :<C-u>Unite -buffer-name=TweetVim tweetvim<CR>
 "autocmd MyAutoCmd FileType unite nnoremap <silent><buffer> <Space>u :<C-u>q<CR>
 autocmd MyAutoCmd FileType unite imap <buffer> <C-w> <Plug>(unite_delete_backward_path)
 
@@ -833,8 +877,8 @@ let g:Powerline_symbols_override = {
 if has('unix') && !has('gui_running')
   inoremap <silent> <ESC> <ESC>
   inoremap <silent> <C-[> <ESC>
-  vnoremap <silent> <ESC> <ESC>
-  vnoremap <silent> <C-[> <ESC>
+  xnoremap <silent> <ESC> <ESC>
+  xnoremap <silent> <C-[> <ESC>
 endif
 
 function! s:powerline_solarized_adjuster()
