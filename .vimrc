@@ -41,8 +41,9 @@ call neobundle#rc(expand('~/.vim/bundle'))
 
 " Github repositories.
 NeoBundle 'Shougo/neocomplcache'
-NeoBundle 'Shougo/neosnippet', { 'depends' :
-      \ ['Shougo/neocomplcache', 'honza/snipmate-snippets'] }
+NeoBundle 'Shougo/neosnippet', {
+      \ 'depends' : 'Shougo/neocomplcache' }
+NeoBundle 'honza/snipmate-snippets'
 NeoBundle 'Shougo/unite.vim'
 NeoBundleLazy 'Shougo/vimfiler', {
       \ 'depends' : 'Shougo/unite.vim',
@@ -699,6 +700,7 @@ unlet bundle
 
 let bundle = neobundle#get('neosnippet')
 function! bundle.hooks.on_source(bundle)
+
   " Plugin key-mappings.
   imap <C-k>  <Plug>(neosnippet_expand_or_jump)
   smap <C-k>  <Plug>(neosnippet_expand_or_jump)
