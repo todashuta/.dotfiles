@@ -152,6 +152,13 @@ NeoBundleLazy 'thinca/vim-scouter', {
       \ 'autoload' : {
       \     'commands' : ['Scouter', 'Scouter!']
       \ }}
+NeoBundle 'thinca/vim-visualstar'
+"NeoBundle 'vim-scripts/ShowMarks'
+NeoBundle 'Lokaltog/vim-easymotion'
+NeoBundleLazy 'taku-o/vim-toggle', {
+      \ 'autoload' : {
+      \     'mappings' : [['n', '<Plug>ToggleN']],
+      \ }}
 
 filetype plugin indent on    " Required!
 
@@ -284,20 +291,23 @@ nnoremap n nzzzv
 nnoremap N Nzzzv
 "nnoremap * *zzzv
 "nnoremap # #zzzv
-nnoremap g* g*zzzv
-nnoremap g# g#zzzv
+"nnoremap g* g*zzzv
+"nnoremap g# g#zzzv
 
 " Don't move on *
-nnoremap * *<C-o>
-
+nnoremap * *N
 " Don't move on #
-nnoremap # #<C-o>
+nnoremap # #N
+" Don't move on g*
+nnoremap g* g*N
+" Don't move on g#
+nnoremap g# g#N
 
 " Centering <C-o>, <C-i>
 nnoremap <C-o> <C-o>zz
 nnoremap <C-i> <C-i>zz
 
-" Auto insert close tags of xml and html.
+" Insert close tags automatically in edit xml and html.
 if exists('&omnifunc')
   autocmd MyAutoCmd FileType xml,html inoremap <buffer> </ </<C-x><C-o>
 endif
@@ -308,7 +318,7 @@ if has('gui_running')
   nnoremap <C-S-Tab> gT
 endif
 
-" ;でコマンド入力(;と:を入れ替え)
+" Enter ';' to use command-line (Swap ':' and ';').
 noremap ; :
 noremap : ;
 
@@ -332,8 +342,8 @@ endif
 " Shiftキー + 矢印キーで分割ウインドウのサイズを調節
 nnoremap <silent> <S-Left>  :wincmd <<CR>
 nnoremap <silent> <S-Right> :wincmd ><CR>
-nnoremap <silent> <S-Up>    :wincmd -<CR>
-nnoremap <silent> <S-Down>  :wincmd +<CR>
+nnoremap <silent> <S-Up>    :wincmd +<CR>
+nnoremap <silent> <S-Down>  :wincmd -<CR>
 
 " Yで行末までヤンク
 nnoremap Y y$
@@ -359,13 +369,17 @@ cnoremap <C-k> <C-\>e getcmdpos() == 1 ?
 " <C-y>:  paste.
 cnoremap <C-y>    <C-r>*
 
-" Quick edit and reload .vimrc
-nnoremap <silent> <Space>.  :<C-u>tabedit $MYVIMRC<CR>
-nnoremap <silent> <Space>g. :<C-u>tabedit $MYGVIMRC<CR>
-nnoremap <silent> <Space>s. :<C-u>source $MYVIMRC
+" Quick edit and reload .vimrc/.gvimrc
+nnoremap <silent> <Space>.. :<C-u>tabedit $MYVIMRC<CR>
+nnoremap <silent> <Space>.g :<C-u>tabedit $MYGVIMRC<CR>
+nnoremap <silent> <Space>R  :<C-u>source $MYVIMRC
                              \ \| if has('gui_running')
                              \ \|   source $MYGVIMRC
                              \ \| endif <CR>
+
+" Toggle hlsearch
+nnoremap <silent> <Space>h
+      \ :<C-u>call ToggleOption('hlsearch')<CR>
 
 " Toggle wrap
 nnoremap <silent> <Space>w
@@ -406,8 +420,14 @@ nnoremap <silent> <Space>p
       \ :<C-u>call ToggleOption('paste')<CR>:set mouse=<CR>
 
 " Split window.
-nnoremap <Space>S :<C-u>split<CR>
-nnoremap <Space>V :<C-u>vsplit<CR>
+nnoremap <Space>s :<C-u>split<CR>
+nnoremap <Space>v :<C-u>vsplit<CR>
+"nnoremap <Space>s\| :<C-u>vsplit<CR>
+
+" Buffers
+nnoremap <Space>bb :<C-u>b#<CR>
+nnoremap <Space>bp :<C-u>bp<CR>
+nnoremap <Space>bn :<C-u>bn<CR>
 
 nnoremap q <Nop>
 "nnoremap Q q
@@ -470,7 +490,7 @@ set matchpairs& matchpairs+=<:>
 " Lines longer than the width of the window will wrap.
 set wrap
 
-" {数字}列目を強調表示
+" Highlight columns.
 "if exists('&colorcolumn')
 "  set colorcolumn=80
 "endif
@@ -573,11 +593,11 @@ command! Iso2022jp edit ++encoding=iso-2202-jp
 command! Cp932     edit ++encoding=cp932
 
 " Change encoding commands
-command! ChgEncUtf8      set fileencoding=utf-8
-command! ChgEncSjis      set fileencoding=sjis
-command! ChgEncEucjp     set fileencoding=euc-jp
-command! ChgEncIso2022jp set fileencoding=iso-2202-jp
-command! ChgEncCp932     set fileencoding=cp932
+command! ChgEncUtf8      setlocal fileencoding=utf-8
+command! ChgEncSjis      setlocal fileencoding=sjis
+command! ChgEncEucjp     setlocal fileencoding=euc-jp
+command! ChgEncIso2022jp setlocal fileencoding=iso-2202-jp
+command! ChgEncCp932     setlocal fileencoding=cp932
 
 "}}}
 
@@ -635,24 +655,32 @@ autocmd MyAutoCmd BufEnter * lcd %:p:h
 
 " }}}
 
-" When enter insert mode, disable hlsearch temporary. {{{
+" While entering insert mode, disable hlsearch temporary. {{{
 "
 autocmd MyAutoCmd InsertEnter * setlocal nohlsearch
 autocmd MyAutoCmd InsertLeave * setlocal hlsearch
 
 "}}}
 
-" Automatic diffupdate on diff mode {{{
+" On diff mode, diffupdate automatically when insert leave. {{{
 "
 autocmd MyAutoCmd InsertLeave *
       \ if &diff | diffupdate | echo 'diffupdated' | endif
 
 "}}}
 
-" Automatic paste disable {{{
+" Automatic paste disable. {{{
 "
 autocmd MyAutoCmd InsertLeave *
       \ if &paste | set nopaste mouse=a | echo 'nopaste' | endif
+
+"}}}
+
+" Jump to the last edited position automatically after opening file. {{{
+"
+autocmd MyAutoCmd BufReadPost *
+      \ if line("'\"") > 1 && line("'\"") <= line("$")
+      \ | execute "normal! g`\"" | endif
 
 "}}}
 
@@ -724,8 +752,11 @@ unlet bundle
 "let g:user_zen_leader_key = '<C-y>'
 let g:user_zen_leader_key = '<C-e>'
 let g:user_zen_settings = {
-      \ 'lang' : 'ja',
-      \ }
+\  'lang' : 'ja',
+\  'css' : {
+\    'filters' : 'fc',
+\  },
+\}
 
 "}}}
 
@@ -945,10 +976,17 @@ nmap <silent> <Leader>tc <Plug>Colorizer
 nmap <silent> <Leader>r <Plug>(quickrun)
 
 let g:quickrun_config = {}
-let g:quickrun_config['_'] = {
+let g:quickrun_config._ = {
       \ 'runner' : 'vimproc',
-      \ 'split' : 'below'
+      \ 'outputter' : 'buffer',
+      \ 'split' : 'below',
       \ }
+
+"}}}
+
+" vim-toggle {{{
+
+nmap + <Plug>ToggleN
 
 "}}}
 
@@ -956,6 +994,9 @@ let g:quickrun_config['_'] = {
 
 " Expand the jump functions of % command (e.g. HTML tags, if/else/endif, etc.)
 runtime macros/matchit.vim
+
+" showmarks.vim
+"let g:showmarks_include="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
 
 "}}}
 
