@@ -379,23 +379,23 @@ nnoremap <silent> <Space>R  :<C-u>source $MYVIMRC
 
 " Toggle hlsearch
 nnoremap <silent> <Space>h
-      \ :<C-u>call ToggleOption('hlsearch')<CR>
+      \ :<C-u>call <SID>toggle_option('hlsearch')<CR>
 
 " Toggle wrap
 nnoremap <silent> <Space>w
-      \ :<C-u>call ToggleOption('wrap')<CR>
+      \ :<C-u>call <SID>toggle_option('wrap')<CR>
 
 " Toggle listchars
 nnoremap <silent> <Space>l
-      \ :<C-u>call ToggleOption('list')<CR>
+      \ :<C-u>call <SID>toggle_option('list')<CR>
 
 " Toggle number.
 "nnoremap <silent> <Space>n
-"      \ :<C-u>call ToggleOption('number')<CR>
+"      \ :<C-u>call <SID>toggle_option('number')<CR>
 
 " Change line number mode.
 nnoremap <silent> <Space>n
-      \ :<C-u>call ChangeLineNumberMode()<CR>
+      \ :<C-u>call <SID>change_line_number_style()<CR>
 
 " Release Space Key for Mappings below. (not required)
 nnoremap <Space> <Nop>
@@ -417,7 +417,7 @@ nnoremap <Space>o :<C-u>only<CR>
 
 " PasteToggle
 nnoremap <silent> <Space>p
-      \ :<C-u>call ToggleOption('paste')<CR>:set mouse=<CR>
+      \ :<C-u>call <SID>toggle_option('paste')<CR>:set mouse=<CR>
 
 " Split window.
 nnoremap <Space>s :<C-u>split<CR>
@@ -505,8 +505,8 @@ set wrap
 "endif
 
 if exists('&colorcolumn')
-  autocmd MyAutoCmd BufEnter,VimResized * call s:ColorcolumnPlus()
-  function! s:ColorcolumnPlus()
+  autocmd MyAutoCmd BufEnter,VimResized * call s:colorcolumn_plus()
+  function! s:colorcolumn_plus()
     if &columns >= 85
       execute "setlocal colorcolumn=" . join(range(81,335),',')
     else
@@ -574,11 +574,12 @@ set laststatus=2
 "
 if has('syntax')
   syntax enable
-  function! s:HighlightZenkakuSpace()
+  function! s:highlight_zenkaku_space()
     highlight ZenkakuSpace term=underline ctermbg=64 guibg=#719e07
     match ZenkakuSpace /　/
   endfunction
-  autocmd MyAutoCmd VimEnter,WinEnter,ColorScheme * call s:HighlightZenkakuSpace()
+  autocmd MyAutoCmd VimEnter,WinEnter,ColorScheme *
+      \ call s:highlight_zenkaku_space()
 endif
 
 "}}}
@@ -1035,31 +1036,59 @@ command! ChangeListChars :call s:change_listchars()
 
 " Toggle options {{{
 
-function! ToggleOption(option_name)
+function! s:toggle_option(option_name)
   execute 'setlocal' a:option_name.'!'
   execute 'setlocal' a:option_name.'?'
 endfunction
 
 "}}}
 
-" Change line number mode {{{
+" Change line number mode (In some cases, toggle line number.) {{{
 
 if exists('&relativenumber')
-  function! ChangeLineNumberMode()
+
+  if !exists('s:line_number_status')
     if &number == 0 && &relativenumber == 0
-      set number | set number?
+      let s:line_number_status = 'nornumber'
     elseif &number == 1
-      set relativenumber | set relativenumber?
+      let s:line_number_status = 'number'
     elseif &relativenumber == 1
-      set norelativenumber
-      "set relativenumber?
-      echo 'nonumber norelativenumber'
+      let s:line_number_status = 'rnumber'
+    endif
+  else
+    if s:line_number_status == 'number'
+      setlocal number
+    elseif s:line_number_status == 'nonumber'
+      setlocal nonumber norelativenumber
+    elseif s:line_number_status == 'rnumber'
+      setlocal relativenumber
+    elseif s:line_number_status == 'nornumber'
+      setlocal nonumber norelativenumber
+    endif
+  endif
+
+  function! s:change_line_number_style()
+    if s:line_number_status == 'number'
+      setlocal nonumber nonumber?
+      let s:line_number_status = 'nonumber'
+    elseif s:line_number_status == 'nonumber'
+      setlocal relativenumber relativenumber?
+      let s:line_number_status = 'rnumber'
+    elseif s:line_number_status == 'rnumber'
+      setlocal norelativenumber norelativenumber?
+      let s:line_number_status = 'nornumber'
+    elseif s:line_number_status == 'nornumber'
+      setlocal number number?
+      let s:line_number_status = 'number'
     endif
   endfunction
+
 else
-  function! ChangeLineNumberMode()
-    set number! | set number?
+
+  function! s:change_line_number_style()
+    setlocal number! number?
   endfunction
+
 endif
 
 "}}}
@@ -1103,7 +1132,7 @@ if !exists('s:loaded_vimrc')
   let s:loaded_vimrc = 1
 endif
 
-" See :help secure
+" Must be written at the last. See :help 'secure'.
 set secure
 
 " }}}
