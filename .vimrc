@@ -18,6 +18,13 @@ let s:is_mac = !s:is_windows && !s:is_cygwin
 let s:is_linux = !s:is_windows && !s:is_cygwin && !s:is_mac &&
       \   system('uname') =~? 'linux'
 
+" Use English interface.
+if s:is_windows
+  language message en
+else
+  language message C
+endif
+
 " Define <Leader>, <LocalLeader>
 let g:mapleader = '\'
 "let g:maplocalleader = ','
@@ -118,7 +125,11 @@ NeoBundleLazy 'nathanaelkane/vim-indent-guides', {
       \ 'autoload' : {
       \     'mappings' : [['nxo', '<Plug>IndentGuidesToggle']],
       \ }}
-NeoBundleLazy 'skammer/vim-css-color'
+NeoBundleLazy 'skammer/vim-css-color', {
+      \ 'gui' : 1,
+      \ 'autoload' : {
+      \     'filetypes' : ['html', 'css']
+      \ }}
 NeoBundleLazy 'lilydjwg/colorizer', {
       \ 'autoload' : {
       \     'mappings' : [['nxo', '<Plug>Colorizer']]
@@ -762,6 +773,9 @@ let g:user_zen_settings = {
 "}}}
 
 " eregex.vim {{{
+
+" Default disable.
+let g:eregex_default_enable = 0
 
 "nnoremap / :M/
 "nnoremap ? :M?
