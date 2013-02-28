@@ -107,6 +107,7 @@ NeoBundleLazy 'Shougo/vimshell', {
       \     'commands' : ['VimShell']
       \    },
       \ }
+"NeoBundle 'supermomonga/vimshell-kawaii.vim'
 NeoBundleLazy 'mattn/zencoding-vim', {
       \ 'autoload' : {
       \     'filetypes' : ['html','css']
@@ -475,8 +476,10 @@ inoremap <expr><C-b>  pumvisible() ? "\<PageUp>"   : "\<Left>"
 set title
 " Enable 256 color terminal.
 set t_Co=256
-" Color scheme
-colorscheme solarized
+" Color scheme (Don't override colorscheme.)
+"if !exists('g:colors_name') && !has('gui_running')
+"  colorscheme solarized
+"endif
 " Number of screen lines to use for the command-line.
 set cmdheight=1
 " Show (partial) command in the last line of the screen.
@@ -528,16 +531,22 @@ endif
 
 " Indicate tab, wrap, trailing spaces and eol or not.
 set list
+
 " Strings to use in 'list' mode and for the :list command.
-if s:is_windows
-  set listchars=tab:>-,trail:-,eol:$,extends:>,precedes:<
-else
-  set listchars=tab:▸\ ,trail:›,precedes:«,extends:»
-  "set listchars=tab:▸\ ,trail:･,eol:¬,precedes:«,extends:»
-  "set listchars=tab:▸\ ,trail:›,eol:¬,precedes:«,extends:»
-  "set listchars=tab:▸\ ,trail:›,eol:↲,precedes:«,extends:»
-  "set listchars=tab:▸\ ,trail:›,eol:⏎,precedes:«,extends:»
+let s:listchars_classic = 'tab:>-,trail:-,eol:$,extends:>,precedes:<,nbsp:%'
+let s:listchars_modern  = 'tab:▸ ,trail:›,precedes:«,extends:»'
+if !exists('s:loaded_vimrc')
+  if s:is_windows
+    let &listchars = s:listchars_classic
+  else
+    let &listchars = s:listchars_modern
+  endif
 endif
+" Example...
+"   'tab:▸ ,trail:･,eol:¬,precedes:«,extends:»'
+"   'tab:▸ ,trail:›,eol:¬,precedes:«,extends:»'
+"   'tab:▸ ,trail:›,eol:↲,precedes:«,extends:»'
+"   'tab:▸ ,trail:›,eol:⏎,precedes:«,extends:»'
 
 " Highlight cursor line.
 autocmd MyAutoCmd WinEnter * setlocal cursorline
@@ -841,23 +850,22 @@ let g:solarized_visibility='low'
 " Toggle background key (Light or Dark)
 call togglebg#map("<F5>")
 " On iTerm2, distinguish the settings by $ITERM_PROFILE
-if !has('gui_running')
-  if $ITERM_PROFILE =~? 'solarized' && $ITERM_PROFILE =~? 'light'
-    let g:solarized_termcolors=16
-    set background=light
+if !has('gui_running') && !exists('g:colors_name')
+  if exists('$ITERM_PROFILE') && $ITERM_PROFILE =~? 'solarized'
+    let g:solarized_termcolors = 16
+    if $ITERM_PROFILE =~? 'light'
+      set background=light
+      let g:Powerline_colorscheme = 'solarized'
+    elseif $ITERM_PROFILE =~? 'dark'
+      set background=dark
+      let g:Powerline_colorscheme = 'solarized16'
+    endif
     colorscheme solarized
-    let g:Powerline_colorscheme = 'solarized'
-  elseif $ITERM_PROFILE =~? 'solarized' && $ITERM_PROFILE =~? 'dark'
-    let g:solarized_termcolors=16
-    set background=dark
-    colorscheme solarized
-    let g:Powerline_colorscheme = 'solarized16'
   else
-    let g:solarized_termcolors=256
-    set background=light
-    colorscheme solarized
-    "colorscheme jellybeans
+    let g:solarized_termcolors = 256
+    set background=dark
     let g:Powerline_colorscheme = 'default'
+    colorscheme jellybeans
   endif
 endif
 
@@ -929,23 +937,27 @@ if has('unix') && !has('gui_running')
   xnoremap <silent> <C-[> <ESC>
 endif
 
-function! s:powerline_solarized_adjuster()
-  if g:colors_name == 'solarized'
-    if &background == 'light'
-      if exists(':PowerlineReloadColorscheme')
+function! s:powerline_colorscheme_adjuster()
+  if exists(':PowerlineReloadColorscheme')
+    if g:colors_name == 'solarized'
+      if &background == 'light'
         let g:Powerline_colorscheme = 'solarized'
         PowerlineReloadColorscheme
-      endif
-    else
-      if exists(':PowerlineReloadColorscheme')
+      else
         let g:Powerline_colorscheme = 'solarized16'
         PowerlineReloadColorscheme
       endif
+    else
+      let g:Powerline_colorscheme = 'default'
+      PowerlineReloadColorscheme
     endif
   endif
 endfunction
 
-autocmd MyAutoCmd ColorScheme * call s:powerline_solarized_adjuster()
+" Reload Powerline automatically after loading a color scheme.
+autocmd MyAutoCmd ColorScheme * silent call s:powerline_colorscheme_adjuster()
+" Reload Powerline automatically when the Vim start-up.
+"autocmd MyAutoCmd VimEnter * silent call s:powerline_colorscheme_adjuster()
 
 "}}}
 
@@ -1035,16 +1047,15 @@ augroup END
 "
 " Change listchars {{{
 
-function! s:change_listchars()
-  if &listchars =~ '^tab:>-'
-    "set listchars=tab:▸\ ,trail:›,eol:¬,precedes:«,extends:»
-    set listchars=tab:▸\ ,trail:›,precedes:«,extends:»
+function! s:toggle_listchars_style()
+  if &listchars == s:listchars_classic
+    let &listchars = s:listchars_modern
   else
-    set listchars=tab:>-,trail:-,eol:$,extends:>,precedes:<
+    let &listchars = s:listchars_classic
   endif
 endfunction
 
-command! ChangeListChars :call s:change_listchars()
+command! ToggleListcharsStyle :call s:toggle_listchars_style()
 
 "}}}
 
