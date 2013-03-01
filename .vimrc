@@ -260,7 +260,9 @@ autocmd MyAutoCmd FileType * setlocal textwidth=0
 " Enable incremental search.
 set incsearch
 " Searchs wrap around the end of the file.
-set wrapscan
+"set wrapscan
+" Do not wrapscan.
+set nowrapscan
 " Ignore the case of nornal letters.
 set ignorecase
 " If the search pattern contains upper case characters, override ignorecase option.
@@ -484,7 +486,7 @@ set showcmd
 set t_vb=
 set visualbell
 
-" Show the line and column number of the cursor position, separated by a comma.
+" Show the line and column number of the cursor position.
 "set ruler
 " Show line number.
 set number
@@ -603,11 +605,18 @@ endif
 " Encoding commands: "{{{
 "
 " Reopen as each encodings
-command! Utf8      edit ++encoding=utf-8
-command! Sjis      edit ++encoding=sjis
-command! Eucjp     edit ++encoding=euc-jp
-command! Iso2022jp edit ++encoding=iso-2202-jp
-command! Cp932     edit ++encoding=cp932
+command! -bang -bar -complete=file -nargs=? Utf8
+      \ edit<bang> ++enc=utf-8 <args>
+command! -bang -bar -complete=file -nargs=? Iso2022jp
+      \ edit<bang> ++enc=iso-2022-jp <args>
+command! -bang -bar -complete=file -nargs=? Cp932
+      \ edit<bang> ++enc=cp932 <args>
+command! -bang -bar -complete=file -nargs=? Eucjp
+      \ edit<bang> ++enc=euc-jp <args>
+command! -bang -bar -complete=file -nargs=? Utf16
+      \ edit<bang> ++enc=ucs-2le <args>
+command! -bang -bar -complete=file -nargs=? Utf16be
+      \ edit<bang> ++enc=ucs-2 <args>
 
 " Change encoding commands
 command! ChgEncUtf8      setlocal fileencoding=utf-8
@@ -711,32 +720,32 @@ autocmd MyAutoCmd BufReadPost *
 let g:neocomplcache_enable_at_startup = 1
 
 let bundle = neobundle#get('neocomplcache')
-function! bundle.hooks.on_source(bundle)
-  " <CR>: Close popup and save indent.
-  inoremap <expr><CR> neocomplcache#smart_close_popup() . "\<CR>"
+  function! bundle.hooks.on_source(bundle)
+    " <CR>: Close popup and save indent.
+    inoremap <expr><CR> neocomplcache#smart_close_popup() . "\<CR>"
 
-  " <TAB>: completion.
-  inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
-  " <Shift-TAB>: Reverse completion.
-  inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+    " <TAB>: completion.
+    inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
+    " <Shift-TAB>: Reverse completion.
+    inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
 
-  " AutoCompPop like behavior.
-  "let g:neocomplcache_enable_auto_select = 1
-  " The number of candidates in popup menu. (Default: 100)
-  "let g:neocomplcache_max_list = 20
-  " <C-g>: Undo completion.
-  inoremap <expr><C-g> neocomplcache#undo_completion()
-  " <C-l>: Complete common string.
-  inoremap <expr><C-l> neocomplcache#complete_common_string()
+    " AutoCompPop like behavior.
+    "let g:neocomplcache_enable_auto_select = 1
+    " The number of candidates in popup menu. (Default: 100)
+    "let g:neocomplcache_max_list = 20
+    " <C-g>: Undo completion.
+    inoremap <expr><C-g> neocomplcache#undo_completion()
+    " <C-l>: Complete common string.
+    inoremap <expr><C-l> neocomplcache#complete_common_string()
 
-  " <C-h>, <BS>: Close popup and delete backward char.
-  "inoremap <expr><C-h> neocomplcache#smart_close_popup()."\<C-h>"
-  "inoremap <expr><BS> neocomplcache#smart_close_popup()."\<BS>"
+    " <C-h>, <BS>: Close popup and delete backward char.
+    "inoremap <expr><C-h> neocomplcache#smart_close_popup()."\<C-h>"
+    "inoremap <expr><BS> neocomplcache#smart_close_popup()."\<BS>"
 
-  " Filename completion.
-  inoremap <expr><C-x><C-f>  neocomplcache#manual_filename_complete()
+    " Filename completion.
+    inoremap <expr><C-x><C-f>  neocomplcache#manual_filename_complete()
 
-endfunction
+  endfunction
 unlet bundle
 
 "}}}
@@ -744,22 +753,21 @@ unlet bundle
 " neosnippet.vim {{{
 
 let bundle = neobundle#get('neosnippet')
-function! bundle.hooks.on_source(bundle)
+  function! bundle.hooks.on_source(bundle)
 
-  " Plugin key-mappings.
-  imap <C-k>  <Plug>(neosnippet_expand_or_jump)
-  smap <C-k>  <Plug>(neosnippet_expand_or_jump)
+    " Plugin key-mappings.
+    imap <C-k>  <Plug>(neosnippet_expand_or_jump)
+    smap <C-k>  <Plug>(neosnippet_expand_or_jump)
 
-  " For snippet_complete marker.
-  if has('conceal')
-    set conceallevel=2 concealcursor=i
-  endif
+    " For snippet_complete marker.
+    if has('conceal')
+      set conceallevel=2 concealcursor=i
+    endif
 
-  let g:neosnippet#snippets_directory = '~/.vim/bundle/snipmate-snippets/snippets'
-  "let g:neosnippet#snippets_directory = '~/.vim/bundle/snipmate-snippets/snippets,~/.vim/snippets'
+    let g:neosnippet#snippets_directory = '~/.vim/bundle/snipmate-snippets/snippets'
+    "let g:neosnippet#snippets_directory = '~/.vim/bundle/snipmate-snippets/snippets,~/.vim/snippets'
 
-endfunction
-
+  endfunction
 unlet bundle
 
 "}}}
@@ -845,7 +853,8 @@ autocmd MyAutoCmd FileType unite imap <buffer> <C-w> <Plug>(unite_delete_backwar
 let g:solarized_visibility='low'
 " Toggle background key (Light or Dark)
 call togglebg#map("<F5>")
-" On iTerm2, distinguish the settings by $ITERM_PROFILE
+" If you use a iTerm besides use solarized iTerm profiles,
+" separate the config 'light' from 'dark' by $ITERM_PROFILE.
 if !has('gui_running') && !exists('g:colors_name')
   if exists('$ITERM_PROFILE') && $ITERM_PROFILE =~? 'solarized'
     let g:solarized_termcolors = 16
@@ -870,19 +879,18 @@ endif
 " vim-smartchr {{{
 
 let bundle = neobundle#get('vim-smartchr')
-function! bundle.hooks.on_source(bundle)
+  function! bundle.hooks.on_source(bundle)
 
-  inoremap <expr> = smartchr#one_of(' = ', ' == ', ' === ', '=')
-  inoremap <expr> , smartchr#one_of(', ', ',')
-  "inoremap <expr> : smartchr#one_of(': ', ' : ', ':')
-  "inoremap <buffer> <expr> . smartchr#loop('.',  ' . ',  '..', '...')
+    inoremap <expr> = smartchr#one_of(' = ', ' == ', ' === ', '=')
+    inoremap <expr> , smartchr#one_of(', ', ',')
+    "inoremap <expr> : smartchr#one_of(': ', ' : ', ':')
+    "inoremap <buffer> <expr> . smartchr#loop('.',  ' . ',  '..', '...')
 
-  "augroup MyAutoCmd
-  "  autocmd FileType css inoremap <expr> : smartchr#one_of(':')
-  "augroup END
+    "augroup MyAutoCmd
+    "  autocmd FileType css inoremap <expr> : smartchr#one_of(':')
+    "augroup END
 
-endfunction
-
+  endfunction
 unlet bundle
 
 "}}}
@@ -960,24 +968,23 @@ autocmd MyAutoCmd ColorScheme * silent call s:powerline_colorscheme_adjuster()
 " vimshell {{{
 
 let bundle = neobundle#get('vimshell')
-function! bundle.hooks.on_source(bundle)
-  " Prompt.
-  let g:vimshell_user_prompt = 'fnamemodify(getcwd(), ":~")'
-  let g:vimshell_prompt = '% '
+  function! bundle.hooks.on_source(bundle)
+    " Prompt.
+    let g:vimshell_user_prompt = 'fnamemodify(getcwd(), ":~")'
+    let g:vimshell_prompt = '% '
 
-  autocmd MyAutoCmd FileType vimshell call s:vimshell_settings()
-  function! s:vimshell_settings()
-    " Aliases
-    call vimshell#set_alias('ls', 'ls -G')
-    call vimshell#set_alias('ll', 'ls -alFG')
-    call vimshell#set_alias('la', 'ls -AG')
-    call vimshell#set_alias('l',  'ls -CFG')
-    call vimshell#set_alias('cl', 'clear')
-    call vimshell#set_alias('edit', 'vim --split=tabedit $$args')
-    call vimshell#set_alias('quicklook', 'qlmanage -p $$args')
+    autocmd MyAutoCmd FileType vimshell call s:vimshell_settings()
+    function! s:vimshell_settings()
+      " Aliases
+      call vimshell#set_alias('ls', 'ls -G')
+      call vimshell#set_alias('ll', 'ls -alFG')
+      call vimshell#set_alias('la', 'ls -AG')
+      call vimshell#set_alias('l',  'ls -CFG')
+      call vimshell#set_alias('cl', 'clear')
+      call vimshell#set_alias('edit', 'vim --split=tabedit $$args')
+      call vimshell#set_alias('quicklook', 'qlmanage -p $$args')
+    endfunction
   endfunction
-
-endfunction
 unlet bundle
 
 "}}}
