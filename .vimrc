@@ -405,10 +405,6 @@ nnoremap <silent> <Space>l
 "nnoremap <silent> <Space>n
 "      \ :<C-u>call <SID>toggle_option('number')<CR>
 
-" Change line number mode.
-nnoremap <silent> <Space>n
-      \ :<C-u>call <SID>change_line_number_style()<CR>
-
 " Release Space Key for Mappings below. (not required)
 nnoremap <Space> <Nop>
 
@@ -450,7 +446,7 @@ nnoremap K <Nop>
 "noremap <Space>k <C-b>
 
 " コピーした文字で繰り返し上書きペーストする
-xnoremap <silent> <C-p> "0p<CR>
+xnoremap <silent> <C-p> "0p
 
 " markdownで、行頭か行頭からいくつかのタブの後の'-'に半角スペースを足す
 augroup MyAutoCmd
@@ -942,14 +938,14 @@ function! s:powerline_colorscheme_adjuster()
     if g:colors_name == 'solarized'
       if &background == 'light'
         let g:Powerline_colorscheme = 'solarized'
-        PowerlineReloadColorscheme
+        execute 'PowerlineReloadColorscheme'
       else
         let g:Powerline_colorscheme = 'solarized16'
-        PowerlineReloadColorscheme
+        execute 'PowerlineReloadColorscheme'
       endif
     else
       let g:Powerline_colorscheme = 'default'
-      PowerlineReloadColorscheme
+      execute 'PowerlineReloadColorscheme'
     endif
   endif
 endfunction
@@ -1068,53 +1064,58 @@ endfunction
 
 "}}}
 
-" Change line number mode (In some cases, toggle line number.) {{{
+" Rotate line number style (In some cases, toggle line number.) {{{
 
 if exists('&relativenumber')
 
   if !exists('s:line_number_status')
-    if &number == 0 && &relativenumber == 0
-      let s:line_number_status = 'nornumber'
-    elseif &number == 1
+    " Initialize variable.
+    if &number == 1
       let s:line_number_status = 'number'
     elseif &relativenumber == 1
-      let s:line_number_status = 'rnumber'
+      let s:line_number_status = 'relativenumber'
+    else
+      let s:line_number_status = 'norelativenumber'
     endif
   else
+    " If variable is present, restore the saved state when reloaded .vimrc.
     if s:line_number_status == 'number'
       setlocal number
-    elseif s:line_number_status == 'nonumber'
-      setlocal nonumber norelativenumber
-    elseif s:line_number_status == 'rnumber'
+    elseif s:line_number_status == 'relativenumber'
       setlocal relativenumber
-    elseif s:line_number_status == 'nornumber'
+    else
       setlocal nonumber norelativenumber
     endif
   endif
 
-  function! s:change_line_number_style()
-    if s:line_number_status == 'number'
-      setlocal nonumber nonumber?
-      let s:line_number_status = 'nonumber'
+  function! s:rotate_line_number_style()
+    function! s:rotate_line_number_status(state)
+      execute 'setlocal' a:state
+      execute 'setlocal' a:state.'?'
+      let s:line_number_status = a:state
+    endfunction
+    if s:line_number_status     == 'number'
+      call s:rotate_line_number_status('nonumber')
     elseif s:line_number_status == 'nonumber'
-      setlocal relativenumber relativenumber?
-      let s:line_number_status = 'rnumber'
-    elseif s:line_number_status == 'rnumber'
-      setlocal norelativenumber norelativenumber?
-      let s:line_number_status = 'nornumber'
-    elseif s:line_number_status == 'nornumber'
-      setlocal number number?
-      let s:line_number_status = 'number'
+      call s:rotate_line_number_status('relativenumber')
+    elseif s:line_number_status == 'relativenumber'
+      call s:rotate_line_number_status('norelativenumber')
+    elseif s:line_number_status == 'norelativenumber'
+      call s:rotate_line_number_status('number')
     endif
   endfunction
 
 else
 
-  function! s:change_line_number_style()
+  function! s:rotate_line_number_style()
+    " In case of relativenumber is not available, it will be toggle number.
     setlocal number! number?
   endfunction
 
 endif
+
+nnoremap <silent> <Space>n
+      \ :<C-u>call <SID>rotate_line_number_style()<CR>
 
 "}}}
 
