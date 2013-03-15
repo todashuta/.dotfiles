@@ -55,9 +55,26 @@ NeoBundle 'Shougo/unite.vim'
 NeoBundleLazy 'Shougo/vimfiler', {
       \ 'depends' : 'Shougo/unite.vim',
       \ 'autoload' : {
-      \     'commands' : ['VimFiler']
+      \     'explorer' : 1,
+      \     'commands' : [
+      \           { 'name' : 'VimFiler',
+      \             'complete' : 'customlist,vimfiler#complete' },
+      \     ],
       \ }}
-NeoBundle 'h1mesuke/unite-outline',
+NeoBundleLazy 'h1mesuke/unite-outline', {
+      \ 'depends' : 'Shougo/unite.vim',
+      \ 'autoload' : {
+      \     'unite_sources' : 'outline'
+      \ }}
+NeoBundle 'choplin/unite-spotlight',
+      \ { 'depends' : 'Shougo/unite.vim' }
+NeoBundle 'ujihisa/unite-colorscheme',
+      \ { 'depends' : 'Shougo/unite.vim' }
+NeoBundle 'ujihisa/unite-font', {
+      \ 'gui' : 1,
+      \ 'depends' : 'Shougo/unite.vim',
+      \ }
+NeoBundle 'Kocha/vim-unite-tig',
       \ { 'depends' : 'Shougo/unite.vim' }
 NeoBundle 'Shougo/vimproc', {
       \ 'build' : {
@@ -77,10 +94,14 @@ NeoBundleLazy 'vim-scripts/VOoM', {
       \     'filetypes' : ['html','markdown','python','latex']
       \    },
       \ }
-NeoBundle 'scrooloose/nerdtree'
+"NeoBundle 'scrooloose/nerdtree'
 NeoBundleLazy 'thinca/vim-quickrun', {
       \ 'autoload' : {
       \     'mappings' : [['nxo', '<Plug>(quickrun)']],
+      \ }}
+NeoBundleLazy 'tyru/open-browser.vim', {
+      \ 'autoload' : {
+      \     'filetypes' : ['markdown']
       \ }}
 NeoBundleLazy 'h1mesuke/vim-alignta', {
       \ 'autoload' : {
@@ -104,7 +125,7 @@ NeoBundleLazy 'hallison/vim-markdown', {
 NeoBundleLazy 'Shougo/vimshell', {
       \ 'depends' : 'Shougo/vimproc',
       \ 'autoload' : {
-      \     'commands' : ['VimShell']
+      \     'commands' : ['VimShell', 'VimShellPop', 'VimShellInteractive']
       \    },
       \ }
 "NeoBundle 'supermomonga/vimshell-kawaii.vim'
@@ -151,12 +172,13 @@ NeoBundleLazy 'othree/html5.vim', {
 NeoBundleLazy 'kana/vim-smartinput', { 'autoload' : {
       \ 'insert' : 1,
       \ }}
-NeoBundle 'kien/ctrlp.vim'
+"NeoBundle 'kien/ctrlp.vim'
 NeoBundleLazy 'basyura/TweetVim', { 'depends' :
       \ ['basyura/twibill.vim','tyru/open-browser.vim'],
-      \ 'autoload' : { 'commands' : [
-      \     'TweetVimHomeTimeline', 'TweetVimMentions', 'TweetVimSay'
-      \ ]}}
+      \ 'autoload' : {
+      \     'commands' : ['TweetVimHomeTimeline', 'TweetVimSay'],
+      \     'unite_sources' : 'tweetvim',
+      \ }}
 NeoBundle 'Lokaltog/vim-powerline'
 NeoBundleLazy 'thinca/vim-painter', { 'autoload' : {
       \ 'commands' : 'PainterStart' }}
@@ -171,6 +193,22 @@ NeoBundleLazy 'taku-o/vim-toggle', {
       \ 'autoload' : {
       \     'mappings' : [['n', '<Plug>ToggleN']],
       \ }}
+NeoBundle 'rking/ag.vim'
+NeoBundle 'ujihisa/neco-look'
+NeoBundleLazy 'airblade/vim-gitgutter', {
+      \ 'autoload' : {
+      \     'commands' : ['GitGutterEnable', 'GitGutterToggle']
+      \ }}
+
+if has('conceal')
+  NeoBundle 'Yggdroot/indentLine'
+endif
+
+" Local plugins directory like pathogen. (For develop plugins, etc.)
+NeoBundleLocal ~/bundle
+
+" Disable netrw.vim
+let g:loaded_netrwPlugin = 1
 
 filetype plugin indent on    " Required!
 
@@ -211,9 +249,17 @@ set clipboard& clipboard+=unnamed
 set modeline
 
 " Enable the use of the mouse.
-set mouse=a
-set guioptions& guioptions+=a
-set ttymouse=xterm2
+" See: http://yskwkzhr.blogspot.jp/2013/02/use-mouse-on-terminal-vim.html
+if has('mouse')
+  set mouse=a
+  if has('mouse_sgr')
+    set ttymouse=sgr
+  elseif v:version > 703 || v:version is 703 && has('patch632')
+    set ttymouse=sgr
+  else
+    set ttymouse=xterm2
+  endif
+endif
 
 " Indicates a fast terminal connection.
 set ttyfast
@@ -221,7 +267,7 @@ set ttyfast
 " Don't redraw while macro executing.
 set lazyredraw
 
-"}}}
+" }}}
 
 " File,Backup: "{{{
 "
@@ -232,7 +278,7 @@ set autoread
 " Don't create backup files.
 set nobackup noswapfile
 
-"}}}
+" }}}
 
 " Indent,Tab: "{{{
 "
@@ -252,7 +298,7 @@ set softtabstop=4
 " Disable auto wrap.
 autocmd MyAutoCmd FileType * setlocal textwidth=0
 
-"}}}
+" }}}
 
 " Search: "{{{
 "
@@ -281,10 +327,12 @@ set wildignore+=.DS_Store
 "set wildignore+=*~,*.swp,*.tmp
 "set wildignore+=*.bmp,*.gif,*.ico,*.jpg,*.png
 
-"}}}
+" }}}
 
 " Key Mappings: "{{{
 "
+
+inoremap <Esc> <Esc>`]
 
 " Move cursor by display line.
 noremap j gj
@@ -296,9 +344,9 @@ noremap gk k
 nnoremap <ESC><ESC> :nohlsearch<CR>
 
 " Move to the first non-blank characters of the screen line.
-noremap gh g^
+noremap <expr> H search('^\s\s*\%#', 'bcn') ? 'g0' : 'g^'
 " Move to the last characters of the screen line.
-noremap gl g$
+noremap L g$
 
 " Centering search result and open fold.
 nnoremap n nzzzv
@@ -331,6 +379,8 @@ if has('gui_running')
   nnoremap <C-Tab>   gt
   nnoremap <C-S-Tab> gT
 endif
+nnoremap gl gt
+nnoremap gh gT
 
 " Enter ';' to use command-line (Swap ':' and ';').
 noremap ; :
@@ -339,7 +389,7 @@ noremap : ;
 " ノーマルモードでも改行だけできるようにする
 "nnoremap <CR> i<CR><ESC>
 
-" ビジュアルモードでインデント変更後も選択を継続する
+" Visual shifting (does not exit Visual mode)
 xnoremap < <gv
 xnoremap > >gv
 
@@ -448,25 +498,29 @@ nnoremap K <Nop>
 "noremap <Space>k <C-b>
 
 " コピーした文字で繰り返し上書きペーストする
-xnoremap <silent> <C-p> "0p
+xnoremap P "0p
 
-" markdownで、行頭か行頭からいくつかのタブの後の'-'に半角スペースを足す
-augroup MyAutoCmd
-  autocmd FileType markdown
-    \ inoremap <buffer><expr> - search('^\t*\%#', 'bcn')? '- ' : '-'
-"  autocmd FileType markdown
-"    \ inoremap <buffer><expr> # search('^#*\s*\%#', 'bcn')?
-"    \ smartchr#one_of('# ', '## ', '### ', '#### ', '##### ', '###### ', '#')
-"    \ : '#'
-augroup END
+" Settings for markdown
+autocmd MyAutoCmd FileType markdown call s:markdown_settings()
+function! s:markdown_settings()
+  " 行頭か行頭からいくつかのタブの後だったら'-, +, *, >'に半角スペースを足す
+  inoremap <buffer><expr> - search('^\t*\%#', 'bcn') ? '- ' : '-'
+  inoremap <buffer><expr> + search('^\t*\%#', 'bcn') ? '+ ' : '+'
+  inoremap <buffer><expr> * search('^\t*\%#', 'bcn') ? '* ' : '*'
+  inoremap <buffer><expr> > search('^\t*\%#', 'bcn') ? '> ' : '>'
+endfunction
 
 " <C-f>, <C-b>: page move.
 inoremap <expr><C-f>  pumvisible() ? "\<PageDown>" : "\<Right>"
 inoremap <expr><C-b>  pumvisible() ? "\<PageUp>"   : "\<Left>"
 " <C-y>: paste.
 "inoremap <expr><C-y>  pumvisible() ? neocomplcache#close_popup() : "\<C-r>\""
+" <C-a>: Move to head.
+"inoremap <C-a>  <Home>
+" <C-e>: Close popup and move to end.
+inoremap <expr><C-e>  neocomplcache#close_popup() . "\<End>"
 
-"}}}
+" }}}
 
 " Visual: "{{{
 
@@ -501,6 +555,9 @@ set matchpairs& matchpairs+=<:>
 
 " Lines longer than the width of the window will wrap.
 set wrap
+
+" The height of popup menu.
+set pumheight=15
 
 " Highlight columns.
 "if exists('&colorcolumn')
@@ -551,7 +608,7 @@ autocmd MyAutoCmd WinEnter * setlocal cursorline
 autocmd MyAutoCmd WinLeave * setlocal nocursorline
 setlocal cursorline
 
-"}}}
+" }}}
 
 " Status Line: "{{{
 "
@@ -562,7 +619,7 @@ set laststatus=2
 "function! s:my_statusline()
 "  if &columns >= 80    " Long version
 "    let &statusline = ''
-"    let &statusline .= '%{&paste ? "  [PASTE]" : ""}'  " Paste mode Indicator
+"    let &statusline .= '%{&paste ? "\ \ [PASTE]" : ""}'  " Paste mode Indicator
 "    let &statusline .= ' [%2n]'         " Buffer number
 "    let &statusline .= ' %<%F'          " Full path to the file in the buffer.
 "    let &statusline .= '%m%r%h%w'       " Modified flag, Readonly flag, Help flag, Preview flag
@@ -586,7 +643,7 @@ set laststatus=2
 "
 "autocmd MyAutoCmd VimEnter,VimResized * call s:my_statusline()
 
-"}}}
+" }}}
 
 " Highlight japanese zenkaku space. "{{{
 "
@@ -600,7 +657,7 @@ if has('syntax')
       \ call s:highlight_zenkaku_space()
 endif
 
-"}}}
+" }}}
 
 " Encoding commands: "{{{
 "
@@ -625,13 +682,13 @@ command! ChgEncEucjp     setlocal fileencoding=euc-jp
 command! ChgEncIso2022jp setlocal fileencoding=iso-2202-jp
 command! ChgEncCp932     setlocal fileencoding=cp932
 
-"}}}
+" }}}
 
 " 開いているバッファのディレクトリに自動で移動: "{{{
 
 autocmd MyAutoCmd BufEnter * lcd %:p:h
 
-"}}}
+" }}}
 
 " 挿入モード時、ステータスラインの色を変更 {{{
 " https://github.com/fuenor/vim-statusline/blob/master/insert-statusline.vim
@@ -686,21 +743,21 @@ autocmd MyAutoCmd BufEnter * lcd %:p:h
 autocmd MyAutoCmd InsertEnter * setlocal nohlsearch
 autocmd MyAutoCmd InsertLeave * setlocal hlsearch
 
-"}}}
+" }}}
 
 " On diff mode, diffupdate automatically when insert leave. {{{
 "
 autocmd MyAutoCmd InsertLeave *
       \ if &diff | diffupdate | echo 'diffupdated' | endif
 
-"}}}
+" }}}
 
 " Automatic paste disable. {{{
 "
 autocmd MyAutoCmd InsertLeave *
       \ if &paste | set nopaste mouse=a | echo 'nopaste' | endif
 
-"}}}
+" }}}
 
 " Jump to the last edited position automatically after opening file. {{{
 "
@@ -708,7 +765,7 @@ autocmd MyAutoCmd BufReadPost *
       \ if line("'\"") > 1 && line("'\"") <= line("$")
       \ | execute "normal! g`\"" | endif
 
-"}}}
+" }}}
 
 "------------------------------------------------------------------------------
 " Plugin: "{{{
@@ -741,6 +798,7 @@ let bundle = neobundle#get('neocomplcache')
     " <C-h>, <BS>: Close popup and delete backward char.
     "inoremap <expr><C-h> neocomplcache#smart_close_popup()."\<C-h>"
     "inoremap <expr><BS> neocomplcache#smart_close_popup()."\<BS>"
+    imap <expr><C-h> neocomplcache#smart_close_popup()."\<BS>"
 
     " Filename completion.
     inoremap <expr><C-x><C-f>  neocomplcache#manual_filename_complete()
@@ -748,7 +806,7 @@ let bundle = neobundle#get('neocomplcache')
   endfunction
 unlet bundle
 
-"}}}
+" }}}
 
 " neosnippet.vim {{{
 
@@ -764,18 +822,21 @@ let bundle = neobundle#get('neosnippet')
       set conceallevel=2 concealcursor=i
     endif
 
-    let g:neosnippet#snippets_directory = '~/.vim/bundle/snipmate-snippets/snippets'
-    "let g:neosnippet#snippets_directory = '~/.vim/bundle/snipmate-snippets/snippets,~/.vim/snippets'
+    let g:neosnippet#snippets_directory = '~/.vim/bundle/snipmate-snippets/snippets,'
+    let g:neosnippet#snippets_directory .= '~/.vim/snippets,'
 
   endfunction
 unlet bundle
 
-"}}}
+" }}}
 
 " zencoding.vim {{{
 
-"let g:user_zen_leader_key = '<C-y>'
-let g:user_zen_leader_key = '<C-e>'
+if has('gui_running')
+  let g:user_zen_leader_key = '<C-Space>'
+else
+  let g:user_zen_leader_key = '<C-@>'
+endif
 let g:user_zen_settings = {
 \  'lang' : 'ja',
 \  'css' : {
@@ -783,7 +844,7 @@ let g:user_zen_settings = {
 \  },
 \}
 
-"}}}
+" }}}
 
 " eregex.vim {{{
 
@@ -795,57 +856,186 @@ let g:eregex_default_enable = 0
 nnoremap ,/ :M/
 nnoremap ,? :M?
 
-"}}}
+" }}}
 
 " NERDTree {{{
 
 " NERDTreeToggle
-"noremap <C-N><C-N> :NERDTreeToggle<CR>
-noremap <Space>f  :<C-u>NERDTreeToggle<CR>
+"nnoremap <Space>f  :<C-u>NERDTreeToggle<CR>
 " Disables display of the 'Bookmarks' and 'help'.
-let NERDTreeMinimalUI = 1
+"let NERDTreeMinimalUI = 1
 " Display hidden files (i.e. "dot files").
-let NERDTreeShowHidden = 1
+"let NERDTreeShowHidden = 1
 
-"}}}
+" }}}
 
 " unite.vim {{{
 
-" 入力モードで開始する
-"let g:unite_enable_start_insert = 1
-" バッファ一覧
-nnoremap <C-u><C-b> :<C-u>Unite -buffer-name=Buffers buffer<CR>
-nnoremap <Space>ub  :<C-u>Unite -buffer-name=Buffers buffer<CR>
-" ファイル一覧
-nnoremap <C-u><C-f> :<C-u>UniteWithBufferDir -buffer-name=Files file<CR>
-nnoremap <Space>uf  :<C-u>UniteWithBufferDir -buffer-name=Files file<CR>
-" 最近使ったファイルの一覧
-nnoremap <C-u><C-r> :<C-u>Unite -buffer-name=Recent file_mru<CR>
-nnoremap <Space>ur  :<C-u>Unite -buffer-name=Recent file_mru<CR>
-" レジスタ一覧
-nnoremap <C-u><C-y> :<C-u>Unite -buffer-name=Registers register<CR>
-nnoremap <Space>uy  :<C-u>Unite -buffer-name=Registers register<CR>
-" ファイルとバッファ
-nnoremap <C-u><C-u> :<C-u>Unite buffer file_mru<CR>
-nnoremap <Space>uu  :<C-u>Unite buffer file_mru<CR>
-" 全部
-nnoremap <C-u><C-a> :<C-u>UniteWithBufferDir -buffer-name=All buffer file_mru bookmark file<CR>
-nnoremap <Space>ua  :<C-u>UniteWithBufferDir -buffer-name=All buffer file_mru bookmark file<CR>
-" ESCキーを3回押すと終了する
-"au FileType unite nnoremap <silent> <buffer> <ESC><ESC><ESC> :q<CR>
-"au FileType unite inoremap <silent> <buffer> <Esc><Esc><ESC> <Esc>:q<CR>
-" C-U 二連打で終了する
-"autocmd MyAutoCmd FileType unite nnoremap <silent> <buffer> <C-U><C-U> :q<CR>
-"autocmd MyAutoCmd FileType unite inoremap <silent> <buffer> <C-U><C-U> <Esc>:q<CR>
-" Unite outline
-nnoremap <Space>-   :<C-u>Unite -buffer-name=Outline outline<CR>
-" TweetVim
-nnoremap <C-u><C-t> :<C-u>Unite -buffer-name=TweetVim tweetvim<CR>
-nnoremap <Space>ut  :<C-u>Unite -buffer-name=TweetVim tweetvim<CR>
-"autocmd MyAutoCmd FileType unite nnoremap <silent><buffer> <Space>u :<C-u>q<CR>
-autocmd MyAutoCmd FileType unite imap <buffer> <C-w> <Plug>(unite_delete_backward_path)
+" Unite buffer will be in Insert Mode immediately.
+let g:unite_enable_start_insert = 1
+" The height of unite window it's split horizontally.
+let g:unite_winheight = 16
 
-"}}}
+" Unite prefix key.
+nmap <Space>u [unitePrefix]
+nnoremap [unitePrefix] <Nop>
+
+" バッファ一覧 (Unite buffer)
+nnoremap [unitePrefix]b
+      \ :<C-u>Unite buffer -buffer-name=Buffers
+      \ -auto-resize -hide-status-line -prompt=(*'-')>\ <CR>
+" ファイル一覧 (Unite file)
+nnoremap [unitePrefix]f  :<C-u>UniteWithBufferDir -buffer-name=Files file<CR>
+" 最近使ったファイルの一覧 (Unite file_mru)
+nnoremap [unitePrefix]r  :<C-u>Unite -buffer-name=Recent file_mru<CR>
+" レジスタ一覧 (Unite register)
+nnoremap [unitePrefix]y  :<C-u>Unite -buffer-name=Registers register<CR>
+" ファイルとバッファ (Unite buffer file_mru)
+nnoremap [unitePrefix]u
+      \ :<C-u>Unite buffer file_mru -hide-source-names -prompt=(*'-')>\ <CR>
+" 全部 (Unite buffer file_mru bookmark file)
+nnoremap [unitePrefix]a
+  \ :<C-u>UniteWithBufferDir -buffer-name=All buffer file_mru bookmark file<CR>
+" Unite outline
+nnoremap <Space>-
+      \ :<C-u>Unite outline -buffer-name=Outline
+      \ -hide-status-line -prompt=(*'-')>\ <CR>
+" TweetVim
+nnoremap <silent> [unitePrefix]t
+      \ :<C-u>Unite tweetvim -buffer-name=TweetVim
+      \ -auto-resize -hide-status-line -prompt=(*'-')<\ <CR>
+" Unite source.
+"nnoremap [unitePrefix]s
+"      \ :<C-u>Unite source -prompt=(*'-')>\ <CR>
+if has('gui_running')
+  nnoremap <silent> <C-Space>
+        \ :<C-u>Unite source -prompt=(*'-')>\ <CR>
+else
+  nnoremap <silent> <C-@>
+        \ :<C-u>Unite source -prompt=(*'-')>\ <CR>
+endif
+
+let bundle = neobundle#get('unite.vim')
+  function! bundle.hooks.on_source(bundle)
+    autocmd MyAutoCmd FileType unite call s:unite_my_settings()
+
+    function! s:unite_my_settings()
+      " <C-w>: Deletes a path upward.
+      imap <buffer> <C-w> <Plug>(unite_delete_backward_path)
+      " <TAB>: Goes to the next candidate, or goes to the top from the bottom.
+      "imap <buffer> <TAB> <Plug>(unite_select_next_line)
+
+      " <Space>u で終了する
+      nnoremap <silent> <buffer> <Space>u :<C-u>q<CR>
+
+      " ESCキーを2回押すと終了する
+      nnoremap <silent> <buffer> <ESC><ESC> :<C-u>q<CR>
+      inoremap <silent> <buffer> <Esc><ESC> <Esc>:<C-u>q<CR>
+
+      if has('gui_running')
+        nnoremap <silent><buffer> <C-Space> :<C-u>q<CR>
+        inoremap <silent><buffer> <C-Space> <ESC>:<C-u>q<CR>
+      else
+        nnoremap <silent><buffer> <C-@> :<C-u>q<CR>
+        inoremap <silent><buffer> <C-@> <ESC>:<C-u>q<CR>
+      endif
+    endfunction
+
+  endfunction
+unlet bundle
+
+" Use ag in unite grep source.
+" See: http://qiita.com/items/c8962f9325a5433dc50d
+if executable('ag')
+  let g:unite_source_grep_command = 'ag'
+  let g:unite_source_grep_default_opts = '--nocolor --nogroup --column'
+  let g:unite_source_grep_recursive_opt = ''
+  "let g:unite_source_grep_max_candidates = 200
+endif
+
+" unite-transparency {{{
+" See: https://github.com/ujihisa/config/blob/master/_vimrc
+if has('transparency') && has('mac') && has('gui_running')
+  let s:unite_source = {
+        \ 'name': 'transparency',
+        \ 'action_table': {'*': {}}
+        \ } " avoid triple closes
+  function! s:unite_source.gather_candidates(args, context)
+    return map(range(0, 100, 4), '{
+          \ "word": v:val,
+          \ "source": "transparency",
+          \ "kind": "command",
+          \ "action__command": "set transparency=" . v:val,
+          \ }')
+  endfunction
+  let s:unite_source.action_table.preview = {
+        \ 'description': 'preview this transparency', 'is_quit': 0 }
+  function! s:unite_source.action_table.preview.func(candidate)
+    execute a:candidate.action__command
+  endfunction
+  call unite#define_source(s:unite_source)
+endif
+" }}}
+
+" Unite search
+nnoremap [unitePrefix]/
+      \ :<C-u>Unite line/fast -buffer-name=Search
+      \ -start-insert -no-quit -winheight=10<CR>
+
+" Shortcut (:Unite menu:shortcut)
+" See: http://d.hatena.ne.jp/osyo-manga/20130307/1362621589
+let g:unite_source_menu_menus = {
+\   'shortcut' : {
+\       'description' : 'Useful shortcuts.',
+\       'command_candidates' : [
+\           ['Edit vimrc', 'edit $MYVIMRC'],
+\           ['Edit gvimrc', 'edit $MYGVIMRC'],
+\           ['Reload vimrc', 'source $MYVIMRC'],
+\           ['NeoBundle', 'Unite source -input=neobundle\  -auto-resize'],
+\           ['VimShell shortcuts', 'Unite menu:vimshell -auto-resize'],
+\           ['Reopen a file with a different encoding', 'Unite menu:encoding'],
+\           ['unite-output:message', 'Unite output:message'],
+\           ['Unite Beautiful Attack', 'Unite -auto-preview colorscheme'],
+\           ['Nyancat!!', 'Nyancat2'],
+\           ['Check system uptime', '!uptime'],
+\           ['Check system swap file', '!du -hc /var/vm/swapfile*'],
+\           ['Tweet', 'TweetVimSay'],
+\       ],
+\   },
+\   'vimshell' : {
+\       'description' : 'VimShell shortcuts.',
+\       'command_candidates' : [
+\           ['1. VimShellSendString', 'VimShellSendString'],
+\           ['2. VimShellPop', 'VimShellPop'],
+\           ['3. VimShell', 'VimShell'],
+\           ['4. VimShellInteractive irb (Ruby)', 'VimShellInteractive irb'],
+\           ['5. VimShellInteractive pry (Ruby)', 'VimShellInteractive pry'],
+\           ['6. VimShellInteractive python', 'VimShellInteractive python'],
+\           ['7. VimShellInteractive perl', 'VimShellInteractive perl -de 1'],
+\           ['8. VimShellInteractive php', 'VimShellInteractive php -a'],
+\       ],
+\   },
+\   'encoding' : {
+\       'description' : 'Open with a specific character code again.',
+\       'command_candidates' : [
+\           ['UTF-8', 'Utf8'],
+\           ['ISO-2022-JP', 'Iso2022jp'],
+\           ['CP932', 'Cp932'],
+\           ['EUC-JP', 'Eucjp'],
+\           ['UTF-16', 'Utf16'],
+\           ['UTF-16-BE', 'Utf16be'],
+\       ],
+\   },
+\}
+nnoremap [unitePrefix]e
+      \ :<C-u>Unite menu:shortcut -buffer-name=Shortcut
+      \ -auto-resize -hide-status-line -prompt=(*'-')>\ <CR>
+"nnoremap [unitePrefix]v
+nnoremap [unitePrefix]s
+      \ :<C-u>Unite menu:vimshell -buffer-name=vimshell
+      \ -auto-resize -hide-status-line -prompt=(*'-')>\ <CR>
+
+" }}}
 
 " SOLARIZED {{{
 
@@ -855,34 +1045,35 @@ let g:solarized_visibility='low'
 call togglebg#map("<F5>")
 " If you use a iTerm besides use solarized iTerm profiles,
 " separate the config 'light' from 'dark' by $ITERM_PROFILE.
-if !has('gui_running') && !exists('g:colors_name')
+function! s:judge_colorscheme_settings()
+  let g:solarized_termcolors = $ITERM_PROFILE =~? 'solarized' ? '16' : '256'
+
   if exists('$ITERM_PROFILE') && $ITERM_PROFILE =~? 'solarized'
-    let g:solarized_termcolors = 16
-    if $ITERM_PROFILE =~? 'light'
-      set background=light
-      let g:Powerline_colorscheme = 'solarized'
-    elseif $ITERM_PROFILE =~? 'dark'
-      set background=dark
-      let g:Powerline_colorscheme = 'solarized16'
-    endif
-    colorscheme solarized
+    let &background = $ITERM_PROFILE =~? 'light' ? 'light' : 'dark'
+    let g:Powerline_colorscheme = $ITERM_PROFILE =~? 'light' ?
+          \ 'solarized' : 'solarized16'
+    execute 'colorscheme solarized'
   else
-    let g:solarized_termcolors = 256
     set background=dark
     let g:Powerline_colorscheme = 'default'
-    colorscheme jellybeans
+    execute 'colorscheme hybrid'
   endif
+endfunction
+if !has('gui_running') && !exists('g:colors_name')
+"if has('vim_starting') && !has('gui_running')
+  call s:judge_colorscheme_settings()
 endif
 
-"}}}
+" }}}
 
 " vim-smartchr {{{
 
 let bundle = neobundle#get('vim-smartchr')
   function! bundle.hooks.on_source(bundle)
 
-    inoremap <expr> = smartchr#one_of(' = ', ' == ', ' === ', '=')
-    inoremap <expr> , smartchr#one_of(', ', ',')
+    "inoremap <expr> = smartchr#one_of(' = ', ' == ', ' === ', '=')
+    "inoremap <expr> , smartchr#one_of(', ', ',')
+
     "inoremap <expr> : smartchr#one_of(': ', ' : ', ':')
     "inoremap <buffer> <expr> . smartchr#loop('.',  ' . ',  '..', '...')
 
@@ -893,7 +1084,7 @@ let bundle = neobundle#get('vim-smartchr')
   endfunction
 unlet bundle
 
-"}}}
+" }}}
 
 " indent-guides {{{
 
@@ -904,20 +1095,20 @@ let g:indent_guides_color_change_percent = 30
 " ガイド幅
 let g:indent_guides_guide_size = 1
 
-"}}}
+" }}}
 
 " netrw.vim (標準のファイラ) 設定: "{{{
 "
 " ディレクトリ閲覧をツリー形式にする
 "let g:netrw_liststyle = 3
 " 'v'でファイルを開くときに右側に開く
-let g:netrw_altv = 1
+"let g:netrw_altv = 1
 " 'o'でファイルを開くときに下側に開く
-let g:netrw_alto = 1
+"let g:netrw_alto = 1
 " CVSと.で始まるファイルは表示しない
 "let g:netrw_list_hide = 'CVS,\(^\|\s\s\)\zs\.\S\+'
 
-"}}}
+" }}}
 
 " vim-powerline {{{
 "
@@ -935,43 +1126,47 @@ let g:Powerline_symbols_override = {
 
 " CUI上でESC後すぐに反映させる
 if has('unix') && !has('gui_running')
-  inoremap <silent> <ESC> <ESC>
-  inoremap <silent> <C-[> <ESC>
-  xnoremap <silent> <ESC> <ESC>
-  xnoremap <silent> <C-[> <ESC>
+  inoremap <silent> <ESC> <ESC>`]
+  inoremap <silent> <C-[> <ESC>`]
 endif
 
-function! s:powerline_colorscheme_adjuster()
+function! s:powerline_adjust_colorscheme()
   if exists(':PowerlineReloadColorscheme')
-    if g:colors_name == 'solarized'
-      if &background == 'light'
-        let g:Powerline_colorscheme = 'solarized'
-        execute 'PowerlineReloadColorscheme'
-      else
-        let g:Powerline_colorscheme = 'solarized16'
-        execute 'PowerlineReloadColorscheme'
-      endif
-    else
-      let g:Powerline_colorscheme = 'default'
-      execute 'PowerlineReloadColorscheme'
-    endif
+    let g:Powerline_colorscheme = g:colors_name == 'solarized' ?
+        \ ( &background == 'light' ? 'solarized' : 'solarized16' ) : 'default'
+    execute 'PowerlineReloadColorscheme'
   endif
 endfunction
 
 " Reload Powerline automatically after loading a color scheme.
-autocmd MyAutoCmd ColorScheme * silent call s:powerline_colorscheme_adjuster()
+autocmd MyAutoCmd ColorScheme * silent call s:powerline_adjust_colorscheme()
 " Reload Powerline automatically when the Vim start-up.
-"autocmd MyAutoCmd VimEnter * silent call s:powerline_colorscheme_adjuster()
+"autocmd MyAutoCmd VimEnter * silent call s:powerline_adjust_colorscheme()
 
-"}}}
+if !has('gui_running')
+  autocmd MyAutoCmd VimLeave * silent call s:finalize_powerline()
+  function! s:finalize_powerline()
+    call s:judge_colorscheme_settings()
+    call s:powerline_adjust_colorscheme()
+  endfunction
+endif
+
+" }}}
 
 " vimshell {{{
 
 let bundle = neobundle#get('vimshell')
   function! bundle.hooks.on_source(bundle)
     " Prompt.
-    let g:vimshell_user_prompt = 'fnamemodify(getcwd(), ":~")'
-    let g:vimshell_prompt = '% '
+    let g:vimshell_user_prompt = 'VimShell_my_prompt()'
+    function! VimShell_my_prompt()
+      return $USER.'@'.fnamemodify(hostname(), ":t:r").
+            \' '.fnamemodify(getcwd(), ":~")
+    endfunction
+    let g:vimshell_prompt = "(*'-')>\ "
+    let g:vimshell_secondary_prompt = '> '
+
+    "let g:vimshell_external_history_path = expand('~/.zsh/.zsh_history')
 
     autocmd MyAutoCmd FileType vimshell call s:vimshell_settings()
     function! s:vimshell_settings()
@@ -984,41 +1179,85 @@ let bundle = neobundle#get('vimshell')
       call vimshell#set_alias('edit', 'vim --split=tabedit $$args')
       call vimshell#set_alias('quicklook', 'qlmanage -p $$args')
     endfunction
+
+    "imap <buffer> <C-k> <plug>(vimshell_zsh_complete)
   endfunction
 unlet bundle
 
-"}}}
+" }}}
 
 " vim-indent-guides {{{
 
 nmap <silent> <Leader>ig <Plug>IndentGuidesToggle
 
-"}}}
+" }}}
 
 " colorizer.vim {{{
 
 nmap <silent> <Leader>tc <Plug>Colorizer
 
-"}}}
+" }}}
 
 " quickrun.vim {{{
 
 nmap <silent> <Leader>r <Plug>(quickrun)
+nnoremap <expr><silent> <C-c> quickrun#is_running() ?
+      \ quickrun#sweep_sessions() : "\<C-c>"
 
 let g:quickrun_config = {}
 let g:quickrun_config._ = {
       \ 'runner' : 'vimproc',
+      \ 'runner/vimproc/updatetime' : 1000,
       \ 'outputter' : 'buffer',
       \ 'split' : 'below',
       \ }
+let g:quickrun_config.markdown = {
+      \ 'outputter' : 'browser'
+      \ }
+let g:quickrun_config.html = {
+      \ 'runner' : 'system',
+      \ 'command' : 'open',
+      \ 'exec' : '%c %s',
+      \ 'outputter' : 'null',
+      \ }
 
-"}}}
+" }}}
 
 " vim-toggle {{{
 
 nmap + <Plug>ToggleN
 
-"}}}
+" }}}
+
+" VimFiler {{{
+
+" Use vimfiler as default explorer like netrw.
+let g:vimfiler_as_default_explorer = 1
+
+let bundle = neobundle#get('vimfiler')
+  function! bundle.hooks.on_source(bundle)
+    " Like Textmate icons.
+    let g:vimfiler_tree_leaf_icon = ' '
+    let g:vimfiler_tree_opened_icon = '▾'
+    let g:vimfiler_tree_closed_icon = '▸'
+    let g:vimfiler_readonly_file_icon = '▹'
+    let g:vimfiler_file_icon = '-'
+    let g:vimfiler_marked_file_icon = '*'
+
+    autocmd MyAutoCmd FileType vimfiler call s:vimfiler_my_settings()
+    function! s:vimfiler_my_settings()
+      " VimFiler settings. (Key mapping... etc)
+    endfunction
+  endfunction
+unlet bundle
+
+nnoremap <silent> <Space>e
+      \ :<C-u>VimFiler -buffer-name=VimFiler -quit<CR>
+nnoremap <silent> <Space>f
+      \ :<C-u>VimFiler -buffer-name=VimFiler
+      \ -split -simple -winwidth=30 -no-quit -toggle<CR>
+
+" }}}
 
 " Others {{{
 
@@ -1028,9 +1267,12 @@ runtime macros/matchit.vim
 " showmarks.vim
 "let g:showmarks_include="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
 
-"}}}
+" indentLine
+let g:indentLine_char = '¦'
 
-"}}}
+" }}}
+
+" }}}
 
 " Enable omni completion {{{
 "
@@ -1044,7 +1286,7 @@ augroup MyAutoCmd
   autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
 augroup END
 
-"}}}
+" }}}
 
 " Commands: "{{{
 "
@@ -1060,73 +1302,17 @@ endfunction
 
 command! ToggleListcharsStyle :call s:toggle_listchars_style()
 
-"}}}
+" }}}
 
 " Toggle options {{{
 
 function! s:toggle_option(option_name)
-  execute 'setlocal' a:option_name.'!'
-  execute 'setlocal' a:option_name.'?'
+  execute 'setlocal' a:option_name.'!' a:option_name.'?'
 endfunction
 
-"}}}
+" }}}
 
-" Rotate line number style (In some cases, toggle line number.) {{{
-
-if exists('&relativenumber')
-
-  if !exists('s:line_number_status')
-    " Initialize variable.
-    if &number == 1
-      let s:line_number_status = 'number'
-    elseif &relativenumber == 1
-      let s:line_number_status = 'relativenumber'
-    else
-      let s:line_number_status = 'norelativenumber'
-    endif
-  else
-    " If variable is present, restore the saved state when reloaded .vimrc.
-    if s:line_number_status == 'number'
-      setlocal number
-    elseif s:line_number_status == 'relativenumber'
-      setlocal relativenumber
-    else
-      setlocal nonumber norelativenumber
-    endif
-  endif
-
-  function! s:rotate_line_number_style()
-    function! s:rotate_line_number_status(state)
-      execute 'setlocal' a:state
-      execute 'setlocal' a:state.'?'
-      let s:line_number_status = a:state
-    endfunction
-    if s:line_number_status     == 'number'
-      call s:rotate_line_number_status('nonumber')
-    elseif s:line_number_status == 'nonumber'
-      call s:rotate_line_number_status('relativenumber')
-    elseif s:line_number_status == 'relativenumber'
-      call s:rotate_line_number_status('norelativenumber')
-    elseif s:line_number_status == 'norelativenumber'
-      call s:rotate_line_number_status('number')
-    endif
-  endfunction
-
-else
-
-  function! s:rotate_line_number_style()
-    " In case of relativenumber is not available, it will be toggle number.
-    setlocal number! number?
-  endfunction
-
-endif
-
-nnoremap <silent> <Space>n
-      \ :<C-u>call <SID>rotate_line_number_style()<CR>
-
-"}}}
-
-"}}}
+" }}}
 
 " Others: "{{{
 "
@@ -1149,7 +1335,7 @@ autocmd MyAutoCmd BufNewFile,BufRead *.md setlocal filetype=markdown
 " If true Vim master, use English help file.
 set helplang& helplang=en,ja
 
-"}}}
+" }}}
 
 " Load local and temporary config file: "{{{
 
@@ -1157,7 +1343,7 @@ if filereadable(expand('~/.vimrc.local'))
   source ~/.vimrc.local
 endif
 
-"}}}
+" }}}
 
 " Finalize: "{{{
 
