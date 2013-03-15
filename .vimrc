@@ -409,7 +409,7 @@ nnoremap <silent> <S-Right> :wincmd ><CR>
 nnoremap <silent> <S-Up>    :wincmd +<CR>
 nnoremap <silent> <S-Down>  :wincmd -<CR>
 
-" Yで行末までヤンク
+" Yank from the cursor to the end of line.
 nnoremap Y y$
 
 " Command-Line mode keymappings (Emacs like)
@@ -955,7 +955,7 @@ endif
 
 " unite-transparency {{{
 " See: https://github.com/ujihisa/config/blob/master/_vimrc
-if has('transparency') && has('mac') && has('gui_running')
+if s:is_mac && has('transparency') && has('gui_running')
   let s:unite_source = {
         \ 'name': 'transparency',
         \ 'action_table': {'*': {}}
