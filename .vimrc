@@ -1335,6 +1335,9 @@ autocmd MyAutoCmd BufNewFile,BufRead *.md setlocal filetype=markdown
 " If true Vim master, use English help file.
 set helplang& helplang=en,ja
 
+" Toggle number with relativenumber.
+nnoremap <silent> <Space>n  :exe'set'&nu==&rnu?'nu!':'rnu!'<CR>
+
 " }}}
 
 " Load local and temporary config file: "{{{
