@@ -48,8 +48,8 @@ call neobundle#rc(expand('~/.vim/bundle'))
 
 " Github repositories.
 NeoBundle 'Shougo/neocomplcache'
-NeoBundle 'Shougo/neosnippet', {
-      \ 'depends' : 'Shougo/neocomplcache' }
+"NeoBundle 'Shougo/neosnippet', {
+"      \ 'depends' : 'Shougo/neocomplcache' }
 NeoBundle 'honza/snipmate-snippets'
 NeoBundle 'Shougo/unite.vim'
 NeoBundleLazy 'Shougo/vimfiler', {
@@ -375,7 +375,7 @@ if exists('&omnifunc')
   autocmd MyAutoCmd FileType xml,html inoremap <buffer> </ </<C-x><C-o>
 endif
 
-" タブ切り替え
+" Next tab, Previous tab.
 if has('gui_running')
   nnoremap <C-Tab>   gt
   nnoremap <C-S-Tab> gT
@@ -404,7 +404,7 @@ if has('gui_running')
   xnoremap <S-Tab> <gv
 endif
 
-" Shiftキー + 矢印キーで分割ウインドウのサイズを調節
+" Shift + Arrow key: Resize split windows.
 nnoremap <silent> <S-Left>  :wincmd <<CR>
 nnoremap <silent> <S-Right> :wincmd ><CR>
 nnoremap <silent> <S-Up>    :wincmd +<CR>
@@ -685,7 +685,7 @@ command! ChgEncCp932     setlocal fileencoding=cp932
 
 " }}}
 
-" 開いているバッファのディレクトリに自動で移動: "{{{
+" Change the current directory to the current buffer's directory: "{{{
 
 autocmd MyAutoCmd BufEnter * lcd %:p:h
 
@@ -811,23 +811,23 @@ unlet bundle
 
 " neosnippet.vim {{{
 
-let bundle = neobundle#get('neosnippet')
-  function! bundle.hooks.on_source(bundle)
-
-    " Plugin key-mappings.
-    imap <C-k>  <Plug>(neosnippet_expand_or_jump)
-    smap <C-k>  <Plug>(neosnippet_expand_or_jump)
-
-    " For snippet_complete marker.
-    if has('conceal')
-      set conceallevel=2 concealcursor=i
-    endif
-
-    let g:neosnippet#snippets_directory = '~/.vim/bundle/snipmate-snippets/snippets,'
-    let g:neosnippet#snippets_directory .= '~/.vim/snippets,'
-
-  endfunction
-unlet bundle
+"let bundle = neobundle#get('neosnippet')
+"  function! bundle.hooks.on_source(bundle)
+"
+"    " Plugin key-mappings.
+"    imap <C-k>  <Plug>(neosnippet_expand_or_jump)
+"    smap <C-k>  <Plug>(neosnippet_expand_or_jump)
+"
+"    " For snippet_complete marker.
+"    if has('conceal')
+"      set conceallevel=2 concealcursor=i
+"    endif
+"
+"    let g:neosnippet#snippets_directory = '~/.vim/bundle/snipmate-snippets/snippets,'
+"    let g:neosnippet#snippets_directory .= '~/.vim/snippets,'
+"
+"  endfunction
+"unlet bundle
 
 " }}}
 
@@ -1099,9 +1099,9 @@ let g:indent_guides_guide_size = 1
 
 " }}}
 
-" netrw.vim (標準のファイラ) 設定: "{{{
+" netrw.vim "{{{
 "
-" ディレクトリ閲覧をツリー形式にする
+" Tree style listing.
 "let g:netrw_liststyle = 3
 " 'v'でファイルを開くときに右側に開く
 "let g:netrw_altv = 1
