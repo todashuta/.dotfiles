@@ -96,6 +96,7 @@ NeoBundleLazy 'vim-scripts/VOoM', {
       \ }
 "NeoBundle 'scrooloose/nerdtree'
 NeoBundleLazy 'thinca/vim-quickrun', {
+      \ 'depends' : ['tyru/open-browser.vim', 'Shougo/vimproc'],
       \ 'autoload' : {
       \     'mappings' : [['nxo', '<Plug>(quickrun)']],
       \ }}
@@ -1211,13 +1212,19 @@ let g:quickrun_config._ = {
       \ 'outputter' : 'buffer',
       \ 'split' : 'below',
       \ }
+"let g:quickrun_config.markdown = {
+"      \ 'outputter' : 'browser'
+"      \ }
+" Preview markdown file using quickrun and QuickLook(Requires a QLMarkdown).
 let g:quickrun_config.markdown = {
-      \ 'outputter' : 'browser'
+      \ 'command' : 'qlmanage',
+      \ 'cmdopt' : '-p',
+      \ 'outputter' : 'null',
       \ }
+" View html file on browser using 'open' command.
 let g:quickrun_config.html = {
       \ 'runner' : 'system',
       \ 'command' : 'open',
-      \ 'exec' : '%c %s',
       \ 'outputter' : 'null',
       \ }
 
