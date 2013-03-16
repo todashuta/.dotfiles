@@ -1350,7 +1350,7 @@ if exists('&relativenumber')
   nnoremap <silent> <Space>n  :exe'set'&nu==&rnu?'nu!':'rnu!'<CR>
 else
   " Toggle number.
-  nnoremap <silent> <Space>n  :<C-u>set number! number?<CR>
+  nnoremap <silent> <Space>n  :<C-u>call <SID>toggle_option('number')<CR>
 endif
 
 " }}}
