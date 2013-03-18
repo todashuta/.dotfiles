@@ -76,6 +76,11 @@ NeoBundle 'ujihisa/unite-font', {
       \ }
 NeoBundle 'Kocha/vim-unite-tig',
       \ { 'depends' : 'Shougo/unite.vim' }
+NeoBundleLazy 'tacroe/unite-mark', {
+      \ 'depends' : 'Shougo/unite.vim',
+      \ 'autoload' : {
+      \     'unite_sources' : 'mark'
+      \ }}
 NeoBundle 'Shougo/vimproc', {
       \ 'build' : {
       \     'windows' : 'make -f make_mingw32.mak',
@@ -200,6 +205,8 @@ NeoBundleLazy 'airblade/vim-gitgutter', {
       \ 'autoload' : {
       \     'commands' : ['GitGutterEnable', 'GitGutterToggle']
       \ }}
+NeoBundle 'kchmck/vim-coffee-script'
+"NeoBundle 'vim-scripts/Vim-R-plugin'
 
 if has('conceal')
   NeoBundle 'Yggdroot/indentLine'
@@ -462,10 +469,10 @@ nnoremap <silent> <Space>l
 nnoremap <Space> <Nop>
 
 " Look see registers.
-nnoremap <Space>r :<C-u>registers<CR>
+"nnoremap <Space>r :<C-u>registers<CR>
 
 " Look see marks.
-nnoremap <Space>m :<C-u>marks<CR>
+"nnoremap <Space>m :<C-u>marks<CR>
 
 " Use :help three times more than regular speed.
 nnoremap <C-h> :<C-u>help<Space>
@@ -886,17 +893,24 @@ nnoremap [unitePrefix]b
       \ :<C-u>Unite buffer -buffer-name=Buffers
       \ -auto-resize -hide-status-line -prompt=(*'-')>\ <CR>
 " ファイル一覧 (Unite file)
-nnoremap [unitePrefix]f  :<C-u>UniteWithBufferDir -buffer-name=Files file<CR>
+nnoremap [unitePrefix]f
+      \ :<C-u>UniteWithBufferDir file -buffer-name=Files -prompt=(*'-')>\ <CR>
 " 最近使ったファイルの一覧 (Unite file_mru)
-nnoremap [unitePrefix]r  :<C-u>Unite -buffer-name=Recent file_mru<CR>
+nnoremap [unitePrefix]r
+      \ :<C-u>Unite file_mru -buffer-name=Recent -prompt=(*'-')>\ <CR>
 " レジスタ一覧 (Unite register)
-nnoremap [unitePrefix]y  :<C-u>Unite -buffer-name=Registers register<CR>
+nnoremap [unitePrefix]p
+      \ :<C-u>Unite register -buffer-name=Registers -prompt=(*'-')>\ <CR>
+" マーク一覧 (Unite mark)
+nnoremap [unitePrefix]m
+      \ :<C-u>Unite mark -buffer-name=Marks -prompt=(*'-')>\ <CR>
 " ファイルとバッファ (Unite buffer file_mru)
 nnoremap [unitePrefix]u
       \ :<C-u>Unite buffer file_mru -hide-source-names -prompt=(*'-')>\ <CR>
 " 全部 (Unite buffer file_mru bookmark file)
 nnoremap [unitePrefix]a
-  \ :<C-u>UniteWithBufferDir -buffer-name=All buffer file_mru bookmark file<CR>
+      \ :<C-u>Unite buffer file_mru bookmark file
+      \ -buffer-name=All -prompt=(*'-')>\ <CR>
 " Unite outline
 nnoremap <Space>-
       \ :<C-u>Unite outline -buffer-name=Outline
@@ -1012,8 +1026,10 @@ let g:unite_source_menu_menus = {
 \           ['4. VimShellInteractive irb (Ruby)', 'VimShellInteractive irb'],
 \           ['5. VimShellInteractive pry (Ruby)', 'VimShellInteractive pry'],
 \           ['6. VimShellInteractive python', 'VimShellInteractive python'],
-\           ['7. VimShellInteractive perl', 'VimShellInteractive perl -de 1'],
+\           ['7. VimShellInteractive Perl', 'VimShellInteractive perl -de 1'],
 \           ['8. VimShellInteractive php', 'VimShellInteractive php -a'],
+\           ['9. VimShellInteractive MySQL', 'VimShellInteractive mysql -u root -p'],
+\           ['10. VimShellInteractive R', 'VimShellInteractive R'],
 \       ],
 \   },
 \   'encoding' : {
@@ -1035,7 +1051,6 @@ nnoremap [unitePrefix]e
 nnoremap [unitePrefix]s
       \ :<C-u>Unite menu:vimshell -buffer-name=vimshell
       \ -auto-resize -hide-status-line -prompt=(*'-')>\ <CR>
-"noremap <Space><Space>  :VimShellSendString
 
 " }}}
 
@@ -1156,6 +1171,8 @@ endif
 " }}}
 
 " vimshell {{{
+
+noremap <Space>r  :VimShellSendString<CR>
 
 let bundle = neobundle#get('vimshell')
   function! bundle.hooks.on_source(bundle)
