@@ -883,44 +883,46 @@ nnoremap ,? :M?
 let g:unite_enable_start_insert = 1
 " The height of unite window it's split horizontally.
 let g:unite_winheight = 16
+" Split position.
+"let g:unite_split_rule = 'botright'
 
 " Unite prefix key.
 nmap <Space>u [unitePrefix]
 nnoremap [unitePrefix] <Nop>
 
 " バッファ一覧 (Unite buffer)
-nnoremap [unitePrefix]b
+nnoremap <silent> [unitePrefix]b
       \ :<C-u>Unite buffer -buffer-name=Buffers
-      \ -auto-resize -hide-status-line -prompt=(*'-')>\ <CR>
+      \ -hide-status-line -prompt=(*'-')>\ <CR>
 " ファイル一覧 (Unite file)
-nnoremap [unitePrefix]f
+nnoremap <silent> [unitePrefix]f
       \ :<C-u>UniteWithBufferDir file -buffer-name=Files -prompt=(*'-')>\ <CR>
 " 最近使ったファイルの一覧 (Unite file_mru)
-nnoremap [unitePrefix]r
+nnoremap <silent> [unitePrefix]r
       \ :<C-u>Unite file_mru -buffer-name=Recent -prompt=(*'-')>\ <CR>
 " レジスタ一覧 (Unite register)
-nnoremap [unitePrefix]p
+nnoremap <silent> [unitePrefix]p
       \ :<C-u>Unite register -buffer-name=Registers -prompt=(*'-')>\ <CR>
 " マーク一覧 (Unite mark)
-nnoremap [unitePrefix]m
+nnoremap <silent> [unitePrefix]m
       \ :<C-u>Unite mark -buffer-name=Marks -prompt=(*'-')>\ <CR>
 " ファイルとバッファ (Unite buffer file_mru)
-nnoremap [unitePrefix]u
+nnoremap <silent> [unitePrefix]u
       \ :<C-u>Unite buffer file_mru -hide-source-names -prompt=(*'-')>\ <CR>
 " 全部 (Unite buffer file_mru bookmark file)
-nnoremap [unitePrefix]a
+nnoremap <silent> [unitePrefix]a
       \ :<C-u>Unite buffer file_mru bookmark file
       \ -buffer-name=All -prompt=(*'-')>\ <CR>
 " Unite outline
-nnoremap <Space>-
+nnoremap <silent> <Space>-
       \ :<C-u>Unite outline -buffer-name=Outline
       \ -hide-status-line -prompt=(*'-')>\ <CR>
 " TweetVim
 nnoremap <silent> [unitePrefix]t
       \ :<C-u>Unite tweetvim -buffer-name=TweetVim
-      \ -auto-resize -hide-status-line -prompt=(*'-')<\ <CR>
+      \ -hide-status-line -prompt=(*'-')<\ <CR>
 " Unite source.
-"nnoremap [unitePrefix]s
+"nnoremap <silent> [unitePrefix]s
 "      \ :<C-u>Unite source -prompt=(*'-')>\ <CR>
 if has('gui_running')
   nnoremap <silent> <C-Space>
@@ -995,7 +997,7 @@ endif
 " Unite search
 nnoremap [unitePrefix]/
       \ :<C-u>Unite line/fast -buffer-name=Search
-      \ -start-insert -no-quit -winheight=10<CR>
+      \ -start-insert -auto-preview -no-split<CR>
 
 " Shortcut (:Unite menu:shortcut)
 " See: http://d.hatena.ne.jp/osyo-manga/20130307/1362621589
@@ -1006,8 +1008,8 @@ let g:unite_source_menu_menus = {
 \           ['Edit vimrc', 'edit $MYVIMRC'],
 \           ['Edit gvimrc', 'edit $MYGVIMRC'],
 \           ['Reload vimrc', 'source $MYVIMRC'],
-\           ['NeoBundle', 'Unite source -input=neobundle\  -auto-resize'],
-\           ['VimShell shortcuts', 'Unite menu:vimshell -auto-resize'],
+\           ['NeoBundle', 'Unite source -input=neobundle\ '],
+\           ['VimShell shortcuts', 'Unite menu:vimshell'],
 \           ['Reopen a file with a different encoding', 'Unite menu:encoding'],
 \           ['unite-output:message', 'Unite output:message'],
 \           ['Unite Beautiful Attack', 'Unite -auto-preview colorscheme'],
@@ -1044,13 +1046,13 @@ let g:unite_source_menu_menus = {
 \       ],
 \   },
 \}
-nnoremap [unitePrefix]e
+nnoremap <silent> [unitePrefix]e
       \ :<C-u>Unite menu:shortcut -buffer-name=Shortcut
-      \ -auto-resize -hide-status-line -prompt=(*'-')>\ <CR>
+      \ -hide-status-line -prompt=(*'-')>\ <CR>
 "nnoremap [unitePrefix]v
-nnoremap [unitePrefix]s
+nnoremap <silent> [unitePrefix]s
       \ :<C-u>Unite menu:vimshell -buffer-name=vimshell
-      \ -auto-resize -hide-status-line -prompt=(*'-')>\ <CR>
+      \ -hide-status-line -prompt=(*'-')>\ <CR>
 
 " }}}
 
@@ -1228,7 +1230,9 @@ let g:quickrun_config._ = {
       \ 'runner' : 'vimproc',
       \ 'runner/vimproc/updatetime' : 1000,
       \ 'outputter' : 'buffer',
+      \ 'outputter/buffer/close_on_empty' : 1,
       \ 'split' : 'below',
+      \ 'hook/time/enable' : 1,
       \ }
 "let g:quickrun_config.markdown = {
 "      \ 'outputter' : 'browser'
