@@ -469,10 +469,12 @@ nnoremap <silent> <Space>l
 nnoremap <Space> <Nop>
 
 " Look see registers.
-"nnoremap <Space>r :<C-u>registers<CR>
+"nnoremap <silent> <Space>r
+"      \ :<C-u>registers<CR>
 
 " Look see marks.
-"nnoremap <Space>m :<C-u>marks<CR>
+"nnoremap <silent> <Space>m
+"      \ :<C-u>marks<CR>
 
 " Use :help three times more than regular speed.
 nnoremap <C-h> :<C-u>help<Space>
@@ -493,9 +495,9 @@ nnoremap <Space>v :<C-u>vsplit<CR>
 "nnoremap <Space>s\| :<C-u>vsplit<CR>
 
 " Buffers
-nnoremap <Space>bb :<C-u>b#<CR>
-nnoremap <Space>bp :<C-u>bp<CR>
-nnoremap <Space>bn :<C-u>bn<CR>
+nnoremap <silent> <Space>bb :<C-u>b#<CR>
+nnoremap <silent> <Space>bp :<C-u>bp<CR>
+nnoremap <silent> <Space>bn :<C-u>bn<CR>
 
 nnoremap q <Nop>
 "nnoremap Q q
@@ -869,7 +871,8 @@ nnoremap ,? :M?
 " NERDTree {{{
 
 " NERDTreeToggle
-"nnoremap <Space>f  :<C-u>NERDTreeToggle<CR>
+"nnoremap <silent> <Space>f
+"      \ :<C-u>NERDTreeToggle<CR>
 " Disables display of the 'Bookmarks' and 'help'.
 "let NERDTreeMinimalUI = 1
 " Display hidden files (i.e. "dot files").
@@ -950,11 +953,11 @@ let bundle = neobundle#get('unite.vim')
       inoremap <silent> <buffer> <Esc><ESC> <Esc>:<C-u>q<CR>
 
       if has('gui_running')
-        nnoremap <silent><buffer> <C-Space> :<C-u>q<CR>
-        inoremap <silent><buffer> <C-Space> <ESC>:<C-u>q<CR>
+        nnoremap <silent> <buffer> <C-Space> :<C-u>q<CR>
+        inoremap <silent> <buffer> <C-Space> <ESC>:<C-u>q<CR>
       else
-        nnoremap <silent><buffer> <C-@> :<C-u>q<CR>
-        inoremap <silent><buffer> <C-@> <ESC>:<C-u>q<CR>
+        nnoremap <silent> <buffer> <C-@> :<C-u>q<CR>
+        inoremap <silent> <buffer> <C-@> <ESC>:<C-u>q<CR>
       endif
     endfunction
 
@@ -995,7 +998,7 @@ endif
 " }}}
 
 " Unite search
-nnoremap [unitePrefix]/
+nnoremap <silent> [unitePrefix]/
       \ :<C-u>Unite line/fast -buffer-name=Search
       \ -start-insert -auto-preview -no-split<CR>
 
@@ -1049,7 +1052,6 @@ let g:unite_source_menu_menus = {
 nnoremap <silent> [unitePrefix]e
       \ :<C-u>Unite menu:shortcut -buffer-name=Shortcut
       \ -hide-status-line -prompt=(*'-')>\ <CR>
-"nnoremap [unitePrefix]v
 nnoremap <silent> [unitePrefix]s
       \ :<C-u>Unite menu:vimshell -buffer-name=vimshell
       \ -hide-status-line -prompt=(*'-')>\ <CR>
@@ -1174,7 +1176,8 @@ endif
 
 " vimshell {{{
 
-noremap <Space>r  :VimShellSendString<CR>
+noremap <silent> <Space>r
+      \ :VimShellSendString<CR>
 
 let bundle = neobundle#get('vimshell')
   function! bundle.hooks.on_source(bundle)
@@ -1256,7 +1259,7 @@ endif
 
 " vim-toggle {{{
 
-nmap + <Plug>ToggleN
+nmap <silent> +    <Plug>ToggleN
 
 " }}}
 
