@@ -340,7 +340,7 @@ set wildignore+=.DS_Store
 " Key Mappings: "{{{
 "
 
-inoremap <Esc> <Esc>`]
+inoremap <Esc>  <Esc>`]
 
 " Move cursor by display line.
 noremap j gj
@@ -349,10 +349,10 @@ noremap gj j
 noremap gk k
 
 " Clear highlight of search results.
-nnoremap <ESC><ESC> :nohlsearch<CR>
+nnoremap <silent> <ESC><ESC>  :nohlsearch<CR>
 
 " Move to the first non-blank characters of the screen line.
-noremap <expr> H search('^\s\s*\%#', 'bcn') ? 'g0' : 'g^'
+noremap <expr> H  search('^\s\s*\%#', 'bcn') ? 'g0' : 'g^'
 " Move to the last characters of the screen line.
 noremap L g$
 
@@ -374,18 +374,18 @@ nnoremap g* g*N
 nnoremap g# g#N
 
 " Centering <C-o>, <C-i>
-nnoremap <C-o> <C-o>zz
-nnoremap <C-i> <C-i>zz
+nnoremap <C-o>  <C-o>zz
+nnoremap <C-i>  <C-i>zz
 
 " Insert close tags automatically in edit xml and html.
 if exists('&omnifunc')
-  autocmd MyAutoCmd FileType xml,html inoremap <buffer> </ </<C-x><C-o>
+  autocmd MyAutoCmd FileType xml,html inoremap <buffer> </  </<C-x><C-o>
 endif
 
 " Next tab, Previous tab.
 if has('gui_running')
-  nnoremap <C-Tab>   gt
-  nnoremap <C-S-Tab> gT
+  nnoremap <C-Tab>    gt
+  nnoremap <C-S-Tab>  gT
 endif
 nnoremap gl gt
 nnoremap gh gT
@@ -407,8 +407,8 @@ nnoremap > >>
 
 " Indent
 if has('gui_running')
-  xnoremap <Tab> >gv
-  xnoremap <S-Tab> <gv
+  xnoremap <Tab>    >gv
+  xnoremap <S-Tab>  <gv
 endif
 
 " Shift + Arrow key: Resize split windows.
@@ -442,12 +442,12 @@ cnoremap <C-k> <C-\>e getcmdpos() == 1 ?
 cnoremap <C-y>    <C-r>*
 
 " Quick edit and reload .vimrc/.gvimrc
-nnoremap <silent> <Space>.. :<C-u>tabedit $MYVIMRC<CR>
-nnoremap <silent> <Space>.g :<C-u>tabedit $MYGVIMRC<CR>
-nnoremap <silent> <Space>R  :<C-u>source $MYVIMRC
-                             \ \| if has('gui_running')
-                             \ \|   source $MYGVIMRC
-                             \ \| endif <CR>
+nnoremap <silent> <Space>..  :<C-u>tabedit $MYVIMRC<CR>
+nnoremap <silent> <Space>.g  :<C-u>tabedit $MYGVIMRC<CR>
+nnoremap <silent> <Space>R   :<C-u>source $MYVIMRC
+                              \ \| if has('gui_running')
+                              \ \|   source $MYGVIMRC
+                              \ \| endif <CR>
 
 " Toggle hlsearch
 nnoremap <silent> <Space>h
@@ -477,27 +477,27 @@ nnoremap <Space> <Nop>
 "      \ :<C-u>marks<CR>
 
 " Use :help three times more than regular speed.
-nnoremap <C-h> :<C-u>help<Space>
+nnoremap <C-h>  :<C-u>help<Space>
 
 " :close
-nnoremap <Space>c :<C-u>close<CR>
+nnoremap <Space>c  :<C-u>close<CR>
 
 " :only
-nnoremap <Space>o :<C-u>only<CR>
+nnoremap <Space>o  :<C-u>only<CR>
 
 " PasteToggle
 nnoremap <silent> <Space>p
       \ :<C-u>call <SID>toggle_option('paste')<CR>:set mouse=<CR>
 
 " Split window.
-nnoremap <Space>s :<C-u>split<CR>
-nnoremap <Space>v :<C-u>vsplit<CR>
-"nnoremap <Space>s\| :<C-u>vsplit<CR>
+nnoremap <Space>s  :<C-u>split<CR>
+nnoremap <Space>v  :<C-u>vsplit<CR>
+"nnoremap <Space>s\|  :<C-u>vsplit<CR>
 
 " Buffers
-nnoremap <silent> <Space>bb :<C-u>b#<CR>
-nnoremap <silent> <Space>bp :<C-u>bp<CR>
-nnoremap <silent> <Space>bn :<C-u>bn<CR>
+nnoremap <silent> <Space>bb  :<C-u>b#<CR>
+nnoremap <silent> <Space>bp  :<C-u>bp<CR>
+nnoremap <silent> <Space>bn  :<C-u>bn<CR>
 
 nnoremap q <Nop>
 "nnoremap Q q
@@ -514,21 +514,21 @@ xnoremap P "0p
 autocmd MyAutoCmd FileType markdown call s:markdown_settings()
 function! s:markdown_settings()
   " 行頭か行頭からいくつかのタブの後だったら'-, +, *, >'に半角スペースを足す
-  inoremap <buffer><expr> - search('^\t*\%#', 'bcn') ? '- ' : '-'
-  inoremap <buffer><expr> + search('^\t*\%#', 'bcn') ? '+ ' : '+'
-  inoremap <buffer><expr> * search('^\t*\%#', 'bcn') ? '* ' : '*'
-  inoremap <buffer><expr> > search('^\t*\%#', 'bcn') ? '> ' : '>'
+  inoremap <buffer><expr> -  search('^\t*\%#', 'bcn') ? '- ' : '-'
+  inoremap <buffer><expr> +  search('^\t*\%#', 'bcn') ? '+ ' : '+'
+  inoremap <buffer><expr> *  search('^\t*\%#', 'bcn') ? '* ' : '*'
+  inoremap <buffer><expr> >  search('^\t*\%#', 'bcn') ? '> ' : '>'
 endfunction
 
 " <C-f>, <C-b>: page move.
-inoremap <expr><C-f>  pumvisible() ? "\<PageDown>" : "\<Right>"
-inoremap <expr><C-b>  pumvisible() ? "\<PageUp>"   : "\<Left>"
+inoremap <expr> <C-f>  pumvisible() ? "\<PageDown>" : "\<Right>"
+inoremap <expr> <C-b>  pumvisible() ? "\<PageUp>"   : "\<Left>"
 " <C-y>: paste.
 "inoremap <expr><C-y>  pumvisible() ? neocomplcache#close_popup() : "\<C-r>\""
 " <C-a>: Move to head.
 "inoremap <C-a>  <Home>
 " <C-e>: Close popup and move to end.
-inoremap <expr><C-e>  neocomplcache#close_popup() . "\<End>"
+inoremap <expr> <C-e>  neocomplcache#close_popup() . "\<End>"
 
 " }}}
 
@@ -714,8 +714,8 @@ autocmd MyAutoCmd BufEnter * lcd %:p:h
 """ Linux等でESC後にすぐ反映されない場合、次行以降のコメントを解除してください
 "" if has('unix') && !has('gui_running')
 ""   " ESC後にすぐ反映されない場合
-""   inoremap <silent> <ESC> <ESC>
-""   inoremap <silent> <C-[> <ESC>
+""   inoremap <silent> <ESC>  <ESC>
+""   inoremap <silent> <C-[>  <ESC>
 "" endif
 ""
 ""if has('syntax')
@@ -789,29 +789,29 @@ let g:neocomplcache_enable_at_startup = 1
 let bundle = neobundle#get('neocomplcache')
   function! bundle.hooks.on_source(bundle)
     " <CR>: Close popup and save indent.
-    inoremap <expr><CR> neocomplcache#smart_close_popup() . "\<CR>"
+    inoremap <expr> <CR>  neocomplcache#smart_close_popup() . "\<CR>"
 
     " <TAB>: completion.
-    inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
+    inoremap <expr> <TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
     " <Shift-TAB>: Reverse completion.
-    inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+    inoremap <expr> <S-TAB>  pumvisible() ? "\<C-p>" : "\<C-h>"
 
     " AutoCompPop like behavior.
     "let g:neocomplcache_enable_auto_select = 1
     " The number of candidates in popup menu. (Default: 100)
     "let g:neocomplcache_max_list = 20
     " <C-g>: Undo completion.
-    inoremap <expr><C-g> neocomplcache#undo_completion()
+    inoremap <expr> <C-g>  neocomplcache#undo_completion()
     " <C-l>: Complete common string.
-    inoremap <expr><C-l> neocomplcache#complete_common_string()
+    inoremap <expr> <C-l>  neocomplcache#complete_common_string()
 
     " <C-h>, <BS>: Close popup and delete backward char.
-    "inoremap <expr><C-h> neocomplcache#smart_close_popup()."\<C-h>"
-    "inoremap <expr><BS> neocomplcache#smart_close_popup()."\<BS>"
-    imap <expr><C-h> neocomplcache#smart_close_popup()."\<BS>"
+    "inoremap <expr> <C-h>  neocomplcache#smart_close_popup()."\<C-h>"
+    "inoremap <expr> <BS>  neocomplcache#smart_close_popup()."\<BS>"
+    imap <expr> <C-h>  neocomplcache#smart_close_popup()."\<BS>"
 
     " Filename completion.
-    inoremap <expr><C-x><C-f>  neocomplcache#manual_filename_complete()
+    inoremap <expr> <C-x><C-f>  neocomplcache#manual_filename_complete()
 
   endfunction
 unlet bundle
@@ -861,10 +861,10 @@ let g:user_zen_settings = {
 " Default disable.
 let g:eregex_default_enable = 0
 
-"nnoremap / :M/
-"nnoremap ? :M?
-nnoremap ,/ :M/
-nnoremap ,? :M?
+"nnoremap /  :M/
+"nnoremap ?  :M?
+nnoremap ,/  :M/
+nnoremap ,?  :M?
 
 " }}}
 
@@ -941,23 +941,20 @@ let bundle = neobundle#get('unite.vim')
 
     function! s:unite_my_settings()
       " <C-w>: Deletes a path upward.
-      imap <buffer> <C-w> <Plug>(unite_delete_backward_path)
+      imap <buffer> <C-w>  <Plug>(unite_delete_backward_path)
       " <TAB>: Goes to the next candidate, or goes to the top from the bottom.
-      "imap <buffer> <TAB> <Plug>(unite_select_next_line)
-
-      " <Space>u で終了する
-      nnoremap <silent> <buffer> <Space>u :<C-u>q<CR>
+      "imap <buffer> <TAB>  <Plug>(unite_select_next_line)
 
       " ESCキーを2回押すと終了する
-      nnoremap <silent> <buffer> <ESC><ESC> :<C-u>q<CR>
-      inoremap <silent> <buffer> <Esc><ESC> <Esc>:<C-u>q<CR>
+      nnoremap <silent><buffer> <ESC><ESC>  :<C-u>q<CR>
+      inoremap <silent><buffer> <Esc><ESC>  <Esc>:<C-u>q<CR>
 
       if has('gui_running')
-        nnoremap <silent> <buffer> <C-Space> :<C-u>q<CR>
-        inoremap <silent> <buffer> <C-Space> <ESC>:<C-u>q<CR>
+        nnoremap <silent><buffer> <C-Space>  :<C-u>q<CR>
+        inoremap <silent><buffer> <C-Space>  <ESC>:<C-u>q<CR>
       else
-        nnoremap <silent> <buffer> <C-@> :<C-u>q<CR>
-        inoremap <silent> <buffer> <C-@> <ESC>:<C-u>q<CR>
+        nnoremap <silent><buffer> <C-@>  :<C-u>q<CR>
+        inoremap <silent><buffer> <C-@>  <ESC>:<C-u>q<CR>
       endif
     endfunction
 
@@ -1092,14 +1089,14 @@ endif
 let bundle = neobundle#get('vim-smartchr')
   function! bundle.hooks.on_source(bundle)
 
-    "inoremap <expr> = smartchr#one_of(' = ', ' == ', ' === ', '=')
-    "inoremap <expr> , smartchr#one_of(', ', ',')
+    "inoremap <expr> =  smartchr#one_of(' = ', ' == ', ' === ', '=')
+    "inoremap <expr> ,  smartchr#one_of(', ', ',')
 
-    "inoremap <expr> : smartchr#one_of(': ', ' : ', ':')
-    "inoremap <buffer> <expr> . smartchr#loop('.',  ' . ',  '..', '...')
+    "inoremap <expr> :  smartchr#one_of(': ', ' : ', ':')
+    "inoremap <buffer> <expr> .  smartchr#loop('.',  ' . ',  '..', '...')
 
     "augroup MyAutoCmd
-    "  autocmd FileType css inoremap <expr> : smartchr#one_of(':')
+    "  autocmd FileType css inoremap <expr> :  smartchr#one_of(':')
     "augroup END
 
   endfunction
@@ -1147,8 +1144,8 @@ let g:Powerline_symbols_override = {
 
 " CUI上でESC後すぐに反映させる
 if has('unix') && !has('gui_running')
-  inoremap <silent> <ESC> <ESC>`]
-  inoremap <silent> <C-[> <ESC>`]
+  inoremap <silent> <ESC>  <ESC>`]
+  inoremap <silent> <C-[>  <ESC>`]
 endif
 
 function! s:powerline_adjust_colorscheme()
@@ -1204,7 +1201,7 @@ let bundle = neobundle#get('vimshell')
       call vimshell#set_alias('quicklook', 'qlmanage -p $$args')
     endfunction
 
-    "imap <buffer> <C-k> <plug>(vimshell_zsh_complete)
+    "imap <buffer> <C-k>  <plug>(vimshell_zsh_complete)
   endfunction
 unlet bundle
 
@@ -1212,20 +1209,20 @@ unlet bundle
 
 " vim-indent-guides {{{
 
-nmap <silent> <Leader>ig <Plug>IndentGuidesToggle
+nmap <silent> <Leader>ig  <Plug>IndentGuidesToggle
 
 " }}}
 
 " colorizer.vim {{{
 
-nmap <silent> <Leader>tc <Plug>Colorizer
+nmap <silent> <Leader>tc  <Plug>Colorizer
 
 " }}}
 
 " quickrun.vim {{{
 
-nmap <silent> <Leader>r <Plug>(quickrun)
-nnoremap <expr><silent> <C-c> quickrun#is_running() ?
+nmap <silent> <Leader>r  <Plug>(quickrun)
+nnoremap <expr><silent> <C-c>  quickrun#is_running() ?
       \ quickrun#sweep_sessions() : "\<C-c>"
 
 let g:quickrun_config = {}
@@ -1259,7 +1256,7 @@ endif
 
 " vim-toggle {{{
 
-nmap <silent> +    <Plug>ToggleN
+nmap <silent> +  <Plug>ToggleN
 
 " }}}
 
