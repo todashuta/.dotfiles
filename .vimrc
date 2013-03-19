@@ -394,7 +394,7 @@ nnoremap gh gT
 noremap ; :
 noremap : ;
 
-" ノーマルモードでも改行だけできるようにする
+" Enable <CR> to line break in Normal Mode.
 "nnoremap <CR> i<CR><ESC>
 
 " Visual shifting (does not exit Visual mode)
@@ -1321,9 +1321,9 @@ augroup END
 
 " Commands: "{{{
 "
-" Change listchars {{{
+" Toggle listchars strings {{{
 
-function! s:toggle_listchars_style()
+function! s:toggle_listchars_strings()
   if &listchars == s:listchars_classic
     let &listchars = s:listchars_modern
   else
@@ -1331,7 +1331,7 @@ function! s:toggle_listchars_style()
   endif
 endfunction
 
-command! ToggleListcharsStyle :call s:toggle_listchars_style()
+command! ToggleListcharsStrings :call s:toggle_listchars_strings()
 
 " }}}
 
