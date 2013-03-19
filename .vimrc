@@ -1161,7 +1161,7 @@ autocmd MyAutoCmd ColorScheme * silent call s:powerline_adjust_colorscheme()
 " Reload Powerline automatically when the Vim start-up.
 "autocmd MyAutoCmd VimEnter * silent call s:powerline_adjust_colorscheme()
 
-if !has('gui_running')
+if !has('gui_running') && exists('$ITERM_PROFILE')
   autocmd MyAutoCmd VimLeave * silent call s:finalize_powerline()
   function! s:finalize_powerline()
     call s:judge_colorscheme_settings()
