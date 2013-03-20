@@ -889,6 +889,9 @@ let g:unite_winheight = 16
 nmap <Space>u [unitePrefix]
 nnoremap [unitePrefix] <Nop>
 
+" Unite source.
+nnoremap <silent> [unitePrefix]u
+      \ :<C-u>Unite source -prompt=(*'-')>\ <CR>
 " バッファ一覧 (Unite buffer)
 nnoremap <silent> [unitePrefix]b
       \ :<C-u>Unite buffer -buffer-name=Buffers
@@ -905,13 +908,10 @@ nnoremap <silent> [unitePrefix]p
 " マーク一覧 (Unite mark)
 nnoremap <silent> [unitePrefix]m
       \ :<C-u>Unite mark -buffer-name=Marks -prompt=(*'-')>\ <CR>
-" ファイルとバッファ (Unite buffer file_mru)
-nnoremap <silent> [unitePrefix]u
-      \ :<C-u>Unite buffer file_mru -hide-source-names -prompt=(*'-')>\ <CR>
 " 全部 (Unite buffer file_mru bookmark file)
 nnoremap <silent> [unitePrefix]a
       \ :<C-u>Unite buffer file_mru bookmark file
-      \ -buffer-name=All -prompt=(*'-')>\ <CR>
+      \ -buffer-name=All -hide-source-names -prompt=(*'-')>\ <CR>
 " Unite outline
 nnoremap <silent> <Space>-
       \ :<C-u>Unite outline -buffer-name=Outline
@@ -920,16 +920,6 @@ nnoremap <silent> <Space>-
 nnoremap <silent> [unitePrefix]t
       \ :<C-u>Unite tweetvim -buffer-name=TweetVim
       \ -hide-status-line -prompt=(*'-')<\ <CR>
-" Unite source.
-"nnoremap <silent> [unitePrefix]s
-"      \ :<C-u>Unite source -prompt=(*'-')>\ <CR>
-if has('gui_running')
-  nnoremap <silent> <C-Space>
-        \ :<C-u>Unite source -prompt=(*'-')>\ <CR>
-else
-  nnoremap <silent> <C-@>
-        \ :<C-u>Unite source -prompt=(*'-')>\ <CR>
-endif
 
 let bundle = neobundle#get('unite.vim')
   function! bundle.hooks.on_source(bundle)
@@ -944,14 +934,6 @@ let bundle = neobundle#get('unite.vim')
       " ESCキーを2回押すと終了する
       nnoremap <silent><buffer> <ESC><ESC>  :<C-u>q<CR>
       inoremap <silent><buffer> <Esc><ESC>  <Esc>:<C-u>q<CR>
-
-      if has('gui_running')
-        nnoremap <silent><buffer> <C-Space>  :<C-u>q<CR>
-        inoremap <silent><buffer> <C-Space>  <ESC>:<C-u>q<CR>
-      else
-        nnoremap <silent><buffer> <C-@>  :<C-u>q<CR>
-        inoremap <silent><buffer> <C-@>  <ESC>:<C-u>q<CR>
-      endif
     endfunction
 
   endfunction
