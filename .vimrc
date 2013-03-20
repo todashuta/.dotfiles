@@ -842,11 +842,7 @@ unlet bundle
 
 " zencoding.vim {{{
 
-if has('gui_running')
-  let g:user_zen_leader_key = '<C-Space>'
-else
-  let g:user_zen_leader_key = '<C-@>'
-endif
+let g:user_zen_leader_key = has('gui_running') ? '<C-Space>' : '<C-@>'
 let g:user_zen_settings = {
 \  'lang' : 'ja',
 \  'css' : {
@@ -1063,7 +1059,7 @@ let g:solarized_visibility='low'
 call togglebg#map("<F5>")
 " If you use a iTerm besides use solarized iTerm profiles,
 " separate the config 'light' from 'dark' by $ITERM_PROFILE.
-function! s:judge_colorscheme_settings()
+function! s:judge_background_and_colorschemes()
   let g:solarized_termcolors = $ITERM_PROFILE =~? 'solarized' ? '16' : '256'
 
   if exists('$ITERM_PROFILE') && $ITERM_PROFILE =~? 'solarized'
@@ -1079,7 +1075,7 @@ function! s:judge_colorscheme_settings()
 endfunction
 if !has('gui_running') && !exists('g:colors_name')
 "if has('vim_starting') && !has('gui_running')
-  call s:judge_colorscheme_settings()
+  call s:judge_background_and_colorschemes()
 endif
 
 " }}}
@@ -1164,7 +1160,7 @@ autocmd MyAutoCmd ColorScheme * silent call s:powerline_adjust_colorscheme()
 if !has('gui_running') && exists('$ITERM_PROFILE')
   autocmd MyAutoCmd VimLeave * silent call s:finalize_powerline()
   function! s:finalize_powerline()
-    call s:judge_colorscheme_settings()
+    call s:judge_background_and_colorschemes()
     call s:powerline_adjust_colorscheme()
   endfunction
 endif
