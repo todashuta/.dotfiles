@@ -48,8 +48,8 @@ call neobundle#rc(expand('~/.vim/bundle'))
 
 " Github repositories.
 NeoBundle 'Shougo/neocomplcache'
-"NeoBundle 'Shougo/neosnippet', {
-"      \ 'depends' : 'Shougo/neocomplcache' }
+NeoBundle 'Shougo/neosnippet', {
+      \ 'depends' : 'Shougo/neocomplcache' }
 NeoBundle 'honza/snipmate-snippets'
 NeoBundle 'Shougo/unite.vim'
 NeoBundleLazy 'Shougo/vimfiler', {
@@ -785,6 +785,8 @@ autocmd MyAutoCmd BufReadPost *
 
 " Launches neocomplcache automatically on vim startup.
 let g:neocomplcache_enable_at_startup = 1
+" Close preview window automatically.
+let g:neocomplcache_enable_auto_close_preview = 1
 
 let bundle = neobundle#get('neocomplcache')
   function! bundle.hooks.on_source(bundle)
@@ -820,23 +822,26 @@ unlet bundle
 
 " neosnippet.vim {{{
 
-"let bundle = neobundle#get('neosnippet')
-"  function! bundle.hooks.on_source(bundle)
-"
-"    " Plugin key-mappings.
-"    imap <C-k>  <Plug>(neosnippet_expand_or_jump)
-"    smap <C-k>  <Plug>(neosnippet_expand_or_jump)
-"
-"    " For snippet_complete marker.
-"    if has('conceal')
-"      set conceallevel=2 concealcursor=i
-"    endif
-"
-"    let g:neosnippet#snippets_directory = '~/.vim/bundle/snipmate-snippets/snippets,'
-"    let g:neosnippet#snippets_directory .= '~/.vim/snippets,'
-"
-"  endfunction
-"unlet bundle
+let bundle = neobundle#get('neosnippet')
+  function! bundle.hooks.on_source(bundle)
+
+    " Plugin key-mappings.
+    imap <C-k>  <Plug>(neosnippet_expand_or_jump)
+    smap <C-k>  <Plug>(neosnippet_expand_or_jump)
+
+    " For snippet_complete marker.
+    if has('conceal')
+      set conceallevel=2 concealcursor=i
+    endif
+
+    let g:neosnippet#snippets_directory = '~/.vim/bundle/snipmate-snippets/snippets,'
+    let g:neosnippet#snippets_directory .= '~/.vim/snippets,'
+
+    " Disable preview window in neosnippet candidates.
+    "set completeopt-=preview
+
+  endfunction
+unlet bundle
 
 " }}}
 
