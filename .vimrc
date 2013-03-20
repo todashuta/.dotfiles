@@ -207,6 +207,10 @@ NeoBundleLazy 'airblade/vim-gitgutter', {
       \ }}
 NeoBundle 'kchmck/vim-coffee-script'
 "NeoBundle 'vim-scripts/Vim-R-plugin'
+NeoBundleLazy 'itchyny/thumbnail.vim', {
+      \ 'autoload' : {
+      \     'commands' : ['Thumbnail'],
+      \ }}
 
 if has('conceal')
   NeoBundle 'Yggdroot/indentLine'
@@ -349,7 +353,7 @@ noremap gj j
 noremap gk k
 
 " Clear highlight of search results.
-nnoremap <silent> <ESC><ESC>  :nohlsearch<CR>
+nnoremap <silent> <ESC><ESC>  :<C-u>nohlsearch<CR>
 
 " Move to the first non-blank characters of the screen line.
 noremap <expr> H  search('^\s\s*\%#', 'bcn') ? 'g0' : 'g^'
@@ -412,10 +416,10 @@ if has('gui_running')
 endif
 
 " Shift + Arrow key: Resize split windows.
-nnoremap <silent> <S-Left>  :wincmd <<CR>
-nnoremap <silent> <S-Right> :wincmd ><CR>
-nnoremap <silent> <S-Up>    :wincmd +<CR>
-nnoremap <silent> <S-Down>  :wincmd -<CR>
+nnoremap <silent> <S-Left>   :<C-u>wincmd <<CR>
+nnoremap <silent> <S-Right>  :<C-u>wincmd ><CR>
+nnoremap <silent> <S-Up>     :<C-u>wincmd +<CR>
+nnoremap <silent> <S-Down>   :<C-u>wincmd -<CR>
 
 " Yank from the cursor to the end of line.
 nnoremap Y y$
@@ -476,16 +480,16 @@ nnoremap <Space> <Nop>
 "nnoremap <silent> <Space>m
 "      \ :<C-u>marks<CR>
 
-" Use :help three times more than regular speed.
+" Use help three times more than regular speed.
 nnoremap <C-h>  :<C-u>help<Space>
 
-" :close
+" <Space>c: close current window nimbly.
 nnoremap <Space>c  :<C-u>close<CR>
 
-" :only
+" <Space>o: close all other windows nimbly.
 nnoremap <Space>o  :<C-u>only<CR>
 
-" PasteToggle
+" Toggle Paste.
 nnoremap <silent> <Space>p
       \ :<C-u>call <SID>toggle_option('paste')<CR>:set mouse=<CR>
 
@@ -498,6 +502,7 @@ nnoremap <Space>v  :<C-u>vsplit<CR>
 nnoremap <silent> <Space>bb  :<C-u>b#<CR>
 nnoremap <silent> <Space>bp  :<C-u>bp<CR>
 nnoremap <silent> <Space>bn  :<C-u>bn<CR>
+"nnoremap <silent> <Space>b  :<C-u>Thumbnail<CR>
 
 nnoremap q <Nop>
 "nnoremap Q q
@@ -1314,7 +1319,7 @@ function! s:toggle_listchars_strings()
   endif
 endfunction
 
-command! ToggleListcharsStrings :call s:toggle_listchars_strings()
+command! ToggleListcharsStrings call s:toggle_listchars_strings()
 
 " }}}
 
@@ -1351,7 +1356,7 @@ set helplang& helplang=en,ja
 
 if exists('&relativenumber')
   " Toggle number with relativenumber.
-  nnoremap <silent> <Space>n  :exe'set'&nu==&rnu?'nu!':'rnu!'<CR>
+  nnoremap <silent> <Space>n  :<C-u>exe'set'&nu==&rnu?'nu!':'rnu!'<CR>
 else
   " Toggle number.
   nnoremap <silent> <Space>n  :<C-u>call <SID>toggle_option('number')<CR>
