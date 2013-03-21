@@ -5,9 +5,10 @@ scriptencoding utf-8
 
 " Initialize: "{{{
 "
-
-" Be IMproved.
-set nocompatible
+if has('vim_starting')
+  " Don't reset twice on reloading - 'compatible' has SO many side effects.
+  set nocompatible    " Be IMproved.
+endif
 
 let s:is_windows = has('win16') || has('win32') || has('win64')
 let s:is_cygwin = has('win32unix')
