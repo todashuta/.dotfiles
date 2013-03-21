@@ -376,10 +376,6 @@ noremap L g$
 " Centering search result and open fold.
 nnoremap n nzzzv
 nnoremap N Nzzzv
-"nnoremap * *zzzv
-"nnoremap # #zzzv
-"nnoremap g* g*zzzv
-"nnoremap g# g#zzzv
 
 " Don't move on *
 nnoremap * *N
@@ -478,6 +474,10 @@ nnoremap <silent> <Space>w
 nnoremap <silent> <Space>l
       \ :<C-u>call <SID>toggle_option('list')<CR>
 
+" Toggle wrapscan
+nnoremap <silent> <Space>/
+      \ :<C-u>call <SID>toggle_option('wrapscan')<CR>
+
 " Toggle number.
 "nnoremap <silent> <Space>n
 "      \ :<C-u>call <SID>toggle_option('number')<CR>
@@ -493,7 +493,7 @@ nnoremap <Space> <Nop>
 "nnoremap <silent> <Space>m
 "      \ :<C-u>marks<CR>
 
-" Use help three times more than regular speed.
+" Lookup help three times more than regular speed.
 nnoremap <C-h>  :<C-u>help<Space>
 
 " <Space>c: close current window nimbly.
@@ -509,7 +509,6 @@ nnoremap <silent> <Space>p
 " Split window.
 nnoremap <Space>s  :<C-u>split<CR>
 nnoremap <Space>v  :<C-u>vsplit<CR>
-"nnoremap <Space>s\|  :<C-u>vsplit<CR>
 
 " Buffers
 nnoremap <silent> <Space>bb  :<C-u>b#<CR>
@@ -557,7 +556,7 @@ set title
 " Enable 256 color terminal.
 set t_Co=256
 " Color scheme (Don't override colorscheme.)
-"if !exists('g:colors_name') && !has('gui_running')
+"if !has('gui_running') && (!exists('g:colors_name') || has('vim_starting'))
 "  colorscheme solarized
 "endif
 " Number of screen lines to use for the command-line.
@@ -596,8 +595,8 @@ set pumheight=15
 " http://stackoverflow.com/questions/2447109/showing-a-different-background-colour-in-vim-past-80-characters
 "if exists('&colorcolumn')
 "  "autocmd MyAutoCmd InsertEnter * setlocal colorcolumn=80
-"  autocmd MyAutoCmd InsertEnter * execute "setlocal colorcolumn=".join(range(81,335),',')
-"  autocmd MyAutoCmd InsertLeave * setlocal colorcolumn=""
+"  autocmd MyAutoCmd InsertEnter * execute 'setlocal colorcolumn='.join(range(81,335),',')
+"  autocmd MyAutoCmd InsertLeave * execute 'setlocal colorcolumn='.0
 "endif
 
 if exists('&colorcolumn')
@@ -617,7 +616,7 @@ set list
 " Strings to use in 'list' mode and for the :list command.
 let s:listchars_classic = 'tab:>-,trail:-,eol:$,extends:>,precedes:<,nbsp:%'
 let s:listchars_modern  = 'tab:▸ ,trail:›,precedes:«,extends:»'
-if !exists('s:loaded_vimrc')
+if has('vim_starting')
   let &listchars = s:is_windows ? s:listchars_classic : s:listchars_modern
 endif
 " Example...
@@ -707,12 +706,6 @@ command! ChgEncCp932     setlocal fileencoding=cp932
 
 " }}}
 
-" Change the current directory to the current buffer's directory: "{{{
-
-autocmd MyAutoCmd BufEnter * lcd %:p:h
-
-" }}}
-
 " 挿入モード時、ステータスラインの色を変更 {{{
 " https://github.com/fuenor/vim-statusline/blob/master/insert-statusline.vim
 "
@@ -782,7 +775,7 @@ autocmd MyAutoCmd InsertLeave *
 
 " }}}
 
-" Jump to the last edited position automatically after opening file. {{{
+" Restore cursor position. {{{
 "
 autocmd MyAutoCmd BufReadPost *
       \ if line("'\"") > 1 && line("'\"") <= line("$")
@@ -1070,15 +1063,14 @@ function! s:judge_background_and_colorschemes()
     let &background = $ITERM_PROFILE =~? 'light' ? 'light' : 'dark'
     let g:Powerline_colorscheme = $ITERM_PROFILE =~? 'light' ?
           \ 'solarized' : 'solarized16'
-    execute 'colorscheme solarized'
+    colorscheme solarized
   else
     set background=dark
     let g:Powerline_colorscheme = 'default'
-    execute 'colorscheme hybrid'
+    colorscheme hybrid
   endif
 endfunction
-if !has('gui_running') && !exists('g:colors_name')
-"if has('vim_starting') && !has('gui_running')
+if !has('gui_running') && (!exists('g:colors_name') || has('vim_starting'))
   call s:judge_background_and_colorschemes()
 endif
 
@@ -1104,7 +1096,9 @@ unlet bundle
 
 " }}}
 
-" indent-guides {{{
+" vim-indent-guides {{{
+
+nmap <silent> <Leader>ig  <Plug>IndentGuidesToggle
 
 " indent-guidesを最初から有効にする
 "let g:indent_guides_enable_on_vim_startup = 1
@@ -1152,7 +1146,7 @@ function! s:powerline_adjust_colorscheme()
   if exists(':PowerlineReloadColorscheme')
     let g:Powerline_colorscheme = g:colors_name == 'solarized' ?
         \ ( &background == 'light' ? 'solarized' : 'solarized16' ) : 'default'
-    execute 'PowerlineReloadColorscheme'
+    PowerlineReloadColorscheme
   endif
 endfunction
 
@@ -1207,21 +1201,10 @@ unlet bundle
 
 " }}}
 
-" vim-indent-guides {{{
-
-nmap <silent> <Leader>ig  <Plug>IndentGuidesToggle
-
-" }}}
-
-" colorizer.vim {{{
-
-nmap <silent> <Leader>tc  <Plug>Colorizer
-
-" }}}
-
 " quickrun.vim {{{
 
 nmap <silent> <Leader>r  <Plug>(quickrun)
+
 nnoremap <expr><silent> <C-c>  quickrun#is_running() ?
       \ quickrun#sweep_sessions() : "\<C-c>"
 
@@ -1251,12 +1234,6 @@ if s:is_mac
         \ 'outputter' : 'null',
         \ }
 endif
-
-" }}}
-
-" vim-toggle {{{
-
-nmap <silent> +  <Plug>ToggleN
 
 " }}}
 
@@ -1290,7 +1267,20 @@ nnoremap <silent> <Space>f
 
 " }}}
 
+" indentLine {{{
+
+let g:indentLine_char = '¦'
+
+if !has('vim_starting') && exists(':IndentLinesReset')
+  IndentLinesReset
+endif
+
+" }}}
+
 " Others {{{
+"
+" Change the current directory to the current buffer's directory.
+autocmd MyAutoCmd BufEnter * lcd %:p:h
 
 " Expand the jump functions of % command (e.g. HTML tags, if/else/endif, etc.)
 runtime macros/matchit.vim
@@ -1299,8 +1289,11 @@ runtime macros/matchit.vim
 "let g:showmarks_include =
 "      \ 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
 
-" indentLine
-let g:indentLine_char = '¦'
+" colorizer.vim
+nmap <silent> <Leader>tc  <Plug>Colorizer
+
+" vim-toggle
+nmap <silent> +  <Plug>ToggleN
 
 " }}}
 
@@ -1384,9 +1377,10 @@ endif
 
 " Finalize: "{{{
 
-if !exists('s:loaded_vimrc')
-  let s:loaded_vimrc = 1
-endif
+" Use 'vim_starting' as a substitute for below.
+"if !exists('s:loaded_vimrc')
+"  let s:loaded_vimrc = 1
+"endif
 
 " Must be written at the last. See :help 'secure'.
 set secure
