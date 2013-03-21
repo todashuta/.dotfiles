@@ -66,8 +66,6 @@ NeoBundleLazy 'h1mesuke/unite-outline', {
       \ 'autoload' : {
       \     'unite_sources' : 'outline'
       \ }}
-NeoBundle 'choplin/unite-spotlight',
-      \ { 'depends' : 'Shougo/unite.vim' }
 NeoBundle 'ujihisa/unite-colorscheme',
       \ { 'depends' : 'Shougo/unite.vim' }
 NeoBundle 'ujihisa/unite-font', {
@@ -140,11 +138,12 @@ NeoBundleLazy 'mattn/zencoding-vim', {
       \     'filetypes' : ['html','css']
       \    },
       \ }
-NeoBundleLazy 'thinca/vim-ref', { 'autoload' : {
-      \ 'commands' : 'Ref'
-      \ }}
-NeoBundleLazy 'gregsexton/VimCalc', { 'autoload' : {
-      \ 'commands' : 'Calc'
+NeoBundleLazy 'thinca/vim-ref', {
+      \ 'autoload' : {
+      \     'commands' : [
+      \           { 'name' : 'Ref',
+      \             'complete' : 'customlist,ref#complete' },
+      \     ],
       \ }}
 NeoBundleLazy 'mattn/calendar-vim', { 'autoload' : {
       \ 'commands' : ['Calendar','CalendarH']
@@ -199,7 +198,6 @@ NeoBundleLazy 'taku-o/vim-toggle', {
       \ 'autoload' : {
       \     'mappings' : [['n', '<Plug>ToggleN']],
       \ }}
-NeoBundle 'rking/ag.vim'
 NeoBundle 'ujihisa/neco-look'
 NeoBundleLazy 'airblade/vim-gitgutter', {
       \ 'autoload' : {
@@ -211,6 +209,21 @@ NeoBundleLazy 'itchyny/thumbnail.vim', {
       \ 'autoload' : {
       \     'commands' : ['Thumbnail'],
       \ }}
+
+if has('python')
+  NeoBundleLazy 'gregsexton/VimCalc', { 'autoload' : {
+        \ 'commands' : 'Calc'
+        \ }}
+endif
+
+if executable('ag')
+  NeoBundle 'rking/ag.vim'
+endif
+
+if executable('mdfind')
+  NeoBundle 'choplin/unite-spotlight',
+        \ { 'depends' : 'Shougo/unite.vim' }
+endif
 
 if has('conceal')
   NeoBundle 'Yggdroot/indentLine'
@@ -834,7 +847,9 @@ let bundle = neobundle#get('neosnippet')
       set conceallevel=2 concealcursor=i
     endif
 
+    " Honza's Snippets.
     let g:neosnippet#snippets_directory = '~/.vim/bundle/snipmate-snippets/snippets,'
+    " User-defined snippet files directory.
     let g:neosnippet#snippets_directory .= '~/.vim/snippets,'
 
     " Disable preview window in neosnippet candidates.
@@ -994,6 +1009,8 @@ let g:unite_source_menu_menus = {
 \           ['NeoBundle', 'Unite source -input=neobundle\ '],
 \           ['VimShell shortcuts', 'Unite menu:vimshell'],
 \           ['Reopen a file with a different encoding', 'Unite menu:encoding'],
+\           ['Unite-outline', 'Unite outline
+                  \ -no-quit -vertical -winwidth=30 -no-start-insert'],
 \           ['unite-output:message', 'Unite output:message'],
 \           ['Unite Beautiful Attack', 'Unite -auto-preview colorscheme'],
 \           ['Nyancat!!', 'Nyancat2'],
