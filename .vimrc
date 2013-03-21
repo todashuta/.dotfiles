@@ -552,8 +552,7 @@ set cmdheight=1
 " Show (partial) command in the last line of the screen.
 set showcmd
 " Disable bell.
-set t_vb=
-set visualbell
+set visualbell t_vb=
 
 " Show the line and column number of the cursor position.
 "set ruler
@@ -592,9 +591,9 @@ if exists('&colorcolumn')
   autocmd MyAutoCmd BufEnter,VimResized * call s:colorcolumn_plus()
   function! s:colorcolumn_plus()
     if &columns >= 85
-      execute "setlocal colorcolumn=" . join(range(81,335),',')
+      execute 'setlocal colorcolumn=' . join(range(81,335),',')
     else
-      execute "setlocal colorcolumn=" . 0
+      execute 'setlocal colorcolumn=' . 0
     endif
   endfunction
 endif
@@ -606,11 +605,7 @@ set list
 let s:listchars_classic = 'tab:>-,trail:-,eol:$,extends:>,precedes:<,nbsp:%'
 let s:listchars_modern  = 'tab:▸ ,trail:›,precedes:«,extends:»'
 if !exists('s:loaded_vimrc')
-  if s:is_windows
-    let &listchars = s:listchars_classic
-  else
-    let &listchars = s:listchars_modern
-  endif
+  let &listchars = s:is_windows ? s:listchars_classic : s:listchars_modern
 endif
 " Example...
 "   'tab:▸ ,trail:･,eol:¬,precedes:«,extends:»'
@@ -618,7 +613,7 @@ endif
 "   'tab:▸ ,trail:›,eol:↲,precedes:«,extends:»'
 "   'tab:▸ ,trail:›,eol:⏎,precedes:«,extends:»'
 
-" Highlight cursor line.
+" Highlight cursor line only current window.
 autocmd MyAutoCmd WinEnter * setlocal cursorline
 autocmd MyAutoCmd WinLeave * setlocal nocursorline
 setlocal cursorline
@@ -1046,7 +1041,7 @@ nnoremap <silent> [unitePrefix]s
 " SOLARIZED {{{
 
 " Visibility of `listchars' (normal, high, low)
-let g:solarized_visibility='low'
+let g:solarized_visibility = 'low'
 " Toggle background key (Light or Dark)
 call togglebg#map("<F5>")
 " If you use a iTerm besides use solarized iTerm profiles,
@@ -1284,7 +1279,8 @@ nnoremap <silent> <Space>f
 runtime macros/matchit.vim
 
 " showmarks.vim
-"let g:showmarks_include="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+"let g:showmarks_include =
+"      \ 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
 
 " indentLine
 let g:indentLine_char = '¦'
@@ -1312,11 +1308,8 @@ augroup END
 " Toggle listchars strings {{{
 
 function! s:toggle_listchars_strings()
-  if &listchars == s:listchars_classic
-    let &listchars = s:listchars_modern
-  else
-    let &listchars = s:listchars_classic
-  endif
+  let &listchars = &listchars == s:listchars_classic ?
+        \ s:listchars_modern : s:listchars_classic
 endfunction
 
 command! ToggleListcharsStrings call s:toggle_listchars_strings()
