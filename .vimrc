@@ -1280,9 +1280,6 @@ endif
 
 " Others {{{
 "
-" Change the current directory to the current buffer's directory.
-autocmd MyAutoCmd BufEnter * lcd %:p:h
-
 " Expand the jump functions of % command (e.g. HTML tags, if/else/endif, etc.)
 runtime macros/matchit.vim
 
@@ -1339,6 +1336,24 @@ endfunction
 
 " Others: "{{{
 "
+" Change cursor shape.
+" See: http://blog.remora.cx/2012/10/spotlight-cursor-line.html
+" See: https://gist.github.com/1195581
+if !has('gui_running')
+  if exists('$TMUX')
+    let &t_SI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=1\x7\<Esc>\\"
+    let &t_EI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=0\x7\<Esc>\\"
+  elseif &term =~ 'screen'
+    let &t_SI = "\eP\e]50;CursorShape=1\x7\e\\"
+    let &t_EI = "\eP\e]50;CursorShape=0\x7\e\\"
+  elseif &term =~ 'xterm'
+    let &t_SI = "\e]50;CursorShape=1\x7"
+    let &t_EI = "\e]50;CursorShape=0\x7"
+  endif
+endif
+
+" Change the current directory to the current buffer's directory.
+autocmd MyAutoCmd BufEnter * lcd %:p:h
 
 " Editing binary file.
 " See :help hex-editing
@@ -1378,7 +1393,7 @@ endif
 
 " Finalize: "{{{
 
-" Use 'vim_starting' as a substitute for below.
+" Use 'vim_starting' instead of the below.
 "if !exists('s:loaded_vimrc')
 "  let s:loaded_vimrc = 1
 "endif
