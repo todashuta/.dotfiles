@@ -106,7 +106,8 @@ NeoBundleLazy 'thinca/vim-quickrun', {
       \ }}
 NeoBundleLazy 'tyru/open-browser.vim', {
       \ 'autoload' : {
-      \     'filetypes' : ['markdown']
+      \     'filetypes' : ['markdown'],
+      \     'mappings' : '<Plug>(openbrowser-smart-search)',
       \ }}
 NeoBundleLazy 'h1mesuke/vim-alignta', {
       \ 'autoload' : {
@@ -787,7 +788,6 @@ autocmd MyAutoCmd BufReadPost *
 "------------------------------------------------------------------------------
 " Plugin: "{{{
 "
-
 " neocomplcache.vim {{{
 
 " Launches neocomplcache automatically on vim startup.
@@ -1275,6 +1275,14 @@ let g:indentLine_char = '¦'
 if !has('vim_starting') && exists(':IndentLinesReset')
   IndentLinesReset
 endif
+
+" }}}
+
+" open-browser.vim {{{
+
+"let g:netrw_nogx = 1  " Disable netrw's gx mapping.
+nmap gx <Plug>(openbrowser-smart-search)
+vmap gx <Plug>(openbrowser-smart-search)
 
 " }}}
 
