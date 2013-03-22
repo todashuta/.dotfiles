@@ -1323,12 +1323,9 @@ augroup END
 "
 " Toggle listchars strings {{{
 
-function! s:toggle_listchars_strings()
-  let &listchars = &listchars == s:listchars_classic ?
-        \ s:listchars_modern : s:listchars_classic
-endfunction
-
-command! ToggleListcharsStrings call s:toggle_listchars_strings()
+command! ToggleListcharsStrings let &listchars =
+      \ &listchars == s:listchars_classic ?
+      \ s:listchars_modern : s:listchars_classic
 
 " }}}
 
