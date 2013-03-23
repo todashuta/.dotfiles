@@ -1,3 +1,6 @@
+# functions
+
+
 init_aliases() {
 	# color ls
 	case "${OSTYPE}" in
