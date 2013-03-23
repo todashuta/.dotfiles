@@ -5,6 +5,7 @@ tmux*.log
 
 .zsh/.zsh_history
 .zsh/.zcompdump
+.zsh/.zcalc_history
 
 .emacs.d/games/*
 .emacs.d/auto-save-list/*
