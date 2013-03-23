@@ -473,7 +473,7 @@ nnoremap <silent> <Space>h
 nnoremap <silent> <Space>w
       \ :<C-u>call <SID>toggle_option('wrap')<CR>
 
-" Toggle listchars
+" Toggle list
 nnoremap <silent> <Space>l
       \ :<C-u>call <SID>toggle_option('list')<CR>
 
