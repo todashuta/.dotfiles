@@ -28,6 +28,13 @@ if [ -f /opt/local/bin/port ]; then
 	export DISPLAY=:0
 fi
 
+export PATH=$PATH:$HOME/bin
+
+export PATH=$PATH:/usr/local/share/npm/bin
+export NODE_PATH=/usr/local/share/npm/lib/node_modules
+
+export PATH=$PATH:/usr/local/share/python
+
 
 ## Init rbenv
 #
@@ -71,7 +78,4 @@ export LS_COLORS='di=36:ln=35:so=32:pi=33:ex=31:bd=34;46:cd=34;43:su=30;41:sg=36
 export ZLS_COLORS=$LS_COLORS
 
 
-# End of .zshenv
-
-
-export PATH=$PATH:$HOME/bin
+# __END__
