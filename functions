@@ -1,7 +1,9 @@
 # functions
 
 
-init_aliases() {
+## Initialize aliases
+#
+function init_aliases() {
 	# color ls
 	case "${OSTYPE}" in
 	freebsd*|darwin*)
@@ -57,6 +59,75 @@ init_aliases() {
 
 	alias tmux="tmux a || tmux"
 	alias vi=vim
+}
+
+
+## alc search
+#
+function alc() {
+	# 引数の数が0でなければ
+	if [ $# != 0 ]; then
+		# lynxでURLに引数を代入して開きlessに渡して38行進んでおく
+		lynx -dump -nonumbers "http://eow.alc.co.jp/$*/UTF-8/?ref=sa" | less +38
+	else
+		echo -e 'Usage: alc [WORD]...'
+		return 1
+	fi
+}
+
+
+## MATRIX!
+#
+function matrix() {
+	while true
+	do
+		printf "\e[32m%X\e[0m" $((RANDOM%16))
+		for ((i=0; i<$((RANDOM%128)); i++))
+		do
+			printf " "
+		done
+	done
+}
+
+
+## 256color test
+#
+function 256colortest() {
+	local code
+	for code in {0..255}; do
+		echo -e "\e[38;05;${code}m $code: Test"
+	done
+}
+
+
+## Color test
+#
+function colortest() {
+	for i in $(seq 0 10 256)
+	do
+		for j in $(seq 0 1 9)
+		do
+			n=$(expr $i + $j)
+			[ $n -gt 256 ] && break || echo -ne "\t\033[38;5;${n}m${n}\033[0m"
+		done
+		echo
+	done
+}
+
+
+## iTerm2でGrowlに通知を出す
+## Usage: growl '表示するメッセージ'
+#
+function growl() {
+	if [ $# != 0 ]; then
+		echo -e $'\e]9;'${1}'\007'
+		return
+	else
+		echo -e $'\e]9;Usage: growl [MESSAGE]...\007'
+		echo "Usage: growl [MESSAGE]..."
+		echo "This command can only be used on iTerm2."
+		return
+	fi
 }
 
 
