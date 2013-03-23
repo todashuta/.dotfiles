@@ -96,8 +96,6 @@ freebsd*|darwin*)
 
   alias firefox='open -a Firefox.app'
   alias safari='open -a Safari.app'
-  alias kod='open -a Kod.app'
-  alias cot='open -a CotEditor.app'
   ;;
 linux*)
 
