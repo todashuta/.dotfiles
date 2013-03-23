@@ -56,4 +56,6 @@ init_aliases() {
 	alias vi=vim
 }
 
+
+# __END__
 # vim: set ft=sh :
