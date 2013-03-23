@@ -109,7 +109,7 @@ case ${UID} in
 0)  # root様のプロンプト
 	PROMPT="%F{red}%n@%m%f %F{blue}%50<...<%~%<<%f"$'\n'"%(?.%F{blue}(o_o)%f.%F{red}(@_@%)%f)${WINDOW:+"[$WINDOW]"}%# "
 	;;
-*)  # Non root
+*)  # Not a root.
 	PROMPT="%F{green}%n@%m%f %F{yellow}%50<...<%~%<<%f"$'\n'"%(?.%F{blue}(^_^)%f.%F{red}(@_@%)%f)${WINDOW:+"[$WINDOW]"}%# "
 #	PROMPT="%F{green}%n@%m%f %F{yellow}%50<...<%~%<<%f"$'\n'"${return_face}${WINDOW:+"[$WINDOW]"}%# "
 	SPROMPT="%F{red}('_'%)? もしかして '%r' かな? [そう!(y), ちがう!(n),a,e]:%f "
