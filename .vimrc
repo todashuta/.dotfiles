@@ -850,6 +850,9 @@ let bundle = neobundle#get('neosnippet')
     " Disable preview window in neosnippet candidates.
     "set completeopt-=preview
 
+    " Enable snipMate compatibility feature.
+    let g:neosnippet#enable_snipmate_compatibility = 1
+
   endfunction
 unlet bundle
 
