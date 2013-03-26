@@ -350,10 +350,14 @@ set wildmenu
 " Complete Longest common string, List all matches and complete the next full match.
 set wildmode=longest,list,full
 " These patterns is ignored when completing file or directory names.
-set wildignore&
-set wildignore+=.DS_Store
+"set wildignore&
+"set wildignore+=.DS_Store
 "set wildignore+=*~,*.swp,*.tmp
 "set wildignore+=*.bmp,*.gif,*.ico,*.jpg,*.png
+" These extensions get a lower priority when multiple files match a wildcard.
+set suffixes&
+set suffixes+=.DS_Store
+"set suffixes+=.tmp,.bmp,.gif,.ico,.jpg,.png
 
 " }}}
 
@@ -1183,7 +1187,7 @@ let bundle = neobundle#get('vimshell')
       return $USER.'@'.fnamemodify(hostname(), ":t:r").
             \' '.fnamemodify(getcwd(), ":~")
     endfunction
-    let g:vimshell_prompt = "(*'-')>\ "
+    "let g:vimshell_prompt = "(*'-')>\ "
     let g:vimshell_secondary_prompt = '> '
 
     "let g:vimshell_external_history_path = expand('~/.zsh/.zsh_history')
