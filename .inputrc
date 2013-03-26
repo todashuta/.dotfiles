@@ -7,4 +7,13 @@ set completion-ignore-case on
 # Tab補完でチルダを展開する
 set expand-tilde on
 
-# end of .inputrc
+#$if Bash
+# 履歴の前方一致検索
+"\C-p": history-search-backward
+"\C-n": history-search-forward
+# 矢印キーでも前方一致検索をする
+#"\e[A":history-search-backward
+#"\e[B":history-search-forward
+#$endif
+
+# __END__
