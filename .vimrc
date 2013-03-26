@@ -1406,11 +1406,6 @@ endif
 
 " Finalize: "{{{
 
-" Use 'vim_starting' instead of the below.
-"if !exists('s:loaded_vimrc')
-"  let s:loaded_vimrc = 1
-"endif
-
 " Must be written at the last. See :help 'secure'.
 set secure
 
