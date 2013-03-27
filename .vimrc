@@ -35,8 +35,8 @@ augroup MyAutoCmd
   autocmd!
 augroup END
 
-if s:is_windows
-  " Exchange path separator to slash on Windows.
+if s:is_windows && exists('+shellslash')
+  " Use a forward slash as a path separator on Windows.
   set shellslash
 endif
 
