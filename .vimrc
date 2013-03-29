@@ -1231,11 +1231,14 @@ let g:quickrun_config._ = {
 "      \ }
 if s:is_mac
   " Preview markdown file using QuickLook(Requires a QLMarkdown).
-  let g:quickrun_config.markdown = {
-        \ 'command' : 'qlmanage',
-        \ 'cmdopt' : '-p',
-        \ 'outputter' : 'null',
-        \ }
+  if executable('qlmanage')
+    let g:quickrun_config.markdown = {
+          \ 'command' : 'qlmanage',
+          \ 'cmdopt' : '-p',
+          \ 'outputter' : 'null',
+          \ }
+  endif
+
   " View html file on Web browser using 'open' command.
   let g:quickrun_config.html = {
         \ 'runner' : 'system',
