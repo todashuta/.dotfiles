@@ -1,133 +1,66 @@
 # .zshrc
 # https://github.com/todashuta/profiles
 
-
 profiles=${HOME}/.profiles.d
 source ${profiles}/functions
 
-
-## Aliases
-
-init_aliases
-
-# Global aliases (works only on zsh)
-alias -g L="| $PAGER"
-alias -g G="| grep"
-alias -g TW="| tw --pipe"
-alias -g V="| vim -"
-
-#alias -s pdf="open -a Preview.app"
-#alias -s html="vim"
-
-
-## Completion configuration {{{
+## General {{{
 
 # Emacs like keybind
 bindkey -e
 
-# Use zsh completion system!
-autoload -Uz compinit && compinit -u
-
-# Activate zsh-completions
-if [ -d /usr/local/share/zsh-completions ]; then
-	fpath=(/usr/local/share/zsh-completions $fpath)
-fi
-
-# Incremental completion on zsh
-# See: http://mimosa-pudica.net/zsh-incremental.html
-source ${ZDOTDIR}/plugin/incr*.zsh
-
-# スラッシュを単語の一部と見なさない
-# ==> C-w の単語削除時にディレクトリ単位で(スラッシュごとに)削除できる
-WORDCHARS='*?_-.[]~=&;!#$%^(){}<>'
-
-# Fuzzy match
-#zstyle ':completion:*' matcher-list '' 'm:{a-z}={A-Z}' '+m:{A-Z}={a-z}'
-
-# Ignore case
-zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
-
-# 補完候補でオプションとかの表示をするときに左右を分けてる部分の設定
-zstyle ':completion:*' list-separator '==>'
-
-# 補完候補を矢印キーなどで選択可能にする
-zstyle ':completion:*:default' menu select
-
-# 補完候補をLS_COLORSに合わせて色付け
-zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
-
-# cd ../ するときに今いるディレクトリを補完候補から外す
-zstyle ':completion:*' ignore-parents parent pwd ..
-
-# ディレクトリ名を入力するだけで移動
-setopt auto_cd
-
-# 移動したディレクトリを記録しておく。"cd -[Tab]"で移動履歴を一覧表示
-setopt auto_pushd
-
-# Don't push multiple copies of the same directory onto the directory stack.
-# ディレクトリスタックに重複するものを記録しない
-setopt pushd_ignore_dups
-
-# コマンド訂正
-setopt correct
-
-# 補完候補を詰めて表示する
-setopt list_packed
-
-# 補完候補表示時などにピッピとビープ音をならないように設定
-setopt nolistbeep
-
-# 明確なドットの指定なしで.から始まるファイルを補完
-setopt globdots
-
-# Tab連打で順に補完候補を自動で補完
-setopt auto_menu
-# Shift-Tabで補完候補を逆順に回る
-bindkey "^[[Z" reverse-menu-complete
-
-# サスペンド中のプロセスと同じコマンド名を実行した場合はリジューム
-setopt auto_resume
-
-# Don't show completions when using *.
-#setopt glob_complete
-
-# Use #, ~ and ^ as regular expression
-setopt extended_glob
-
-# C-dでログアウトしない
-setopt ignore_eof
+## zcompile
+#zcompile ${ZDOTDIR}/.zshrc
 
 # }}}
 
+## fpathの設定 {{{
 
-## プロンプトの設定 {{{
+# 重複したパスを登録しない
+typeset -U fpath
+# パスの設定
+fpath=(
+    # zsh-completions
+    /usr/local/share/zsh-completions(N-/)
+    ${HOME}/.repos/zsh-completions/src(N-/)
+
+    $fpath)
+
+# }}}
+
+## Prompt {{{
+
+# プロンプト内で変数展開・コマンド置換・算術演算を実行する
+setopt prompt_subst
+# プロンプト内で「%」で始まる置換機能を有効にする
+setopt prompt_percent
+# コピペしやすいようにコマンド実行後は右プロンプトを消す
+setopt transient_rprompt
+
+# colors
+autoload -Uz colors && colors
 
 #return_face='%(?.%F{blue}(-_-)%f.%F{red}(x_x%)%f)'
 
 case ${UID} in
 0)  # root様のプロンプト
-	PROMPT="%F{red}%n@%m%f %F{blue}%50<...<%~%<<%f"$'\n'"%(?.%F{blue}(o_o)%f.%F{red}(@_@%)%f)${WINDOW:+"[$WINDOW]"}%# "
-	;;
+    PROMPT="%F{red}%n@%m%f %F{blue}%50<...<%~%<<%f"$'\n'"%(?.%F{blue}(o_o)%f.%F{red}(@_@%)%f)${WINDOW:+"[$WINDOW]"}%# "
+    ;;
 *)  # Not a root.
-	#PROMPT="%F{green}%n@%m%f %F{yellow}%50<...<%~%<<%f"$'\n'"%(?.%F{blue}(^_^)%f.%F{red}(@_@%)%f)${WINDOW:+"[$WINDOW]"}%# "
+    #PROMPT="%F{green}%n@%m%f %F{yellow}%50<...<%~%<<%f"$'\n'"%(?.%F{blue}(^_^)%f.%F{red}(@_@%)%f)${WINDOW:+"[$WINDOW]"}%# "
+    PROMPT="%F{green}%n@%m%f %F{yellow}%50<...<%~%<<%f"$'\n'"%(?.%F{blue}(*'_')%f.%F{red}(*@_@%)%f)${WINDOW:+"[$WINDOW]"}> "
 
-	# See: http://0xcc.net/blog/archives/000032.html
-	PROMPT="%F{green}%n@%m%f %F{yellow}%(5~,%-2~/.../%2~,%~)%f"$'\n'"%(?.%F{blue}(^_^)%f.%F{red}(@_@%)%f)${WINDOW:+"[$WINDOW]"}%# "
+    # See: http://0xcc.net/blog/archives/000032.html
+    #PROMPT="%F{green}%n@%m%f %F{yellow}%(5~,%-2~/.../%2~,%~)%f"$'\n'"%(?.%F{blue}(^_^)%f.%F{red}(@_@%)%f)${WINDOW:+"[$WINDOW]"}%# "
 
-	#PROMPT="%F{green}%n@%m%f %F{yellow}%50<...<%~%<<%f"$'\n'"${return_face}${WINDOW:+"[$WINDOW]"}%# "
-	SPROMPT="%F{red}('_'%)? もしかして '%r' かな? [そう!(y), ちがう!(n),a,e]:%f "
-	;;
+    #PROMPT="%F{green}%n@%m%f %F{yellow}%50<...<%~%<<%f"$'\n'"${return_face}${WINDOW:+"[$WINDOW]"}%# "
+    SPROMPT="%F{red}(*'_'%)? もしかして '%r' かな? [そう!(y), ちがう!(n),a,e]:%f "
+    ;;
 esac
 
-# 右側まで入力がきたら消す
-setopt transient_rprompt
 
-# プロンプトが表示されるたびにプロンプト文字列を評価、置換
-setopt prompt_subst
+## 右プロンプトにVCS情報を表示 {{{
 
-
-# vcs_info 設定 (RPROMPTにVCS情報を表示) {{{
 # See: http://qiita.com/items/8d5a627d773758dd8078
 
 RPROMPT=""
@@ -135,7 +68,7 @@ RPROMPT=""
 autoload -Uz vcs_info
 autoload -Uz add-zsh-hook
 autoload -Uz is-at-least
-autoload -Uz colors
+#autoload -Uz colors
 
 # 以下の3つのメッセージをエクスポートする
 #   $vcs_info_msg_0_ : 通常メッセージ用 (緑)
@@ -308,119 +241,283 @@ add-zsh-hook precmd _update_vcs_info_msg
 
 # }}}
 
+# }}}
+
+# Change the title of an xterm {{{
+
+# See: http://www.faqs.org/docs/Linux-mini/Xterm-Title.html#ss4.1
+case $TERM in
+xterm*)
+    precmd () {print -Pn "\e]0;%n@%m: %~\a"}
+    ;;
+esac
 
 # }}}
 
+# History {{{
 
-## 履歴設定 {{{
-
-# 履歴をファイルに保存する
+# 履歴を保存するファイル
 HISTFILE=${ZDOTDIR}/.zsh_history
 # メモリ内の履歴の数
 HISTSIZE=1000000
 # 保存される履歴の数
 SAVEHIST=1000000
 
-## 履歴設定オプション
-# 履歴ファイルに時刻を記録
+# 履歴にコマンド実行時刻と実行時間を記録
 setopt extended_history
-# 同じコマンドを重複して記録しない
+# 同じコマンドを連続で実行したときは記録しない
 setopt hist_ignore_dups
 # 既にあるコマンド行は古い方を削除
 setopt hist_ignore_all_dups
 # コマンドラインの余計なスペースを排除
 setopt hist_reduce_blanks
-# 履歴ファイルを共有
+# 履歴ファイルを共有する
 setopt share_history
-# 先頭に空白を入れると記録しない
+# すぐに履歴ファイルに追記する
+setopt inc_append_history
+# 先頭に空白を入れたときは記録しない
 setopt hist_ignore_space
+# ヒストリを呼び出してから実行する間に一旦編集可能にする
+setopt hist_verify
+# historyコマンドは履歴に登録しない
+setopt hist_no_store
+# 出力停止、開始にC-s/C-qを使わない
+setopt no_flow_control
+# 全てのヒストリを表示
+function history-all() { history -E 1 }
 
-## マッチしたコマンドのヒストリを表示できるようにする
-autoload history-search-end
+# }}}
+
+# Search history {{{
+
+autoload -Uz history-search-end
 zle -N history-beginning-search-backward-end history-search-end
 zle -N history-beginning-search-forward-end history-search-end
 bindkey "^P" history-beginning-search-backward-end
 bindkey "^N" history-beginning-search-forward-end
 
-## 全てのヒストリを表示
-function history-all() { history -E 1 }
+# }}}
+
+## setopt {{{
+
+# Use zsh completion system!
+autoload -Uz compinit && compinit -u
+
+# ディレクトリ名を入力するだけで移動
+setopt auto_cd
+# 移動したディレクトリを記録しておく。"cd -[Tab]"で移動履歴を一覧表示
+setopt auto_pushd
+
+# --prefix=~/localというように「=」の後でも
+#「~」や「=コマンド」などのファイル名展開を行う。
+setopt magic_equal_subst
+
+# コマンド訂正
+setopt correct
+# 補完候補を詰めて表示する
+setopt list_packed
+# 補完候補表示時などにピッピとビープ音をならないように設定
+setopt nolistbeep
+# エイリアスを設定したコマンドでも補完機能を使えるようにする
+setopt complete_aliases
+# 内部コマンド jobs の出力をデフォルトで jobs -l にする
+setopt long_list_jobs
+# 補完候補一覧でファイルの種別をマーク表示
+setopt list_types
+# globを展開しないで候補の一覧から補完する。
+setopt glob_complete
+# 補完時にヒストリを自動的に展開
+setopt hist_expand
+# 補完候補がないときなどにビープ音を鳴らさない。
+setopt no_beep
+# {a-c} を a b c に展開する機能を使えるようにする
+setopt brace_ccl
+# Use #, ~ and ^ as regular expression
+setopt extended_glob
+# 明確なドットの指定なしで.から始まるファイルを補完
+setopt globdots
+
+# Don't push multiple copies of the same directory onto the directory stack.
+# ディレクトリスタックに重複するものを記録しない
+setopt pushd_ignore_dups
+
+# サスペンド中のプロセスと同じコマンド名を実行した場合はリジューム
+setopt auto_resume
+# C-dでログアウトしない
+setopt ignore_eof
+# プロンプトを表示したまま補完候補をスクロールする
+setopt always_last_prompt
 
 # }}}
 
+## zstyle {{{
 
-## zsh設定追加 {{{
+# Fuzzy match
+#zstyle ':completion:*' matcher-list '' 'm:{a-z}={A-Z}' '+m:{A-Z}={a-z}'
 
-# zsh editor
-autoload zed
+# Ignore case
+zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
 
-# ztodo: simple per-directory todo list manager (+completion).
-autoload ztodo
+# 補完候補でオプションとかの表示をするときに左右を分けてる部分の設定
+zstyle ':completion:*' list-separator '==>'
 
-# tetris (Usage: M-x tetris RET)
-#autoload tetris; zle -N tetris
+# 補完候補を矢印キーなどで選択可能にする
+zstyle ':completion:*:default' menu select
 
-# 以前に実行したコマンドを入力するコマンド"r"の無効化
-#disable r
+# 補完候補をLS_COLORSに合わせて色付け
+zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
 
-# zsh-syntax-highlighting
-# See: https://github.com/zsh-users/zsh-syntax-highlighting
-if [ -f ~/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ]; then
-	source ~/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-fi
+# cd ../ するときに今いるディレクトリを補完候補から外す
+zstyle ':completion:*' ignore-parents parent pwd ..
+
+# 補完候補をキャッシュする
+zstyle ':completion:*' use-cache true
+
+# 詳細な情報を使う
+zstyle ':completion:*' verbose yes
+
+# 補完関数の表示を過剰にする
+#zstyle ':completion:*' completer _expand _complete _match _prefix _approximate _list _history
+
+# }}}
+
+## Misc {{{
+
+# 実行したプロセスの消費時間が3秒以上かかったら
+# 自動的に消費時間の統計情報を表示する。
+REPORTTIME=3
+
+# スラッシュを単語の一部と見なさない
+# ==> C-w の単語削除時にディレクトリ単位で(スラッシュごとに)削除できる
+WORDCHARS='*?_-.[]~=&;!#$%^(){}<>'
+# 「|」も単語区切りと見なす
+WORDCHARS="${WORDCHARS}|"
+
+# }}}
+
+## Aliases {{{
+
+init_aliases    # at ${profiles}/functions
+
+# Global aliases (works only on zsh)
+alias -g L="| $PAGER"
+alias -g G="| grep"
+alias -g TW="| tw --pipe"
+alias -g V="| vim -"
+
+#alias -s pdf="open -a Preview.app"
+#alias -s html="vim"
+
+# }}}
+
+## chpwd {{{
 
 function chpwd() {
-	# chpwdで自動でlsをするとき、ファイル数が多ければ上下5つだけ表示する
-	# See: http://zshscreenvimvimpwget.blog27.fc2.com/blog-entry-10.html
-	if [ 150 -le $(ls | wc -l) ]; then
-		ls | head -n 5
-		echo '...'
-		ls | tail -n 5
-		echo "$(ls | wc -l) files exist."
-	else
-		ls
-	fi
 
-	# Show the number of the current directory's ToDo.
-	ztodo
+    # chpwdで自動でlsをするとき、ファイル数が多ければ上下5つだけ表示する
+    # See: http://zshscreenvimvimpwget.blog27.fc2.com/blog-entry-10.html
+    if [ 150 -le $(ls | wc -l) ]; then
+        ls | head -n 5
+        echo '...'
+        ls | tail -n 5
+        echo "$(ls | wc -l) files exist."
+    else
+        ls
+    fi
+
+    # Show the number of the current directory's ToDo.
+    ztodo
+
+    # Show the directory stack.
+    #dirs
 }
-
-# Change the title of an xterm {{{
-# See: http://www.faqs.org/docs/Linux-mini/Xterm-Title.html#ss4.1
-case $TERM in
-xterm*)
-	precmd () {print -Pn "\e]0;%n@%m: %~\a"}
-	;;
-esac
 
 # }}}
 
-# For GNU Screen {{{
+## Incremental completion on zsh {{{
+
+# See: http://mimosa-pudica.net/zsh-incremental.html
+source ${ZDOTDIR}/plugin/incr*.zsh
+
+# }}}
+
+## auto-fu.zsh {{{
+
+#if [ -f ${HOME}/auto-fu/auto-fu.zsh ]; then
+#    source ${HOME}/auto-fu/auto-fu.zsh
+#    function zle-line-init () {
+#    auto-fu-init
+#}
+#zle -N zle-line-init
+#zstyle ':completion:*' completer _oldlist _complete
+#fi
+
+# }}}
+
+## zaw.zsh {{{
+
+if [ -f ${HOME}/zaw/zaw.zsh ]; then
+    source ${HOME}/zaw/zaw.zsh
+    bindkey '^R' zaw-history
+fi
+
+# }}}
+
+## zsh-syntax-highlighting {{{
+
+# See: https://github.com/zsh-users/zsh-syntax-highlighting
+if [ -f ~/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ]; then
+    source ~/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+fi
+
+# }}}
+
+## For GNU Screen {{{
+
 # キャプションにディレクトリ名か実行中のコマンド名表示
 # See: http://masutaka.net/chalow/cat_zsh.html
 case "$TERM" in
 screen)
-	preexec() {
-		echo -ne "\ek#${1%% *}\e\\"
-	}
-	precmd() {
-		echo -ne "\ek$(basename $(pwd))\e\\"
-	}
-	;;
+    preexec() {
+        echo -ne "\ek#${1%% *}\e\\"
+    }
+    precmd() {
+        echo -ne "\ek$(basename $(pwd))\e\\"
+    }
+    ;;
 esac
 
 # }}}
 
+## Misc {{{
+
+# Tab連打で順に補完候補を自動で補完
+setopt auto_menu
+
+# Shift-Tabで補完候補を逆順に回る
+bindkey "^[[Z" reverse-menu-complete
+
+# zsh editor
+autoload -Uz zed
+
+# ztodo: simple per-directory todo list manager (+completion).
+autoload -Uz ztodo
+
+# tetris (Usage: M-x tetris RET)
+#autoload -Uz tetris && zle -N tetris
+
+# 以前に実行したコマンドを入力するコマンド"r"の無効化
+#disable r
+
 # }}}
 
-
-## ローカル設定があれば読み込む {{{
+## Load local and temporary config file {{{
 
 if [ -f ~/.zshrc.local ]; then
-	. ~/.zshrc.local
+    . ~/.zshrc.local
 fi
 
 # }}}
 
-
 # __END__
-# vim:fdm=marker
+# vim: fdm=marker ts=4 sw=4 sts=4 et:
