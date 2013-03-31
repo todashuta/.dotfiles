@@ -557,7 +557,7 @@ inoremap <expr> <C-e>  neocomplcache#close_popup() . "\<End>"
 " }}}
 
 " Visual: "{{{
-
+"
 " Set title of the window to the value of 'titlestring'.
 set title
 " Enable 256 color terminal.
@@ -645,32 +645,32 @@ setlocal cursorline
 set laststatus=2
 
 " Set statusline.
-"function! s:my_statusline()
-"  if &columns >= 80    " Long version
-"    let &statusline = ''
-"    let &statusline .= '%{&paste ? "\ \ [PASTE]" : ""}'  " Paste mode Indicator
-"    let &statusline .= ' [%2n]'         " Buffer number
-"    let &statusline .= ' %<%F'          " Full path to the file in the buffer.
-"    let &statusline .= '%m%r%h%w'       " Modified flag, Readonly flag, Help flag, Preview flag
-"    let &statusline .= '%= '            " Separation point between left and right, and Space.
-"    let &statusline .= ' [%{strlen(&ft) ? &ft : "no ft"}]
-"                        \[%{(&fenc == "" ? &enc : &fenc)}]
-"                        \[%{&fileformat}]'
-"    let &statusline .= ' [%4l/%L:%3v]'  " Line number / Number of lines in buffer, Virtual column number.
-"    let &statusline .= ' %3p%% '        " Percentage through file in lines as in |CTRL-G|.
-"  else                 " Short version
-"    let &statusline = ''
-"    let &statusline .= '%{&paste ? "[P]" : ""}'  " Paste mode Indicator
-"    let &statusline .= '%<%t'         " File name of file in the buffer.
-"    let &statusline .= '%m%r%h%w'     " Modified flag, Readonly flag, Help flag, Preview flag
-"    let &statusline .= '%= '          " Separation point between left and right, and Space.
-"    let &statusline .= '[%{&filetype}:%{&fileencoding}:%{&fileformat}]'
-"    let &statusline .= '[%3l:%2v]'    " Line number, Virtual column number.
-"    let &statusline .= '%3p%%'        " Percentage through file in lines as in |CTRL-G|.
-"  endif
-"endfunction
-"
-"autocmd MyAutoCmd VimEnter,VimResized * call s:my_statusline()
+""function! s:my_statusline()
+""  if &columns >= 80    " Long version
+""    let &statusline = ''
+""    let &statusline .= '%{&paste ? "\ \ [PASTE]" : ""}'  " Paste mode Indicator
+""    let &statusline .= ' [%2n]'         " Buffer number
+""    let &statusline .= ' %<%F'          " Full path to the file in the buffer.
+""    let &statusline .= '%m%r%h%w'       " Modified flag, Readonly flag, Help flag, Preview flag
+""    let &statusline .= '%= '            " Separation point between left and right, and Space.
+""    let &statusline .= ' [%{strlen(&ft) ? &ft : "no ft"}]
+""                        \[%{(&fenc == "" ? &enc : &fenc)}]
+""                        \[%{&fileformat}]'
+""    let &statusline .= ' [%4l/%L:%3v]'  " Line number / Number of lines in buffer, Virtual column number.
+""    let &statusline .= ' %3p%% '        " Percentage through file in lines as in |CTRL-G|.
+""  else                 " Short version
+""    let &statusline = ''
+""    let &statusline .= '%{&paste ? "[P]" : ""}'  " Paste mode Indicator
+""    let &statusline .= '%<%t'         " File name of file in the buffer.
+""    let &statusline .= '%m%r%h%w'     " Modified flag, Readonly flag, Help flag, Preview flag
+""    let &statusline .= '%= '          " Separation point between left and right, and Space.
+""    let &statusline .= '[%{&filetype}:%{&fileencoding}:%{&fileformat}]'
+""    let &statusline .= '[%3l:%2v]'    " Line number, Virtual column number.
+""    let &statusline .= '%3p%%'        " Percentage through file in lines as in |CTRL-G|.
+""  endif
+""endfunction
+""
+""autocmd MyAutoCmd VimEnter,VimResized * call s:my_statusline()
 
 " }}}
 
@@ -713,54 +713,6 @@ command! ChgEncCp932     setlocal fileencoding=cp932
 
 " }}}
 
-" 挿入モード時、ステータスラインの色を変更 {{{
-" https://github.com/fuenor/vim-statusline/blob/master/insert-statusline.vim
-"
-" 挿入モード時の色指定 (SOLARIZEDに合わせてる)
-""if !exists('g:hi_insert')
-""  let g:hi_insert = 'highlight StatusLine
-""        \ guifg=#073642 guibg=#b58900 gui=none
-""        \ ctermfg=235   ctermbg=136   cterm=none
-""        \ '
-""endif
-""
-""" Linux等でESC後にすぐ反映されない場合、次行以降のコメントを解除してください
-"" if has('unix') && s:cui_running
-""   " ESC後にすぐ反映されない場合
-""   inoremap <silent> <ESC>  <ESC>
-""   inoremap <silent> <C-[>  <ESC>
-"" endif
-""
-""if has('syntax')
-""  augroup InsertHook
-""    autocmd!
-""    autocmd InsertEnter * call s:StatusLine('Enter')
-""    autocmd InsertLeave * call s:StatusLine('Leave')
-""  augroup END
-""endif
-""
-""let s:slhlcmd = ''
-""function! s:StatusLine(mode)
-""  if a:mode == 'Enter'
-""    silent! let s:slhlcmd = 'highlight ' . s:GetHighlight('StatusLine')
-""    silent exec g:hi_insert
-""  else
-""    highlight clear StatusLine
-""    silent exec s:slhlcmd
-""  endif
-""endfunction
-""
-""function! s:GetHighlight(hi)
-""  redir => hl
-""  exec 'highlight '.a:hi
-""  redir END
-""  let hl = substitute(hl, '[\r\n]', '', 'g')
-""  let hl = substitute(hl, 'xxx', '', '')
-""  return hl
-""endfunction
-
-" }}}
-
 " While entering insert mode, disable hlsearch temporary. {{{
 "
 autocmd MyAutoCmd InsertEnter * setlocal nohlsearch
@@ -790,7 +742,6 @@ autocmd MyAutoCmd BufReadPost *
 
 " }}}
 
-"------------------------------------------------------------------------------
 " Plugin: "{{{
 "
 " neocomplcache.vim {{{
@@ -1190,7 +1141,9 @@ let bundle = neobundle#get('vimshell')
     "let g:vimshell_prompt = "(*'-')>\ "
     let g:vimshell_secondary_prompt = '> '
 
-    "let g:vimshell_external_history_path = expand('~/.zsh/.zsh_history')
+    " Use zsh history in vimshell/history source.
+    let g:unite_source_vimshell_external_history_path =
+          \ expand('~/.zsh/.zsh_history')
 
     autocmd MyAutoCmd FileType vimshell call s:vimshell_settings()
     function! s:vimshell_settings()
@@ -1204,7 +1157,6 @@ let bundle = neobundle#get('vimshell')
       call vimshell#set_alias('quicklook', 'qlmanage -p $$args')
     endfunction
 
-    "imap <buffer> <C-k>  <plug>(vimshell_zsh_complete)
   endfunction
 unlet bundle
 
@@ -1292,8 +1244,8 @@ endif
 " open-browser.vim {{{
 
 "let g:netrw_nogx = 1  " Disable netrw's gx mapping.
-nmap gx <Plug>(openbrowser-smart-search)
-vmap gx <Plug>(openbrowser-smart-search)
+nmap gx  <Plug>(openbrowser-smart-search)
+vmap gx  <Plug>(openbrowser-smart-search)
 
 " }}}
 
@@ -1371,8 +1323,7 @@ endif
 " Change the current directory to the current buffer's directory.
 autocmd MyAutoCmd BufEnter * lcd %:p:h
 
-" Editing binary file.
-" See :help hex-editing
+" Editing binary file. See :help hex-editing
 augroup BinaryXXD
   autocmd!
   autocmd BufReadPre   *.bin let &binary=1
@@ -1399,7 +1350,7 @@ endif
 
 " }}}
 
-" Load local and temporary config file: "{{{
+" Load platform-dependent and temporary config file: "{{{
 
 if filereadable(expand('~/.vimrc.local'))
   source ~/.vimrc.local
@@ -1408,7 +1359,7 @@ endif
 " }}}
 
 " Finalize: "{{{
-
+"
 " Must be written at the last. See :help 'secure'.
 set secure
 
