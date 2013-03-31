@@ -19,6 +19,9 @@ let s:is_mac = !s:is_windows && !s:is_cygwin
 let s:is_linux = !s:is_windows && !s:is_cygwin && !s:is_mac &&
       \   system('uname') =~? 'linux'
 
+let s:cui_running = !has('gui_running')
+let s:loaded_vimrc = !has('vim_starting')
+
 " Use English interface.
 if s:is_windows
   language message en
@@ -310,7 +313,6 @@ set nobackup noswapfile
 
 " Indent,Tab: "{{{
 "
-
 " Enable smart indent.
 set autoindent smartindent
 " Number of spaces that a <Tab> in the file counts for.
@@ -330,7 +332,6 @@ autocmd MyAutoCmd FileType * setlocal textwidth=0
 
 " Search: "{{{
 "
-
 " Enable incremental search.
 set incsearch
 " Searchs wrap around the end of the file.
@@ -363,7 +364,6 @@ set suffixes+=.DS_Store
 
 " Key Mappings: "{{{
 "
-
 inoremap <Esc>  <Esc>`]
 
 " Move cursor by display line.
@@ -563,7 +563,7 @@ set title
 " Enable 256 color terminal.
 set t_Co=256
 " Color scheme (Don't override colorscheme.)
-"if !has('gui_running') && (!exists('g:colors_name') || has('vim_starting'))
+"if s:cui_running && (!exists('g:colors_name') || has('vim_starting'))
 "  colorscheme solarized
 "endif
 " Number of screen lines to use for the command-line.
@@ -725,7 +725,7 @@ command! ChgEncCp932     setlocal fileencoding=cp932
 ""endif
 ""
 """ Linux等でESC後にすぐ反映されない場合、次行以降のコメントを解除してください
-"" if has('unix') && !has('gui_running')
+"" if has('unix') && s:cui_running
 ""   " ESC後にすぐ反映されない場合
 ""   inoremap <silent> <ESC>  <ESC>
 ""   inoremap <silent> <C-[>  <ESC>
@@ -1079,7 +1079,7 @@ function! s:judge_background_and_colorschemes()
     colorscheme hybrid
   endif
 endfunction
-if !has('gui_running') && (!exists('g:colors_name') || has('vim_starting'))
+if s:cui_running && (!exists('g:colors_name') || has('vim_starting'))
   call s:judge_background_and_colorschemes()
 endif
 
@@ -1146,7 +1146,7 @@ let g:Powerline_symbols_override = {
 "call Pl#Theme#ReplaceSegment('scrollpercent', 'lineinfo')
 
 " CUI上でESC後すぐに反映させる
-if has('unix') && !has('gui_running')
+if has('unix') && s:cui_running
   inoremap <silent> <ESC>  <ESC>`]
   inoremap <silent> <C-[>  <ESC>`]
 endif
@@ -1164,7 +1164,7 @@ autocmd MyAutoCmd ColorScheme * silent call s:powerline_adjust_colorscheme()
 " Reload Powerline automatically when the Vim start-up.
 "autocmd MyAutoCmd VimEnter * silent call s:powerline_adjust_colorscheme()
 
-if !has('gui_running') && exists('$ITERM_PROFILE')
+if s:cui_running && exists('$ITERM_PROFILE')
   autocmd MyAutoCmd VimLeave * silent call s:finalize_powerline()
   function! s:finalize_powerline()
     call s:judge_background_and_colorschemes()
@@ -1283,7 +1283,7 @@ nnoremap <silent> <Space>f
 
 let g:indentLine_char = '¦'
 
-if !has('vim_starting') && exists(':IndentLinesReset')
+if s:loaded_vimrc && exists(':IndentLinesReset')
   IndentLinesReset
 endif
 
@@ -1355,7 +1355,7 @@ endfunction
 " Change cursor shape.
 " See: http://blog.remora.cx/2012/10/spotlight-cursor-line.html
 " See: https://gist.github.com/1195581
-if !has('gui_running')
+if s:cui_running
   if exists('$TMUX')
     let &t_SI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=1\x7\<Esc>\\"
     let &t_EI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=0\x7\<Esc>\\"
