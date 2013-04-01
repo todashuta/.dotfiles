@@ -397,7 +397,7 @@ nnoremap g# g#N
 nnoremap <C-o>  <C-o>zz
 nnoremap <C-i>  <C-i>zz
 
-" Insert close tags automatically in edit xml and html.
+" Insert close tags automatically in editing xml and html.
 if exists('&omnifunc')
   autocmd MyAutoCmd FileType xml,html inoremap <buffer> </  </<C-x><C-o>
 endif
