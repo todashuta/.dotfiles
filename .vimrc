@@ -802,8 +802,10 @@ let bundle = neobundle#get('neosnippet')
     " User-defined snippet files directory.
     let g:neosnippet#snippets_directory .= '~/.vim/snippets,'
 
-    " Disable preview window in neosnippet candidates.
-    "set completeopt-=preview
+    " Enable preview window feature in neosnippet candidates.
+    let g:neosnippet#enable_preview = 1
+    " If you are using neosnippet with neocomplcache, I recommend this config:
+    " let g:neocomplcache_enable_auto_close_preview = 1
 
     " Enable snipMate compatibility feature.
     let g:neosnippet#enable_snipmate_compatibility = 1
