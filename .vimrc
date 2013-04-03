@@ -1102,7 +1102,7 @@ if has('unix') && s:cui_running
   inoremap <silent> <C-[>  <ESC>`]
 endif
 
-function! s:powerline_adjust_colorscheme()
+function! s:synchronize_powerline_colorscheme()
   if exists(':PowerlineReloadColorscheme')
     let g:Powerline_colorscheme = g:colors_name == 'solarized' ?
         \ ( &background == 'light' ? 'solarized' : 'solarized16' ) : 'default'
@@ -1111,15 +1111,15 @@ function! s:powerline_adjust_colorscheme()
 endfunction
 
 " Reload Powerline automatically after loading a color scheme.
-autocmd MyAutoCmd ColorScheme * silent call s:powerline_adjust_colorscheme()
+autocmd MyAutoCmd ColorScheme * silent call s:synchronize_powerline_colorscheme()
 " Reload Powerline automatically when the Vim start-up.
-"autocmd MyAutoCmd VimEnter * silent call s:powerline_adjust_colorscheme()
+"autocmd MyAutoCmd VimEnter * silent call s:synchronize_powerline_colorscheme()
 
 if s:cui_running && exists('$ITERM_PROFILE')
   autocmd MyAutoCmd VimLeave * silent call s:finalize_powerline()
   function! s:finalize_powerline()
     call s:judge_background_and_colorschemes()
-    call s:powerline_adjust_colorscheme()
+    call s:synchronize_powerline_colorscheme()
   endfunction
 endif
 
