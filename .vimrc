@@ -461,6 +461,9 @@ cnoremap <C-k> <C-\>e getcmdpos() == 1 ?
 " <C-y>:  paste.
 cnoremap <C-y>    <C-r>*
 
+" Release Space Key for Mappings below. (not required)
+nnoremap <Space> <Nop>
+
 " Quick edit and reload .vimrc/.gvimrc
 nnoremap <silent> <Space>..  :<C-u>tabedit $MYVIMRC<CR>
 nnoremap <silent> <Space>.g  :<C-u>tabedit $MYGVIMRC<CR>
@@ -488,9 +491,6 @@ nnoremap <silent> <Space>/
 " Toggle number.
 "nnoremap <silent> <Space>n
 "      \ :<C-u>call <SID>toggle_option('number')<CR>
-
-" Release Space Key for Mappings below. (not required)
-nnoremap <Space> <Nop>
 
 " Look see registers.
 "nnoremap <silent> <Space>r
