@@ -55,7 +55,7 @@ call neobundle#rc(expand('~/.vim/bundle'))
 NeoBundle 'Shougo/neocomplcache'
 NeoBundle 'Shougo/neosnippet', {
       \ 'depends' : 'Shougo/neocomplcache' }
-NeoBundle 'honza/snipmate-snippets'
+NeoBundle 'honza/vim-snippets'
 NeoBundle 'Shougo/unite.vim'
 NeoBundleLazy 'Shougo/vimfiler', {
       \ 'depends' : 'Shougo/unite.vim',
@@ -798,7 +798,7 @@ let bundle = neobundle#get('neosnippet')
     endif
 
     " Honza's Snippets.
-    let g:neosnippet#snippets_directory = '~/.vim/bundle/snipmate-snippets/snippets,'
+    let g:neosnippet#snippets_directory = '~/.vim/bundle/vim-snippets/snippets,'
     " User-defined snippet files directory.
     let g:neosnippet#snippets_directory .= '~/.vim/snippets,'
 
@@ -1208,13 +1208,15 @@ let g:vimfiler_as_default_explorer = 1
 
 let bundle = neobundle#get('vimfiler')
   function! bundle.hooks.on_source(bundle)
-    " Like Textmate icons.
-    let g:vimfiler_tree_leaf_icon = ' '
-    let g:vimfiler_tree_opened_icon = '▾'
-    let g:vimfiler_tree_closed_icon = '▸'
-    let g:vimfiler_readonly_file_icon = '▹'
-    let g:vimfiler_file_icon = '-'
-    let g:vimfiler_marked_file_icon = '*'
+    if !s:is_windows
+      " Like Textmate icons.
+      let g:vimfiler_tree_leaf_icon = ' '
+      let g:vimfiler_tree_opened_icon = '▾'
+      let g:vimfiler_tree_closed_icon = '▸'
+      let g:vimfiler_readonly_file_icon = '▹'
+      let g:vimfiler_file_icon = '-'
+      let g:vimfiler_marked_file_icon = '*'
+    endif
 
     autocmd MyAutoCmd FileType vimfiler call s:vimfiler_my_settings()
     function! s:vimfiler_my_settings()
