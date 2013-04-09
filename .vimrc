@@ -84,6 +84,7 @@ NeoBundleLazy 'tacroe/unite-mark', {
       \ 'autoload' : {
       \     'unite_sources' : 'mark'
       \ }}
+NeoBundle 'tsukkee/unite-help'
 NeoBundle 'Shougo/vimproc', {
       \ 'build' : {
       \     'windows' : 'make -f make_mingw32.mak',
@@ -517,11 +518,14 @@ nnoremap <silent> <Space>p
 nnoremap <Space>s  :<C-u>split<CR>
 nnoremap <Space>v  :<C-u>vsplit<CR>
 
-" Buffers
+" <Space-bb>: go to the alternate buffer.
 nnoremap <silent> <Space>bb  :<C-u>b#<CR>
+" <Space-bp>: go to the previous buffer.
 nnoremap <silent> <Space>bp  :<C-u>bp<CR>
+" <Space-bn>: go to the next buffer.
 nnoremap <silent> <Space>bn  :<C-u>bn<CR>
-"nnoremap <silent> <Space>b  :<C-u>Thumbnail<CR>
+" <Space-bt>: thumbnail-style buffer select.
+nnoremap <silent> <Space>bt  :<C-u>Thumbnail<CR>
 
 nnoremap q <Nop>
 "nnoremap Q q
@@ -845,9 +849,9 @@ nnoremap ,?  :M?
 "nnoremap <silent> <Space>f
 "      \ :<C-u>NERDTreeToggle<CR>
 " Disables display of the 'Bookmarks' and 'help'.
-"let NERDTreeMinimalUI = 1
+"let g:NERDTreeMinimalUI = 1
 " Display hidden files (i.e. "dot files").
-"let NERDTreeShowHidden = 1
+"let g:NERDTreeShowHidden = 1
 
 " }}}
 
@@ -1091,7 +1095,11 @@ let g:indent_guides_guide_size = 1
 "let g:Powerline_colorscheme = 'solarized16'  " dark
 "let g:Powerline_cache_enabled = 0
 let g:Powerline_stl_path_style = 'relative'
-let g:Powerline_dividers_override = ['', '', '', '❮']
+if s:is_windows
+  let g:Powerline_dividers_override = ['', '', '', '<']
+else
+  let g:Powerline_dividers_override = ['', '', '', '❮']
+endif
 let g:Powerline_symbols_override = {
       \ 'LINE': '',
       \ }
