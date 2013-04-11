@@ -39,7 +39,7 @@ augroup MyAutoCmd
 augroup END
 
 if s:is_windows && exists('+shellslash')
-  " Use a forward slash as a path separator on Windows.
+  " Use a forward slash as a path separator.
   set shellslash
 endif
 
@@ -52,9 +52,12 @@ endif
 call neobundle#rc(expand('~/.vim/bundle'))
 
 " Github repositories.
-NeoBundle 'Shougo/neocomplcache'
-NeoBundle 'Shougo/neosnippet', {
-      \ 'depends' : 'Shougo/neocomplcache' }
+NeoBundleLazy 'Shougo/neocomplcache', { 'autoload' : {
+      \ 'insert' : 1,
+      \ }}
+NeoBundleLazy 'Shougo/neosnippet', { 'autoload' : {
+      \ 'insert' : 1,
+      \ }}
 NeoBundle 'honza/vim-snippets'
 NeoBundle 'Shougo/unite.vim'
 NeoBundleLazy 'Shougo/vimfiler', {
@@ -374,7 +377,7 @@ noremap gj j
 noremap gk k
 
 " Clear highlight of search results.
-nnoremap <silent> <ESC><ESC>  :<C-u>nohlsearch<CR>
+nnoremap <silent> <Esc><Esc>  :<C-u>nohlsearch<CR>
 
 " Move to the first non-blank characters of the screen line.
 noremap <expr> H  search('^\s\s*\%#', 'bcn') ? 'g0' : 'g^'
@@ -416,7 +419,9 @@ noremap ; :
 noremap : ;
 
 " Enable <CR> to line break in Normal Mode.
-"nnoremap <CR> i<CR><ESC>
+"nnoremap <CR> i<CR><Esc>
+" <Space-CR>: line break.
+nnoremap <Space><CR>  i<CR><Esc>
 
 " Visual shifting (does not exit Visual mode)
 xnoremap < <gv
@@ -636,10 +641,12 @@ endif
 "   'tab:▸ ,trail:›,eol:↲,precedes:«,extends:»'
 "   'tab:▸ ,trail:›,eol:⏎,precedes:«,extends:»'
 
+" Highlight cursor line.
+set cursorline
+
 " Highlight cursor line only current window.
 autocmd MyAutoCmd WinEnter * setlocal cursorline
 autocmd MyAutoCmd WinLeave * setlocal nocursorline
-setlocal cursorline
 
 " }}}
 
@@ -760,10 +767,10 @@ let bundle = neobundle#get('neocomplcache')
     " <CR>: Close popup and save indent.
     inoremap <expr> <CR>  neocomplcache#smart_close_popup() . "\<CR>"
 
-    " <TAB>: completion.
-    inoremap <expr> <TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
-    " <Shift-TAB>: Reverse completion.
-    inoremap <expr> <S-TAB>  pumvisible() ? "\<C-p>" : "\<C-h>"
+    " <Tab>: completion.
+    inoremap <expr> <Tab>  pumvisible() ? "\<C-n>" : "\<Tab>"
+    " <Shift-Tab>: Reverse completion.
+    inoremap <expr> <S-Tab>  pumvisible() ? "\<C-p>" : "\<C-h>"
 
     " AutoCompPop like behavior.
     "let g:neocomplcache_enable_auto_select = 1
@@ -911,8 +918,8 @@ let bundle = neobundle#get('unite.vim')
       "imap <buffer> <TAB>  <Plug>(unite_select_next_line)
 
       " ESCキーを2回押すと終了する
-      nnoremap <silent><buffer> <ESC><ESC>  :<C-u>q<CR>
-      inoremap <silent><buffer> <Esc><ESC>  <Esc>:<C-u>q<CR>
+      nnoremap <silent><buffer> <Esc><Esc>  :<C-u>q<CR>
+      inoremap <silent><buffer> <Esc><Esc>  <Esc>:<C-u>q<CR>
     endfunction
 
   endfunction
@@ -1108,8 +1115,8 @@ let g:Powerline_symbols_override = {
 
 " CUI上でESC後すぐに反映させる
 if has('unix') && s:cui_running
-  inoremap <silent> <ESC>  <ESC>`]
-  inoremap <silent> <C-[>  <ESC>`]
+  inoremap <silent> <Esc>  <Esc>`]
+  inoremap <silent> <C-[>  <Esc>`]
 endif
 
 function! s:sync_powerline_colorscheme()
@@ -1357,6 +1364,10 @@ else
   " Toggle number.
   nnoremap <silent> <Space>n  :<C-u>call <SID>toggle_option('number')<CR>
 endif
+
+" Toggle mouse.
+nnoremap <silent> <Space>m
+      \ :<C-u>exe'set'&mouse=='a'?'mouse=':'mouse=a'<CR>:set mouse?<CR>
 
 " }}}
 
