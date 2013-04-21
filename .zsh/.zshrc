@@ -312,6 +312,8 @@ setopt auto_pushd
 #「~」や「=コマンド」などのファイル名展開を行う。
 setopt magic_equal_subst
 
+# 補完時に濁点・半濁点を<3099>、<309a>のようにさせない
+setopt combining_chars
 # コマンド訂正
 setopt correct
 # 補完候補を詰めて表示する
