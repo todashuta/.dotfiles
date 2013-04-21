@@ -10,14 +10,13 @@ if has('vim_starting')
   set nocompatible    " Be IMproved.
 endif
 
+let s:is_linux = has('unix') && (system('uname') =~? 'linux')
 let s:is_windows = has('win16') || has('win32') || has('win64')
 let s:is_cygwin = has('win32unix')
 let s:is_mac = !s:is_windows && !s:is_cygwin
       \ && (has('mac') || has('macunix') || has('gui_macvim') ||
       \   (!executable('xdg-open') &&
       \     system('uname') =~? '^darwin'))
-let s:is_linux = !s:is_windows && !s:is_cygwin && !s:is_mac &&
-      \   system('uname') =~? 'linux'
 
 let s:cui_running = !has('gui_running')
 let s:loaded_vimrc = !has('vim_starting')
@@ -59,7 +58,7 @@ NeoBundleLazy 'Shougo/neosnippet', { 'autoload' : {
       \ 'insert' : 1,
       \ }}
 NeoBundle 'honza/vim-snippets'
-NeoBundle 'Shougo/unite.vim'
+NeoBundle 'Shougo/unite.vim', '4561b6157f6af75e9c93a5a96cc1cfb06de18835'
 NeoBundleLazy 'Shougo/vimfiler', {
       \ 'depends' : 'Shougo/unite.vim',
       \ 'autoload' : {
@@ -88,6 +87,7 @@ NeoBundleLazy 'tacroe/unite-mark', {
       \     'unite_sources' : 'mark'
       \ }}
 NeoBundle 'tsukkee/unite-help'
+NeoBundle 'Shougo/unite-build'
 NeoBundle 'Shougo/vimproc', {
       \ 'build' : {
       \     'windows' : 'make -f make_mingw32.mak',
@@ -219,6 +219,16 @@ NeoBundleLazy 'itchyny/thumbnail.vim', {
       \ 'autoload' : {
       \     'commands' : ['Thumbnail'],
       \ }}
+NeoBundle 'Shougo/vinarise'
+NeoBundle 'mattn/webapi-vim'
+NeoBundleLazy 'todashuta/gcalc.vim', 'develop', {
+      \ 'depends' : 'mattn/webapi-vim',
+      \ 'autoload' : {
+      \     'commands' : [
+      \           { 'name' : 'GCalc',
+      \             'complete' : 'custom,gcalc#complete' },
+      \     ],
+      \ }}
 
 if has('python')
   NeoBundleLazy 'gregsexton/VimCalc', { 'autoload' : {
@@ -240,7 +250,7 @@ if has('conceal')
 endif
 
 " Local plugins directory like pathogen. (For develop plugins, etc.)
-NeoBundleLocal ~/bundle
+"NeoBundleLocal ~/bundle
 
 " Disable netrw.vim
 let g:loaded_netrwPlugin = 1
@@ -329,6 +339,8 @@ set shiftwidth=4
 set softtabstop=4
 " Smart insert tab setting.
 "set smarttab
+" Round indent to multiple of 'shiftwidth'('>'and'<'commands).
+set shiftround
 " Disable auto wrap.
 autocmd MyAutoCmd FileType * setlocal textwidth=0
 
@@ -339,16 +351,16 @@ autocmd MyAutoCmd FileType * setlocal textwidth=0
 " Enable incremental search.
 set incsearch
 " Searchs wrap around the end of the file.
-"set wrapscan
-" Do not wrapscan.
-set nowrapscan
+set wrapscan
 " Ignore the case of nornal letters.
 set ignorecase
 " If the search pattern contains upper case characters, override ignorecase option.
 set smartcase
 
-" Highlight search results.
-set hlsearch
+if has('vim_starting')  " Don't reset twice on reloading.
+  " Highlight search results.
+  set hlsearch
+endif
 
 " Command-line completion operates in an enhanced mode.
 set wildmenu
@@ -376,13 +388,17 @@ noremap k gk
 noremap gj j
 noremap gk k
 
-" Clear highlight of search results.
-nnoremap <silent> <Esc><Esc>  :<C-u>nohlsearch<CR>
+" Stop the search highlightings and clear messages on the last line.
+nnoremap <Esc><Esc>  :<C-u>nohlsearch<CR>:<BS>
 
 " Move to the first non-blank characters of the screen line.
-noremap <expr> H  search('^\s\s*\%#', 'bcn') ? 'g0' : 'g^'
+"noremap <expr> H  search('^\s\s*\%#', 'bcn') ? 'g0' : 'g^'
+noremap <expr> H  &wrap ?
+      \ (search('^\s\s*\%#', 'bcn') ? 'g0' : 'g^') : 'zH'
 " Move to the last characters of the screen line.
-noremap L g$
+"noremap L g$
+noremap <expr> L  &wrap ?
+      \ 'g$' : 'zL'
 
 " Centering search result and open fold.
 nnoremap n nzzzv
@@ -443,6 +459,9 @@ nnoremap <silent> <S-Right>  :<C-u>wincmd ><CR>
 nnoremap <silent> <S-Up>     :<C-u>wincmd +<CR>
 nnoremap <silent> <S-Down>   :<C-u>wincmd -<CR>
 
+" <Space-=>: Make all windows equally high and wide.
+nnoremap <silent> <Space>=  :<C-u>wincmd =<CR>
+
 " Yank from the cursor to the end of line.
 nnoremap Y y$
 
@@ -468,7 +487,7 @@ cnoremap <C-k> <C-\>e getcmdpos() == 1 ?
 cnoremap <C-y>    <C-r>*
 
 " Release Space Key for Mappings below. (not required)
-nnoremap <Space> <Nop>
+nnoremap <Space>  <Nop>
 
 " Quick edit and reload .vimrc/.gvimrc
 nnoremap <silent> <Space>..  :<C-u>tabedit $MYVIMRC<CR>
@@ -478,24 +497,28 @@ nnoremap <silent> <Space>R   :<C-u>source $MYVIMRC
                               \ \|   source $MYGVIMRC
                               \ \| endif <CR>
 
+" toggle-option prefix key.
+nmap <Space>t  [toggle]
+nnoremap [toggle]  <Nop>
+
 " Toggle hlsearch
-nnoremap <silent> <Space>h
+nnoremap <silent> [toggle]h
       \ :<C-u>call <SID>toggle_option('hlsearch')<CR>
 
 " Toggle wrap
-nnoremap <silent> <Space>w
+nnoremap <silent> [toggle]w
       \ :<C-u>call <SID>toggle_option('wrap')<CR>
 
 " Toggle list
-nnoremap <silent> <Space>l
+nnoremap <silent> [toggle]l
       \ :<C-u>call <SID>toggle_option('list')<CR>
 
 " Toggle wrapscan
-nnoremap <silent> <Space>/
+nnoremap <silent> [toggle]/
       \ :<C-u>call <SID>toggle_option('wrapscan')<CR>
 
 " Toggle number.
-"nnoremap <silent> <Space>n
+"nnoremap <silent> [toggle]n
 "      \ :<C-u>call <SID>toggle_option('number')<CR>
 
 " Look see registers.
@@ -510,38 +533,59 @@ nnoremap <silent> <Space>/
 nnoremap <C-h>  :<C-u>help<Space>
 
 " <Space>c: close current window nimbly.
-nnoremap <Space>c  :<C-u>close<CR>
+nnoremap <silent> <Space>c  :<C-u>close<CR>
 
 " <Space>o: close all other windows nimbly.
-nnoremap <Space>o  :<C-u>only<CR>
+nnoremap <silent> <Space>o  :<C-u>only<CR>
 
 " Toggle Paste.
-nnoremap <silent> <Space>p
+nnoremap <silent> [toggle]p
       \ :<C-u>call <SID>toggle_option('paste')<CR>:set mouse=<CR>
 
 " Split window.
-nnoremap <Space>s  :<C-u>split<CR>
-nnoremap <Space>v  :<C-u>vsplit<CR>
+nnoremap <silent> <Space>s  :<C-u>split<CR>
+nnoremap <silent> <Space>v  :<C-u>vsplit<CR>
+
+" buffer operation prefix key.
+nmap <Space>b  [buffer]
+nnoremap [buffer]  <Nop>
 
 " <Space-bb>: go to the alternate buffer.
-nnoremap <silent> <Space>bb  :<C-u>b#<CR>
+nnoremap <silent> [buffer]b  :<C-u>b#<CR>
 " <Space-bp>: go to the previous buffer.
-nnoremap <silent> <Space>bp  :<C-u>bp<CR>
+nnoremap <silent> [buffer]p  :<C-u>bprevious<CR>
 " <Space-bn>: go to the next buffer.
-nnoremap <silent> <Space>bn  :<C-u>bn<CR>
+nnoremap <silent> [buffer]n  :<C-u>bnext<CR>
 " <Space-bt>: thumbnail-style buffer select.
-nnoremap <silent> <Space>bt  :<C-u>Thumbnail<CR>
+nnoremap <silent> [buffer]t  :<C-u>Thumbnail<CR>
+" <Space-BS>: Unload buffer and delete it from the buffer list.
+nnoremap <silent> <Space><BS>  :<C-u>bdelete<CR>
 
 nnoremap q <Nop>
 "nnoremap Q q
 nnoremap K <Nop>
 "nnoremap qK K
 
-"noremap <Space>j <C-f>
-"noremap <Space>k <C-b>
+" Moving cursor to other windows.
+nnoremap <silent> <Space>h  :<C-u>wincmd h<CR>
+nnoremap <silent> <Space>j  :<C-u>wincmd j<CR>
+nnoremap <silent> <Space>k  :<C-u>wincmd k<CR>
+nnoremap <silent> <Space>l  :<C-u>wincmd l<CR>
 
 " コピーした文字で繰り返し上書きペーストする
-xnoremap P "0p
+"xnoremap P  "0p
+" visual mode <Space-p>: Paste from the last yank.
+xnoremap <Space>p  "0p
+
+" x, X: Delete into the blackhole register to not clobber the last yank.
+nnoremap x  "_x
+nnoremap X  "_X
+
+" c: Change into the blackhole register to not clobber the last yank.
+nnoremap c  "_c
+
+" (visual mode) v: Start Visual mode linewise.
+xnoremap v  V
 
 " Settings for markdown
 autocmd MyAutoCmd FileType markdown call s:markdown_settings()
@@ -554,8 +598,10 @@ function! s:markdown_settings()
 endfunction
 
 " <C-f>, <C-b>: page move.
-inoremap <expr> <C-f>  pumvisible() ? "\<PageDown>" : "\<Right>"
-inoremap <expr> <C-b>  pumvisible() ? "\<PageUp>"   : "\<Left>"
+"inoremap <expr> <C-f>  pumvisible() ? "\<PageDown>" : "\<Right>"
+inoremap <C-f>  <Right>
+"inoremap <expr> <C-b>  pumvisible() ? "\<PageUp>" : "\<Left>"
+inoremap <C-b>  <Left>
 " <C-y>: paste.
 "inoremap <expr><C-y>  pumvisible() ? neocomplcache#close_popup() : "\<C-r>\""
 " <C-a>: Move to head.
@@ -584,10 +630,6 @@ set visualbell t_vb=
 
 " Show the line and column number of the cursor position.
 "set ruler
-" Show line number.
-set number
-" Show line number relative to the line with the cursor.
-"set relativenumber
 
 " When a bracket is inserted, briefly jump to the matching one.
 set showmatch
@@ -595,45 +637,51 @@ set matchtime=3
 " Highlight a pair of <>.
 set matchpairs& matchpairs+=<:>
 
-" Lines longer than the width of the window will wrap.
-set wrap
+" When a last line is long, do not omit it in @.
+set display& display+=lastline
 
 " The height of popup menu.
 set pumheight=15
 
-" Highlight columns.
-"if exists('&colorcolumn')
-"  set colorcolumn=80
-"endif
-
-" colorcolumn+
+" colorcolumn
+"let s:my_colorcolumn = join(range(79, 334), ',')
 " http://hanschen.org/2012/10/24/
 " http://stackoverflow.com/questions/2447109/showing-a-different-background-colour-in-vim-past-80-characters
-"if exists('&colorcolumn')
-"  "autocmd MyAutoCmd InsertEnter * setlocal colorcolumn=80
-"  autocmd MyAutoCmd InsertEnter * execute 'setlocal colorcolumn='.join(range(81,335),',')
-"  autocmd MyAutoCmd InsertLeave * execute 'setlocal colorcolumn='.0
-"endif
 
+" Disable colorcolumn automatically when narrow width of window.
+"if exists('&colorcolumn')
+"  autocmd MyAutoCmd BufEnter,VimResized,WinEnter *
+"        \ let &colorcolumn = winwidth(0) >= 85 ?
+"        \   (join(range(79, 334), ',')) : 0
+"endif  " MEMO: winwidth(0) or &columns ??
+
+" Toggle colorcolumn.
 if exists('&colorcolumn')
-  autocmd MyAutoCmd BufEnter,VimResized * call s:colorcolumn_plus()
-  function! s:colorcolumn_plus()
-    if &columns >= 85
-      execute 'setlocal colorcolumn=' . join(range(81,335),',')
-    else
-      execute 'setlocal colorcolumn=' . 0
-    endif
-  endfunction
+  nnoremap <silent> [toggle]cc
+        \ :<C-u>let &colorcolumn =
+        \   &colorcolumn == 0 ? (join(range(79, 334), ',')) : 0 <CR>
 endif
 
-" Indicate tab, wrap, trailing spaces and eol or not.
-set list
+if has('vim_starting')  " Don't reset twice on reloading.
+  if exists('&colorcolumn')
+    " Highlight columns.
+    let &colorcolumn = join(range(79, 334), ',')
+  endif
+  " Show line number.
+  set number
+  " Show line number relative to the line with the cursor.
+  "set relativenumber
+  " Lines longer than the width of the window will wrap.
+  set wrap
+  " Indicate tab, wrap, trailing spaces and eol or not.
+  set list
+endif
 
 " Strings to use in 'list' mode and for the :list command.
 let s:listchars_classic = 'tab:>-,trail:-,eol:$,extends:>,precedes:<,nbsp:%'
 let s:listchars_modern  = 'tab:▸ ,trail:›,precedes:«,extends:»'
 if has('vim_starting')
-  let &listchars = s:is_windows ? s:listchars_classic : s:listchars_modern
+  let &listchars = s:is_windows ? (s:listchars_classic) : (s:listchars_modern)
 endif
 " Example...
 "   'tab:▸ ,trail:･,eol:¬,precedes:«,extends:»'
@@ -682,6 +730,10 @@ set laststatus=2
 ""endfunction
 ""
 ""autocmd MyAutoCmd VimEnter,VimResized * call s:my_statusline()
+
+"autocmd MyAutoCmd VimEnter,VimResized *
+"      \ let &statusline = (winwidth(0) >= 80) ?
+"      \   s:statusline_long : s:statusline_short
 
 " }}}
 
@@ -747,9 +799,13 @@ autocmd MyAutoCmd InsertLeave *
 
 " Restore cursor position. {{{
 "
-autocmd MyAutoCmd BufReadPost *
-      \ if line("'\"") > 1 && line("'\"") <= line("$")
-      \ | execute "normal! g`\"" | endif
+function! s:restore_cursor_position()
+  if line("'\"") > 1 && line("'\"") <= line("$")
+    execute "normal! g`\""
+  endif
+endfunction
+
+autocmd MyAutoCmd BufReadPost * call s:restore_cursor_position()
 
 " }}}
 
@@ -867,35 +923,35 @@ nnoremap ,?  :M?
 " Unite buffer will be in Insert Mode immediately.
 let g:unite_enable_start_insert = 1
 " The height of unite window it's split horizontally.
-let g:unite_winheight = 16
+autocmd MyAutoCmd VimEnter,VimResized * let g:unite_winheight = &lines/2
 " Split position.
 "let g:unite_split_rule = 'botright'
 
 " Unite prefix key.
-nmap <Space>u [unitePrefix]
-nnoremap [unitePrefix] <Nop>
+nmap <Space>u  [unite]
+nnoremap [unite]  <Nop>
 
 " Unite source.
-nnoremap <silent> [unitePrefix]u
+nnoremap <silent> [unite]u
       \ :<C-u>Unite source -prompt=(*'-')>\ <CR>
-" バッファ一覧 (Unite buffer)
-nnoremap <silent> [unitePrefix]b
+" Buffers. (Unite buffer)
+nnoremap <silent> [unite]b
       \ :<C-u>Unite buffer -buffer-name=Buffers
       \ -hide-status-line -prompt=(*'-')>\ <CR>
-" ファイル一覧 (Unite file)
-nnoremap <silent> [unitePrefix]f
+" Files. (Unite file)
+nnoremap <silent> [unite]f
       \ :<C-u>UniteWithBufferDir file -buffer-name=Files -prompt=(*'-')>\ <CR>
-" 最近使ったファイルの一覧 (Unite file_mru)
-nnoremap <silent> [unitePrefix]r
+" Recently used files. (Unite file_mru)
+nnoremap <silent> [unite]r
       \ :<C-u>Unite file_mru -buffer-name=Recent -prompt=(*'-')>\ <CR>
-" レジスタ一覧 (Unite register)
-nnoremap <silent> [unitePrefix]p
+" Registers. (Unite register)
+nnoremap <silent> [unite]p
       \ :<C-u>Unite register -buffer-name=Registers -prompt=(*'-')>\ <CR>
-" マーク一覧 (Unite mark)
-nnoremap <silent> [unitePrefix]m
+" Marks. (Unite mark)
+nnoremap <silent> [unite]m
       \ :<C-u>Unite mark -buffer-name=Marks -prompt=(*'-')>\ <CR>
-" 全部 (Unite buffer file_mru bookmark file)
-nnoremap <silent> [unitePrefix]a
+" All (Unite buffer file_mru bookmark file)
+nnoremap <silent> [unite]a
       \ :<C-u>Unite buffer file_mru bookmark file
       \ -buffer-name=All -hide-source-names -prompt=(*'-')>\ <CR>
 " Unite outline
@@ -903,9 +959,9 @@ nnoremap <silent> <Space>-
       \ :<C-u>Unite outline -buffer-name=Outline
       \ -hide-status-line -prompt=(*'-')>\ <CR>
 " TweetVim
-nnoremap <silent> [unitePrefix]t
+nnoremap <silent> [unite]t
       \ :<C-u>Unite tweetvim -buffer-name=TweetVim
-      \ -hide-status-line -prompt=(*'-')<\ <CR>
+      \ -hide-status-line -prompt=(*'-')>\ <CR>
 
 let bundle = neobundle#get('unite.vim')
   function! bundle.hooks.on_source(bundle)
@@ -914,12 +970,12 @@ let bundle = neobundle#get('unite.vim')
     function! s:unite_my_settings()
       " <C-w>: Deletes a path upward.
       imap <buffer> <C-w>  <Plug>(unite_delete_backward_path)
-      " <TAB>: Goes to the next candidate, or goes to the top from the bottom.
-      "imap <buffer> <TAB>  <Plug>(unite_select_next_line)
+      " <Tab>: Goes to the next candidate, or goes to the top from the bottom.
+      "imap <buffer> <Tab>  <Plug>(unite_select_next_line)
 
       " ESCキーを2回押すと終了する
-      nnoremap <silent><buffer> <Esc><Esc>  :<C-u>q<CR>
-      inoremap <silent><buffer> <Esc><Esc>  <Esc>:<C-u>q<CR>
+      nmap <buffer> <Esc><Esc>  <Plug>(unite_exit)
+      imap <buffer> <Esc><Esc>  <Esc><Plug>(unite_exit)
     endfunction
 
   endfunction
@@ -959,7 +1015,7 @@ endif
 " }}}
 
 " Unite search
-nnoremap <silent> [unitePrefix]/
+nnoremap <silent> [unite]/
       \ :<C-u>Unite line/fast -buffer-name=Search
       \ -start-insert -auto-preview -no-split<CR>
 
@@ -1012,10 +1068,10 @@ let g:unite_source_menu_menus = {
 \       ],
 \   },
 \}
-nnoremap <silent> [unitePrefix]e
+nnoremap <silent> [unite]e
       \ :<C-u>Unite menu:shortcut -buffer-name=Shortcut
       \ -hide-status-line -prompt=(*'-')>\ <CR>
-nnoremap <silent> [unitePrefix]s
+nnoremap <silent> [unite]s
       \ :<C-u>Unite menu:vimshell -buffer-name=vimshell
       \ -hide-status-line -prompt=(*'-')>\ <CR>
 
@@ -1138,6 +1194,9 @@ if s:cui_running && exists('$ITERM_PROFILE')
         \| silent call s:sync_powerline_colorscheme()
 endif
 
+" No need to show mode due to Powerline.
+set noshowmode
+
 " }}}
 
 " vimshell {{{
@@ -1192,6 +1251,7 @@ let g:quickrun_config._ = {
       \ 'outputter/buffer/close_on_empty' : 1,
       \ 'split' : 'below',
       \ 'hook/time/enable' : 1,
+      \ 'running_mark' : '(*''_'')> じっこうちゅう...',
       \ }
 "let g:quickrun_config.markdown = {
 "      \ 'outputter' : 'browser'
@@ -1230,7 +1290,7 @@ let bundle = neobundle#get('vimfiler')
       let g:vimfiler_tree_closed_icon = '▸'
       let g:vimfiler_readonly_file_icon = '▹'
       let g:vimfiler_file_icon = '-'
-      let g:vimfiler_marked_file_icon = '*'
+      let g:vimfiler_marked_file_icon = '✓'
     endif
 
     autocmd MyAutoCmd FileType vimfiler call s:vimfiler_my_settings()
@@ -1263,6 +1323,24 @@ endif
 "let g:netrw_nogx = 1  " Disable netrw's gx mapping.
 nmap gx  <Plug>(openbrowser-smart-search)
 vmap gx  <Plug>(openbrowser-smart-search)
+
+" }}}
+
+" vim-ref {{{
+
+let g:ref_source_webdict_sites = {
+      \ 'alc' : {
+      \   'url' : 'http://eow.alc.co.jp/%s',
+      \   'keyword_encoding' : 'utf-8',
+      \   'cache' : '0',
+      \   'line' : 32,
+      \ }}
+
+"function! ref_source_webdict_sites.alc.filter(output)
+"  return join(split(a:output, "\n")[32:], "\n")
+"endfunction
+
+let g:ref_source_webdict_sites.default = 'alc'
 
 " }}}
 
@@ -1305,7 +1383,7 @@ augroup END
 
 command! ToggleListcharsStrings let &listchars =
       \ &listchars == s:listchars_classic ?
-      \ s:listchars_modern : s:listchars_classic
+      \   (s:listchars_modern) : (s:listchars_classic)
 
 " }}}
 
@@ -1359,14 +1437,14 @@ set helplang& helplang=en,ja
 
 if exists('&relativenumber')
   " Toggle number with relativenumber.
-  nnoremap <silent> <Space>n  :<C-u>exe'set'&nu==&rnu?'nu!':'rnu!'<CR>
+  nnoremap <silent> [toggle]n  :<C-u>exe'set'&nu==&rnu?'nu!':'rnu!'<CR>
 else
   " Toggle number.
-  nnoremap <silent> <Space>n  :<C-u>call <SID>toggle_option('number')<CR>
+  nnoremap <silent> [toggle]n  :<C-u>call <SID>toggle_option('number')<CR>
 endif
 
 " Toggle mouse.
-nnoremap <silent> <Space>m
+nnoremap <silent> [toggle]m
       \ :<C-u>exe'set'&mouse=='a'?'mouse=':'mouse=a'<CR>:set mouse?<CR>
 
 " }}}
