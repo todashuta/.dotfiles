@@ -12,7 +12,9 @@
 	cm = commit -m
 	ss = status -sb
 	sl = shortlog -sn
-	difff = diff --word-diff
+	df = diff
+	dfw = diff --word-diff
+	br = branch
 [core]
 	editor = vim
 	pager = lv -c
@@ -23,4 +25,4 @@
 ##	For Git Version 1.8
 #	default = simple
 
-# end of .gitconfig
+# __END__
