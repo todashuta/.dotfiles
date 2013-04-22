@@ -651,7 +651,7 @@ set pumheight=15
 " Disable colorcolumn automatically when narrow width of window.
 "if exists('&colorcolumn')
 "  autocmd MyAutoCmd BufEnter,VimResized,WinEnter *
-"        \ let &colorcolumn = winwidth(0) >= 85 ?
+"        \ let &colorcolumn = (winwidth(0) >= 85) ?
 "        \   (join(range(79, 334), ',')) : 0
 "endif  " MEMO: winwidth(0) or &columns ??
 
@@ -659,7 +659,7 @@ set pumheight=15
 if exists('&colorcolumn')
   nnoremap <silent> [toggle]cc
         \ :<C-u>let &colorcolumn =
-        \   &colorcolumn == 0 ? (join(range(79, 334), ',')) : 0 <CR>
+        \   (&colorcolumn == 0) ? (join(range(79, 334), ',')) : 0 <CR>
 endif
 
 if has('vim_starting')  " Don't reset twice on reloading.
@@ -1086,11 +1086,11 @@ call togglebg#map("<F5>")
 " If you use a iTerm besides use solarized iTerm profiles,
 " separate the config 'light' from 'dark' by $ITERM_PROFILE.
 function! s:judge_background_and_colorschemes()
-  let g:solarized_termcolors = $ITERM_PROFILE =~? 'solarized' ? '16' : '256'
+  let g:solarized_termcolors = ($ITERM_PROFILE =~? 'solarized') ? '16' : '256'
 
-  if exists('$ITERM_PROFILE') && $ITERM_PROFILE =~? 'solarized'
-    let &background = $ITERM_PROFILE =~? 'light' ? 'light' : 'dark'
-    let g:Powerline_colorscheme = $ITERM_PROFILE =~? 'light' ?
+  if exists('$ITERM_PROFILE') && ($ITERM_PROFILE =~? 'solarized')
+    let &background = ($ITERM_PROFILE =~? 'light') ? 'light' : 'dark'
+    let g:Powerline_colorscheme = ($ITERM_PROFILE =~? 'light') ?
           \ 'solarized' : 'solarized16'
     colorscheme solarized
   else
@@ -1177,8 +1177,8 @@ endif
 
 function! s:sync_powerline_colorscheme()
   if exists(':PowerlineReloadColorscheme')
-    let g:Powerline_colorscheme = g:colors_name == 'solarized' ?
-        \ ( &background == 'light' ? 'solarized' : 'solarized16' ) : 'default'
+    let g:Powerline_colorscheme = (g:colors_name == 'solarized') ?
+        \ ((&background == 'light') ? 'solarized' : 'solarized16') : 'default'
     PowerlineReloadColorscheme
   endif
 endfunction
