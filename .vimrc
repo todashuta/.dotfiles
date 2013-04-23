@@ -1382,7 +1382,7 @@ augroup END
 " Toggle listchars strings {{{
 
 command! ToggleListcharsStrings let &listchars =
-      \ &listchars == s:listchars_classic ?
+      \ (&listchars == s:listchars_classic) ?
       \   (s:listchars_modern) : (s:listchars_classic)
 
 " }}}
