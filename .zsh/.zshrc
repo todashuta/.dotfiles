@@ -15,6 +15,9 @@ bindkey -e
 # }}}
 
 ## fpathの設定 {{{
+#
+# Memo: fpathは'compinit'より前に記述しないと機能しないらしい。
+# Memo: 'compinit'より後に記述してたとき機能したものの起動が遅くなった。
 
 # 重複したパスを登録しない
 typeset -U fpath
@@ -40,23 +43,97 @@ setopt transient_rprompt
 # colors
 autoload -Uz colors && colors
 
-#return_face='%(?.%F{blue}(-_-)%f.%F{red}(x_x%)%f)'
+# See: http://www.clear-code.com/blog/2011/9/5.html
+# プロンプトが占める文字数を返す関数。
+# 日本語は未対応らしいので英数字だけの User@Host をカウントするのにのみ利用。
+count_prompt_characters()
+{
+    print -n -P -- "$1" | sed -e $'s/\e\[[0-9;]*m//g' | wc -m | sed -e 's/ //g'
+}
 
-case ${UID} in
-0)  # root様のプロンプト
-    PROMPT="%F{red}%n@%m%f %F{blue}%50<...<%~%<<%f"$'\n'"%(?.%F{blue}(o_o)%f.%F{red}(@_@%)%f)${WINDOW:+"[$WINDOW]"}%# "
-    ;;
-*)  # Not a root.
-    #PROMPT="%F{green}%n@%m%f %F{yellow}%50<...<%~%<<%f"$'\n'"%(?.%F{blue}(^_^)%f.%F{red}(@_@%)%f)${WINDOW:+"[$WINDOW]"}%# "
-    PROMPT="%F{green}%n@%m%f %F{yellow}%50<...<%~%<<%f"$'\n'"%(?.%F{blue}(*'_')%f.%F{red}(*@_@%)%f)${WINDOW:+"[$WINDOW]"}> "
+_update_prompt(){
+    case ${UID} in
+    0)  #### rootのプロンプト ####
+        # プロンプト上段の左側: User@Host (color: red)
+        local prompt_left="%F{red}%n@%m%f"
 
-    # See: http://0xcc.net/blog/archives/000032.html
-    #PROMPT="%F{green}%n@%m%f %F{yellow}%(5~,%-2~/.../%2~,%~)%f"$'\n'"%(?.%F{blue}(^_^)%f.%F{red}(@_@%)%f)${WINDOW:+"[$WINDOW]"}%# "
+        # prompt_left が画面上を占める幅をカウントする。
+        local prompt_left_length=$(count_prompt_characters "${prompt_left} ")
 
-    #PROMPT="%F{green}%n@%m%f %F{yellow}%50<...<%~%<<%f"$'\n'"${return_face}${WINDOW:+"[$WINDOW]"}%# "
-    SPROMPT="%F{red}(*'_'%)? もしかして '%r' かな? [そう!(y), ちがう!(n),a,e]:%f "
-    ;;
-esac
+        # 端末の横幅から prompt_left の幅を引いた結果を求める
+        # $COLUMNS: 端末の横幅
+        local prompt_rest_length=$[COLUMNS - prompt_left_length]
+
+        # プロンプト上段の右側:
+        # prompt_rest_length に収まる長さのフルパス (color: blue)
+        # 幅に収まらない分は左側(上の階層側)を...で省略
+        local prompt_right="%F{blue}%${prompt_rest_length}<...<%~%<<%f"
+
+        # 1段目のプロンプト: User@Host 画面幅に収まる分のフルパス。
+        local first_prompt="${prompt_left} ${prompt_right}"
+
+        # 顔文字。直前のコマンドの成否で変化する。0: (o_o), 0以外: (@_@)
+        local zsh_face="%(?.%F{blue}(o_o)%f.%F{red}(@_@%)%f)"
+
+        # GNU Screen 上ではウインドウ番号を表示する。
+        local screen_winnr="${WINDOW:+"[$WINDOW]"}"
+
+        # 2段目のプロンプト: ジョブ数 顔文字 screenウインドウ番号
+        local secondary_prompt="jobs:%j ${zsh_face}${screen_winnr}"
+
+        # %#: rootでは#, 一般ユーザでは%
+        #
+        PROMPT="${first_prompt}"$'\n'"${secondary_prompt}%# "
+
+        # コマンド訂正のプロンプト
+        SPROMPT="%F{red}(o_o%)? correct '%R' to '%r' [nyae]?%f "
+        ;;
+    *)  #### Not a root. ####
+        # プロンプト上段の左側: User@Host (color: green)
+        local prompt_left="%F{green}%n@%m%f"
+
+        # prompt_left が画面上を占める幅をカウントする。
+        local prompt_left_length=$(count_prompt_characters "${prompt_left} ")
+
+        # 端末の横幅から prompt_left の幅を引いた結果を求める
+        # $COLUMNS: 端末の横幅
+        local prompt_rest_length=$[COLUMNS - prompt_left_length]
+
+        # プロンプト上段の右側:
+        # prompt_rest_length に収まる長さのフルパス (color: yellow)
+        # 幅に収まらない分は左側(上の階層側)を...で省略
+        local prompt_right="%F{yellow}%${prompt_rest_length}<...<%~%<<%f"
+
+        # 1段目のプロンプト: User@Host 画面幅に収まる分のフルパス。
+        local first_prompt="${prompt_left} ${prompt_right}"
+
+        # 顔文字。直前のコマンドの成否で変化する。 0: (*'_'), 0以外: (*@_@)
+        local zsh_face="%(?.%F{blue}(*'_')%f.%F{red}(*@_@%)%f)"
+
+        # GNU Screen 上ではウインドウ番号を表示する。
+        local screen_winnr="${WINDOW:+"[$WINDOW]"}"
+
+        # 2段目のプロンプト: ジョブ数 顔文字 screenウインドウ番号
+        local secondary_prompt="jobs:%j ${zsh_face}${screen_winnr}"
+
+        # $'\n': 改行
+        # %h or %!: ヒストリ数
+        # %*: 時刻(hh:mm:ss)
+        #
+        # User@Host フルパス
+        # ジョブ数 顔文字>
+        PROMPT="${first_prompt}"$'\n'"${secondary_prompt}> "
+
+        # パス短縮の例
+        # See: http://0xcc.net/blog/archives/000032.html
+        # %(5~,%-2~/.../%2~,%~)
+
+        # コマンド訂正のプロンプト
+        SPROMPT="%F{red}(*'_'%)? もしかして '%r' かな? [そう!(y), ちがう!(n),a,e]:%f "
+        ;;
+    esac
+}
+precmd_functions=($precmd_functions _update_prompt)
 
 
 ## 右プロンプトにVCS情報を表示 {{{
