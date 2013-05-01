@@ -58,7 +58,7 @@ NeoBundleLazy 'Shougo/neosnippet', { 'autoload' : {
       \ 'insert' : 1,
       \ }}
 NeoBundle 'honza/vim-snippets'
-NeoBundle 'Shougo/unite.vim', '4561b6157f6af75e9c93a5a96cc1cfb06de18835'
+NeoBundle 'Shougo/unite.vim'
 NeoBundleLazy 'Shougo/vimfiler', {
       \ 'depends' : 'Shougo/unite.vim',
       \ 'autoload' : {
@@ -87,7 +87,11 @@ NeoBundleLazy 'tacroe/unite-mark', {
       \     'unite_sources' : 'mark'
       \ }}
 NeoBundle 'tsukkee/unite-help'
-NeoBundle 'Shougo/unite-build'
+NeoBundleLazy 'Shougo/unite-build', {
+      \ 'depends' : 'Shougo/unite.vim',
+      \ 'autoload' : {
+      \     'unite_sources' : 'build'
+      \ }}
 NeoBundle 'Shougo/vimproc', {
       \ 'build' : {
       \     'windows' : 'make -f make_mingw32.mak',
@@ -273,7 +277,7 @@ set encoding=utf-8
 set scrolloff=2
 
 " A history of ":" commands, and a history of previous search patterns.
-set history=1000
+set history=1024
 
 " Enable backspace delete indent and newline.
 set backspace=indent,eol,start
@@ -562,7 +566,7 @@ nnoremap <silent> [buffer]t  :<C-u>Thumbnail<CR>
 nnoremap <silent> <Space><BS>  :<C-u>bdelete<CR>
 
 nnoremap q <Nop>
-"nnoremap Q q
+nnoremap Q q
 nnoremap K <Nop>
 "nnoremap qK K
 
@@ -926,6 +930,8 @@ let g:unite_enable_start_insert = 1
 autocmd MyAutoCmd VimEnter,VimResized * let g:unite_winheight = &lines/2
 " Split position.
 "let g:unite_split_rule = 'botright'
+" Pretty prompt
+let g:unite_prompt = "(*'-')> "
 
 " Unite prefix key.
 nmap <Space>u  [unite]
@@ -1212,7 +1218,7 @@ let bundle = neobundle#get('vimshell')
       return $USER.'@'.fnamemodify(hostname(), ":t:r").
             \' '.fnamemodify(getcwd(), ":~")
     endfunction
-    "let g:vimshell_prompt = "(*'-')>\ "
+    let g:vimshell_prompt = "(*'_')> "
     let g:vimshell_secondary_prompt = '> '
 
     " Use zsh history in vimshell/history source.
