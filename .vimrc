@@ -1216,7 +1216,7 @@ let bundle = neobundle#get('vimshell')
     if s:is_windows
       " For Windows.
       function! VimShellMyPrompt()
-        return $USERNAME.'@'hostname().' '.fnamemodify(getcwd(), ':~')
+        return $USERNAME.'@'.hostname().' '.fnamemodify(getcwd(), ':~')
       endfunction
     else
       " For Mac or Linux.
