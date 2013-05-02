@@ -1213,11 +1213,19 @@ noremap <silent> <Space>r
 let bundle = neobundle#get('vimshell')
   function! bundle.hooks.on_source(bundle)
     " Prompt.
-    let g:vimshell_user_prompt = 'VimShell_my_prompt()'
-    function! VimShell_my_prompt()
-      return $USER.'@'.fnamemodify(hostname(), ":t:r").
-            \' '.fnamemodify(getcwd(), ":~")
-    endfunction
+    if s:is_windows
+      " For Windows.
+      function! VimShellMyPrompt()
+        return $USERNAME.'@'hostname().' '.fnamemodify(getcwd(), ':~')
+      endfunction
+    else
+      " For Mac or Linux.
+      function! VimShellMyPrompt()
+        return $USER.'@'.substitute(hostname(), '\..*', '', '').
+              \ ' '.fnamemodify(getcwd(), ':~')
+      endfunction
+    endif
+    let g:vimshell_user_prompt = 'VimShellMyPrompt()'
     let g:vimshell_prompt = "(*'_')> "
     let g:vimshell_secondary_prompt = '> '
 
