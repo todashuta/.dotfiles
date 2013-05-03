@@ -103,7 +103,7 @@ NeoBundle 'Shougo/vimproc', {
 NeoBundle 'altercation/vim-colors-solarized'
 NeoBundleLazy 'othree/eregex.vim', {
       \ 'autoload' : {
-      \     'commands' : ['E2v', 'M', 'S', 'G', 'G!', 'V']
+      \     'commands' : ['E2v', 'M', 'S', 'G', 'V']
       \ }}
 NeoBundleLazy 'vim-scripts/VOoM', {
       \ 'autoload' : {
@@ -115,6 +115,10 @@ NeoBundleLazy 'thinca/vim-quickrun', {
       \ 'depends' : ['tyru/open-browser.vim', 'Shougo/vimproc'],
       \ 'autoload' : {
       \     'mappings' : [['nxo', '<Plug>(quickrun)']],
+      \     'commands' : [
+      \           { 'name' : 'QuickRun',
+      \             'complete' : 'customlist,quickrun#complete' },
+      \     ],
       \ }}
 NeoBundleLazy 'tyru/open-browser.vim', {
       \ 'autoload' : {
@@ -203,7 +207,9 @@ NeoBundleLazy 'thinca/vim-painter', { 'autoload' : {
       \ 'commands' : 'PainterStart' }}
 NeoBundleLazy 'thinca/vim-scouter', {
       \ 'autoload' : {
-      \     'commands' : ['Scouter', 'Scouter!']
+      \     'commands' : [
+      \           { 'name' : 'Scouter', 'complete' : 'file' }
+      \     ],
       \ }}
 NeoBundle 'thinca/vim-visualstar'
 "NeoBundle 'vim-scripts/ShowMarks'
@@ -223,7 +229,13 @@ NeoBundleLazy 'itchyny/thumbnail.vim', {
       \ 'autoload' : {
       \     'commands' : ['Thumbnail'],
       \ }}
-NeoBundle 'Shougo/vinarise'
+NeoBundleLazy 'Shougo/vinarise', {
+      \ 'autoload' : {
+      \     'commands' : [
+      \           { 'name' : 'Vinarise',
+      \             'complete' : 'customlist,vinarise#complete' },
+      \     ],
+      \ }}
 NeoBundle 'mattn/webapi-vim'
 NeoBundleLazy 'todashuta/gcalc.vim', 'develop', {
       \ 'depends' : 'mattn/webapi-vim',
@@ -1240,6 +1252,7 @@ let bundle = neobundle#get('vimshell')
       call vimshell#set_alias('ll', 'ls -alFG')
       call vimshell#set_alias('la', 'ls -AG')
       call vimshell#set_alias('l',  'ls -CFG')
+      call vimshell#set_alias('sl',  'ls')
       call vimshell#set_alias('cl', 'clear')
       call vimshell#set_alias('edit', 'vim --split=tabedit $$args')
       call vimshell#set_alias('quicklook', 'qlmanage -p $$args')
