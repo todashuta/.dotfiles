@@ -98,18 +98,14 @@ NeoBundle 'Shougo/vimproc', {
       \     'cygwin' : 'make -f make_cygwin.mak',
       \     'mac' : 'make -f make_mac.mak',
       \     'unix' : 'make -f make_unix.mak',
-      \    },
-      \ }
-NeoBundle 'altercation/vim-colors-solarized'
-NeoBundleLazy 'othree/eregex.vim', {
-      \ 'autoload' : {
-      \     'commands' : ['E2v', 'M', 'S', 'G', 'V']
       \ }}
-NeoBundleLazy 'vim-scripts/VOoM', {
-      \ 'autoload' : {
-      \     'filetypes' : ['html','markdown','python','latex']
-      \    },
-      \ }
+NeoBundle 'altercation/vim-colors-solarized'
+NeoBundleLazy 'othree/eregex.vim', { 'autoload' : {
+      \ 'commands' : ['E2v', 'M', 'S', 'G', 'V']
+      \ }}
+NeoBundleLazy 'vim-scripts/VOoM', { 'autoload' : {
+      \ 'filetypes' : ['html', 'markdown', 'python', 'latex']
+      \ }}
 "NeoBundle 'scrooloose/nerdtree'
 NeoBundleLazy 'thinca/vim-quickrun', {
       \ 'depends' : ['tyru/open-browser.vim', 'Shougo/vimproc'],
@@ -123,7 +119,7 @@ NeoBundleLazy 'thinca/vim-quickrun', {
 NeoBundleLazy 'tyru/open-browser.vim', {
       \ 'autoload' : {
       \     'filetypes' : ['markdown'],
-      \     'mappings' : '<Plug>(openbrowser-smart-search)',
+      \     'mappings' : [['nxo', '<Plug>(openbrowser-smart-search)']],
       \ }}
 NeoBundleLazy 'h1mesuke/vim-alignta', {
       \ 'autoload' : {
@@ -148,14 +144,11 @@ NeoBundleLazy 'Shougo/vimshell', {
       \ 'depends' : 'Shougo/vimproc',
       \ 'autoload' : {
       \     'commands' : ['VimShell', 'VimShellPop', 'VimShellInteractive']
-      \    },
-      \ }
+      \ }}
 "NeoBundle 'supermomonga/vimshell-kawaii.vim'
-NeoBundleLazy 'mattn/zencoding-vim', {
-      \ 'autoload' : {
-      \     'filetypes' : ['html','css']
-      \    },
-      \ }
+NeoBundleLazy 'mattn/zencoding-vim', { 'autoload' : {
+      \ 'filetypes' : ['html','css']
+      \ }}
 NeoBundleLazy 'thinca/vim-ref', {
       \ 'autoload' : {
       \     'commands' : [
@@ -182,16 +175,12 @@ NeoBundleLazy 'lilydjwg/colorizer', {
 NeoBundleLazy 'koron/nyancat-vim', { 'autoload' : {
       \ 'commands' : ['Nyancat','Nyancat2']
       \ }}
-NeoBundleLazy 'hail2u/vim-css3-syntax', {
-      \ 'autoload' : {
-      \     'filetypes' : ['html','css']
-      \    },
-      \ }
-NeoBundleLazy 'othree/html5.vim', {
-      \ 'autoload' : {
-      \     'filetypes' : ['html','css']
-      \    },
-      \ }
+NeoBundleLazy 'hail2u/vim-css3-syntax', { 'autoload' : {
+      \ 'filetypes' : ['html','css']
+      \ }}
+NeoBundleLazy 'othree/html5.vim', { 'autoload' : {
+      \ 'filetypes' : ['html','css']
+      \ }}
 NeoBundleLazy 'kana/vim-smartinput', { 'autoload' : {
       \ 'insert' : 1,
       \ }}
@@ -204,7 +193,8 @@ NeoBundleLazy 'basyura/TweetVim', { 'depends' :
       \ }}
 NeoBundle 'Lokaltog/vim-powerline'
 NeoBundleLazy 'thinca/vim-painter', { 'autoload' : {
-      \ 'commands' : 'PainterStart' }}
+      \ 'commands' : 'PainterStart'
+      \ }}
 NeoBundleLazy 'thinca/vim-scouter', {
       \ 'autoload' : {
       \     'commands' : [
@@ -236,7 +226,9 @@ NeoBundleLazy 'Shougo/vinarise', {
       \             'complete' : 'customlist,vinarise#complete' },
       \     ],
       \ }}
-NeoBundle 'mattn/webapi-vim'
+NeoBundleLazy 'mattn/webapi-vim', { 'autoload' : {
+      \ 'function_prefix' : 'webapi'
+      \ }}
 NeoBundleLazy 'todashuta/gcalc.vim', 'develop', {
       \ 'depends' : 'mattn/webapi-vim',
       \ 'autoload' : {
@@ -1267,8 +1259,9 @@ unlet bundle
 
 nmap <silent> <Leader>r  <Plug>(quickrun)
 
-nnoremap <expr><silent> <C-c>  quickrun#is_running() ?
-      \ quickrun#sweep_sessions() : "\<C-c>"
+nnoremap <expr><silent> <C-c>  neobundle#is_sourced('vim-quickrun') ?
+      \ (quickrun#is_running() ? quickrun#sweep_sessions() : "\<C-c>")
+      \ : "\<C-c>"
 
 let g:quickrun_config = {}
 let g:quickrun_config._ = {
@@ -1486,6 +1479,11 @@ endif
 
 " Finalize: "{{{
 "
+if s:loaded_vimrc
+  " Call on_source hook when reloading .vimrc.
+  call neobundle#call_hook('on_source')
+endif
+
 " Must be written at the last. See :help 'secure'.
 set secure
 
