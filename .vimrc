@@ -117,7 +117,7 @@ NeoBundleLazy 'vim-scripts/VOoM', {
       \ }}
 "NeoBundle 'scrooloose/nerdtree'
 NeoBundleLazy 'thinca/vim-quickrun', {
-      \   'depends' : ['tyru/open-browser.vim', 'Shougo/vimproc'],
+      \   'depends' : ['Shougo/vimproc'],
       \   'autoload' : {
       \     'mappings' : [['nxo', '<Plug>(quickrun)']],
       \     'commands' : [
@@ -151,7 +151,7 @@ NeoBundleLazy 'hallison/vim-markdown', {
       \ }}
 "NeoBundle 'houtsnip/vim-emacscommandline'
 NeoBundleLazy 'Shougo/vimshell', {
-      \   'depends' : 'Shougo/vimproc',
+      \   'depends' : ['Shougo/vimproc', 'Shougo/unite.vim'],
       \   'autoload' : {
       \     'commands' : ['VimShell', 'VimShellPop', 'VimShellInteractive']
       \ }}
@@ -168,7 +168,7 @@ NeoBundleLazy 'thinca/vim-ref', {
       \ ]}}
 NeoBundleLazy 'mattn/calendar-vim', {
       \   'autoload' : {
-      \     'commands' : ['Calendar','CalendarH']
+      \     'commands' : ['Calendar', 'CalendarH']
       \ }}
 NeoBundleLazy 'nathanaelkane/vim-indent-guides', {
       \   'autoload' : {
@@ -185,15 +185,15 @@ NeoBundleLazy 'lilydjwg/colorizer', {
       \ }}
 NeoBundleLazy 'koron/nyancat-vim', {
       \   'autoload' : {
-      \     'commands' : ['Nyancat','Nyancat2']
+      \     'commands' : ['Nyancat', 'Nyancat2']
       \ }}
 NeoBundleLazy 'hail2u/vim-css3-syntax', {
       \   'autoload' : {
-      \     'filetypes' : ['html','css']
+      \     'filetypes' : ['html', 'css']
       \ }}
 NeoBundleLazy 'othree/html5.vim', {
       \   'autoload' : {
-      \     'filetypes' : ['html','css']
+      \     'filetypes' : ['html', 'css']
       \ }}
 NeoBundleLazy 'kana/vim-smartinput', {
       \   'autoload' : {
@@ -880,6 +880,11 @@ let bundle = neobundle#get('neocomplcache')
           \ neocomplcache#smart_close_popup()
           \ . eval(smartinput#sid()
           \   . '_trigger_or_fallback("\<Enter>", "\<Enter>")')
+    " For no inserting <CR> key.
+    "inoremap <expr> <CR>  pumvisible()
+    "      \ ? neocomplcache#close_popup()
+    "      \ : eval(smartinput#sid()
+    "      \   . '_trigger_or_fallback("\<Enter>", "\<Enter>")')
 
     " <Tab>: completion.
     inoremap <expr> <Tab>  pumvisible() ? "\<C-n>" : "\<Tab>"
@@ -984,14 +989,8 @@ nnoremap ,?  :M?
 
 " unite.vim {{{
 
-" Unite buffer will be in Insert Mode immediately.
-let g:unite_enable_start_insert = 1
 " The height of unite window it's split horizontally.
 autocmd MyAutoCmd VimEnter,VimResized * let g:unite_winheight = &lines/2
-" Split position.
-"let g:unite_split_rule = 'botright'
-" Pretty prompt
-let g:unite_prompt = "(*'-')> "
 
 " Unite prefix key.
 nmap <Space>u  [unite]
@@ -999,38 +998,42 @@ nnoremap [unite]  <Nop>
 
 " Unite source.
 nnoremap <silent> [unite]u
-      \ :<C-u>Unite source -prompt=(*'-')>\ <CR>
+      \ :<C-u>Unite source<CR>
 " Buffers. (Unite buffer)
 nnoremap <silent> [unite]b
-      \ :<C-u>Unite buffer -buffer-name=Buffers
-      \ -hide-status-line -prompt=(*'-')>\ <CR>
+      \ :<C-u>Unite buffer -buffer-name=Buffers<CR>
 " Files. (Unite file)
 nnoremap <silent> [unite]f
-      \ :<C-u>UniteWithBufferDir file -buffer-name=Files -prompt=(*'-')>\ <CR>
+      \ :<C-u>UniteWithBufferDir file -buffer-name=Files<CR>
 " Recently used files. (Unite file_mru)
 nnoremap <silent> [unite]r
-      \ :<C-u>Unite file_mru -buffer-name=Recent -prompt=(*'-')>\ <CR>
+      \ :<C-u>Unite file_mru -buffer-name=Recent<CR>
 " Registers. (Unite register)
 nnoremap <silent> [unite]p
-      \ :<C-u>Unite register -buffer-name=Registers -prompt=(*'-')>\ <CR>
+      \ :<C-u>Unite register -buffer-name=Registers<CR>
 " Marks. (Unite mark)
 nnoremap <silent> [unite]m
-      \ :<C-u>Unite mark -buffer-name=Marks -prompt=(*'-')>\ <CR>
+      \ :<C-u>Unite mark -buffer-name=Marks<CR>
 " All (Unite buffer file_mru bookmark file)
 nnoremap <silent> [unite]a
       \ :<C-u>Unite buffer file_mru bookmark file
-      \ -buffer-name=All -hide-source-names -prompt=(*'-')>\ <CR>
+      \ -buffer-name=All -hide-source-names<CR>
 " Unite outline
 nnoremap <silent> <Space>-
-      \ :<C-u>Unite outline -buffer-name=Outline
-      \ -hide-status-line -prompt=(*'-')>\ <CR>
+      \ :<C-u>Unite outline -buffer-name=Outline<CR>
 " TweetVim
 nnoremap <silent> [unite]t
-      \ :<C-u>Unite tweetvim -buffer-name=TweetVim
-      \ -hide-status-line -prompt=(*'-')>\ <CR>
+      \ :<C-u>Unite tweetvim -buffer-name=TweetVim<CR>
 
 let bundle = neobundle#get('unite.vim')
   function! bundle.hooks.on_source(bundle)
+
+    " Unite buffer will be in Insert Mode immediately.
+    let g:unite_enable_start_insert = 1
+    " Split position.
+    "let g:unite_split_rule = 'botright'
+    " Pretty prompt
+    let g:unite_prompt = "(*'-')> "
 
     function! s:unite_my_settings()
       " <C-w>: Deletes a path upward.
@@ -1105,27 +1108,24 @@ let g:unite_source_menu_menus.shortcut = {
       \     ['earthquake.gem', 'VimShellInteractive earthquake'],
       \ ]}
 nnoremap <silent> [unite]e
-      \ :<C-u>Unite menu:shortcut -buffer-name=Shortcut
-      \ -hide-status-line -prompt=(*'-')>\ <CR>
+      \ :<C-u>Unite menu:shortcut -buffer-name=Shortcut<CR>
 
 let g:unite_source_menu_menus.vimshell = {
       \ 'description' : 'VimShellInteractive shortcuts.',
       \ 'command_candidates' : [
-      \     ['1. VimShellSendString', 'VimShellSendString'],
-      \     ['2. VimShellPop', 'VimShellPop'],
-      \     ['3. VimShell', 'VimShell'],
-      \     ['4. VimShellInteractive irb (Ruby)', 'VimShellInteractive irb'],
-      \     ['5. VimShellInteractive pry (Ruby)', 'VimShellInteractive pry'],
-      \     ['6. VimShellInteractive python', 'VimShellInteractive python'],
-      \     ['7. VimShellInteractive Perl', 'VimShellInteractive perl -de 1'],
-      \     ['8. VimShellInteractive php', 'VimShellInteractive php -a'],
-      \     ['9. VimShellInteractive MySQL',
-      \             'VimShellInteractive mysql -u root -p'],
-      \     ['10. VimShellInteractive R', 'VimShellInteractive R'],
+      \     [' 1. irb (Ruby)', 'VimShellInteractive irb'],
+      \     [' 2. pry (Ruby)', 'VimShellInteractive pry'],
+      \     [' 3. python', 'VimShellInteractive python'],
+      \     [' 4. Perl', 'VimShellInteractive perl -de 1'],
+      \     [' 5. php', 'VimShellInteractive php -a'],
+      \     [' 6. MySQL', 'VimShellInteractive mysql -u root -p'],
+      \     [' 7. R', 'VimShellInteractive R'],
+      \     [' 8. VimShell', 'VimShell'],
+      \     [' 9. VimShellPop', 'VimShellPop'],
+      \     ['10. VimShellSendString', 'VimShellSendString'],
       \ ]}
 nnoremap <silent> [unite]s
-      \ :<C-u>Unite menu:vimshell -buffer-name=vimshell
-      \ -hide-status-line -prompt=(*'-')>\ <CR>
+      \ :<C-u>Unite menu:vimshell -buffer-name=VimShell<CR>
 
 let g:unite_source_menu_menus.encoding = {
       \ 'description' : 'Open with a specific character code again.',
@@ -1342,32 +1342,33 @@ let bundle = neobundle#get('vim-quickrun')
 
     let g:quickrun_config = {}
     let g:quickrun_config._ = {
-          \ 'runner' : 'vimproc',
-          \ 'runner/vimproc/updatetime' : 1000,
-          \ 'outputter' : 'buffer',
-          \ 'outputter/buffer/close_on_empty' : 1,
-          \ 'split' : 'below',
-          \ 'hook/time/enable' : 1,
-          \ 'running_mark' : '(*''_'')> じっこうちゅう...',
+          \   'runner' : 'vimproc',
+          \   'runner/vimproc/updatetime' : 1000,
+          \   'outputter' : 'buffer',
+          \   'outputter/buffer/close_on_empty' : 1,
+          \   'split' : 'below',
+          \   'hook/time/enable' : 1,
+          \   'running_mark' : '(*''_'')> じっこうちゅう...',
           \ }
     "let g:quickrun_config.markdown = {
-    "      \ 'outputter' : 'browser'
+    "      \   'outputter' : 'browser'
     "      \ }
+
     if s:is_mac
       " Preview markdown file using QuickLook(Requires a QLMarkdown).
       if executable('qlmanage')
         let g:quickrun_config.markdown = {
-              \ 'command' : 'qlmanage',
-              \ 'cmdopt' : '-p',
-              \ 'outputter' : 'null',
+              \   'command' : 'qlmanage',
+              \   'cmdopt' : '-p',
+              \   'outputter' : 'null',
               \ }
       endif
 
       " View html file on Web browser using 'open' command.
       let g:quickrun_config.html = {
-            \ 'runner' : 'system',
-            \ 'command' : 'open',
-            \ 'outputter' : 'null',
+            \   'runner' : 'system',
+            \   'command' : 'open',
+            \   'outputter' : 'null',
             \ }
     endif
 
