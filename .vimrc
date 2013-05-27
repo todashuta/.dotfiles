@@ -42,13 +42,19 @@ if s:is_windows && exists('+shellslash')
   set shellslash
 endif
 
+let s:dotvim = (s:is_windows)?  expand('~/vimfiles') : expand('~/.vim')
+
+if !exists($MYGVIMRC)
+  let $MYGVIMRC = expand('~/.gvimrc')
+endif
+
 " NeoBundle
 if has('vim_starting')
-  set runtimepath+=~/.vim/bundle/neobundle.vim
+  execute 'set runtimepath+=' . s:dotvim.'/bundle/neobundle.vim'
 endif
 
 " Initialize neobundle
-call neobundle#rc(expand('~/.vim/bundle'))
+call neobundle#rc(s:dotvim.'/bundle')
 
 " Github repositories.
 NeoBundleLazy 'Shougo/neocomplcache', {
@@ -237,7 +243,7 @@ NeoBundleLazy 'kchmck/vim-coffee-script', {
       \   'autoload' : {
       \     'filetypes' : ['coffee']
       \ }}
-"NeoBundle 'vim-scripts/Vim-R-plugin'
+NeoBundleLazy 'vim-scripts/Vim-R-plugin'
 NeoBundleLazy 'itchyny/thumbnail.vim', {
       \   'autoload' : {
       \     'commands' : ['Thumbnail'],
@@ -263,6 +269,7 @@ NeoBundleLazy 'todashuta/unite-transparency', {
       \   'autoload' : {
       \     'unite_sources' : 'transparency'
       \ }}
+NeoBundle 'jnwhiteh/vim-golang'
 
 if has('python')
   NeoBundleLazy 'gregsexton/VimCalc', {
@@ -1412,6 +1419,9 @@ nnoremap <silent> <Space>f
 " indentLine {{{
 
 let g:indentLine_char = '¦'
+let g:indentLine_showFirstIndentLevel = 1
+let g:indentLine_indentLevel = 20
+"let g:indentLine_noConcealCursor = 1
 
 if s:loaded_vimrc && exists(':IndentLinesReset')
   IndentLinesReset
@@ -1467,6 +1477,9 @@ nmap <silent> +  <Plug>ToggleN
 
 " VimCalc
 let g:VCalc_WindowPosition = 'bottom'
+
+" vim-R-plugin
+let vimrplugin_screenplugin = 0
 
 " }}}
 
