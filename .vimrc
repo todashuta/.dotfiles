@@ -354,6 +354,9 @@ set ttyfast
 " Don't redraw while macro executing.
 set lazyredraw
 
+" All windows not same size after split or close.
+set noequalalways
+
 " }}}
 
 " File,Backup: "{{{
