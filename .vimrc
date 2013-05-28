@@ -50,7 +50,7 @@ endif
 
 " NeoBundle
 if has('vim_starting')
-  execute 'set runtimepath+=' . s:dotvim.'/bundle/neobundle.vim'
+  execute 'set runtimepath+='.s:dotvim.'/bundle/neobundle.vim'
 endif
 
 " Initialize neobundle
@@ -935,9 +935,9 @@ let bundle = neobundle#get('neosnippet')
     endif
 
     " Honza's Snippets.
-    let g:neosnippet#snippets_directory = '~/.vim/bundle/vim-snippets/snippets,'
+    let g:neosnippet#snippets_directory = s:dotvim.'/bundle/vim-snippets/snippets,'
     " User-defined snippet files directory.
-    let g:neosnippet#snippets_directory .= '~/.vim/snippets,'
+    let g:neosnippet#snippets_directory .= s:dotvim.'/snippets,'
 
     " Enable preview window feature in neosnippet candidates.
     let g:neosnippet#enable_preview = 1
@@ -1041,6 +1041,12 @@ let bundle = neobundle#get('unite.vim')
     "let g:unite_split_rule = 'botright'
     " Pretty prompt
     let g:unite_prompt = "(*'-')> "
+
+    " unite-build: error or warning markup icon (enabled only in GVim).
+    let g:unite_build_error_icon =
+          \ s:dotvim.'/signs/err.'.(s:is_windows ? 'bmp' : 'png')
+    let g:unite_build_warning_icon =
+          \ s:dotvim.'/signs/warn.'.(s:is_windows ? 'bmp' : 'png')
 
     function! s:unite_my_settings()
       " <C-w>: Deletes a path upward.
@@ -1304,9 +1310,11 @@ let bundle = neobundle#get('vimshell')
     let g:vimshell_prompt = "(*'_')> "
     let g:vimshell_secondary_prompt = '> '
 
-    " Use zsh history in vimshell/history source.
-    let g:unite_source_vimshell_external_history_path =
-          \ expand('~/.zsh/.zsh_history')
+    if executable('zsh') && filereadable(expand('~/.zsh/.zsh_history'))
+      " Use zsh history in vimshell/history source.
+      let g:unite_source_vimshell_external_history_path =
+            \ expand('~/.zsh/.zsh_history')
+    endif
 
     autocmd MyAutoCmd FileType vimshell call s:vimshell_settings()
     function! s:vimshell_settings()
