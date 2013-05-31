@@ -125,7 +125,7 @@ NeoBundleLazy 'vim-scripts/VOoM', {
 NeoBundleLazy 'thinca/vim-quickrun', {
       \   'depends' : ['Shougo/vimproc'],
       \   'autoload' : {
-      \     'mappings' : [['nxo', '<Plug>(quickrun)']],
+      \     'mappings' : [['nx', '<Plug>(quickrun)']],
       \     'commands' : [
       \         { 'name' : 'QuickRun',
       \           'complete' : 'customlist,quickrun#complete' },
@@ -133,13 +133,21 @@ NeoBundleLazy 'thinca/vim-quickrun', {
 NeoBundleLazy 'tyru/open-browser.vim', {
       \   'autoload' : {
       \     'function_prefix' : 'openbrowser',
-      \     'mappings' : [['nxo', '<Plug>(openbrowser-smart-search)']],
+      \     'mappings' : [['nx', '<Plug>(openbrowser-smart-search)']],
       \ }}
 NeoBundleLazy 'h1mesuke/vim-alignta', {
       \   'autoload' : {
       \     'commands' : ['Alignta', 'Align']
       \ }}
-NeoBundle 'tpope/vim-surround'
+NeoBundleLazy 'tpope/vim-surround', {
+      \   'autoload' : {
+      \     'mappings' : [
+      \       ['n', '<Plug>Dsurround'], ['n', '<Plug>Csurround'],
+      \       ['n', '<Plug>Ysurround'], ['n', '<Plug>YSurround'],
+      \       ['n', '<Plug>Yssurround'], ['n', '<Plug>YSsurround'],
+      \       ['n', '<Plug>YSsurround'], ['x', '<Plug>VSurround'],
+      \       ['x', '<Plug>VgSurround'],
+      \ ]}}
 "NeoBundle 'troydm/easybuffer.vim'
 NeoBundle 'vim-scripts/DirDo.vim'
 NeoBundleLazy 'kana/vim-smartchr', {
@@ -178,7 +186,7 @@ NeoBundleLazy 'mattn/calendar-vim', {
       \ }}
 NeoBundleLazy 'nathanaelkane/vim-indent-guides', {
       \   'autoload' : {
-      \     'mappings' : [['nxo', '<Plug>IndentGuidesToggle']],
+      \     'mappings' : [['n', '<Plug>IndentGuidesToggle']],
       \ }}
 NeoBundleLazy 'skammer/vim-css-color', {
       \   'gui' : 1,
@@ -187,7 +195,7 @@ NeoBundleLazy 'skammer/vim-css-color', {
       \ }}
 NeoBundleLazy 'lilydjwg/colorizer', {
       \   'autoload' : {
-      \     'mappings' : [['nxo', '<Plug>Colorizer']]
+      \     'mappings' : [['n', '<Plug>Colorizer']]
       \ }}
 NeoBundleLazy 'koron/nyancat-vim', {
       \   'autoload' : {
@@ -224,9 +232,14 @@ NeoBundleLazy 'thinca/vim-scouter', {
       \     'commands' : [
       \         { 'name' : 'Scouter', 'complete' : 'file' }
       \ ]}}
-NeoBundle 'thinca/vim-visualstar'
+NeoBundleLazy 'thinca/vim-visualstar', {
+      \   'autoload' : {
+      \     'mappings' : [
+      \       ['x', '<Plug>(visualstar-*)'], ['x', '<Plug>(visualstar-#)'],
+      \       ['x', '<Plug>(visualstar-g*)'], ['x', '<Plug>(visualstar-g#)'],
+      \ ]}}
 "NeoBundle 'vim-scripts/ShowMarks'
-NeoBundle 'Lokaltog/vim-easymotion'
+"NeoBundle 'Lokaltog/vim-easymotion'
 NeoBundleLazy 'taku-o/vim-toggle', {
       \   'autoload' : {
       \     'mappings' : [['n', '<Plug>ToggleN']],
@@ -916,6 +929,10 @@ let bundle = neobundle#get('neocomplcache')
           \ neocomplcache#smart_close_popup()
           \ . eval(smartinput#sid().'_trigger_or_fallback("\<BS>", "\<BS>")')
 
+    " Filename completion.
+    inoremap <expr> <C-x><C-f>
+          \ neocomplcache#start_manual_complete('filename_complete')
+
     " }}}
 
   endfunction
@@ -1449,6 +1466,7 @@ vmap gx  <Plug>(openbrowser-smart-search)
 " }}}
 
 " vim-ref {{{
+
 let bundle = neobundle#get('vim-ref')
   function! bundle.hooks.on_source(bundle)
 
@@ -1468,6 +1486,29 @@ let bundle = neobundle#get('vim-ref')
 
   endfunction
 unlet bundle
+
+" }}}
+
+" vim-visualstar {{{
+
+xmap *  <Plug>(visualstar-*)N
+xmap #  <Plug>(visualstar-#)N
+xmap g*  <Plug>(visualstar-g*)N
+xmap g#  <Plug>(visualstar-g#)N
+
+" }}}
+
+" vim-surround {{{
+
+nmap ds  <Plug>Dsurround
+nmap cs  <Plug>Csurround
+nmap ys  <Plug>Ysurround
+nmap yS  <Plug>YSurround
+nmap yss <Plug>Yssurround
+nmap ySs <Plug>YSsurround
+nmap ySS <Plug>YSsurround
+xmap S   <Plug>VSurround
+xmap gS  <Plug>VgSurround
 
 " }}}
 
