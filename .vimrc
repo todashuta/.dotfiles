@@ -65,7 +65,7 @@ NeoBundleLazy 'Shougo/neosnippet', {
       \   'autoload' : {
       \     'insert' : 1,
       \ }}
-NeoBundle 'honza/vim-snippets'
+NeoBundleFetch 'honza/vim-snippets'
 NeoBundle 'Shougo/unite.vim'
 NeoBundleLazy 'Shougo/vimfiler', {
       \   'depends' : 'Shougo/unite.vim',
@@ -955,9 +955,11 @@ let bundle = neobundle#get('neosnippet')
     endif
 
     " Honza's Snippets.
-    let g:neosnippet#snippets_directory = s:dotvim.'/bundle/vim-snippets/snippets,'
+    let s:snippets_dir = [s:dotvim.'/bundle/vim-snippets/snippets']
     " User-defined snippet files directory.
-    let g:neosnippet#snippets_directory .= s:dotvim.'/snippets,'
+    let s:snippets_dir += [s:dotvim.'/snippets']
+
+    let g:neosnippet#snippets_directory = join(s:snippets_dir, ',')
 
     " Enable preview window feature in neosnippet candidates.
     let g:neosnippet#enable_preview = 1
