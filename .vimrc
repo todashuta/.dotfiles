@@ -19,7 +19,7 @@ let s:is_mac = !s:is_windows && !s:is_cygwin
       \     system('uname') =~? '^darwin'))
 
 let s:cui_running = !has('gui_running')
-let s:loaded_vimrc = !has('vim_starting')
+let s:when_reloading_vimrc = !has('vim_starting')
 
 " Use English interface.
 if s:is_windows
@@ -1479,7 +1479,7 @@ let g:indentLine_showFirstIndentLevel = 1
 let g:indentLine_indentLevel = 20
 "let g:indentLine_noConcealCursor = 1
 
-if s:loaded_vimrc && exists(':IndentLinesReset')
+if s:when_reloading_vimrc && exists(':IndentLinesReset')
   IndentLinesReset
 endif
 
@@ -1670,7 +1670,7 @@ endif
 
 " Finalize: "{{{
 "
-if s:loaded_vimrc
+if s:when_reloading_vimrc
   " Call on_source hook when reloading .vimrc.
   call neobundle#call_hook('on_source')
 endif
