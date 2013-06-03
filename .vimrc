@@ -283,6 +283,20 @@ NeoBundleLazy 'todashuta/unite-transparency', {
       \     'unite_sources' : 'transparency'
       \ }}
 NeoBundle 'jnwhiteh/vim-golang'
+NeoBundleLazy 'terryma/vim-expand-region', {
+      \   'autoload' : {
+      \     'mappings' : [
+      \       ['x', '<Plug>(expand_region_expand)'],
+      \       ['x', '<Plug>(expand_region_shrink)']
+      \ ]}}
+NeoBundleLazy 'mfumi/snake.vim', {
+      \   'autoload' : {
+      \     'commands' : 'Snake'
+      \ }}
+NeoBundleLazy 'deris/vim-duzzle', {
+      \   'autoload' : {
+      \     'commands' : 'DuzzleStart'
+      \ }}
 
 if has('python')
   NeoBundleLazy 'gregsexton/VimCalc', {
@@ -615,7 +629,7 @@ nnoremap <silent> [buffer]p  :<C-u>bprevious<CR>
 " <Space-bn>: go to the next buffer.
 nnoremap <silent> [buffer]n  :<C-u>bnext<CR>
 " <Space-bt>: thumbnail-style buffer select.
-nnoremap <silent> [buffer]t  :<C-u>Thumbnail<CR>
+nnoremap <silent> [buffer]t  :<C-u>Thumbnail -here<CR>
 " <Space-BS>: Unload buffer and delete it from the buffer list.
 nnoremap <silent> <Space><BS>  :<C-u>bdelete<CR>
 
@@ -751,8 +765,15 @@ endif
 set cursorline
 
 " Highlight cursor line only current window.
-autocmd MyAutoCmd WinEnter * setlocal cursorline
-autocmd MyAutoCmd WinLeave * setlocal nocursorline
+"autocmd MyAutoCmd WinEnter * setlocal cursorline
+autocmd MyAutoCmd WinEnter *
+      \ let &l:cursorline =
+      \ (!exists('w:my_cursorline_state') || w:my_cursorline_state == 1)?
+      \ 1 : 0
+"autocmd MyAutoCmd WinLeave * setlocal nocursorline
+autocmd MyAutoCmd WinLeave *
+      \  let w:my_cursorline_state = (&l:cursorline == 1)?  1 : 0
+      \| setlocal nocursorline
 
 " }}}
 
@@ -982,6 +1003,11 @@ unlet bundle
     let g:user_zen_leader_key = has('gui_running') ? '<C-Space>' : '<C-@>'
     let g:user_zen_settings = {
           \   'lang' : 'ja',
+          \   'indentation' : "\t",
+          \   'html' : {
+          \     'filters' : 'html',
+          \     'empty_element_suffix' : '>',
+          \   },
           \   'css' : {
           \     'filters' : 'fc',
           \   },
@@ -1511,6 +1537,13 @@ nmap ySs <Plug>YSsurround
 nmap ySS <Plug>YSsurround
 xmap S   <Plug>VSurround
 xmap gS  <Plug>VgSurround
+
+" }}}
+
+" vim-expand-region {{{
+
+vmap +  <Plug>(expand_region_expand)
+vmap -  <Plug>(expand_region_shrink)
 
 " }}}
 
