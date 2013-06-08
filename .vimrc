@@ -1407,8 +1407,8 @@ unlet bundle
 
 nmap <silent> <Leader>r  <Plug>(quickrun)
 
-nnoremap <expr><silent> <C-c>  neobundle#is_sourced('vim-quickrun') ?
-      \ (quickrun#is_running() ? quickrun#sweep_sessions() : "\<C-c>")
+nnoremap <expr><silent> <C-c>  neobundle#is_sourced('vim-quickrun')
+      \ ? (quickrun#is_running() ? quickrun#sweep_sessions() : "\<C-c>")
       \ : "\<C-c>"
 
 let bundle = neobundle#get('vim-quickrun')
