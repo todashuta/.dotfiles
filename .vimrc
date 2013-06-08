@@ -282,7 +282,10 @@ NeoBundleLazy 'todashuta/unite-transparency', {
       \   'autoload' : {
       \     'unite_sources' : 'transparency'
       \ }}
-NeoBundle 'jnwhiteh/vim-golang'
+NeoBundleLazy 'jnwhiteh/vim-golang', {
+      \   'autoload' : {
+      \     'filetypes' : ['go']
+      \ }}
 NeoBundleLazy 'terryma/vim-expand-region', {
       \   'autoload' : {
       \     'mappings' : [
@@ -296,6 +299,10 @@ NeoBundleLazy 'mfumi/snake.vim', {
 NeoBundleLazy 'deris/vim-duzzle', {
       \   'autoload' : {
       \     'commands' : 'DuzzleStart'
+      \ }}
+NeoBundleLazy 'hrsh7th/vim-neco-calc', {
+      \   'autoload' : {
+      \     'insert' : 1
       \ }}
 
 if has('python')
@@ -919,16 +926,11 @@ let bundle = neobundle#get('neocomplcache')
 
     " mappings {{{
     " <CR>: Close popup and save indent.
-    "inoremap <expr> <CR>  neocomplcache#smart_close_popup() . "\<CR>"
-    inoremap <expr> <CR>
-          \ neocomplcache#smart_close_popup()
-          \ . eval(smartinput#sid()
-          \   . '_trigger_or_fallback("\<Enter>", "\<Enter>")')
+    imap <expr> <CR>
+          \ neocomplcache#smart_close_popup() . "\<Plug>(smartinput_CR)"
     " For no inserting <CR> key.
-    "inoremap <expr> <CR>  pumvisible()
-    "      \ ? neocomplcache#close_popup()
-    "      \ : eval(smartinput#sid()
-    "      \   . '_trigger_or_fallback("\<Enter>", "\<Enter>")')
+    "imap <expr> <CR>  pumvisible() ?
+    "      \ neocomplcache#close_popup() : "\<Plug>(smartinput_CR)"
 
     " <Tab>: completion.
     inoremap <expr> <Tab>  pumvisible() ? "\<C-n>" : "\<Tab>"
@@ -941,14 +943,10 @@ let bundle = neobundle#get('neocomplcache')
     inoremap <expr> <C-l>  neocomplcache#complete_common_string()
 
     " <C-h>, <BS>: Close popup and delete backward char.
-    "inoremap <expr> <C-h>  neocomplcache#smart_close_popup()."\<C-h>"
-    "inoremap <expr> <BS>  neocomplcache#smart_close_popup()."\<BS>"
-    inoremap <expr> <C-h>
-          \ neocomplcache#smart_close_popup()
-          \ . eval(smartinput#sid().'_trigger_or_fallback("\<BS>", "\<C-h>")')
-    inoremap <expr> <BS>
-          \ neocomplcache#smart_close_popup()
-          \ . eval(smartinput#sid().'_trigger_or_fallback("\<BS>", "\<BS>")')
+    imap <expr> <C-h>
+          \ neocomplcache#smart_close_popup() . "\<Plug>(smartinput_C-h)"
+    imap <expr> <BS>
+          \ neocomplcache#smart_close_popup() . "\<Plug>(smartinput_BS)"
 
     " Filename completion.
     inoremap <expr> <C-x><C-f>
@@ -976,11 +974,11 @@ let bundle = neobundle#get('neosnippet')
     endif
 
     " Honza's Snippets.
-    let s:snippets_dir = [s:dotvim.'/bundle/vim-snippets/snippets']
+    let snippets_dir = [s:dotvim.'/bundle/vim-snippets/snippets']
     " User-defined snippet files directory.
-    let s:snippets_dir += [s:dotvim.'/snippets']
+    let snippets_dir += [s:dotvim.'/snippets']
 
-    let g:neosnippet#snippets_directory = join(s:snippets_dir, ',')
+    let g:neosnippet#snippets_directory = join(snippets_dir, ',')
 
     " Enable preview window feature in neosnippet candidates.
     let g:neosnippet#enable_preview = 1
@@ -1221,6 +1219,7 @@ let g:unite_source_menu_menus.unite = {
 let g:solarized_visibility = 'low'
 " Toggle background key (Light or Dark)
 call togglebg#map('<F5>')
+
 " If you use a iTerm besides use solarized iTerm profiles,
 " separate the config 'light' from 'dark' by $ITERM_PROFILE.
 function! s:judge_background_and_colorschemes()
@@ -1345,15 +1344,22 @@ noremap <silent> <Space>r
 
 let bundle = neobundle#get('vimshell')
   function! bundle.hooks.on_source(bundle)
+
     " Prompt.
     function! VimShellMyPromptString()
       return s:is_windows
             \ ? printf('%s@%s %s',
-            \     $USERNAME, hostname(), fnamemodify(getcwd(), ':~'))
+            \          $USERNAME,
+            \          hostname(),
+            \          fnamemodify(getcwd(), ':~')
+            \   )
             \ : printf('%s@%s %s',
-            \     $USER, substitute(hostname(), '\..*', '', ''),
-            \       fnamemodify(getcwd(), ':~'))
+            \          $USER,
+            \          substitute(hostname(), '\..*', '', ''),
+            \          fnamemodify(getcwd(), ':~')
+            \   )
     endfunction
+
     let g:vimshell_user_prompt = 'VimShellMyPromptString()'
     let g:vimshell_prompt = "(*'_')> "
     let g:vimshell_secondary_prompt = '> '
@@ -1547,6 +1553,36 @@ vmap -  <Plug>(expand_region_shrink)
 
 " }}}
 
+" vim-smartinput {{{
+
+let bundle = neobundle#get('vim-smartinput')
+  function! bundle.hooks.on_source(bundle)
+
+    call smartinput#map_to_trigger('i',
+          \ '<Plug>(smartinput_BS)', '<BS>', '<BS>')
+    call smartinput#map_to_trigger('i',
+          \ '<Plug>(smartinput_C-h)', '<BS>', '<C-h>')
+    call smartinput#map_to_trigger('i',
+          \ '<Plug>(smartinput_CR)', '<Enter>', '<Enter>')
+    "call smartinput#map_to_trigger('i',
+    "      \ '<Plug>(smartinput_C-j)', '<Enter>', '<C-j>')
+    "call smartinput#map_to_trigger('i',
+    "      \ '<Plug>(smartinput_NL)', '<Enter>', '<NL>')
+    "call smartinput#map_to_trigger('i',
+    "      \ '<Plug>(smartinput_Return)', '<Enter>', '<Return>')
+
+    call smartinput#map_to_trigger('c',
+          \ '<Plug>(smartinput_NL)', '<Enter>', '<C-j>')
+    call smartinput#map_to_trigger('c',
+          \ '<Plug>(smartinput_C-h)', '<BS>', '<C-h>')
+    call smartinput#map_to_trigger('c',
+          \ '<Plug>(smartinput_CR)', '<Enter>', '<Return>')
+
+  endfunction
+unlet bundle
+
+" }}}
+
 " Others {{{
 "
 " Expand the jump functions of % command (e.g. HTML tags, if/else/endif, etc.)
@@ -1656,7 +1692,10 @@ endif
 nnoremap <silent> [toggle]m
       \ :<C-u>exe'set'&mouse=='a'?'mouse=':'mouse=a'<CR>:set mouse?<CR>
 
-autocmd MyAutoCmd BufNewFile,BufRead *.coffee setlocal filetype=coffee
+augroup MyAutoCmd
+  "autocmd BufNewFile,BufRead *.coffee setlocal filetype=coffee
+  autocmd BufNewFile,BufRead *.go setlocal filetype=go
+augroup END
 
 " }}}
 
