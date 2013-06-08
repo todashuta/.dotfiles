@@ -42,19 +42,22 @@ if s:is_windows && exists('+shellslash')
   set shellslash
 endif
 
-let s:dotvim = (s:is_windows)?  expand('~/vimfiles') : expand('~/.vim')
-
 if !exists($MYGVIMRC)
   let $MYGVIMRC = expand('~/.gvimrc')
 endif
 
-" NeoBundle
+" Set runtimepath.
 if has('vim_starting')
-  execute 'set runtimepath+='.s:dotvim.'/bundle/neobundle.vim'
+  if s:is_windows
+    set runtimepath+=~/.vim,~/.vim/after
+  endif
+
+  " Load neobundle.
+  set runtimepath+=~/.vim/bundle/neobundle.vim
 endif
 
 " Initialize neobundle
-call neobundle#rc(s:dotvim.'/bundle')
+call neobundle#rc(expand('~/.vim/bundle'))
 
 " Github repositories.
 NeoBundleLazy 'Shougo/neocomplcache', {
@@ -304,6 +307,8 @@ NeoBundleLazy 'hrsh7th/vim-neco-calc', {
       \   'autoload' : {
       \     'insert' : 1
       \ }}
+NeoBundle 'thinca/vim-unite-history'
+NeoBundle 'osyo-manga/unite-filetype'
 
 if has('python')
   NeoBundleLazy 'gregsexton/VimCalc', {
@@ -979,9 +984,9 @@ let bundle = neobundle#get('neosnippet')
     endif
 
     " Honza's Snippets.
-    let snippets_dir = [s:dotvim.'/bundle/vim-snippets/snippets']
+    let snippets_dir = [expand('~/.vim/bundle/vim-snippets/snippets')]
     " User-defined snippet files directory.
-    let snippets_dir += [s:dotvim.'/snippets']
+    let snippets_dir += [expand('~/.vim/snippets')]
 
     let g:neosnippet#snippets_directory = join(snippets_dir, ',')
 
@@ -1095,9 +1100,9 @@ let bundle = neobundle#get('unite.vim')
 
     " unite-build: error or warning markup icon (enabled only in GVim).
     let g:unite_build_error_icon =
-          \ s:dotvim.'/signs/err.'.(s:is_windows ? 'bmp' : 'png')
+          \ expand('~/.vim/signs/err.').(s:is_windows ? 'bmp' : 'png')
     let g:unite_build_warning_icon =
-          \ s:dotvim.'/signs/warn.'.(s:is_windows ? 'bmp' : 'png')
+          \ expand('~/.vim/signs/warn.').(s:is_windows ? 'bmp' : 'png')
 
     function! s:unite_my_settings()
       " <C-w>: Deletes a path upward.
