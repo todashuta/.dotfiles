@@ -645,6 +645,11 @@ nnoremap Q q
 nnoremap K <Nop>
 "nnoremap qK K
 
+" Disable dangerous ZZ.
+nnoremap ZZ  :<C-u>echoerr 'ZZ is disabled.'<CR>
+" Disable dangerous ZQ.
+nnoremap ZQ  :<C-u>echoerr 'ZQ is disabled.'<CR>
+
 " Moving cursor to other windows.
 nnoremap <silent> <Space>h  :<C-u>wincmd h<CR>
 nnoremap <silent> <Space>j  :<C-u>wincmd j<CR>
@@ -1608,6 +1613,15 @@ let vimrplugin_screenplugin = 0
 
 " }}}
 
+" File type settings. {{{
+"
+augroup MyAutoCmd
+  "autocmd BufNewFile,BufRead *.coffee setlocal filetype=coffee
+  autocmd BufNewFile,BufRead *.go setlocal filetype=go
+augroup END
+
+" }}}
+
 " Enable omni completion {{{
 "
 augroup MyAutoCmd
@@ -1691,11 +1705,6 @@ endif
 " Toggle mouse.
 nnoremap <silent> [toggle]m
       \ :<C-u>exe'set'&mouse=='a'?'mouse=':'mouse=a'<CR>:set mouse?<CR>
-
-augroup MyAutoCmd
-  "autocmd BufNewFile,BufRead *.coffee setlocal filetype=coffee
-  autocmd BufNewFile,BufRead *.go setlocal filetype=go
-augroup END
 
 " }}}
 
