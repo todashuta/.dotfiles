@@ -600,6 +600,14 @@ nnoremap <silent> [toggle]h
 nnoremap <silent> [toggle]w
       \ :<C-u>call <SID>toggle_option('wrap')<CR>
 
+" Toggle cursorline.
+nnoremap <silent> [toggle]-
+      \ :<C-u>call <SID>toggle_option('cursorline')<CR>
+
+" Toggle cursorcolumn.
+nnoremap <silent> [toggle]<Bar>
+      \ :<C-u>call <SID>toggle_option('cursorcolumn')<CR>
+
 " Toggle list
 nnoremap <silent> [toggle]l
       \ :<C-u>call <SID>toggle_option('list')<CR>
@@ -787,16 +795,23 @@ endif
 " Highlight cursor line.
 set cursorline
 
-" Highlight cursor line only current window.
-"autocmd MyAutoCmd WinEnter * setlocal cursorline
+" Highlight cursor line sensibly only current window.
 autocmd MyAutoCmd WinEnter *
       \ let &l:cursorline =
       \ (!exists('w:my_cursorline_state') || w:my_cursorline_state == 1)?
       \ 1 : 0
-"autocmd MyAutoCmd WinLeave * setlocal nocursorline
 autocmd MyAutoCmd WinLeave *
       \  let w:my_cursorline_state = (&l:cursorline == 1)?  1 : 0
       \| setlocal nocursorline
+
+" Highlight cursor column sensibly only current window.
+autocmd MyAutoCmd WinEnter *
+      \ let &l:cursorcolumn =
+      \ (!exists('w:my_cursorcolumn_state') || w:my_cursorcolumn_state == 0)?
+      \ 0 : 1
+autocmd MyAutoCmd WinLeave *
+      \  let w:my_cursorcolumn_state = (&l:cursorcolumn == 1)? 1 : 0
+      \| setlocal nocursorcolumn
 
 " }}}
 
@@ -1570,6 +1585,10 @@ let g:indentLine_indentLevel = 20
 if s:when_reloading_vimrc && exists(':IndentLinesReset')
   IndentLinesReset
 endif
+
+" Toggle indentLines.
+nnoremap <silent> [toggle]il
+      \ :<C-u>IndentLinesToggle<CR>
 
 " }}}
 
