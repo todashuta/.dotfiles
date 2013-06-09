@@ -699,10 +699,10 @@ inoremap <C-f>  <Right>
 "inoremap <expr> <C-b>  pumvisible() ? "\<PageUp>" : "\<Left>"
 inoremap <C-b>  <Left>
 " <C-a>: Move to head+.
-inoremap <unique><expr> <C-a>
+inoremap <expr> <C-a>
       \ search('^\s\s*\%#', 'bcn') ? '<C-o>g0' : '<C-o>g^'
 " <C-e>: Move to end.
-inoremap <unique> <C-e>  <End>
+"inoremap <C-e>  <End>
 
 " }}}
 
@@ -1063,7 +1063,7 @@ let bundle = neobundle#get('neosnippet')
     let g:neosnippet#snippets_directory = join(snippets_dir, ',')
 
     " Enable preview window feature in neosnippet candidates.
-    let g:neosnippet#enable_preview = 1
+    "let g:neosnippet#enable_preview = 1
     " If you are using neosnippet with neocomplcache, I recommend this config:
     " let g:neocomplcache_enable_auto_close_preview = 1
 
