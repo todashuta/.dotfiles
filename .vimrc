@@ -42,14 +42,14 @@ if s:is_windows && exists('+shellslash')
   set shellslash
 endif
 
-if !exists($MYGVIMRC)
+if !exists('$MYGVIMRC')
   let $MYGVIMRC = expand('~/.gvimrc')
 endif
 
 " Set runtimepath.
 if has('vim_starting')
   if s:is_windows
-    set runtimepath+=~/.vim,~/.vim/after
+    set runtimepath^=~/.vim,~/.vim/after
   endif
 
   " Load neobundle.
@@ -126,10 +126,6 @@ NeoBundle 'altercation/vim-colors-solarized'
 NeoBundleLazy 'othree/eregex.vim', {
       \   'autoload' : {
       \     'commands' : ['E2v', 'M', 'S', 'G', 'V']
-      \ }}
-NeoBundleLazy 'vim-scripts/VOoM', {
-      \   'autoload' : {
-      \     'filetypes' : ['html', 'markdown', 'python', 'latex']
       \ }}
 "NeoBundle 'scrooloose/nerdtree'
 NeoBundleLazy 'thinca/vim-quickrun', {
@@ -316,11 +312,19 @@ NeoBundleLazy 'hrsh7th/vim-neco-calc', {
       \ }}
 NeoBundle 'thinca/vim-unite-history'
 NeoBundle 'osyo-manga/unite-filetype'
+NeoBundleLazy 'mattn/habatobi-vim', {
+      \   'autoload' : {
+      \     'commands' : 'Habatobi'
+      \ }}
 
 if has('python')
   NeoBundleLazy 'gregsexton/VimCalc', {
         \   'autoload' : {
         \     'commands' : 'Calc'
+        \ }}
+  NeoBundleLazy 'vim-scripts/VOoM', {
+        \   'autoload' : {
+        \     'filetypes' : ['html', 'markdown', 'python', 'latex']
         \ }}
 endif
 
@@ -346,7 +350,7 @@ let g:loaded_netrwPlugin = 1
 filetype plugin indent on    " Required!
 
 " Installation check
-NeoBundleCheck
+"NeoBundleCheck
 
 " Enable syntax color
 syntax enable
