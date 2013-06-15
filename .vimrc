@@ -60,7 +60,8 @@ endif
 call neobundle#rc(expand('~/.vim/bundle'))
 
 " Github repositories.
-if has('lua')
+let s:use_neocomplete = 1
+if has('lua') && exists('s:use_neocomplete')
   NeoBundleLazy 'Shougo/neocomplete.vim', {
         \   'autoload' : {
         \     'insert' : 1,
@@ -86,7 +87,7 @@ NeoBundleLazy 'Shougo/vimfiler', {
       \           'complete' : 'customlist,vimfiler#complete' },
       \         'VimFilerBufferDir',
       \ ]}}
-NeoBundleLazy 'h1mesuke/unite-outline', {
+NeoBundleLazy 'Shougo/unite-outline', {
       \   'depends' : 'Shougo/unite.vim',
       \   'autoload' : {
       \     'unite_sources' : 'outline'
@@ -160,7 +161,7 @@ NeoBundleLazy 'kana/vim-smartchr', {
       \   'autoload' : {
       \     'insert' : 1,
       \ }}
-"NeoBundle 'kana/vim-submode'
+NeoBundle 'kana/vim-submode'
 NeoBundleLazy 'glidenote/memolist.vim', {
       \   'autoload' : {
       \     'commands' : ['MemoGrep', 'MemoList', 'MemoNew']
@@ -696,14 +697,29 @@ nnoremap c  "_c
 xnoremap v  V
 
 " Settings for markdown
-"autocmd MyAutoCmd FileType markdown call s:markdown_settings()
-"function! s:markdown_settings()
-"  " 行頭か行頭からいくつかのタブの後だったら'-, +, *, >'に半角スペースを足す
-"  inoremap <buffer><expr> -  search('^\t*\%#', 'bcn') ? '- ' : '-'
-"  inoremap <buffer><expr> +  search('^\t*\%#', 'bcn') ? '+ ' : '+'
-"  inoremap <buffer><expr> *  search('^\t*\%#', 'bcn') ? '* ' : '*'
-"  inoremap <buffer><expr> >  search('^\t*\%#', 'bcn') ? '> ' : '>'
-"endfunction
+autocmd MyAutoCmd FileType markdown call s:markdown_settings()
+function! s:markdown_settings()
+  " 行頭か行頭からいくつかのタブの後だったら'-, +, *, >'に半角スペースを足す
+  inoremap <buffer><expr> -
+        \ search('\(^\t*\<bar>^\t*-\s\)\%#', 'bcn') ?
+        \   smartchr#one_of('- ', '-') : '-'
+  inoremap <buffer><expr> +
+        \ search('\(^\t*\<bar>^\t*+\s\)\%#', 'bcn') ?
+        \   smartchr#one_of('+ ', '+') : '+'
+  inoremap <buffer><expr> *
+        \ search('\(^\t*\<bar>^\t*\*\s\)\%#', 'bcn') ?
+        \   smartchr#one_of('* ', '*') : '*'
+  inoremap <buffer><expr> >
+        \ search('\(^\t*\<bar>^\t*>\s\)\%#', 'bcn') ?
+        \   smartchr#one_of('> ', '>') : '>'
+
+  inoremap <buffer><expr> #
+        \ search('\(^\t*\<bar>^\t*#\s\<bar>^\t*##*\s\)\%#', 'bcn') ?
+        \   smartchr#one_of('# ', '## ') : '#'
+  inoremap <buffer><expr> .
+        \ search('\(^[0-9][0-9]*\<bar>^[0-9][0-9]*\.\s\)\%#', 'bcn') ?
+        \   smartchr#one_of('. ', '.') : '.'
+endfunction
 
 " <C-f>, <C-b>: page move.
 "inoremap <expr> <C-f>  pumvisible() ? "\<PageDown>" : "\<Right>"
@@ -1096,8 +1112,8 @@ unlet bundle
 
 " zencoding.vim {{{
 
-"let bundle = neobundle#get('zencoding-vim')
-"  function! bundle.hooks.on_source(bundle)
+let bundle = neobundle#get('zencoding-vim')
+  function! bundle.hooks.on_source(bundle)
 
     let g:user_zen_leader_key = has('gui_running') ? '<C-Space>' : '<C-@>'
     let g:user_zen_settings = {
@@ -1112,8 +1128,8 @@ unlet bundle
           \   },
           \ }
 
-"  endfunction
-"unlet bundle
+  endfunction
+unlet bundle
 
 " }}}
 
@@ -1349,7 +1365,12 @@ let bundle = neobundle#get('vim-smartchr')
   function! bundle.hooks.on_source(bundle)
 
     "inoremap <expr> =  smartchr#one_of(' = ', ' == ', ' === ', '=')
-    "inoremap <expr> ,  smartchr#one_of(', ', ',')
+    inoremap <expr> ,  smartchr#one_of(', ', ',')
+
+    augroup MyAutoCmd
+      autocmd FileType vim
+            \ inoremap <expr> :  smartchr#one_of(' : ', ':')
+    augroup END
 
     "inoremap <expr> :  smartchr#one_of(': ', ' : ', ':')
     "inoremap <buffer> <expr> .  smartchr#loop('.',  ' . ',  '..', '...')
@@ -1357,6 +1378,10 @@ let bundle = neobundle#get('vim-smartchr')
     "augroup MyAutoCmd
     "  autocmd FileType css inoremap <expr> :  smartchr#one_of(':')
     "augroup END
+    augroup MyAutoCmd
+      autocmd FileType R
+            \ inoremap <buffer><expr> <  smartchr#one_of('<', '<-', '<<')
+    augroup END
 
   endfunction
 unlet bundle
@@ -1554,6 +1579,12 @@ let g:vimfiler_as_default_explorer = 1
 
 let bundle = neobundle#get('vimfiler')
   function! bundle.hooks.on_source(bundle)
+    let g:vimfiler_detect_drives = s:is_windows
+          \ ? ['C:/', 'D:/', 'E:/', 'F:/', 'G:/', 'H:/',
+          \    'I:/', 'J:/', 'K:/', 'L:/', 'M:/', 'N:/']
+          \ : split(glob('/mnt/*'), '\n') + split(glob('/media/*'), '\n') +
+          \   split(glob('/Volumes/*'), '\n') + split(glob('/Users/*'), '\n')
+
     if !s:is_windows
       " Like Textmate icons.
       let g:vimfiler_tree_leaf_icon = ' '
@@ -1663,28 +1694,50 @@ vmap -  <Plug>(expand_region_shrink)
 let bundle = neobundle#get('vim-smartinput')
   function! bundle.hooks.on_source(bundle)
 
-    call smartinput#map_to_trigger('i',
-          \ '<Plug>(smartinput_BS)', '<BS>', '<BS>')
-    call smartinput#map_to_trigger('i',
-          \ '<Plug>(smartinput_C-h)', '<BS>', '<C-h>')
-    call smartinput#map_to_trigger('i',
-          \ '<Plug>(smartinput_CR)', '<Enter>', '<Enter>')
-    "call smartinput#map_to_trigger('i',
-    "      \ '<Plug>(smartinput_C-j)', '<Enter>', '<C-j>')
-    "call smartinput#map_to_trigger('i',
-    "      \ '<Plug>(smartinput_NL)', '<Enter>', '<NL>')
-    "call smartinput#map_to_trigger('i',
-    "      \ '<Plug>(smartinput_Return)', '<Enter>', '<Return>')
+    call smartinput#map_to_trigger('i', '<Plug>(smartinput_BS)',
+          \                        '<BS>',
+          \                        '<BS>')
+    call smartinput#map_to_trigger('i', '<Plug>(smartinput_C-h)',
+          \                        '<BS>',
+          \                        '<C-h>')
+    call smartinput#map_to_trigger('i', '<Plug>(smartinput_CR)',
+          \                        '<Enter>',
+          \                        '<Enter>')
+    "call smartinput#map_to_trigger('i', '<Plug>(smartinput_C-j)',
+    "      \                        '<Enter>',
+    "      \                        '<C-j>')
+    "call smartinput#map_to_trigger('i', '<Plug>(smartinput_NL)',
+    "      \                        '<Enter>',
+    "      \                        '<NL>')
+    "call smartinput#map_to_trigger('i', '<Plug>(smartinput_Return)',
+    "      \                        '<Enter>',
+    "      \                        '<Return>')
 
-    call smartinput#map_to_trigger('c',
-          \ '<Plug>(smartinput_NL)', '<Enter>', '<C-j>')
-    call smartinput#map_to_trigger('c',
-          \ '<Plug>(smartinput_C-h)', '<BS>', '<C-h>')
-    call smartinput#map_to_trigger('c',
-          \ '<Plug>(smartinput_CR)', '<Enter>', '<Return>')
+    call smartinput#map_to_trigger('c', '<Plug>(smartinput_NL)',
+          \                        '<Enter>',
+          \                        '<C-j>')
+    call smartinput#map_to_trigger('c', '<Plug>(smartinput_C-h)',
+          \                        '<BS>',
+          \                        '<C-h>')
+    call smartinput#map_to_trigger('c', '<Plug>(smartinput_CR)',
+          \                        '<Enter>',
+          \                        '<Return>')
 
   endfunction
 unlet bundle
+
+" }}}
+
+" vim-submode {{{
+
+call submode#enter_with('winsize', 'n', '', '<C-w>>', '<C-w>>')
+call submode#enter_with('winsize', 'n', '', '<C-w><', '<C-w><')
+call submode#enter_with('winsize', 'n', '', '<C-w>+', '<C-w>-')
+call submode#enter_with('winsize', 'n', '', '<C-w>-', '<C-w>+')
+call submode#map('winsize', 'n', '', '>', '<C-w>>')
+call submode#map('winsize', 'n', '', '<', '<C-w><')
+call submode#map('winsize', 'n', '', '+', '<C-w>-')
+call submode#map('winsize', 'n', '', '-', '<C-w>+')
 
 " }}}
 
