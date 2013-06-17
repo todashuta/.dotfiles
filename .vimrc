@@ -46,6 +46,11 @@ if !exists('$MYGVIMRC')
   let $MYGVIMRC = expand('~/.gvimrc')
 endif
 
+" Anywhere SID.
+function! s:SID_PREFIX()
+  return matchstr(expand('<sfile>'), '<SNR>\d\+_\zeSID_PREFIX$')
+endfunction
+
 " Set runtimepath.
 if has('vim_starting')
   if s:is_windows
@@ -1472,7 +1477,7 @@ let bundle = neobundle#get('vimshell')
   function! bundle.hooks.on_source(bundle)
 
     " Prompt.
-    function! VimShellMyPromptString()
+    function! s:vimshell_my_prompt()
       return s:is_windows
             \ ? printf('%s@%s %s',
             \          $USERNAME,
@@ -1486,7 +1491,7 @@ let bundle = neobundle#get('vimshell')
             \   )
     endfunction
 
-    let g:vimshell_user_prompt = 'VimShellMyPromptString()'
+    let g:vimshell_user_prompt = s:SID_PREFIX().'vimshell_my_prompt()'
     let g:vimshell_prompt = "(*'_')> "
     let g:vimshell_secondary_prompt = '> '
 
