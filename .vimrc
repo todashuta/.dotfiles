@@ -28,6 +28,11 @@ else
   language message C
 endif
 
+" Use English menu on MacVim.
+if has('gui_macvim')
+  set langmenu=none
+endif
+
 " Define <Leader>, <LocalLeader>
 let g:mapleader = '\'
 "let g:maplocalleader = ','
@@ -234,7 +239,7 @@ NeoBundleLazy 'basyura/TweetVim', {
       \     'commands' : ['TweetVimHomeTimeline', 'TweetVimSay'],
       \     'unite_sources' : 'tweetvim',
       \ }}
-NeoBundle 'Lokaltog/vim-powerline'
+NeoBundle 'todashuta/vim-powerline', 'develop'
 NeoBundleLazy 'thinca/vim-painter', {
       \   'autoload' : {
       \     'commands' : 'PainterStart'
@@ -322,6 +327,7 @@ NeoBundleLazy 'mattn/habatobi-vim', {
       \   'autoload' : {
       \     'commands' : 'Habatobi'
       \ }}
+NeoBundle 'thinca/vim-editvar'
 
 if has('python')
   NeoBundleLazy 'gregsexton/VimCalc', {
@@ -392,16 +398,13 @@ set clipboard& clipboard+=unnamed
 set modeline
 
 " Enable the use of the mouse.
-" See: http://yskwkzhr.blogspot.jp/2013/02/use-mouse-on-terminal-vim.html
 if has('mouse')
   set mouse=a
-  if has('mouse_sgr')
+  try
     set ttymouse=sgr
-  elseif v:version > 703 || v:version is 703 && has('patch632')
-    set ttymouse=sgr
-  else
+  catch
     set ttymouse=xterm2
-  endif
+  endtry
 endif
 
 " Indicates a fast terminal connection.
@@ -685,6 +688,21 @@ nnoremap <silent> <Space>h  :<C-u>wincmd h<CR>
 nnoremap <silent> <Space>j  :<C-u>wincmd j<CR>
 nnoremap <silent> <Space>k  :<C-u>wincmd k<CR>
 nnoremap <silent> <Space>l  :<C-u>wincmd l<CR>
+
+nmap <Space><Space>  [Space2]
+nnoremap [Space2]  <Nop>
+
+nnoremap <silent> [Space2]h
+      \ :<C-u>wincmd h<CR>:resize<CR>:vertical resize<CR>
+nnoremap <silent> [Space2]j
+      \ :<C-u>wincmd j<CR>:resize<CR>:vertical resize<CR>
+nnoremap <silent> [Space2]k
+      \ :<C-u>wincmd k<CR>:resize<CR>:vertical resize<CR>
+nnoremap <silent> [Space2]l
+      \ :<C-u>wincmd l<CR>:resize<CR>:vertical resize<CR>
+nnoremap <silent> [Space2]c
+      \ :<C-u>lcd %:p:h<CR>:echo 'lcd' expand('%:p:h')<CR>
+nnoremap <silent> [Space2]b  :<C-u>Unite buffer<CR>
 
 " コピーした文字で繰り返し上書きペーストする
 "xnoremap P  "0p
@@ -1337,6 +1355,8 @@ let g:unite_source_menu_menus.unite = {
 
 " SOLARIZED {{{
 
+" Disable Solarized Menu.
+let g:solarized_menu = 0
 " Visibility of `listchars' (normal, high, low)
 let g:solarized_visibility = 'low'
 " Toggle background key (Light or Dark)
@@ -1373,8 +1393,8 @@ let bundle = neobundle#get('vim-smartchr')
     inoremap <expr> ,  smartchr#one_of(', ', ',')
 
     augroup MyAutoCmd
-      autocmd FileType vim
-            \ inoremap <expr> :  smartchr#one_of(' : ', ':')
+      "autocmd FileType vim
+      "      \ inoremap <expr> :  smartchr#one_of(' : ', ':')
     augroup END
 
     "inoremap <expr> :  smartchr#one_of(': ', ' : ', ':')
@@ -1513,15 +1533,22 @@ let bundle = neobundle#get('vimshell')
       call vimshell#set_alias('edit', 'vim --split=tabedit $$args')
       call vimshell#set_alias('quicklook', 'qlmanage -p $$args')
 
-      let s:vimshell_hooks = {}
-      function! s:vimshell_hooks.chpwd(args, context)
-        if len(split(glob('*'), '\n')) < 100
-          call vimshell#execute('ls')
-        else
-          call vimshell#execute('echo "Many files."')
-        endif
-      endfunction
       call vimshell#hook#add('chpwd', 'my_chpwd', s:vimshell_hooks.chpwd)
+      call vimshell#hook#add('emptycmd', 'my_emptycmd',
+            \                s:vimshell_hooks.emptycmd)
+    endfunction
+
+    let s:vimshell_hooks = {}
+    function! s:vimshell_hooks.chpwd(args, context)
+      if len(split(glob('*'), '\n')) < 100
+        call vimshell#execute('ls')
+      else
+        call vimshell#execute('echo "Many files."')
+      endif
+    endfunction
+    function! s:vimshell_hooks.emptycmd(cmdline, context)
+      call vimshell#set_prompt_command('clear')
+      return 'clear'
     endfunction
 
   endfunction
@@ -1834,6 +1861,7 @@ endif
 
 " Change the current directory to the current buffer's directory.
 "autocmd MyAutoCmd BufEnter * lcd %:p:h
+autocmd MyAutoCmd VimEnter * lcd %:p:h
 
 " Editing binary file. See :help hex-editing
 augroup BinaryXXD
