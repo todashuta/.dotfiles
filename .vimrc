@@ -52,8 +52,12 @@ if !exists('$MYGVIMRC')
 endif
 
 " Anywhere SID.
+function! s:SID()
+  return matchstr(expand('<sfile>'), '<SNR>\zs\d\+\ze_SID$')
+endfunction
+
 function! s:SID_PREFIX()
-  return matchstr(expand('<sfile>'), '<SNR>\d\+_\zeSID_PREFIX$')
+  return '<SNR>' . s:SID() . '_'
 endfunction
 
 " Set runtimepath.
