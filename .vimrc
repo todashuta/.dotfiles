@@ -475,13 +475,11 @@ set wildmenu
 " Complete Longest common string, List all matches and complete the next full match.
 set wildmode=longest,list,full
 " These patterns is ignored when completing file or directory names.
-"set wildignore&
-"set wildignore+=.DS_Store
+"set wildignore& wildignore+=.DS_Store
 "set wildignore+=*~,*.swp,*.tmp
 "set wildignore+=*.bmp,*.gif,*.ico,*.jpg,*.png
 " These extensions get a lower priority when multiple files match a wildcard.
-set suffixes&
-set suffixes+=.DS_Store
+set suffixes& suffixes+=.DS_Store
 "set suffixes+=.tmp,.bmp,.gif,.ico,.jpg,.png
 
 " }}}
@@ -612,35 +610,31 @@ nnoremap [toggle]  <Nop>
 " Toggle hlsearch
 nnoremap <silent> [toggle]h
       \ :<C-u>call <SID>toggle_option('hlsearch')<CR>
-
 " Toggle wrap
 nnoremap <silent> [toggle]w
       \ :<C-u>call <SID>toggle_option('wrap')<CR>
-
 " Toggle cursorline.
 nnoremap <silent> [toggle]-
       \ :<C-u>call <SID>toggle_option('cursorline')<CR>
-
 " Toggle cursorcolumn.
 nnoremap <silent> [toggle]<Bar>
       \ :<C-u>call <SID>toggle_option('cursorcolumn')<CR>
-
 " Toggle list
 nnoremap <silent> [toggle]l
       \ :<C-u>call <SID>toggle_option('list')<CR>
-
 " Toggle wrapscan
 nnoremap <silent> [toggle]/
       \ :<C-u>call <SID>toggle_option('wrapscan')<CR>
-
 " Toggle number.
 "nnoremap <silent> [toggle]n
 "      \ :<C-u>call <SID>toggle_option('number')<CR>
+" Toggle Paste.
+nnoremap <silent> [toggle]p
+      \ :<C-u>call <SID>toggle_option('paste')<CR>:set mouse=<CR>
 
 " Look see registers.
 "nnoremap <silent> <Space>r
 "      \ :<C-u>registers<CR>
-
 " Look see marks.
 "nnoremap <silent> <Space>m
 "      \ :<C-u>marks<CR>
@@ -650,13 +644,8 @@ nnoremap <C-h>  :<C-u>help<Space>
 
 " <Space>c: close current window nimbly.
 nnoremap <silent> <Space>c  :<C-u>close<CR>
-
 " <Space>o: close all other windows nimbly.
 nnoremap <silent> <Space>o  :<C-u>only<CR>
-
-" Toggle Paste.
-nnoremap <silent> [toggle]p
-      \ :<C-u>call <SID>toggle_option('paste')<CR>:set mouse=<CR>
 
 " Split window.
 nnoremap <silent> <Space>s  :<C-u>split<CR>
@@ -755,7 +744,7 @@ inoremap <C-f>  <Right>
 inoremap <C-b>  <Left>
 " <C-a>: Move to head+.
 inoremap <expr> <C-a>
-      \ search('^\s\s*\%#', 'bcn') ? '<C-o>g0' : '<C-o>g^'
+      \ search('^\s\s*\%#', 'bcn') ? "\<C-o>g0" : "\<C-o>g^"
 " <C-e>: Move to end.
 "inoremap <C-e>  <End>
 
@@ -782,8 +771,7 @@ set visualbell t_vb=
 "set ruler
 
 " When a bracket is inserted, briefly jump to the matching one.
-set showmatch
-set matchtime=3
+set showmatch matchtime=3
 " Highlight a pair of <>.
 set matchpairs& matchpairs+=<:>
 
@@ -864,40 +852,42 @@ autocmd MyAutoCmd WinLeave *
 
 " Status Line: "{{{
 "
-" Show status line always.
+" Show statusline always.
 set laststatus=2
 
 " Set statusline.
-""function! s:my_statusline()
-""  if &columns >= 80    " Long version
-""    let &statusline = ''
-""    let &statusline .= '%{&paste ? "\ \ [PASTE]" : ""}'  " Paste mode Indicator
-""    let &statusline .= ' [%2n]'         " Buffer number
-""    let &statusline .= ' %<%F'          " Full path to the file in the buffer.
-""    let &statusline .= '%m%r%h%w'       " Modified flag, Readonly flag, Help flag, Preview flag
-""    let &statusline .= '%= '            " Separation point between left and right, and Space.
-""    let &statusline .= ' [%{strlen(&ft) ? &ft : "no ft"}]
-""                        \[%{(&fenc == "" ? &enc : &fenc)}]
-""                        \[%{&fileformat}]'
-""    let &statusline .= ' [%4l/%L:%3v]'  " Line number / Number of lines in buffer, Virtual column number.
-""    let &statusline .= ' %3p%% '        " Percentage through file in lines as in |CTRL-G|.
-""  else                 " Short version
-""    let &statusline = ''
-""    let &statusline .= '%{&paste ? "[P]" : ""}'  " Paste mode Indicator
-""    let &statusline .= '%<%t'         " File name of file in the buffer.
-""    let &statusline .= '%m%r%h%w'     " Modified flag, Readonly flag, Help flag, Preview flag
-""    let &statusline .= '%= '          " Separation point between left and right, and Space.
-""    let &statusline .= '[%{&filetype}:%{&fileencoding}:%{&fileformat}]'
-""    let &statusline .= '[%3l:%2v]'    " Line number, Virtual column number.
-""    let &statusline .= '%3p%%'        " Percentage through file in lines as in |CTRL-G|.
-""  endif
-""endfunction
-""
-""autocmd MyAutoCmd VimEnter,VimResized * call s:my_statusline()
+function! s:my_statusline()
+  let wide_column = (&columns >= 80)
 
-"autocmd MyAutoCmd VimEnter,VimResized *
-"      \ let &statusline = (winwidth(0) >= 80) ?
-"      \   s:statusline_long : s:statusline_short
+  let line = ''
+  " Paste mode Indicator.
+  let line .= wide_column ?
+        \ '%{&paste ? "  [PASTE]" : ""}' : '%{&paste ? "[P]" : ""}'
+  " Buffer number.
+  let line .= ' [%2n]'
+  " File path / File name.
+  let line .= wide_column ? ' %<%F' : '%<%t'
+  " Modified flag, Readonly flag, Help flag, Preview flag.
+  let line .= '%m%r%h%w'
+  " Separation point between left and right, and Space.
+  let line .= '%= '
+  " Filetype, Fileencoding, Fileformat.
+  let line .= wide_column
+        \ ? printf('[%s][%s][%s]',
+        \          '%{strlen(&filetype) ? &filetype : "no ft"}',
+        \          '%{(&fileencoding == "") ? &encoding : &fileencoding}',
+        \          '%{&fileformat}')
+        \ : '[%{&filetype}:%{&fileencoding}:%{&fileformat}]'
+  " Cursor position. (Numbers of lines in buffer)
+  let line .= wide_column ? ' [%4l/%L:%3v]' : '[%3l:%2v]'
+  " Percentage through file in lines as in |CTRL-G|.
+  let line .= ' %3p%% '
+
+  return line
+endfunction
+
+let &statusline = '%!'.s:SID_PREFIX().'my_statusline()'
+"let &tabline = '%!'.s:SID_PREFIX().'my_tabline()'
 
 " }}}
 
