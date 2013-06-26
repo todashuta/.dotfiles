@@ -74,8 +74,7 @@ endif
 call neobundle#rc(expand('~/.vim/bundle'))
 
 " Github repositories.
-let s:use_neocomplete = 1
-if has('lua') && exists('s:use_neocomplete')
+if has('lua') && (v:version > 703 || v:version == 703 && has('patch885'))
   NeoBundleLazy 'Shougo/neocomplete.vim', {
         \   'autoload' : {
         \     'insert' : 1,
@@ -332,6 +331,7 @@ NeoBundleLazy 'mattn/habatobi-vim', {
       \     'commands' : 'Habatobi'
       \ }}
 NeoBundle 'thinca/vim-editvar'
+NeoBundle 'rbtnn/vimconsole.vim'
 
 if has('python')
   NeoBundleLazy 'gregsexton/VimCalc', {
@@ -877,7 +877,8 @@ function! s:my_statusline()
         \          '%{strlen(&filetype) ? &filetype : "no ft"}',
         \          '%{(&fileencoding == "") ? &encoding : &fileencoding}',
         \          '%{&fileformat}')
-        \ : '[%{&filetype}:%{&fileencoding}:%{&fileformat}]'
+        \ : printf('[%s:%s:%s]',
+        \          '%{&filetype}', '%{&fileencoding}', '%{&fileformat}')
   " Cursor position. (Numbers of lines in buffer)
   let line .= wide_column ? ' [%4l/%L:%3v]' : '[%3l:%2v]'
   " Percentage through file in lines as in |CTRL-G|.
@@ -887,7 +888,6 @@ function! s:my_statusline()
 endfunction
 
 let &statusline = '%!'.s:SID_PREFIX().'my_statusline()'
-"let &tabline = '%!'.s:SID_PREFIX().'my_tabline()'
 
 " }}}
 
