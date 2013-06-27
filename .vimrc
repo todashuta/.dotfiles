@@ -1,15 +1,8 @@
 " .vimrc
 " https://github.com/todashuta/profiles
 
-scriptencoding utf-8
-
 " Initialize: "{{{
 "
-if has('vim_starting')
-  " Don't reset twice on reloading - 'compatible' has SO many side effects.
-  set nocompatible    " Be IMproved.
-endif
-
 let s:is_linux = has('unix') && (system('uname') =~? 'linux')
 let s:is_windows = has('win16') || has('win32') || has('win64')
 let s:is_cygwin = has('win32unix')
@@ -374,16 +367,20 @@ syntax enable
 
 " }}}
 
-" General: "{{{
+" Encoding settings: "{{{
 "
 " Use the UTF-8 encoding inside Vim.
 set encoding=utf-8
-" Minimal number of screen lines to keep above and below the cursor.
-set scrolloff=2
 
+" Must after set of 'encoding'.
+scriptencoding utf-8
+
+" }}}
+
+" General: "{{{
+"
 " A history of ":" commands, and a history of previous search patterns.
 set history=1024
-
 " Enable backspace delete indent and newline.
 set backspace=indent,eol,start
 " Allow h, l, <Left> and <Right> to move to the previous/next line.
@@ -472,9 +469,7 @@ if has('vim_starting')  " Don't reset twice on reloading.
 endif
 
 " Command-line completion operates in an enhanced mode.
-set wildmenu
-" Complete Longest common string, List all matches and complete the next full match.
-set wildmode=longest,list,full
+set wildmenu wildmode=longest,list,full
 " These patterns is ignored when completing file or directory names.
 "set wildignore& wildignore+=.DS_Store
 "set wildignore+=*~,*.swp,*.tmp
@@ -765,6 +760,8 @@ set t_Co=256
 set cmdheight=1
 " Show (partial) command in the last line of the screen.
 set showcmd
+" Minimal number of screen lines to keep above and below the cursor.
+set scrolloff=2
 " Disable bell.
 set visualbell t_vb=
 
