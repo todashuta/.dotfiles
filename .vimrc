@@ -80,18 +80,18 @@ if has('lua') && (v:version > 703 || v:version == 703 && has('patch885'))
         \     'insert' : 1,
         \ }}
 else
-  NeoBundleLazy 'Shougo/neocomplcache', {
+  NeoBundleLazy 'Shougo/neocomplcache.vim', {
         \   'autoload' : {
         \     'insert' : 1,
         \ }}
 endif
-NeoBundleLazy 'Shougo/neosnippet', {
+NeoBundleLazy 'Shougo/neosnippet.vim', {
       \   'autoload' : {
       \     'insert' : 1,
       \ }}
 NeoBundleFetch 'honza/vim-snippets'
 NeoBundle 'Shougo/unite.vim'
-NeoBundleLazy 'Shougo/vimfiler', {
+NeoBundleLazy 'Shougo/vimfiler.vim', {
       \   'depends' : 'Shougo/unite.vim',
       \   'autoload' : {
       \     'explorer' : 1,
@@ -126,7 +126,7 @@ NeoBundleLazy 'Shougo/unite-build', {
       \   'autoload' : {
       \     'unite_sources' : 'build'
       \ }}
-NeoBundleLazy 'Shougo/vimproc', {
+NeoBundleLazy 'Shougo/vimproc.vim', {
       \   'autoload' : {
       \     'function_prefix' : 'vimproc'
       \   },
@@ -143,7 +143,7 @@ NeoBundleLazy 'othree/eregex.vim', {
       \ }}
 "NeoBundle 'scrooloose/nerdtree'
 NeoBundleLazy 'thinca/vim-quickrun', {
-      \   'depends' : ['Shougo/vimproc'],
+      \   'depends' : ['Shougo/vimproc.vim'],
       \   'autoload' : {
       \     'mappings' : [['nx', '<Plug>(quickrun)']],
       \     'commands' : [
@@ -184,8 +184,8 @@ NeoBundleLazy 'hallison/vim-markdown', {
       \     'filetypes' : ['markdown']
       \ }}
 "NeoBundle 'houtsnip/vim-emacscommandline'
-NeoBundleLazy 'Shougo/vimshell', {
-      \   'depends' : ['Shougo/vimproc', 'Shougo/unite.vim'],
+NeoBundleLazy 'Shougo/vimshell.vim', {
+      \   'depends' : ['Shougo/vimproc.vim', 'Shougo/unite.vim'],
       \   'autoload' : {
       \     'commands' : ['VimShell', 'VimShellPop', 'VimShellInteractive']
       \ }}
@@ -281,7 +281,7 @@ NeoBundleLazy 'itchyny/thumbnail.vim', {
       \   'autoload' : {
       \     'commands' : ['Thumbnail'],
       \ }}
-NeoBundleLazy 'Shougo/vinarise', {
+NeoBundleLazy 'Shougo/vinarise.vim', {
       \   'autoload' : {
       \     'commands' : [
       \         { 'name' : 'Vinarise',
@@ -332,6 +332,7 @@ NeoBundleLazy 'mattn/habatobi-vim', {
       \ }}
 NeoBundle 'thinca/vim-editvar'
 NeoBundle 'rbtnn/vimconsole.vim'
+NeoBundle 'vim-jp/vital.vim'
 
 if has('python')
   NeoBundleLazy 'gregsexton/VimCalc', {
@@ -965,76 +966,6 @@ autocmd MyAutoCmd BufReadPost * call s:restore_cursor_position()
 
 " Plugin: "{{{
 "
-" neocomplcache.vim {{{
-if neobundle#is_installed('neocomplcache')
-
-  " Launches neocomplcache automatically on vim startup.
-  let g:neocomplcache_enable_at_startup = 1
-
-  let bundle = neobundle#get('neocomplcache')
-    function! bundle.hooks.on_source(bundle)
-
-      " AutoCompPop like behavior.
-      "let g:neocomplcache_enable_auto_select = 1
-      " The number of candidates in popup menu. (Default: 100)
-      "let g:neocomplcache_max_list = 20
-      " Close preview window automatically.
-      let g:neocomplcache_enable_auto_close_preview = 1
-      " Use smartcase.
-      let g:neocomplcache_enable_smart_case = 1
-      " Define dictionary.
-      let g:neocomplcache_dictionary_filetype_lists = {
-            \ 'default' : '',
-            \ 'vimshell' : expand('~/.vimshell/command-history')
-            \ }
-      let g:neocomplcache_vim_completefuncs = {
-            \ 'Ref' : 'ref#complete',
-            \ 'Unite' : 'unite#complete_source',
-            \ 'VimShell' : 'vimshell#complete'
-            \ }
-
-      " mappings {{{
-      " <CR>: Close popup and save indent.
-      imap <expr> <CR>
-            \ neocomplcache#smart_close_popup() . "\<Plug>(smartinput_CR)"
-      " For no inserting <CR> key.
-      "imap <expr> <CR>  pumvisible() ?
-      "      \ neocomplcache#close_popup() : "\<Plug>(smartinput_CR)"
-
-      " <Tab>: completion.
-      inoremap <expr> <Tab>  pumvisible() ? "\<C-n>" : "\<Tab>"
-      " <Shift-Tab>: Reverse completion.
-      inoremap <expr> <S-Tab>  pumvisible() ? "\<C-p>" : "\<C-h>"
-
-      " <C-g>: Undo completion.
-      inoremap <expr> <C-g>  neocomplcache#undo_completion()
-      " <C-l>: Complete common string.
-      inoremap <expr> <C-l>  neocomplcache#complete_common_string()
-
-      " <C-h>, <BS>: Close popup and delete backward char.
-      imap <expr> <C-h>
-            \ neocomplcache#smart_close_popup() . "\<Plug>(smartinput_C-h)"
-      imap <expr> <BS>
-            \ neocomplcache#smart_close_popup() . "\<Plug>(smartinput_BS)"
-
-      " <C-e>: Close popup and move to end.
-      inoremap <expr> <C-e>  neocomplcache#close_popup() . "\<End>"
-      " <C-y>: paste.
-      "inoremap <expr> <C-y>
-      "      \ pumvisible() ? neocomplcache#close_popup() : "\<C-r>\""
-
-      " Filename completion.
-      inoremap <expr> <C-x><C-f>
-            \ neocomplcache#start_manual_complete('filename_complete')
-
-      " }}}
-
-    endfunction
-  unlet bundle
-
-endif
-" }}}
-
 " neocomplete.vim {{{
 if neobundle#is_installed('neocomplete.vim')
 
@@ -1093,9 +1024,82 @@ if neobundle#is_installed('neocomplete.vim')
 endif
 " }}}
 
+" neocomplcache.vim {{{
+if neobundle#is_installed('neocomplcache.vim')
+
+  " Launches neocomplcache automatically on vim startup.
+  let g:neocomplcache_enable_at_startup = 1
+
+  let bundle = neobundle#get('neocomplcache.vim')
+    function! bundle.hooks.on_source(bundle)
+
+      " AutoCompPop like behavior.
+      "let g:neocomplcache_enable_auto_select = 1
+      " The number of candidates in popup menu. (Default: 100)
+      "let g:neocomplcache_max_list = 20
+      " Close preview window automatically.
+      let g:neocomplcache_enable_auto_close_preview = 1
+      " Use smartcase.
+      let g:neocomplcache_enable_smart_case = 1
+      " Define dictionary.
+      let g:neocomplcache_dictionary_filetype_lists = {
+            \ 'default' : '',
+            \ 'vimshell' : expand('~/.vimshell/command-history')
+            \ }
+      let g:neocomplcache_vim_completefuncs = {
+            \ 'Ref' : 'ref#complete',
+            \ 'Unite' : 'unite#complete_source',
+            \ 'VimShell' : 'vimshell#complete'
+            \ }
+
+      " mappings {{{
+      " <CR>: Close popup and save indent.
+      imap <expr> <CR>
+            \ neocomplcache#smart_close_popup() . "\<Plug>(smartinput_CR)"
+      " For no inserting <CR> key.
+      "imap <expr> <CR>  pumvisible() ?
+      "      \ neocomplcache#close_popup() : "\<Plug>(smartinput_CR)"
+
+      " <Tab>: completion.
+      inoremap <expr> <Tab>  pumvisible() ? "\<C-n>" : "\<Tab>"
+      " <Shift-Tab>: Reverse completion.
+      inoremap <expr> <S-Tab>  pumvisible() ? "\<C-p>" : "\<C-h>"
+
+      " <C-g>: Undo completion.
+      inoremap <expr> <C-g>  neocomplcache#undo_completion()
+      " <C-l>: Complete common string.
+      "inoremap <expr> <C-l>  neocomplcache#complete_common_string()
+      inoremap <expr> <C-l>  pumvisible()
+            \ ? neocomplcache#complete_common_string()
+            \ : "X\<BS>\<C-o>zz\<C-o>\<C-l>"
+
+      " <C-h>, <BS>: Close popup and delete backward char.
+      imap <expr> <C-h>
+            \ neocomplcache#smart_close_popup() . "\<Plug>(smartinput_C-h)"
+      imap <expr> <BS>
+            \ neocomplcache#smart_close_popup() . "\<Plug>(smartinput_BS)"
+
+      " <C-e>: Close popup and move to end.
+      inoremap <expr> <C-e>  neocomplcache#close_popup() . "\<End>"
+      " <C-y>: paste.
+      "inoremap <expr> <C-y>
+      "      \ pumvisible() ? neocomplcache#close_popup() : "\<C-r>\""
+
+      " Filename completion.
+      inoremap <expr> <C-x><C-f>
+            \ neocomplcache#start_manual_complete('filename_complete')
+
+      " }}}
+
+    endfunction
+  unlet bundle
+
+endif
+" }}}
+
 " neosnippet.vim {{{
 
-let bundle = neobundle#get('neosnippet')
+let bundle = neobundle#get('neosnippet.vim')
   function! bundle.hooks.on_source(bundle)
 
     " Plugin key-mappings.
@@ -1482,12 +1486,12 @@ set noshowmode
 
 " }}}
 
-" vimshell {{{
+" vimshell.vim {{{
 
 noremap <silent> <Space>r
       \ :VimShellSendString<CR>
 
-let bundle = neobundle#get('vimshell')
+let bundle = neobundle#get('vimshell.vim')
   function! bundle.hooks.on_source(bundle)
 
     " Prompt.
@@ -1598,12 +1602,12 @@ unlet bundle
 
 " }}}
 
-" VimFiler {{{
+" vimfiler.vim {{{
 
 " Use vimfiler as default explorer like netrw.
 let g:vimfiler_as_default_explorer = 1
 
-let bundle = neobundle#get('vimfiler')
+let bundle = neobundle#get('vimfiler.vim')
   function! bundle.hooks.on_source(bundle)
     let g:vimfiler_detect_drives = s:is_windows
           \ ? ['C:/', 'D:/', 'E:/', 'F:/', 'G:/', 'H:/',
@@ -1666,7 +1670,7 @@ vmap gx  <Plug>(openbrowser-smart-search)
 let bundle = neobundle#get('vim-ref')
   function! bundle.hooks.on_source(bundle)
 
-    let g:ref_source_webdict_sites = {
+    let ref_source_webdict_sites = {
           \ 'alc' : {
           \   'url' : 'http://eow.alc.co.jp/%s',
           \   'keyword_encoding' : 'utf-8',
@@ -1678,7 +1682,9 @@ let bundle = neobundle#get('vim-ref')
     "  return join(split(a:output, "\n")[32:], "\n")
     "endfunction
 
-    let g:ref_source_webdict_sites.default = 'alc'
+    let ref_source_webdict_sites.default = 'alc'
+
+    let g:ref_source_webdict_sites = ref_source_webdict_sites
 
   endfunction
 unlet bundle
