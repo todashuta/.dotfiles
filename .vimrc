@@ -4,6 +4,7 @@
 " Initialize: "{{{
 "
 let s:is_term = !has('gui_running')
+let s:is_unicode = (&encoding ==? 'utf-8') || (&termencoding ==? 'utf-8')
 let s:is_linux = has('unix') && (system('uname') =~? 'linux')
 let s:is_windows = has('win16') || has('win32') || has('win64')
 let s:is_cygwin = has('win32unix')
@@ -371,6 +372,10 @@ syntax enable
 "
 " Use the UTF-8 encoding inside Vim.
 set encoding=utf-8
+
+if s:is_windows && s:is_term
+  set encoding=cp932 termencoding=
+endif
 
 " Must after set of 'encoding'.
 scriptencoding utf-8
@@ -824,7 +829,7 @@ endif
 let s:listchars_classic = 'tab:>-,trail:-,eol:$,extends:>,precedes:<,nbsp:%'
 let s:listchars_modern  = 'tab:▸ ,trail:›,precedes:«,extends:»'
 if has('vim_starting')
-  let &listchars = s:is_windows ? (s:listchars_classic) : (s:listchars_modern)
+  let &listchars = s:is_unicode ? (s:listchars_modern) : (s:listchars_classic)
 endif
 " Example...
 "   'tab:▸ ,trail:･,eol:¬,precedes:«,extends:»'
@@ -1611,7 +1616,7 @@ let bundle = neobundle#get('vimfiler.vim')
           \ : split(glob('/mnt/*'), '\n') + split(glob('/media/*'), '\n') +
           \   split(glob('/Volumes/*'), '\n') + split(glob('/Users/*'), '\n')
 
-    if !s:is_windows
+    if s:is_unicode
       " Like Textmate icons.
       let g:vimfiler_tree_leaf_icon = ' '
       let g:vimfiler_tree_opened_icon = '▾'
