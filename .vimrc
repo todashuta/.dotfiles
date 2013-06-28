@@ -3,6 +3,7 @@
 
 " Initialize: "{{{
 "
+let s:is_term = !has('gui_running')
 let s:is_linux = has('unix') && (system('uname') =~? 'linux')
 let s:is_windows = has('win16') || has('win32') || has('win64')
 let s:is_cygwin = has('win32unix')
@@ -11,7 +12,6 @@ let s:is_mac = !s:is_windows && !s:is_cygwin
       \   (!executable('xdg-open') &&
       \     system('uname') =~? '^darwin'))
 
-let s:cui_running = !has('gui_running')
 let s:when_reloading_vimrc = !has('vim_starting')
 
 " Use English interface.
@@ -482,7 +482,8 @@ set suffixes& suffixes+=.DS_Store
 
 " Key Mappings: "{{{
 "
-inoremap <Esc>  <Esc>`^
+inoremap <silent> <Esc>  <Esc>`^
+inoremap <silent> <C-[>  <Esc>`^
 
 " Move cursor by display line.
 noremap j gj
@@ -536,8 +537,6 @@ nnoremap gh gT
 noremap ; :
 noremap : ;
 
-" Enable <CR> to line break in Normal Mode.
-"nnoremap <CR> i<CR><Esc>
 " <Space-CR>: line break.
 nnoremap <Space><CR>  i<CR><Esc>
 
@@ -621,12 +620,20 @@ nnoremap <silent> [toggle]l
 " Toggle wrapscan
 nnoremap <silent> [toggle]/
       \ :<C-u>call <SID>toggle_option('wrapscan')<CR>
-" Toggle number.
-"nnoremap <silent> [toggle]n
-"      \ :<C-u>call <SID>toggle_option('number')<CR>
+" Toggle line number.
+if exists('&relativenumber')
+  " Toggle number with relativenumber.
+  nnoremap <silent> [toggle]n  :<C-u>exe'set'&nu==&rnu?'nu!':'rnu!'<CR>
+else
+  " Toggle number.
+  nnoremap <silent> [toggle]n  :<C-u>call <SID>toggle_option('number')<CR>
+endif
 " Toggle Paste.
 nnoremap <silent> [toggle]p
       \ :<C-u>call <SID>toggle_option('paste')<CR>:set mouse=<CR>
+" Toggle mouse.
+nnoremap <silent> [toggle]m
+      \ :<C-u>exe'set'&mouse=='a'?'mouse=':'mouse=a'<CR>:set mouse?<CR>
 
 " Look see registers.
 "nnoremap <silent> <Space>r
@@ -693,10 +700,10 @@ nnoremap <silent> [Space2]c
       \ :<C-u>lcd %:p:h<CR>:echo 'lcd' expand('%:p:h')<CR>
 nnoremap <silent> [Space2]b  :<C-u>Unite buffer<CR>
 
-" コピーした文字で繰り返し上書きペーストする
-"xnoremap P  "0p
-" visual mode <Space-p>: Paste from the last yank.
-xnoremap <Space>p  "0p
+" (visual mode) p: Paste from the last yank.
+xnoremap p  "0p
+" (visual mode) P: Original visual mode 'p' behavior.
+xnoremap P  p
 
 " x, X: Delete into the blackhole register to not clobber the last yank.
 nnoremap x  "_x
@@ -753,7 +760,7 @@ set title
 " Enable 256 color terminal.
 set t_Co=256
 " Color scheme (Don't override colorscheme.)
-"if s:cui_running && (!exists('g:colors_name') || has('vim_starting'))
+"if s:is_term && (!exists('g:colors_name') || has('vim_starting'))
 "  colorscheme solarized
 "endif
 " Number of screen lines to use for the command-line.
@@ -854,51 +861,52 @@ autocmd MyAutoCmd WinLeave *
 set laststatus=2
 
 " Set statusline.
-function! s:my_statusline()
-  let wide_column = (&columns >= 80)
-
-  let line = ''
-  " Paste mode Indicator.
-  let line .= wide_column ?
-        \ '%{&paste ? "  [PASTE]" : ""}' : '%{&paste ? "[P]" : ""}'
-  " Buffer number.
-  let line .= ' [%2n]'
-  " File path / File name.
-  let line .= wide_column ? ' %<%F' : '%<%t'
-  " Modified flag, Readonly flag, Help flag, Preview flag.
-  let line .= '%m%r%h%w'
-  " Separation point between left and right, and Space.
-  let line .= '%= '
-  " Filetype, Fileencoding, Fileformat.
-  let line .= wide_column
-        \ ? printf('[%s][%s][%s]',
-        \          '%{strlen(&filetype) ? &filetype : "no ft"}',
-        \          '%{(&fileencoding == "") ? &encoding : &fileencoding}',
-        \          '%{&fileformat}')
-        \ : printf('[%s:%s:%s]',
-        \          '%{&filetype}', '%{&fileencoding}', '%{&fileformat}')
-  " Cursor position. (Numbers of lines in buffer)
-  let line .= wide_column ? ' [%4l/%L:%3v]' : '[%3l:%2v]'
-  " Percentage through file in lines as in |CTRL-G|.
-  let line .= ' %3p%% '
-
-  return line
-endfunction
-
-let &statusline = '%!'.s:SID_PREFIX().'my_statusline()'
+"function! s:my_statusline()
+"  let wide_column = (&columns >= 80)
+"
+"  let line = ''
+"  " Paste mode Indicator.
+"  let line .= wide_column ?
+"        \ '%{&paste ? "  [PASTE]" : ""}' : '%{&paste ? "[P]" : ""}'
+"  " Buffer number.
+"  let line .= ' [%2n]'
+"  " File path / File name.
+"  let line .= wide_column ? ' %<%F' : '%<%t'
+"  " Modified flag, Readonly flag, Help flag, Preview flag.
+"  let line .= '%m%r%h%w'
+"  " Separation point between left and right, and Space.
+"  let line .= '%= '
+"  " Filetype, Fileencoding, Fileformat.
+"  let line .= wide_column
+"        \ ? printf('[%s][%s][%s]',
+"        \          '%{strlen(&filetype) ? &filetype : "no ft"}',
+"        \          '%{(&fileencoding == "") ? &encoding : &fileencoding}',
+"        \          '%{&fileformat}')
+"        \ : printf('[%s:%s:%s]',
+"        \          '%{&filetype}', '%{&fileencoding}', '%{&fileformat}')
+"  " Cursor position. (Numbers of lines in buffer)
+"  let line .= wide_column ? ' [%4l/%L:%3v]' : '[%3l:%2v]'
+"  " Percentage through file in lines as in |CTRL-G|.
+"  let line .= ' %3p%% '
+"
+"  return line
+"endfunction
+"
+"let &statusline = '%!'.s:SID_PREFIX().'my_statusline()'
 
 " }}}
 
 " Highlight japanese zenkaku space. "{{{
 "
-if has('syntax')
-  syntax enable
-  function! s:highlight_zenkaku_space()
-    highlight ZenkakuSpace term=underline ctermbg=64 guibg=#719e07
-    match ZenkakuSpace /　/
-  endfunction
-  autocmd MyAutoCmd VimEnter,WinEnter,ColorScheme *
+function! s:highlight_zenkaku_space()
+  highlight ZenkakuSpace term=underline ctermbg=64 guibg=#719e07
+  match ZenkakuSpace /　/
+endfunction
+autocmd MyAutoCmd VimEnter,WinEnter,ColorScheme *
       \ call s:highlight_zenkaku_space()
+
+if s:when_reloading_vimrc
+  call s:highlight_zenkaku_space()
 endif
 
 " }}}
@@ -1065,10 +1073,7 @@ if neobundle#is_installed('neocomplcache.vim')
       " <C-g>: Undo completion.
       inoremap <expr> <C-g>  neocomplcache#undo_completion()
       " <C-l>: Complete common string.
-      "inoremap <expr> <C-l>  neocomplcache#complete_common_string()
-      inoremap <expr> <C-l>  pumvisible()
-            \ ? neocomplcache#complete_common_string()
-            \ : "X\<BS>\<C-o>zz\<C-o>\<C-l>"
+      inoremap <expr> <C-l>  neocomplcache#complete_common_string()
 
       " <C-h>, <BS>: Close popup and delete backward char.
       imap <expr> <C-h>
@@ -1373,7 +1378,7 @@ function! s:judge_background_and_colorschemes()
     colorscheme hybrid
   endif
 endfunction
-if s:cui_running && (!exists('g:colors_name') || has('vim_starting'))
+if s:is_term && (!exists('g:colors_name') || has('vim_starting'))
   call s:judge_background_and_colorschemes()
 endif
 
@@ -1452,12 +1457,6 @@ let g:Powerline_symbols_override = {
 "call Pl#Theme#ReplaceSegment('lineinfo', 'scrollpercent')
 "call Pl#Theme#ReplaceSegment('scrollpercent', 'lineinfo')
 
-" CUI上でESC後すぐに反映させる
-if has('unix') && s:cui_running
-  inoremap <silent> <Esc>  <Esc>`^
-  inoremap <silent> <C-[>  <Esc>`^
-endif
-
 function! s:sync_powerline_colorscheme()
   if exists(':PowerlineReloadColorscheme')
     let g:Powerline_colorscheme = (g:colors_name == 'solarized') ?
@@ -1473,7 +1472,7 @@ autocmd MyAutoCmd ColorScheme * silent call s:sync_powerline_colorscheme()
 "autocmd MyAutoCmd VimEnter * silent call s:sync_powerline_colorscheme()
 
 " Finalize Powerline. (Reset Powerline colorscheme for next time)
-if s:cui_running && exists('$ITERM_PROFILE')
+if s:is_term && exists('$ITERM_PROFILE')
   autocmd MyAutoCmd VimLeave * call s:judge_background_and_colorschemes()
         \| silent call s:sync_powerline_colorscheme()
 endif
@@ -1667,7 +1666,7 @@ vmap gx  <Plug>(openbrowser-smart-search)
 let bundle = neobundle#get('vim-ref')
   function! bundle.hooks.on_source(bundle)
 
-    let ref_source_webdict_sites = {
+    let ref_webdict_config = {
           \ 'alc' : {
           \   'url' : 'http://eow.alc.co.jp/%s',
           \   'keyword_encoding' : 'utf-8',
@@ -1675,13 +1674,13 @@ let bundle = neobundle#get('vim-ref')
           \   'line' : 32,
           \ }}
 
-    "function! ref_source_webdict_sites.alc.filter(output)
+    "function! ref_webdict_config.alc.filter(output)
     "  return join(split(a:output, "\n")[32:], "\n")
     "endfunction
 
-    let ref_source_webdict_sites.default = 'alc'
+    let ref_webdict_config.default = 'alc'
 
-    let g:ref_source_webdict_sites = ref_source_webdict_sites
+    let g:ref_source_webdict_sites = ref_webdict_config
 
   endfunction
 unlet bundle
@@ -1772,7 +1771,7 @@ call submode#map('winsize', 'n', '', '-', '<C-w>+')
 
 " Others {{{
 "
-" Expand the jump functions of % command (e.g. HTML tags, if/else/endif, etc.)
+" Extended '%' command matching (e.g. HTML tags, if/else/endif, etc.)
 runtime macros/matchit.vim
 
 " showmarks.vim
@@ -1843,7 +1842,7 @@ endfunction
 " Change cursor shape.
 " See: http://blog.remora.cx/2012/10/spotlight-cursor-line.html
 " See: https://gist.github.com/1195581
-if s:cui_running
+if s:is_term
   if exists('$TMUX')
     let &t_SI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=1\x7\<Esc>\\"
     let &t_EI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=0\x7\<Esc>\\"
@@ -1876,18 +1875,6 @@ autocmd MyAutoCmd BufNewFile,BufRead *.md setlocal filetype=markdown
 
 " If true Vim master, use English help file.
 set helplang& helplang=en,ja
-
-if exists('&relativenumber')
-  " Toggle number with relativenumber.
-  nnoremap <silent> [toggle]n  :<C-u>exe'set'&nu==&rnu?'nu!':'rnu!'<CR>
-else
-  " Toggle number.
-  nnoremap <silent> [toggle]n  :<C-u>call <SID>toggle_option('number')<CR>
-endif
-
-" Toggle mouse.
-nnoremap <silent> [toggle]m
-      \ :<C-u>exe'set'&mouse=='a'?'mouse=':'mouse=a'<CR>:set mouse?<CR>
 
 " }}}
 
