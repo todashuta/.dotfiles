@@ -3,6 +3,10 @@
 
 " Initialize: "{{{
 "
+if &compatible == 1
+  set nocompatible  " Be IMproved.
+endif
+
 let s:is_term = !has('gui_running')
 let s:is_unicode = (&encoding ==? 'utf-8') || (&termencoding ==? 'utf-8')
 let s:is_linux = has('unix') && (system('uname') =~? 'linux')
@@ -10,8 +14,7 @@ let s:is_windows = has('win16') || has('win32') || has('win64')
 let s:is_cygwin = has('win32unix')
 let s:is_mac = !s:is_windows && !s:is_cygwin
       \ && (has('mac') || has('macunix') || has('gui_macvim') ||
-      \   (!executable('xdg-open') &&
-      \     system('uname') =~? '^darwin'))
+      \   (!isdirectory('/proc') && executable('sw_vers')))
 
 let s:when_reloading_vimrc = !has('vim_starting')
 
