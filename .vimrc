@@ -7,6 +7,16 @@ if &compatible == 1
   set nocompatible  " Be IMproved.
 endif
 
+" Startup time.
+" See: https://gist.github.com/thinca/1518874
+if has('vim_starting') && has('reltime')
+  let s:startuptime = reltime()
+  augroup vimrc-startuptime
+    autocmd! VimEnter *
+          \ echomsg 'startuptime: ' . reltimestr(reltime(s:startuptime))
+  augroup END
+endif
+
 let s:is_term = !has('gui_running')
 let s:is_unicode = (&encoding ==? 'utf-8') || (&termencoding ==? 'utf-8')
 let s:is_linux = has('unix') && (system('uname') =~? 'linux')
@@ -407,13 +417,14 @@ set clipboard& clipboard+=unnamed
 " Enable modeline.
 set modeline
 
-" Enable the use of the mouse.
+" Use a mouse on terminal.
 if has('mouse')
-  set mouse=a
   try
     set ttymouse=sgr
   catch
     set ttymouse=xterm2
+  finally
+    set mouse=a
   endtry
 endif
 
@@ -552,7 +563,7 @@ nnoremap <Space><CR>  i<CR><Esc>
 xnoremap < <gv
 xnoremap > >gv
 
-" ノーマルモードのインデントの操作をビジュアルモードと同様にする
+" Quick shifting.
 nnoremap < <<
 nnoremap > >>
 
@@ -726,7 +737,7 @@ xnoremap v  V
 " Settings for markdown
 autocmd MyAutoCmd FileType markdown call s:markdown_settings()
 function! s:markdown_settings()
-  " 行頭か行頭からいくつかのタブの後だったら'-, +, *, >'に半角スペースを足す
+  " Insert space sensibly after '-', '+', '*', '>'.
   inoremap <buffer><expr> -
         \ search('\(^\t*\<bar>^\t*-\s\)\%#', 'bcn') ?
         \   smartchr#one_of('- ', '-') : '-'
@@ -740,6 +751,7 @@ function! s:markdown_settings()
         \ search('\(^\t*\<bar>^\t*>\s\)\%#', 'bcn') ?
         \   smartchr#one_of('> ', '>') : '>'
 
+  " Insert space sensibly after '#', '.'.
   inoremap <buffer><expr> #
         \ search('\(^\t*\<bar>^\t*#\s\<bar>^\t*##*\s\)\%#', 'bcn') ?
         \   smartchr#one_of('# ', '## ') : '#'
@@ -1248,7 +1260,7 @@ let bundle = neobundle#get('unite.vim')
       " <Tab>: Goes to the next candidate, or goes to the top from the bottom.
       "imap <buffer> <Tab>  <Plug>(unite_select_next_line)
 
-      " ESCキーを2回押すと終了する
+      " <Esc-Esc>: Exit unite buffer.
       nmap <buffer> <Esc><Esc>  <Plug>(unite_exit)
       imap <buffer> <Esc><Esc>  <Esc><Plug>(unite_exit)
     endfunction
@@ -1297,7 +1309,7 @@ let g:unite_source_menu_menus.shortcut = {
       \     ['Reload vimrc', 'source $MYVIMRC'],
       \     ['NeoBundle', 'Unite source -input=neobundle\ '],
       \     ['NeoBundleUpdate',
-      \             'Unite neobundle/update -log -no-start-insert'],
+      \             'Unite neobundle/update -log -no-start-insert -wrap'],
       \     ['VimShell shortcuts', 'Unite menu:vimshell'],
       \     ['Encoding', 'Unite menu:encoding'],
       \     ['Outline vertical', 'Unite outline
@@ -1425,11 +1437,8 @@ unlet bundle
 
 nmap <silent> <Leader>ig  <Plug>IndentGuidesToggle
 
-" indent-guidesを最初から有効にする
 "let g:indent_guides_enable_on_vim_startup = 1
-" 色の変化の幅
 let g:indent_guides_color_change_percent = 30
-" ガイド幅
 let g:indent_guides_guide_size = 1
 
 " }}}
@@ -1438,20 +1447,18 @@ let g:indent_guides_guide_size = 1
 "
 " Tree style listing.
 "let g:netrw_liststyle = 3
-" 'v'でファイルを開くときに右側に開く
+" Change from left splitting to right splitting.
 "let g:netrw_altv = 1
-" 'o'でファイルを開くときに下側に開く
+" Change from above splitting to below splitting.
 "let g:netrw_alto = 1
-" CVSと.で始まるファイルは表示しない
-"let g:netrw_list_hide = 'CVS,\(^\|\s\s\)\zs\.\S\+'
+" Hiding files pattern. (Regular expression, comma separated.)
+"let g:netrw_list_hide = '.DS_Store'
 
 " }}}
 
 " vim-powerline {{{
 "
 "let g:Powerline_symbols = 'fancy'            " Requires a patched font.
-"let g:Powerline_colorscheme = 'solarized'    " light
-"let g:Powerline_colorscheme = 'solarized16'  " dark
 "let g:Powerline_cache_enabled = 0
 let g:Powerline_stl_path_style = 'short'
 if s:is_windows
@@ -1462,8 +1469,6 @@ endif
 let g:Powerline_symbols_override = {
       \ 'LINE': '',
       \ }
-"call Pl#Theme#ReplaceSegment('lineinfo', 'scrollpercent')
-"call Pl#Theme#ReplaceSegment('scrollpercent', 'lineinfo')
 
 function! s:sync_powerline_colorscheme()
   if exists(':PowerlineReloadColorscheme')
@@ -1730,6 +1735,7 @@ vmap -  <Plug>(expand_region_shrink)
 let bundle = neobundle#get('vim-smartinput')
   function! bundle.hooks.on_source(bundle)
 
+    " Define fallback mappings.
     call smartinput#map_to_trigger('i', '<Plug>(smartinput_BS)',
           \                        '<BS>',
           \                        '<BS>')
@@ -1768,12 +1774,12 @@ unlet bundle
 
 call submode#enter_with('winsize', 'n', '', '<C-w>>', '<C-w>>')
 call submode#enter_with('winsize', 'n', '', '<C-w><', '<C-w><')
-call submode#enter_with('winsize', 'n', '', '<C-w>+', '<C-w>-')
-call submode#enter_with('winsize', 'n', '', '<C-w>-', '<C-w>+')
+call submode#enter_with('winsize', 'n', '', '<C-w>+', '<C-w>+')
+call submode#enter_with('winsize', 'n', '', '<C-w>-', '<C-w>-')
 call submode#map('winsize', 'n', '', '>', '<C-w>>')
 call submode#map('winsize', 'n', '', '<', '<C-w><')
-call submode#map('winsize', 'n', '', '+', '<C-w>-')
-call submode#map('winsize', 'n', '', '-', '<C-w>+')
+call submode#map('winsize', 'n', '', '+', '<C-w>+')
+call submode#map('winsize', 'n', '', '-', '<C-w>-')
 
 " }}}
 
@@ -1863,8 +1869,7 @@ if s:is_term
   endif
 endif
 
-" Change the current directory to the current buffer's directory.
-"autocmd MyAutoCmd BufEnter * lcd %:p:h
+" Change the current directory to the current working directory on Vim startup.
 autocmd MyAutoCmd VimEnter * lcd %:p:h
 
 " Editing binary file. See :help hex-editing
@@ -1881,8 +1886,8 @@ augroup END
 " I don't want to use Modula-2 syntax to *.md.
 autocmd MyAutoCmd BufNewFile,BufRead *.md setlocal filetype=markdown
 
-" If true Vim master, use English help file.
-set helplang& helplang=en,ja
+" If true Vim master, use English help file?
+set helplang& helplang=ja,en
 
 " }}}
 
