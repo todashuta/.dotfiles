@@ -1,4 +1,5 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="utf-8"?>
+<!-- KeyRemap4MacBook private configuration file -->
 <root>
   <item>
     <name>Leave Insert Mode with EISUU on Terminal</name>
@@ -40,3 +41,4 @@
     </item>
   </item>
 </root>
+<!-- vim: set ts=2 sw=2 sts=2 et: -->
