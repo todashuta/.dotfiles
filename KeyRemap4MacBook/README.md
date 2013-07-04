@@ -15,9 +15,11 @@ GUI版MacVimでは、挿入モードから抜けるときに自動で日本語�
 
 ## Appendix
 
-Sublime Text 2 でも使えるようにする方法。
+### Sublime Text 2 でも使えるようにする方法。
 
-### 1. `<root>`の下に、以下のように`<appdef>...</appdef>`を追加する。
+#### Step 1
+
+`<root>`の下に、以下のように`<appdef>...</appdef>`を追加する。
 
 ```
 <root>
@@ -32,4 +34,6 @@ Sublime Text 2 でも使えるようにする方法。
 </root>
 ```
 
-### 2. `<only>TERMINAL, VI</only>`を`<only>TERMINAL, VI, SUBLIMETEXT</only>`に変更する。
+#### Step 2
+
+`private.xml`中の`<only>TERMINAL, VI</only>`を`<only>TERMINAL, VI, SUBLIMETEXT</only>`に変更する。
