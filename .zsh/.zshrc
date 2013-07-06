@@ -200,7 +200,7 @@ if is-at-least 4.3.11; then
         return 0
     }
 
-    # untracked フィアル表示
+    # untracked ファイル表示
     #
     # untracked ファイル(バージョン管理されていないファイル)がある場合は
     # unstaged (%u) に ? を表示
