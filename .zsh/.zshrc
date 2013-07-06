@@ -58,16 +58,16 @@ _update_prompt(){
         local prompt_left="%F{red}%n@%m%f"
 
         # prompt_left が画面上を占める幅をカウントする。
-        local prompt_left_length=$(count_prompt_characters "${prompt_left} ")
+        local prompt_left_len=$(count_prompt_characters "${prompt_left} ")
 
         # 端末の横幅から prompt_left の幅を引いた結果を求める
         # $COLUMNS: 端末の横幅
-        local prompt_rest_length=$[COLUMNS - prompt_left_length]
+        local prompt_rest_len=$[COLUMNS - prompt_left_len]
 
         # プロンプト上段の右側:
-        # prompt_rest_length に収まる長さのフルパス (color: blue)
+        # prompt_rest_len に収まる長さのフルパス (color: blue)
         # 幅に収まらない分は左側(上の階層側)を...で省略
-        local prompt_right="%F{blue}%${prompt_rest_length}<...<%~%<<%f"
+        local prompt_right="%F{blue}%${prompt_rest_len}<...<%~%<<%f"
 
         # 1段目のプロンプト: User@Host 画面幅に収まる分のフルパス。
         local first_prompt="${prompt_left} ${prompt_right}"
@@ -79,11 +79,11 @@ _update_prompt(){
         local screen_winnr="${WINDOW:+"[$WINDOW]"}"
 
         # 2段目のプロンプト: ジョブ数 顔文字 screenウインドウ番号
-        local secondary_prompt="jobs:%j ${zsh_face}${screen_winnr}"
+        local second_prompt="jobs:%j ${zsh_face}${screen_winnr}"
 
         # %#: rootでは#, 一般ユーザでは%
         #
-        PROMPT="${first_prompt}"$'\n'"${secondary_prompt}%# "
+        PROMPT="${first_prompt}"$'\n'"${second_prompt}%# "
 
         # コマンド訂正のプロンプト
         SPROMPT="%F{red}(o_o%)? correct '%R' to '%r' [nyae]?%f "
@@ -93,16 +93,16 @@ _update_prompt(){
         local prompt_left="%F{green}%n@%m%f"
 
         # prompt_left が画面上を占める幅をカウントする。
-        local prompt_left_length=$(count_prompt_characters "${prompt_left} ")
+        local prompt_left_len=$(count_prompt_characters "${prompt_left} ")
 
         # 端末の横幅から prompt_left の幅を引いた結果を求める
         # $COLUMNS: 端末の横幅
-        local prompt_rest_length=$[COLUMNS - prompt_left_length]
+        local prompt_rest_len=$[COLUMNS - prompt_left_len]
 
         # プロンプト上段の右側:
-        # prompt_rest_length に収まる長さのフルパス (color: yellow)
+        # prompt_rest_len に収まる長さのフルパス (color: yellow)
         # 幅に収まらない分は左側(上の階層側)を...で省略
-        local prompt_right="%F{yellow}%${prompt_rest_length}<...<%~%<<%f"
+        local prompt_right="%F{yellow}%${prompt_rest_len}<...<%~%<<%f"
 
         # 1段目のプロンプト: User@Host 画面幅に収まる分のフルパス。
         local first_prompt="${prompt_left} ${prompt_right}"
@@ -114,7 +114,7 @@ _update_prompt(){
         local screen_winnr="${WINDOW:+"[$WINDOW]"}"
 
         # 2段目のプロンプト: ジョブ数 顔文字 screenウインドウ番号
-        local secondary_prompt="jobs:%j ${zsh_face}${screen_winnr}"
+        local second_prompt="jobs:%j ${zsh_face}${screen_winnr}"
 
         # $'\n': 改行
         # %h or %!: ヒストリ数
@@ -122,7 +122,7 @@ _update_prompt(){
         #
         # User@Host フルパス
         # ジョブ数 顔文字>
-        PROMPT="${first_prompt}"$'\n'"${secondary_prompt}> "
+        PROMPT="${first_prompt}"$'\n'"${second_prompt}> "
 
         # パス短縮の例
         # See: http://0xcc.net/blog/archives/000032.html
