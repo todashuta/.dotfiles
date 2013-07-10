@@ -27,6 +27,11 @@ autodetach on
 defscrollback 1000
 
 
+## 代替スクリーンを使う。
+#
+altscreen on
+
+
 ## ステータスライン {{{
 #
 # 最下行の上と分割部に表示される部分
