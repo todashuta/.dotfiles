@@ -7,6 +7,7 @@ tmux*.log
 .zsh/.zcompdump
 .zsh/.zcalc_history
 .zsh/.zcompcache/*
+.zsh/.chpwd-recent-dirs
 
 .emacs.d/games/*
 .emacs.d/auto-save-list/*
