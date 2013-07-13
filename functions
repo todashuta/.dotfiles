@@ -59,6 +59,9 @@ function init_aliases() {
 
 	alias tmux="tmux a || tmux"
 	alias vi=vim
+
+	# tree コマンドで日本語を表示する
+	alias tree="tree -N"
 }
 
 
