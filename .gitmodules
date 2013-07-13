@@ -9,3 +9,4 @@
 [submodule ".zsh/zaw"]
 	path = .zsh/zaw
 	url = git://github.com/zsh-users/zaw
+	ignore = untracked
