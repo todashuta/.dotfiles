@@ -3,7 +3,7 @@
 
 " Initialize: "{{{
 "
-if &compatible == 1
+if &compatible
   set nocompatible  " Be IMproved.
 endif
 
@@ -18,7 +18,6 @@ if has('vim_starting') && has('reltime')
 endif
 
 let s:is_term = !has('gui_running')
-let s:is_unicode = (&encoding ==? 'utf-8') || (&termencoding ==? 'utf-8')
 let s:is_linux = has('unix') && (system('uname') =~? 'linux')
 let s:is_windows = has('win16') || has('win32') || has('win64')
 let s:is_cygwin = has('win32unix')
@@ -64,7 +63,7 @@ function! s:SID()
 endfunction
 
 function! s:SID_PREFIX()
-  return '<SNR>' . s:SID() . '_'
+  return printf('<SNR>%d_', s:SID())
 endfunction
 
 " Set runtimepath.
@@ -96,8 +95,14 @@ NeoBundleLazy 'Shougo/neosnippet.vim', {
       \   'autoload' : {
       \     'insert' : 1,
       \ }}
-NeoBundleFetch 'honza/vim-snippets'
-NeoBundle 'Shougo/unite.vim'
+NeoBundle 'honza/vim-snippets'
+NeoBundleLazy 'Shougo/unite.vim', {
+      \   'autoload' : {
+      \     'commands' : [
+      \         { 'name' : 'Unite',
+      \           'complete' : 'customlist,unite#complete#source' },
+      \         'UniteWithBufferDir'
+      \ ]}}
 NeoBundleLazy 'Shougo/vimfiler.vim', {
       \   'depends' : 'Shougo/unite.vim',
       \   'autoload' : {
@@ -108,35 +113,35 @@ NeoBundleLazy 'Shougo/vimfiler.vim', {
       \         'VimFilerBufferDir',
       \ ]}}
 NeoBundleLazy 'Shougo/unite-outline', {
-      \   'depends' : 'Shougo/unite.vim',
       \   'autoload' : {
       \     'unite_sources' : 'outline'
       \ }}
-NeoBundle 'ujihisa/unite-colorscheme', {
-      \   'depends' : 'Shougo/unite.vim'
-      \ }
-NeoBundle 'ujihisa/unite-font', {
+NeoBundleLazy 'ujihisa/unite-colorscheme', {
+      \   'autoload' : {
+      \     'unite_sources' : 'colorscheme'
+      \ }}
+NeoBundleLazy 'ujihisa/unite-font', {
       \   'gui' : 1,
-      \   'depends' : 'Shougo/unite.vim',
-      \ }
-NeoBundle 'Kocha/vim-unite-tig', {
-      \   'depends' : 'Shougo/unite.vim'
-      \ }
+      \   'autoload' : {
+      \     'unite_sources' : 'font'
+      \ }}
+NeoBundleLazy 'Kocha/vim-unite-tig', {
+      \   'autoload' : {
+      \     'unite_sources' : 'tig'
+      \ }}
 NeoBundleLazy 'tacroe/unite-mark', {
-      \   'depends' : 'Shougo/unite.vim',
       \   'autoload' : {
       \     'unite_sources' : 'mark'
       \ }}
-NeoBundle 'tsukkee/unite-help'
+NeoBundleLazy 'tsukkee/unite-help', {
+      \   'autoload' : {
+      \     'unite_sources' : 'help'
+      \ }}
 NeoBundleLazy 'Shougo/unite-build', {
-      \   'depends' : 'Shougo/unite.vim',
       \   'autoload' : {
       \     'unite_sources' : 'build'
       \ }}
-NeoBundleLazy 'Shougo/vimproc.vim', {
-      \   'autoload' : {
-      \     'function_prefix' : 'vimproc'
-      \   },
+NeoBundle 'Shougo/vimproc.vim', {
       \   'build' : {
       \     'windows' : 'make -f make_mingw32.mak',
       \     'cygwin' : 'make -f make_cygwin.mak',
@@ -150,7 +155,6 @@ NeoBundleLazy 'othree/eregex.vim', {
       \ }}
 "NeoBundle 'scrooloose/nerdtree'
 NeoBundleLazy 'thinca/vim-quickrun', {
-      \   'depends' : ['Shougo/vimproc.vim'],
       \   'autoload' : {
       \     'mappings' : [['nx', '<Plug>(quickrun)']],
       \     'commands' : [
@@ -176,7 +180,7 @@ NeoBundleLazy 'tpope/vim-surround', {
       \       ['x', '<Plug>VgSurround'],
       \ ]}}
 "NeoBundle 'troydm/easybuffer.vim'
-NeoBundle 'vim-scripts/DirDo.vim'
+"NeoBundle 'vim-scripts/DirDo.vim'
 NeoBundleLazy 'kana/vim-smartchr', {
       \   'autoload' : {
       \     'insert' : 1,
@@ -190,14 +194,12 @@ NeoBundleLazy 'hallison/vim-markdown', {
       \   'autoload' : {
       \     'filetypes' : ['markdown']
       \ }}
-"NeoBundle 'houtsnip/vim-emacscommandline'
 NeoBundleLazy 'Shougo/vimshell.vim', {
       \   'depends' : ['Shougo/vimproc.vim', 'Shougo/unite.vim'],
       \   'autoload' : {
       \     'commands' : ['VimShell', 'VimShellPop', 'VimShellInteractive']
       \ }}
-"NeoBundle 'supermomonga/vimshell-kawaii.vim'
-NeoBundleLazy 'mattn/zencoding-vim', {
+NeoBundleLazy 'mattn/emmet-vim', {
       \   'autoload' : {
       \     'filetypes' : ['html','css']
       \ }}
@@ -331,15 +333,29 @@ NeoBundleLazy 'hrsh7th/vim-neco-calc', {
       \   'autoload' : {
       \     'insert' : 1
       \ }}
-NeoBundle 'thinca/vim-unite-history'
-NeoBundle 'osyo-manga/unite-filetype'
+NeoBundleLazy 'thinca/vim-unite-history', {
+      \   'autoload' : {
+      \     'unite_sources' : ['history/command', 'history/search']
+      \ }}
+NeoBundleLazy 'osyo-manga/unite-filetype', {
+      \   'autoload' : {
+      \     'unite_sources' : 'filetype'
+      \ }}
 NeoBundleLazy 'mattn/habatobi-vim', {
       \   'autoload' : {
       \     'commands' : 'Habatobi'
       \ }}
-NeoBundle 'thinca/vim-editvar'
+NeoBundleLazy 'thinca/vim-editvar', {
+      \   'autoload' : {
+      \     'commands' : [
+      \         { 'name' : 'Editvar',
+      \           'complete' : 'var' }
+      \     ],
+      \     'unite_sources' : 'variable'
+      \ }}
 NeoBundle 'rbtnn/vimconsole.vim'
 NeoBundle 'vim-jp/vital.vim'
+"NeoBundle 'bling/vim-airline'
 
 if has('python')
   NeoBundleLazy 'gregsexton/VimCalc', {
@@ -386,12 +402,14 @@ syntax enable
 " Use the UTF-8 encoding inside Vim.
 set encoding=utf-8
 
-if s:is_windows && s:is_term
+if s:is_cygwin || (s:is_windows && s:is_term)
   set encoding=cp932 termencoding=
 endif
 
 " Must after set of 'encoding'.
 scriptencoding utf-8
+
+let s:is_unicode = (&encoding ==# 'utf-8') || (&termencoding ==# 'utf-8')
 
 " }}}
 
@@ -501,8 +519,14 @@ set suffixes& suffixes+=.DS_Store
 
 " Key Mappings: "{{{
 "
+" timeout.
+set timeout timeoutlen=2000 ttimeoutlen=50
+
 inoremap <silent> <Esc>  <Esc>`^
 inoremap <silent> <C-[>  <Esc>`^
+
+" Paste.
+inoremap <C-r>*  <C-o>:set paste<CR><C-r>*<C-o>:set nopaste<CR>
 
 " Move cursor by display line.
 noremap j gj
@@ -731,8 +755,19 @@ nnoremap X  "_X
 " c: Change into the blackhole register to not clobber the last yank.
 nnoremap c  "_c
 
-" (visual mode) v: Start Visual mode linewise.
-xnoremap v  V
+" (visual mode) v: Rotate visual mode style.
+xnoremap <expr> v  <SID>visual_mode_rotation()
+function! s:visual_mode_rotation()
+  let is_loop = get(g:, 'VisualModeRotation_enable_loop', 0)
+
+  if mode() ==# 'v'
+    return 'V'
+  elseif mode() ==# 'V'
+    return "\<C-v>"
+  elseif mode() ==# "\<C-v>"
+    return is_loop ? 'v' : "\<Esc>"
+  endif
+endfunction
 
 " Settings for markdown
 autocmd MyAutoCmd FileType markdown call s:markdown_settings()
@@ -841,37 +876,35 @@ if has('vim_starting')  " Don't reset twice on reloading.
 endif
 
 " Strings to use in 'list' mode and for the :list command.
-let s:listchars_classic = 'tab:>-,trail:-,eol:$,extends:>,precedes:<,nbsp:%'
-let s:listchars_modern  = 'tab:▸ ,trail:›,precedes:«,extends:»'
+let s:listchars = {
+      \   'classic' : 'tab:>-,trail:-,eol:$,extends:>,precedes:<,nbsp:%',
+      \   'modern'  : 'tab:▸ ,trail:›,precedes:«,extends:»,nbsp:␣'
+      \ }
 if has('vim_starting')
-  let &listchars = s:is_unicode ? (s:listchars_modern) : (s:listchars_classic)
+  let &listchars = s:is_unicode ?
+        \ s:listchars['modern'] : s:listchars['classic']
 endif
-" Example...
-"   'tab:▸ ,trail:･,eol:¬,precedes:«,extends:»'
-"   'tab:▸ ,trail:›,eol:¬,precedes:«,extends:»'
-"   'tab:▸ ,trail:›,eol:↲,precedes:«,extends:»'
-"   'tab:▸ ,trail:›,eol:⏎,precedes:«,extends:»'
 
 " Highlight cursor line.
 set cursorline
 
 " Highlight cursor line sensibly only current window.
 autocmd MyAutoCmd WinEnter *
-      \ let &l:cursorline =
-      \ (!exists('w:my_cursorline_state') || w:my_cursorline_state == 1)?
-      \ 1 : 0
+      \ let &l:cursorline = get(w:, 'save_cursorline', &cursorline)
 autocmd MyAutoCmd WinLeave *
-      \  let w:my_cursorline_state = (&l:cursorline == 1)?  1 : 0
-      \| setlocal nocursorline
+      \ let w:save_cursorline = &l:cursorline | :setlocal nocursorline
 
 " Highlight cursor column sensibly only current window.
 autocmd MyAutoCmd WinEnter *
-      \ let &l:cursorcolumn =
-      \ (!exists('w:my_cursorcolumn_state') || w:my_cursorcolumn_state == 0)?
-      \ 0 : 1
+      \ let &l:cursorcolumn = get(w:, 'save_cursorcolumn', &cursorcolumn)
 autocmd MyAutoCmd WinLeave *
-      \  let w:my_cursorcolumn_state = (&l:cursorcolumn == 1)? 1 : 0
-      \| setlocal nocursorcolumn
+      \ let w:save_cursorcolumn = &l:cursorcolumn | :setlocal nocursorcolumn
+
+" Current window colorcolumn.
+autocmd MyAutoCmd WinEnter *
+      \ let &l:colorcolumn = get(w:, 'save_colorcolumn', &colorcolumn)
+autocmd MyAutoCmd WinLeave *
+      \ let w:save_colorcolumn = &l:colorcolumn | :let &l:colorcolumn = ''
 
 " }}}
 
@@ -1073,7 +1106,7 @@ if neobundle#is_installed('neocomplcache.vim')
             \ }
       let g:neocomplcache_vim_completefuncs = {
             \ 'Ref' : 'ref#complete',
-            \ 'Unite' : 'unite#complete_source',
+            \ 'Unite' : 'unite#complete#source',
             \ 'VimShell' : 'vimshell#complete'
             \ }
 
@@ -1153,13 +1186,13 @@ unlet bundle
 
 " }}}
 
-" zencoding.vim {{{
+" emmet-vim {{{
 
-let bundle = neobundle#get('zencoding-vim')
+let bundle = neobundle#get('emmet-vim')
   function! bundle.hooks.on_source(bundle)
 
-    let g:user_zen_leader_key = has('gui_running') ? '<C-Space>' : '<C-@>'
-    let g:user_zen_settings = {
+    let g:user_emmet_leader_key = has('gui_running') ? '<C-Space>' : '<C-@>'
+    let g:user_emmet_settings = {
           \   'lang' : 'ja',
           \   'indentation' : "\t",
           \   'html' : {
@@ -1804,6 +1837,9 @@ let g:VCalc_WindowPosition = 'bottom'
 " vim-R-plugin
 let vimrplugin_screenplugin = 0
 
+" Filetype vim.
+"let g:vim_indent_cont = 0
+
 " }}}
 
 " }}}
@@ -1836,8 +1872,8 @@ augroup END
 " Toggle listchars strings {{{
 
 command! ToggleListcharsStrings let &listchars =
-      \ (&listchars == s:listchars_classic) ?
-      \   (s:listchars_modern) : (s:listchars_classic)
+      \ (&listchars ==# s:listchars['classic']) ?
+      \   s:listchars['modern'] : s:listchars['classic']
 
 " }}}
 
