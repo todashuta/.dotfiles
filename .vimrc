@@ -17,6 +17,11 @@ if has('vim_starting') && has('reltime')
   augroup END
 endif
 
+if exists('+regexpengine')
+  " Use old regexp engine.
+  "set regexpengine=1
+endif
+
 let s:is_term = !has('gui_running')
 let s:is_linux = has('unix') && (system('uname') =~? 'linux')
 let s:is_windows = has('win16') || has('win32') || has('win64')
@@ -25,7 +30,7 @@ let s:is_mac = !s:is_windows && !s:is_cygwin
       \ && (has('mac') || has('macunix') || has('gui_macvim') ||
       \   (!isdirectory('/proc') && executable('sw_vers')))
 
-let s:when_reloading_vimrc = !has('vim_starting')
+let s:is_reloading = !has('vim_starting')
 
 " Use English interface.
 if s:is_windows
@@ -66,6 +71,13 @@ function! s:SID_PREFIX()
   return printf('<SNR>%d_', s:SID())
 endfunction
 
+function! s:print_error(msg)
+  echohl ErrorMsg
+  echomsg a:msg
+  echohl None
+  "let v:errmsg = a:msg
+endfunction
+
 " Set runtimepath.
 if has('vim_starting')
   if s:is_windows
@@ -75,6 +87,9 @@ if has('vim_starting')
   " Load neobundle.
   set runtimepath+=~/.vim/bundle/neobundle.vim
 endif
+
+" neobundle log file path.
+let g:neobundle#log_filename = expand('~/.neobundle_log')
 
 " Initialize neobundle
 call neobundle#rc(expand('~/.vim/bundle'))
@@ -386,6 +401,10 @@ endif
 
 " Disable netrw.vim
 let g:loaded_netrwPlugin = 1
+" Disable vimball.vim
+let g:loaded_vimballPlugin = 1
+" Disable getscript.vim
+let g:loaded_getscriptPlugin = 1
 
 filetype plugin indent on    " Required!
 
@@ -397,7 +416,7 @@ syntax enable
 
 " }}}
 
-" Encoding settings: "{{{
+" Encoding: "{{{
 "
 " Use the UTF-8 encoding inside Vim.
 set encoding=utf-8
@@ -410,6 +429,46 @@ endif
 scriptencoding utf-8
 
 let s:is_unicode = (&encoding ==# 'utf-8') || (&termencoding ==# 'utf-8')
+
+" fileencodings.
+if has('iconv') && !has('kaoriya')
+  let s:enc_euc = 'euc-jp'
+  let s:enc_jis = 'iso-2022-jp'
+
+  " Does iconv support JIS X 0213 ?
+  if iconv("\x87\x64\x87\x6a", 'cp932', 'euc-jisx0213') ==# "\xad\xc5\xad\xcb"
+    let s:enc_euc = 'euc-jisx0213,euc-jp'
+    let s:enc_jis = 'iso-2022-jp-3'
+  endif
+
+  " Make fileencodings.
+  let &fileencodings = 'ucs-bom'
+  if &encoding !=# 'utf-8'
+    let &fileencodings = &fileencodings . ',' . 'ucs-2le'
+    let &fileencodings = &fileencodings . ',' . 'ucs-2'
+  endif
+  let &fileencodings = &fileencodings . ',' . s:enc_jis
+
+  if &encoding ==# 'utf-8'
+    let &fileencodings = &fileencodings . ',' . s:enc_euc
+    let &fileencodings = &fileencodings . ',' . 'cp932'
+  elseif &encoding =~# '^euc-\%(jp\|jisx0213\)$'
+    let &encoding = s:enc_euc
+    let &fileencodings = &fileencodings . ',' . 'utf-8'
+    let &fileencodings = &fileencodings . ',' . 'cp932'
+  else  " cp932
+    let &fileencodings = &fileencodings . ',' . 'utf-8'
+    let &fileencodings = &fileencodings . ',' . s:enc_euc
+  endif
+  let &fileencodings = &fileencodings . ',' . &encoding
+
+  unlet s:enc_euc
+  unlet s:enc_jis
+endif
+
+if has('guess_encode') && (&fileencodings !~# 'guess')
+  set fileencodings^=guess
+endif
 
 " }}}
 
@@ -455,6 +514,10 @@ set lazyredraw
 " All windows not same size after split or close.
 set noequalalways
 
+" Default end-of-line format.
+set fileformat=unix
+set fileformats=unix,dos,mac
+
 " }}}
 
 " File,Backup: "{{{
@@ -472,14 +535,18 @@ set nobackup noswapfile
 "
 " Enable smart indent.
 set autoindent smartindent
-" Number of spaces that a <Tab> in the file counts for.
-set tabstop=4
-" Number of spaces to use for each step of (auto)indent.
-set shiftwidth=4
-" Expand tab to spaces.
-"set expandtab
-" See :help softtabstop
-set softtabstop=4
+
+if has('vim_starting')
+  " Number of spaces that a <Tab> in the file counts for.
+  set tabstop=4
+  " Number of spaces to use for each step of (auto)indent.
+  set shiftwidth=4
+  " See :help softtabstop
+  set softtabstop=4
+  " Expand tab to spaces.
+  "set expandtab
+endif
+
 " Smart insert tab setting.
 "set smarttab
 " Round indent to multiple of 'shiftwidth'('>'and'<'commands).
@@ -500,13 +567,18 @@ set ignorecase
 " If the search pattern contains upper case characters, override ignorecase option.
 set smartcase
 
-if has('vim_starting')  " Don't reset twice on reloading.
-  " Highlight search results.
-  set hlsearch
-endif
+" Highlight search results.
+set hlsearch
+" Don't (re)highlighting the last search pattern on reloading.
+nohlsearch
 
 " Command-line completion operates in an enhanced mode.
 set wildmenu wildmode=longest,list,full
+
+if exists('+wildignorecase')
+  set wildignorecase
+endif
+
 " These patterns is ignored when completing file or directory names.
 "set wildignore& wildignore+=.DS_Store
 "set wildignore+=*~,*.swp,*.tmp
@@ -664,13 +736,8 @@ nnoremap <silent> [toggle]l
 nnoremap <silent> [toggle]/
       \ :<C-u>call <SID>toggle_option('wrapscan')<CR>
 " Toggle line number.
-if exists('&relativenumber')
-  " Toggle number with relativenumber.
-  nnoremap <silent> [toggle]n  :<C-u>exe'set'&nu==&rnu?'nu!':'rnu!'<CR>
-else
-  " Toggle number.
-  nnoremap <silent> [toggle]n  :<C-u>call <SID>toggle_option('number')<CR>
-endif
+nnoremap <silent> [toggle]n
+      \ :<C-u>call <SID>toggle_line_number()<CR>
 " Toggle Paste.
 nnoremap <silent> [toggle]p
       \ :<C-u>call <SID>toggle_option('paste')<CR>:set mouse=<CR>
@@ -718,9 +785,9 @@ nnoremap K <Nop>
 "nnoremap qK K
 
 " Disable dangerous ZZ.
-nnoremap ZZ  :<C-u>echoerr 'ZZ is disabled.'<CR>
+nnoremap ZZ  :<C-u>call <SID>print_error('ZZ is disabled.')<CR>
 " Disable dangerous ZQ.
-nnoremap ZQ  :<C-u>echoerr 'ZQ is disabled.'<CR>
+nnoremap ZQ  :<C-u>call <SID>print_error('ZQ is disabled.')<CR>
 
 " Moving cursor to other windows.
 nnoremap <silent> <Space>h  :<C-u>wincmd h<CR>
@@ -740,7 +807,7 @@ nnoremap <silent> [Space2]k
 nnoremap <silent> [Space2]l
       \ :<C-u>wincmd l<CR>:resize<CR>:vertical resize<CR>
 nnoremap <silent> [Space2]c
-      \ :<C-u>lcd %:p:h<CR>:echo 'lcd' expand('%:p:h')<CR>
+      \ :<C-u>lcd %:p:h<CR>:echo 'lcd ' . expand('%:p:h')<CR>
 nnoremap <silent> [Space2]b  :<C-u>Unite buffer<CR>
 
 " (visual mode) p: Paste from the last yank.
@@ -755,9 +822,9 @@ nnoremap X  "_X
 " c: Change into the blackhole register to not clobber the last yank.
 nnoremap c  "_c
 
-" (visual mode) v: Rotate visual mode style.
-xnoremap <expr> v  <SID>visual_mode_rotation()
-function! s:visual_mode_rotation()
+" (visual mode) v: Rotate wise of visual mode.
+xnoremap <expr> v  <SID>keys_to_rotate_wise_of_visual_mode()
+function! s:keys_to_rotate_wise_of_visual_mode()
   let is_loop = get(g:, 'VisualModeRotation_enable_loop', 0)
 
   if mode() ==# 'v'
@@ -770,8 +837,9 @@ function! s:visual_mode_rotation()
 endfunction
 
 " Settings for markdown
-autocmd MyAutoCmd FileType markdown call s:markdown_settings()
-function! s:markdown_settings()
+autocmd MyAutoCmd FileType markdown
+      \ call s:on_FileType_markdown()
+function! s:on_FileType_markdown()
   " Insert space sensibly after '-', '+', '*', '>'.
   inoremap <buffer><expr> -
         \ search('\(^\t*\<bar>^\t*-\s\)\%#', 'bcn') ?
@@ -826,6 +894,10 @@ set showcmd
 set scrolloff=2
 " Disable bell.
 set visualbell t_vb=
+" A fullwidth character is displayed in vim properly.
+if exists('+ambiwidth')
+  set ambiwidth=double
+endif
 
 " Show the line and column number of the cursor position.
 "set ruler
@@ -865,10 +937,17 @@ if has('vim_starting')  " Don't reset twice on reloading.
     " Highlight columns.
     let &colorcolumn = join(range(79, 334), ',')
   endif
-  " Show line number.
-  set number
-  " Show line number relative to the line with the cursor.
-  "set relativenumber
+
+  if (v:version >= 704)
+    " Show relativenumber with absolute line number on cursor line.
+    set relativenumber number
+  else
+    " Show line number.
+    set number
+    " Show line number relative to the line with the cursor.
+    "set relativenumber
+  endif
+
   " Lines longer than the width of the window will wrap.
   set wrap
   " Indicate tab, wrap, trailing spaces and eol or not.
@@ -892,19 +971,19 @@ set cursorline
 autocmd MyAutoCmd WinEnter *
       \ let &l:cursorline = get(w:, 'save_cursorline', &cursorline)
 autocmd MyAutoCmd WinLeave *
-      \ let w:save_cursorline = &l:cursorline | :setlocal nocursorline
+      \ let w:save_cursorline = &l:cursorline | :let &l:cursorline = 0
 
 " Highlight cursor column sensibly only current window.
 autocmd MyAutoCmd WinEnter *
       \ let &l:cursorcolumn = get(w:, 'save_cursorcolumn', &cursorcolumn)
 autocmd MyAutoCmd WinLeave *
-      \ let w:save_cursorcolumn = &l:cursorcolumn | :setlocal nocursorcolumn
+      \ let w:save_cursorcolumn = &l:cursorcolumn | :let &l:cursorcolumn = 0
 
 " Current window colorcolumn.
 autocmd MyAutoCmd WinEnter *
       \ let &l:colorcolumn = get(w:, 'save_colorcolumn', &colorcolumn)
 autocmd MyAutoCmd WinLeave *
-      \ let w:save_colorcolumn = &l:colorcolumn | :let &l:colorcolumn = ''
+      \ let w:save_colorcolumn = &l:colorcolumn | :let &l:colorcolumn = 0
 
 " }}}
 
@@ -915,22 +994,22 @@ set laststatus=2
 
 " Set statusline.
 "function! s:my_statusline()
-"  let wide_column = (&columns >= 80)
+"  let is_wide_column = (&columns >= 80)
 "
 "  let line = ''
 "  " Paste mode Indicator.
-"  let line .= wide_column ?
+"  let line .= is_wide_column ?
 "        \ '%{&paste ? "  [PASTE]" : ""}' : '%{&paste ? "[P]" : ""}'
 "  " Buffer number.
 "  let line .= ' [%2n]'
 "  " File path / File name.
-"  let line .= wide_column ? ' %<%F' : '%<%t'
+"  let line .= is_wide_column ? ' %<%F' : '%<%t'
 "  " Modified flag, Readonly flag, Help flag, Preview flag.
 "  let line .= '%m%r%h%w'
 "  " Separation point between left and right, and Space.
 "  let line .= '%= '
 "  " Filetype, Fileencoding, Fileformat.
-"  let line .= wide_column
+"  let line .= is_wide_column
 "        \ ? printf('[%s][%s][%s]',
 "        \          '%{strlen(&filetype) ? &filetype : "no ft"}',
 "        \          '%{(&fileencoding == "") ? &encoding : &fileencoding}',
@@ -938,7 +1017,7 @@ set laststatus=2
 "        \ : printf('[%s:%s:%s]',
 "        \          '%{&filetype}', '%{&fileencoding}', '%{&fileformat}')
 "  " Cursor position. (Numbers of lines in buffer)
-"  let line .= wide_column ? ' [%4l/%L:%3v]' : '[%3l:%2v]'
+"  let line .= is_wide_column ? ' [%4l/%L:%3v]' : '[%3l:%2v]'
 "  " Percentage through file in lines as in |CTRL-G|.
 "  let line .= ' %3p%% '
 "
@@ -958,7 +1037,7 @@ endfunction
 autocmd MyAutoCmd VimEnter,WinEnter,ColorScheme *
       \ call s:highlight_zenkaku_space()
 
-if s:when_reloading_vimrc
+if s:is_reloading
   call s:highlight_zenkaku_space()
 endif
 
@@ -1287,7 +1366,9 @@ let bundle = neobundle#get('unite.vim')
     let g:unite_build_warning_icon =
           \ expand('~/.vim/signs/warn.').(s:is_windows ? 'bmp' : 'png')
 
-    function! s:unite_my_settings()
+    autocmd MyAutoCmd FileType unite
+          \ call s:on_FileType_unite()
+    function! s:on_FileType_unite()
       " <C-w>: Deletes a path upward.
       imap <buffer> <C-w>  <Plug>(unite_delete_backward_path)
       " <Tab>: Goes to the next candidate, or goes to the top from the bottom.
@@ -1297,7 +1378,6 @@ let bundle = neobundle#get('unite.vim')
       nmap <buffer> <Esc><Esc>  <Plug>(unite_exit)
       imap <buffer> <Esc><Esc>  <Esc><Plug>(unite_exit)
     endfunction
-    autocmd MyAutoCmd FileType unite call s:unite_my_settings()
 
     " unite-action quicklook
     if executable('qlmanage')
@@ -1551,9 +1631,9 @@ let bundle = neobundle#get('vimshell.vim')
             \   )
     endfunction
 
-    let g:vimshell_user_prompt = s:SID_PREFIX().'vimshell_my_prompt()'
-    let g:vimshell_prompt = "(*'_')> "
-    let g:vimshell_secondary_prompt = '> '
+    "let g:vimshell_user_prompt = s:SID_PREFIX().'vimshell_my_prompt()'
+    "let g:vimshell_prompt = "(*'_')> "
+    "let g:vimshell_secondary_prompt = '> '
 
     if executable('zsh') && filereadable(expand('~/.zsh/.zsh_history'))
       " Use zsh history in vimshell/history source.
@@ -1561,8 +1641,9 @@ let bundle = neobundle#get('vimshell.vim')
             \ expand('~/.zsh/.zsh_history')
     endif
 
-    autocmd MyAutoCmd FileType vimshell call s:vimshell_settings()
-    function! s:vimshell_settings()
+    autocmd MyAutoCmd FileType vimshell
+          \ call s:on_FileType_vimshell()
+    function! s:on_FileType_vimshell()
       " Aliases
       call vimshell#set_alias('ls', 'ls -G')
       call vimshell#set_alias('ll', 'ls -alFG')
@@ -1667,8 +1748,9 @@ let bundle = neobundle#get('vimfiler.vim')
       let g:vimfiler_marked_file_icon = '✓'
     endif
 
-    autocmd MyAutoCmd FileType vimfiler call s:vimfiler_my_settings()
-    function! s:vimfiler_my_settings()
+    autocmd MyAutoCmd FileType vimfiler
+          \ call s:on_FileType_vimfiler()
+    function! s:on_FileType_vimfiler()
       " VimFiler settings. (Key mapping... etc)
     endfunction
   endfunction
@@ -1689,7 +1771,7 @@ let g:indentLine_showFirstIndentLevel = 1
 let g:indentLine_indentLevel = 20
 "let g:indentLine_noConcealCursor = 1
 
-if s:when_reloading_vimrc && exists(':IndentLinesReset')
+if s:is_reloading && exists(':IndentLinesReset')
   IndentLinesReset
 endif
 
@@ -1851,6 +1933,13 @@ augroup MyAutoCmd
   autocmd BufNewFile,BufRead *.go setlocal filetype=go
 augroup END
 
+autocmd MyAutoCmd FileType help
+      \ call s:on_FileType_help()
+function! s:on_FileType_help()
+  nnoremap <buffer> <CR>  <C-]>
+  nnoremap <buffer> <BS>  <C-o>
+endfunction
+
 " }}}
 
 " Enable omni completion {{{
@@ -1881,6 +1970,30 @@ command! ToggleListcharsStrings let &listchars =
 
 function! s:toggle_option(option_name)
   execute 'setlocal' a:option_name.'!' a:option_name.'?'
+endfunction
+
+" }}}
+
+" Toggle line number {{{
+
+function! s:toggle_line_number()
+  if exists('+relativenumber')
+    if (v:version >= 704)
+      " Toggle between relative with absolute on cursor line and no numbers.
+      if (!&l:number && !&l:relativenumber)
+        setlocal relativenumber number
+      else
+        setlocal norelativenumber nonumber
+      endif
+    else
+      " Toggle between absolute => relative => no numbers.
+      execute 'setlocal' (&l:number ==# &l:relativenumber) ?
+            \ 'number! number?' : 'relativenumber! relativenumber?'
+    endif
+  else
+    " Toggle between number and nonumber.
+    call s:toggle_option('number')
+  endif
 endfunction
 
 " }}}
@@ -1922,6 +2035,16 @@ augroup END
 " I don't want to use Modula-2 syntax to *.md.
 autocmd MyAutoCmd BufNewFile,BufRead *.md setlocal filetype=markdown
 
+" When do not include Japanese, use encoding for fileencoding.
+" See: https://github.com/Shougo/shougo-s-github/blob/master/vim/.vimrc
+function! s:ReCheck_FENC()
+  let is_multi_byte = search("[^\x01-\x7e]", 'n', 100, 100)
+  if &fileencoding =~# 'iso-2022-jp' && !is_multi_byte
+    let &fileencoding = &encoding
+  endif
+endfunction
+autocmd MyAutoCmd BufReadPost * call s:ReCheck_FENC()
+
 " If true Vim master, use English help file?
 set helplang& helplang=ja,en
 
@@ -1937,7 +2060,7 @@ endif
 
 " Finalize: "{{{
 "
-if s:when_reloading_vimrc
+if s:is_reloading
   " Call on_source hook when reloading .vimrc.
   call neobundle#call_hook('on_source')
 endif
