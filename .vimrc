@@ -899,6 +899,10 @@ if exists('+ambiwidth')
   set ambiwidth=double
 endif
 
+if has('conceal')
+  set conceallevel=2 concealcursor=ni
+endif
+
 " Show the line and column number of the cursor position.
 "set ruler
 
@@ -996,20 +1000,20 @@ set laststatus=2
 "function! s:my_statusline()
 "  let is_wide_column = (&columns >= 80)
 "
-"  let line = ''
+"  let value = ''
 "  " Paste mode Indicator.
-"  let line .= is_wide_column ?
+"  let value .= is_wide_column ?
 "        \ '%{&paste ? "  [PASTE]" : ""}' : '%{&paste ? "[P]" : ""}'
 "  " Buffer number.
-"  let line .= ' [%2n]'
+"  let value .= ' [%2n]'
 "  " File path / File name.
-"  let line .= is_wide_column ? ' %<%F' : '%<%t'
+"  let value .= is_wide_column ? ' %<%F' : '%<%t'
 "  " Modified flag, Readonly flag, Help flag, Preview flag.
-"  let line .= '%m%r%h%w'
+"  let value .= '%m%r%h%w'
 "  " Separation point between left and right, and Space.
-"  let line .= '%= '
+"  let value .= '%= '
 "  " Filetype, Fileencoding, Fileformat.
-"  let line .= is_wide_column
+"  let value .= is_wide_column
 "        \ ? printf('[%s][%s][%s]',
 "        \          '%{strlen(&filetype) ? &filetype : "no ft"}',
 "        \          '%{(&fileencoding == "") ? &encoding : &fileencoding}',
@@ -1017,11 +1021,11 @@ set laststatus=2
 "        \ : printf('[%s:%s:%s]',
 "        \          '%{&filetype}', '%{&fileencoding}', '%{&fileformat}')
 "  " Cursor position. (Numbers of lines in buffer)
-"  let line .= is_wide_column ? ' [%4l/%L:%3v]' : '[%3l:%2v]'
+"  let value .= is_wide_column ? ' [%4l/%L:%3v]' : '[%3l:%2v]'
 "  " Percentage through file in lines as in |CTRL-G|.
-"  let line .= ' %3p%% '
+"  let value .= ' %3p%% '
 "
-"  return line
+"  return value
 "endfunction
 "
 "let &statusline = '%!'.s:SID_PREFIX().'my_statusline()'
@@ -1239,11 +1243,6 @@ let bundle = neobundle#get('neosnippet.vim')
     " Plugin key-mappings.
     imap <C-k>  <Plug>(neosnippet_expand_or_jump)
     smap <C-k>  <Plug>(neosnippet_expand_or_jump)
-
-    " For snippet_complete marker.
-    if has('conceal')
-      set conceallevel=2 concealcursor=i
-    endif
 
     " Honza's Snippets.
     let snippets_dir = [expand('~/.vim/bundle/vim-snippets/snippets')]
@@ -1574,13 +1573,11 @@ let g:indent_guides_guide_size = 1
 "let g:Powerline_symbols = 'fancy'            " Requires a patched font.
 "let g:Powerline_cache_enabled = 0
 let g:Powerline_stl_path_style = 'short'
-if s:is_windows
-  let g:Powerline_dividers_override = ['', '', '', '<']
-else
-  let g:Powerline_dividers_override = ['', '', '', '❮']
-endif
+let g:Powerline_dividers_override = s:is_windows ?
+      \ ['', '', '', '<'] : ['', '', '', "\u276e"]
 let g:Powerline_symbols_override = {
-      \ 'LINE': '',
+      \   'BRANCH' : '',
+      \   'LINE' : ''
       \ }
 
 function! s:sync_powerline_colorscheme()
@@ -2007,8 +2004,8 @@ endfunction
 " See: https://gist.github.com/1195581
 if s:is_term
   if exists('$TMUX')
-    let &t_SI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=1\x7\<Esc>\\"
-    let &t_EI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=0\x7\<Esc>\\"
+    let &t_SI = "\ePtmux;\e\e]50;CursorShape=1\x7\e\\"
+    let &t_EI = "\ePtmux;\e\e]50;CursorShape=0\x7\e\\"
   elseif &term =~ 'screen'
     let &t_SI = "\eP\e]50;CursorShape=1\x7\e\\"
     let &t_EI = "\eP\e]50;CursorShape=0\x7\e\\"
