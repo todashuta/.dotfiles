@@ -201,6 +201,11 @@ NeoBundleLazy 'kana/vim-smartchr', {
       \     'insert' : 1,
       \ }}
 NeoBundle 'kana/vim-submode'
+NeoBundleLazy 'kana/vim-niceblock', {
+      \   'autoload' : {
+      \     'mappings' : [
+      \       ['x', '<Plug>(niceblock-I)'], ['x', '<Plug>(niceblock-A)']
+      \ ]}}
 NeoBundleLazy 'glidenote/memolist.vim', {
       \   'autoload' : {
       \     'commands' : ['MemoGrep', 'MemoList', 'MemoNew']
@@ -369,6 +374,7 @@ NeoBundleLazy 'thinca/vim-editvar', {
       \     'unite_sources' : 'variable'
       \ }}
 NeoBundle 'rbtnn/vimconsole.vim'
+NeoBundle 'tpope/vim-fugitive'
 NeoBundle 'vim-jp/vital.vim'
 "NeoBundle 'bling/vim-airline'
 
@@ -601,10 +607,10 @@ inoremap <silent> <C-[>  <Esc>`^
 inoremap <C-r>*  <C-o>:set paste<CR><C-r>*<C-o>:set nopaste<CR>
 
 " Move cursor by display line.
-noremap j gj
-noremap k gk
-noremap gj j
-noremap gk k
+noremap j  gj
+noremap k  gk
+noremap gj  j
+noremap gk  k
 
 " Stop the search highlightings and clear messages on the last line.
 nnoremap <Esc><Esc>  :<C-u>nohlsearch<CR>:<BS>
@@ -619,17 +625,17 @@ noremap <expr> L  &wrap ?
       \ 'g$' : 'zL'
 
 " Centering search result and open fold.
-nnoremap n nzzzv
-nnoremap N Nzzzv
+nnoremap n  nzzzv
+nnoremap N  Nzzzv
 
 " Don't move on *
-nnoremap * *N
+nnoremap *  *N
 " Don't move on #
-nnoremap # #N
+nnoremap #  #N
 " Don't move on g*
-nnoremap g* g*N
+nnoremap g*  g*N
 " Don't move on g#
-nnoremap g# g#N
+nnoremap g#  g#N
 
 " Centering <C-o>, <C-i>
 nnoremap <C-o>  <C-o>zz
@@ -645,23 +651,23 @@ if has('gui_running')
   nnoremap <C-Tab>    gt
   nnoremap <C-S-Tab>  gT
 endif
-nnoremap gl gt
-nnoremap gh gT
+nnoremap gl  gt
+nnoremap gh  gT
 
 " Enter ';' to use command-line (Swap ':' and ';').
-noremap ; :
-noremap : ;
+noremap ;  :
+noremap :  ;
 
 " <Space-CR>: line break.
 nnoremap <Space><CR>  i<CR><Esc>
 
 " Visual shifting (does not exit Visual mode)
-xnoremap < <gv
-xnoremap > >gv
+xnoremap <  <gv
+xnoremap >  >gv
 
 " Quick shifting.
-nnoremap < <<
-nnoremap > >>
+nnoremap <  <<
+nnoremap >  >>
 
 " Indent
 if has('gui_running')
@@ -679,7 +685,7 @@ nnoremap <silent> <S-Down>   :<C-u>wincmd -<CR>
 nnoremap <silent> <Space>=  :<C-u>wincmd =<CR>
 
 " Yank from the cursor to the end of line.
-nnoremap Y y$
+nnoremap Y  y$
 
 " Command-Line mode keymappings (Emacs like)
 " <C-a>: move to head.
@@ -697,7 +703,7 @@ cnoremap <C-n>    <Down>
 " <C-p>: previous history.
 cnoremap <C-p>    <Up>
 " <C-k>: delete to end.
-cnoremap <C-k> <C-\>e getcmdpos() == 1 ?
+cnoremap <C-k>  <C-\>e getcmdpos() == 1 ?
       \ '' :  getcmdline()[: getcmdpos()-2]<CR>
 " <C-y>:  paste.
 cnoremap <C-y>    <C-r>*
@@ -779,10 +785,10 @@ nnoremap <silent> [buffer]t  :<C-u>Thumbnail -here<CR>
 " <Space-BS>: Unload buffer and delete it from the buffer list.
 nnoremap <silent> <Space><BS>  :<C-u>bdelete<CR>
 
-nnoremap q <Nop>
-nnoremap Q q
-nnoremap K <Nop>
-"nnoremap qK K
+nnoremap q  <Nop>
+nnoremap Q  q
+nnoremap K  <Nop>
+"nnoremap qK  K
 
 " Disable dangerous ZZ.
 nnoremap ZZ  :<C-u>call <SID>print_error('ZZ is disabled.')<CR>
@@ -1275,12 +1281,12 @@ let bundle = neobundle#get('emmet-vim')
           \   'indentation' : "\t",
           \   'html' : {
           \     'filters' : 'html',
-          \     'empty_element_suffix' : '>',
           \   },
           \   'css' : {
           \     'filters' : 'fc',
           \   },
           \ }
+    let g:emmet_html5 = 1
 
   endfunction
 unlet bundle
@@ -1677,13 +1683,13 @@ unlet bundle
 " quickrun.vim {{{
 
 nmap <silent> <Leader>r  <Plug>(quickrun)
-
-nnoremap <expr><silent> <C-c>  neobundle#is_sourced('vim-quickrun')
-      \ ? (quickrun#is_running() ? quickrun#sweep_sessions() : "\<C-c>")
-      \ : "\<C-c>"
+xmap <silent> <Leader>r  <Plug>(quickrun)
 
 let bundle = neobundle#get('vim-quickrun')
   function! bundle.hooks.on_source(bundle)
+
+    nnoremap <expr><silent> <C-c>
+          \ quickrun#is_running() ? quickrun#sweep_sessions() : "\<C-c>"
 
     let g:quickrun_config = {}
     let g:quickrun_config._ = {
@@ -1724,11 +1730,11 @@ unlet bundle
 
 " vimfiler.vim {{{
 
-" Use vimfiler as default explorer like netrw.
-let g:vimfiler_as_default_explorer = 1
-
 let bundle = neobundle#get('vimfiler.vim')
   function! bundle.hooks.on_source(bundle)
+    " Use vimfiler as default explorer like netrw.
+    let g:vimfiler_as_default_explorer = 1
+
     let g:vimfiler_detect_drives = s:is_windows
           \ ? ['C:/', 'D:/', 'E:/', 'F:/', 'G:/', 'H:/',
           \    'I:/', 'J:/', 'K:/', 'L:/', 'M:/', 'N:/']
@@ -1778,14 +1784,6 @@ nnoremap <silent> [toggle]il
 
 " }}}
 
-" open-browser.vim {{{
-
-"let g:netrw_nogx = 1  " Disable netrw's gx mapping.
-nmap gx  <Plug>(openbrowser-smart-search)
-vmap gx  <Plug>(openbrowser-smart-search)
-
-" }}}
-
 " vim-ref {{{
 
 let bundle = neobundle#get('vim-ref')
@@ -1809,36 +1807,6 @@ let bundle = neobundle#get('vim-ref')
 
   endfunction
 unlet bundle
-
-" }}}
-
-" vim-visualstar {{{
-
-xmap *  <Plug>(visualstar-*)N
-xmap #  <Plug>(visualstar-#)N
-xmap g*  <Plug>(visualstar-g*)N
-xmap g#  <Plug>(visualstar-g#)N
-
-" }}}
-
-" vim-surround {{{
-
-nmap ds  <Plug>Dsurround
-nmap cs  <Plug>Csurround
-nmap ys  <Plug>Ysurround
-nmap yS  <Plug>YSurround
-nmap yss <Plug>Yssurround
-nmap ySs <Plug>YSsurround
-nmap ySS <Plug>YSsurround
-xmap S   <Plug>VSurround
-xmap gS  <Plug>VgSurround
-
-" }}}
-
-" vim-expand-region {{{
-
-vmap +  <Plug>(expand_region_expand)
-vmap -  <Plug>(expand_region_shrink)
 
 " }}}
 
@@ -1907,8 +1875,38 @@ runtime macros/matchit.vim
 " colorizer.vim
 nmap <silent> <Leader>tc  <Plug>Colorizer
 
+" vim-visualstar
+xmap *  <Plug>(visualstar-*)N
+xmap #  <Plug>(visualstar-#)N
+xmap g*  <Plug>(visualstar-g*)N
+xmap g#  <Plug>(visualstar-g#)N
+
+" vim-surround
+nmap ds   <Plug>Dsurround
+nmap cs   <Plug>Csurround
+nmap ys   <Plug>Ysurround
+nmap yS   <Plug>YSurround
+nmap yss  <Plug>Yssurround
+nmap ySs  <Plug>YSsurround
+nmap ySS  <Plug>YSsurround
+xmap S    <Plug>VSurround
+xmap gS   <Plug>VgSurround
+
 " vim-toggle
 nmap <silent> +  <Plug>ToggleN
+
+" vim-expand-region
+vmap +  <Plug>(expand_region_expand)
+vmap _  <Plug>(expand_region_shrink)
+
+" vim-niceblock
+xmap I  <Plug>(niceblock-I)
+xmap A  <Plug>(niceblock-A)
+
+" open-browser.vim
+"let g:netrw_nogx = 1  " Disable netrw's gx mapping.
+nmap gx  <Plug>(openbrowser-smart-search)
+vmap gx  <Plug>(openbrowser-smart-search)
 
 " VimCalc
 let g:VCalc_WindowPosition = 'bottom'
@@ -1927,7 +1925,7 @@ let vimrplugin_screenplugin = 0
 "
 augroup MyAutoCmd
   "autocmd BufNewFile,BufRead *.coffee setlocal filetype=coffee
-  autocmd BufNewFile,BufRead *.go setlocal filetype=go
+  "autocmd BufNewFile,BufRead *.go setlocal filetype=go
 augroup END
 
 autocmd MyAutoCmd FileType help
@@ -1999,7 +1997,7 @@ endfunction
 
 " Others: "{{{
 "
-" Change cursor shape.
+" Change cursor shape for iTerm2.
 " See: http://blog.remora.cx/2012/10/spotlight-cursor-line.html
 " See: https://gist.github.com/1195581
 if s:is_term
@@ -2030,7 +2028,7 @@ augroup BinaryXXD
 augroup END
 
 " I don't want to use Modula-2 syntax to *.md.
-autocmd MyAutoCmd BufNewFile,BufRead *.md setlocal filetype=markdown
+"autocmd MyAutoCmd BufNewFile,BufRead *.md setlocal filetype=markdown
 
 " When do not include Japanese, use encoding for fileencoding.
 " See: https://github.com/Shougo/shougo-s-github/blob/master/vim/.vimrc
