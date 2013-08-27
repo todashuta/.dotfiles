@@ -923,59 +923,46 @@ set display& display+=lastline
 " The height of popup menu.
 set pumheight=15
 
-" colorcolumn
-"let s:my_colorcolumn = join(range(79, 334), ',')
+" colorcolumn.
 " http://hanschen.org/2012/10/24/
 " http://stackoverflow.com/questions/2447109/showing-a-different-background-colour-in-vim-past-80-characters
-
-" Disable colorcolumn automatically when narrow width of window.
-"if exists('&colorcolumn')
-"  autocmd MyAutoCmd BufEnter,VimResized,WinEnter *
-"        \ let &colorcolumn = (winwidth(0) >= 85) ?
-"        \   (join(range(79, 334), ',')) : 0
-"endif  " MEMO: winwidth(0) or &columns ??
-
-" Toggle colorcolumn.
-if exists('&colorcolumn')
-  nnoremap <silent> [toggle]cc
-        \ :<C-u>let &colorcolumn =
-        \   (&colorcolumn == 0) ? (join(range(79, 334), ',')) : 0 <CR>
-endif
-
-if has('vim_starting')  " Don't reset twice on reloading.
-  if exists('&colorcolumn')
-    " Highlight columns.
+if exists('+colorcolumn')
+  if has('vim_starting')
     let &colorcolumn = join(range(79, 334), ',')
   endif
 
+  " Toggle colorcolumn.
+  nnoremap <silent> [toggle]cc
+        \ :<C-u>let &colorcolumn =
+        \   (&colorcolumn == 0) ? join(range(79, 334), ',') : 0 <CR>
+endif
+
+let s:listchars = {
+      \   'classic' : 'tab:>-,trail:-,eol:$,extends:>,precedes:<,nbsp:%',
+      \   'modern'  : 'tab:▸ ,trail:›,precedes:«,extends:»,nbsp:␣'
+      \ }
+
+if has('vim_starting')  " Don't reset twice on reloading.
+  " Indicate tab, wrap, trailing spaces and eol or not.
+  set list
+  " Strings to use in 'list' mode and for the :list command.
+  let &listchars = s:is_unicode ?
+        \ s:listchars['modern'] : s:listchars['classic']
+
+  " Line number.
   if (v:version >= 704)
     " Show relativenumber with absolute line number on cursor line.
     set relativenumber number
   else
-    " Show line number.
     set number
-    " Show line number relative to the line with the cursor.
     "set relativenumber
   endif
 
   " Lines longer than the width of the window will wrap.
   set wrap
-  " Indicate tab, wrap, trailing spaces and eol or not.
-  set list
+  " Highlight cursor line.
+  set cursorline
 endif
-
-" Strings to use in 'list' mode and for the :list command.
-let s:listchars = {
-      \   'classic' : 'tab:>-,trail:-,eol:$,extends:>,precedes:<,nbsp:%',
-      \   'modern'  : 'tab:▸ ,trail:›,precedes:«,extends:»,nbsp:␣'
-      \ }
-if has('vim_starting')
-  let &listchars = s:is_unicode ?
-        \ s:listchars['modern'] : s:listchars['classic']
-endif
-
-" Highlight cursor line.
-set cursorline
 
 " Highlight cursor line sensibly only current window.
 autocmd MyAutoCmd WinEnter *
@@ -1613,11 +1600,14 @@ set noshowmode
 
 " vimshell.vim {{{
 
-noremap <silent> <Space>r
-      \ :VimShellSendString<CR>
+silent! noremap <silent> <Space>r
+      \ :<C-u>echo '<Space-r>: Not defined.'<CR>
 
 let bundle = neobundle#get('vimshell.vim')
   function! bundle.hooks.on_source(bundle)
+
+    noremap <silent> <Space>r
+          \ :VimShellSendString<CR>
 
     " Prompt.
     function! s:vimshell_my_prompt()
@@ -1773,6 +1763,7 @@ let g:indentLine_char = '¦'
 let g:indentLine_showFirstIndentLevel = 1
 let g:indentLine_indentLevel = 20
 "let g:indentLine_noConcealCursor = 1
+let g:indentLine_fileTypeExclude = ['help']
 
 if s:is_reloading && exists(':IndentLinesReset')
   IndentLinesReset
@@ -1924,6 +1915,7 @@ let vimrplugin_screenplugin = 0
 " File type settings. {{{
 "
 augroup MyAutoCmd
+  "autocmd BufNewFile,BufRead *.md setlocal filetype=markdown
   "autocmd BufNewFile,BufRead *.coffee setlocal filetype=coffee
   "autocmd BufNewFile,BufRead *.go setlocal filetype=go
 augroup END
@@ -2026,9 +2018,6 @@ augroup BinaryXXD
   autocmd BufWritePost * if &binary | silent %!xxd -g 1
   autocmd BufWritePost *   setlocal nomodified | endif
 augroup END
-
-" I don't want to use Modula-2 syntax to *.md.
-"autocmd MyAutoCmd BufNewFile,BufRead *.md setlocal filetype=markdown
 
 " When do not include Japanese, use encoding for fileencoding.
 " See: https://github.com/Shougo/shougo-s-github/blob/master/vim/.vimrc
