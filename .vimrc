@@ -927,14 +927,18 @@ set pumheight=15
 " http://hanschen.org/2012/10/24/
 " http://stackoverflow.com/questions/2447109/showing-a-different-background-colour-in-vim-past-80-characters
 if exists('+colorcolumn')
+  function! s:colorcolumn()
+    return join(range(79, 334), ',')
+  endfunction
+
   if has('vim_starting')
-    let &colorcolumn = join(range(79, 334), ',')
+    let &colorcolumn = s:colorcolumn()
   endif
 
   " Toggle colorcolumn.
   nnoremap <silent> [toggle]cc
         \ :<C-u>let &colorcolumn =
-        \   (&colorcolumn == 0) ? join(range(79, 334), ',') : 0 <CR>
+        \   empty(&colorcolumn) ? <SID>colorcolumn() : ''<CR>
 endif
 
 let s:listchars = {
