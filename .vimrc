@@ -1764,7 +1764,7 @@ nnoremap <silent> <Space>f
 
 " indentLine {{{
 
-let g:indentLine_char = '¦'
+let g:indentLine_char = s:is_unicode ? '¦' : '|'
 let g:indentLine_showFirstIndentLevel = 1
 let g:indentLine_indentLevel = 20
 "let g:indentLine_noConcealCursor = 1
