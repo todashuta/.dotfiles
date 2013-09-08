@@ -53,6 +53,9 @@ augroup MyAutoCmd
   autocmd!
 augroup END
 
+" Delete a vimrc_example's autocmd group.
+silent! augroup! vimrcEx
+
 if s:is_windows && exists('+shellslash')
   " Use a forward slash as a path separator.
   set shellslash
@@ -504,8 +507,8 @@ set modeline
 if has('mouse')
   try
     set ttymouse=sgr
-  catch
-    set ttymouse=xterm2
+  catch /^Vim\%((\a\+)\)\=:E474/
+    silent! set ttymouse=xterm2
   finally
     set mouse=a
   endtry
@@ -580,10 +583,7 @@ nohlsearch
 
 " Command-line completion operates in an enhanced mode.
 set wildmenu wildmode=longest,list,full
-
-if exists('+wildignorecase')
-  set wildignorecase
-endif
+silent! set wildignorecase
 
 " These patterns is ignored when completing file or directory names.
 "set wildignore& wildignore+=.DS_Store
@@ -901,9 +901,7 @@ set scrolloff=2
 " Disable bell.
 set visualbell t_vb=
 " A fullwidth character is displayed in vim properly.
-if exists('+ambiwidth')
-  set ambiwidth=double
-endif
+silent! set ambiwidth=double
 
 if has('conceal')
   set conceallevel=2 concealcursor=ni
@@ -929,7 +927,8 @@ set pumheight=15
 if exists('+colorcolumn')
   function! s:colorcolumns(start)
     let end = a:start + 255
-    return join(range(a:start, end), ',')
+    return (a:start == 0) ?
+          \ '' : join(range(a:start, end), ',')
   endfunction
 
   if has('vim_starting')
@@ -1095,7 +1094,7 @@ autocmd MyAutoCmd InsertLeave *
 "
 function! s:restore_cursor_position()
   if line("'\"") > 1 && line("'\"") <= line("$")
-    execute "normal! g`\""
+    execute 'normal! g`"'
   endif
 endfunction
 
