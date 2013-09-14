@@ -380,6 +380,25 @@ NeoBundle 'rbtnn/vimconsole.vim'
 NeoBundle 'tpope/vim-fugitive'
 NeoBundle 'vim-jp/vital.vim'
 "NeoBundle 'bling/vim-airline'
+NeoBundleLazy 'kana/vim-textobj-user', {
+      \   'autoload' : {
+      \     'function_prefix' : 'textobj'
+      \ }}
+NeoBundleLazy 'kana/vim-textobj-indent', {
+      \   'autoload' : {
+      \     'mappings' : [
+      \       ['xo', 'ai'], ['xo', 'ii'], ['xo', 'aI'], ['xo', 'iI']
+      \ ]}}
+"NeoBundle 'kana/vim-textobj-jabraces'
+NeoBundleLazy 'thinca/vim-textobj-comment', {
+      \   'autoload' : {
+      \     'mappings' : [['xo', 'ac'], ['xo', 'ic']]
+      \ }}
+NeoBundleLazy 'saihoooooooo/vim-textobj-space', {
+      \   'autoload' : {
+      \     'mappings' : [['xo', 'aS'], ['xo', 'iS']]
+      \ }}
+NeoBundle 'mattn/lisper-vim'
 
 if has('python')
   NeoBundleLazy 'gregsexton/VimCalc', {
