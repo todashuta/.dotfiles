@@ -16,4 +16,11 @@ set expand-tilde on
 #"\e[B":history-search-forward
 #$endif
 
+# MEMO:
+# 外部のファイルを読み込むときはこのようにする
+# $include /path/to/hoge
+#
+# source /path/to/hoge とするとできてるようで
+# 's'が入力できなくなるなど問題を起こす
+
 # __END__
