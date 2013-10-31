@@ -1,2 +1,4 @@
 nnoremap : ;
 nnoremap ; :
+
+set hintchars=hjklasdfgyuiopqwertnmzxcvb
