@@ -1,4 +1,16 @@
+" .vimperatorrc
+
 nnoremap : ;
 nnoremap ; :
 
+cnoremap <C-p>  <Up>
+cnoremap <C-n>  <Down>
+
+nnoremap <C-h>  :<C-u>help<Space>
+
 set hintchars=hjklasdfgyuiopqwertnmzxcvb
+set status=input,history,tabcount,position,bookmark,ssl
+set titlestring=Firefox
+"set gui=noaddons,nobookmarks
+
+" __END__
