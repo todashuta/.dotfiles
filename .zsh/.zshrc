@@ -1,8 +1,10 @@
 # .zshrc
 # https://github.com/todashuta/profiles
 
-profiles=${HOME}/.profiles.d
-source ${profiles}/functions
+source "${HOME}/.dotfilesrc"
+if [[ -n "${DOTFILES_DIRECTORY}" ]]; then
+    source "${DOTFILES_DIRECTORY}/functions"
+fi
 
 ## General {{{
 
@@ -10,7 +12,7 @@ source ${profiles}/functions
 bindkey -e
 
 ## zcompile
-#zcompile ${ZDOTDIR}/.zshrc
+#zcompile "${ZDOTDIR}/.zshrc"
 
 # }}}
 
@@ -22,12 +24,17 @@ bindkey -e
 # 重複したパスを登録しない
 typeset -U fpath
 # パスの設定
-fpath=(
-    # zsh-completions
+fpath=(  # {{{
+    # My functions. (alc, wikipedia...)
+    ${ZDOTDIR}/functions(N-/)
+
+    # Homebrew installed zsh-completions.
     /usr/local/share/zsh-completions(N-/)
+    # git-cloned zsh-completions.
     ${HOME}/.repos/zsh-completions/src(N-/)
 
-    $fpath)
+    ${fpath}  # デフォルトの fpath
+)  # }}}
 
 # }}}
 
@@ -41,100 +48,112 @@ setopt prompt_percent
 setopt transient_rprompt
 
 # colors
-autoload -Uz colors && colors
+autoload -Uz colors; colors
+
+# add-zsh-hook
+autoload -Uz add-zsh-hook
 
 # See: http://www.clear-code.com/blog/2011/9/5.html
-# プロンプトが占める文字数を返す関数。
-# 日本語は未対応らしいので英数字だけの User@Host をカウントするのにのみ利用。
-count_prompt_characters()
-{
-    print -n -P -- "$1" | sed -e $'s/\e\[[0-9;]*m//g' | wc -m | sed -e 's/ //g'
-}
+# See: http://stackoverflow.com/questions/10564314/count-length-of-user-visible-string-for-zsh-prompt
+# See: http://stackoverflow.com/questions/2267155/what-does-sstring-kf1-bbkf-mean
+# See: http://aperiodic.net/phil/prompt/
+# See: http://zsh.sourceforge.net/Guide/zshguide05.html
+#
+_update_prompt() {  # {{{
+    if [[ "${UID}" == 0 ]]; then
+        ## root のプロンプト
+        #
+        # プロンプト1段目の左側: "ユーザ名 at ホスト名 in " (color: red)
+        local user_info="%F{red}%n%f at %F{red}%m%f in "
+        # プロンプト1段目の左側: "ユーザ名@ホスト名 " (color: red)
+        #local user_info="%F{red}%n@%m%f "
 
-_update_prompt(){
-    case ${UID} in
-    0)  #### rootのプロンプト ####
-        # プロンプト上段の左側: User@Host (color: red)
-        local prompt_left="%F{red}%n@%m%f"
+        # 変数展開を利用して user_info が画面上を占める幅を求める。
+        local zero='%([BSUbfksu]|([FB]|){*})'  # 取り除くパターン
+        local user_info_size=${#${(S%%)user_info//$~zero/}}
 
-        # prompt_left が画面上を占める幅をカウントする。
-        local prompt_left_len=$(count_prompt_characters "${prompt_left} ")
+        # 端末の横幅(COLUMNS)から user_info_size 引いた結果: パスに使える幅
+        local cwd_size
+        (( cwd_size = ${COLUMNS} - ${user_info_size} - 1 ))
 
-        # 端末の横幅から prompt_left の幅を引いた結果を求める
-        # $COLUMNS: 端末の横幅
-        local prompt_rest_len=$[COLUMNS - prompt_left_len]
+        # プロンプト1段目右側: フルパスを表示 (color: blue)
+        # cwd_size をオーバーする場合は左側(上の階層側)を...で省略
+        local cwd="%F{blue}%${cwd_size}<...<%~%<<%f"
 
-        # プロンプト上段の右側:
-        # prompt_rest_len に収まる長さのフルパス (color: blue)
-        # 幅に収まらない分は左側(上の階層側)を...で省略
-        local prompt_right="%F{blue}%${prompt_rest_len}<...<%~%<<%f"
-
-        # 1段目のプロンプト: User@Host 画面幅に収まる分のフルパス。
-        local first_prompt="${prompt_left} ${prompt_right}"
+        # プロンプト1段目
+        local upper_prompt="${user_info}${cwd}"
 
         # 顔文字。直前のコマンドの成否で変化する。0: (o_o), 0以外: (@_@)
         local zsh_face="%(?.%F{blue}(o_o)%f.%F{red}(@_@%)%f)"
 
         # GNU Screen 上ではウインドウ番号を表示する。
-        local screen_winnr="${WINDOW:+"[$WINDOW]"}"
+        local screen_winnr="${WINDOW:+"[${WINDOW}]"}"
 
         # 2段目のプロンプト: ジョブ数 顔文字 screenウインドウ番号
-        local second_prompt="jobs:%j ${zsh_face}${screen_winnr}"
+        local lower_prompt="jobs:%j ${zsh_face}${screen_winnr}"
 
         # %#: rootでは#, 一般ユーザでは%
         #
-        PROMPT="${first_prompt}"$'\n'"${second_prompt}%# "
+        PROMPT="${upper_prompt}"$'\n'"${lower_prompt}%# "
+    else
+        ## root 以外用のプロンプト
+        #
+        # プロンプト1段目の左側: "ユーザ名 at ホスト名 in " (color: green)
+        local user_info="%F{green}%n%f at %F{green}%m%f in "
+        # プロンプト1段目の左側: "ユーザ名@ホスト名 " (color: green)
+        #local upper_left="%F{green}%n@%m%f "
 
-        # コマンド訂正のプロンプト
-        SPROMPT="%F{red}(o_o%)? correct '%R' to '%r' [nyae]?%f "
-        ;;
-    *)  #### Not a root. ####
-        # プロンプト上段の左側: User@Host (color: green)
-        local prompt_left="%F{green}%n@%m%f"
+        # 変数展開を利用して user_info が画面上を占める幅を求める。
+        local zero='%([BSUbfksu]|([FB]|){*})'  # 取り除くパターン
+        local user_info_size=${#${(S%%)user_info//$~zero/}}
 
-        # prompt_left が画面上を占める幅をカウントする。
-        local prompt_left_len=$(count_prompt_characters "${prompt_left} ")
+        # 端末の横幅(COLUMNS)から user_info_size 引いた結果: パスに使える幅
+        local cwd_size
+        (( cwd_size = ${COLUMNS} - ${user_info_size} - 1 ))
 
-        # 端末の横幅から prompt_left の幅を引いた結果を求める
-        # $COLUMNS: 端末の横幅
-        local prompt_rest_len=$[COLUMNS - prompt_left_len]
+        # プロンプト1段目右側: フルパスを表示 (color: yellow)
+        # cwd_size をオーバーする場合は左側(上の階層側)を...で省略
+        local cwd="%F{yellow}%${cwd_size}<...<%~%<<%f"
 
-        # プロンプト上段の右側:
-        # prompt_rest_len に収まる長さのフルパス (color: yellow)
-        # 幅に収まらない分は左側(上の階層側)を...で省略
-        local prompt_right="%F{yellow}%${prompt_rest_len}<...<%~%<<%f"
-
-        # 1段目のプロンプト: User@Host 画面幅に収まる分のフルパス。
-        local first_prompt="${prompt_left} ${prompt_right}"
+        # プロンプト1段目
+        local upper_prompt="${user_info}${cwd}"
 
         # 顔文字。直前のコマンドの成否で変化する。 0: (*'_'), 0以外: (*@_@)
         local zsh_face="%(?.%F{blue}(*'_')%f.%F{red}(*@_@%)%f)"
 
-        # GNU Screen 上ではウインドウ番号を表示する。
-        local screen_winnr="${WINDOW:+"[$WINDOW]"}"
+        # GNU Screen 上でウインドウ番号を表示する用。
+        local screen_winnr="${WINDOW:+"[${WINDOW}]"}"
 
-        # 2段目のプロンプト: ジョブ数 顔文字 screenウインドウ番号
-        local second_prompt="jobs:%j ${zsh_face}${screen_winnr}"
+        # tmux 上でウインドウ番号やペインの番号を表示する用。
+        local tmux_info=''
+        if [[ -n "${TMUX}" ]]; then
+            local tmux_info='$(command tmux display -p "[#I-#P]")'
+        fi
 
+        # プロンプト2段目: ジョブ数 顔文字 screenウインドウ番号
+        local lower_prompt="jobs:%j ${zsh_face}${screen_winnr}${tmux_info}"
+
+        # MEMO:
         # $'\n': 改行
         # %h or %!: ヒストリ数
         # %*: 時刻(hh:mm:ss)
         #
-        # User@Host フルパス
-        # ジョブ数 顔文字>
-        PROMPT="${first_prompt}"$'\n'"${second_prompt}> "
+        # 仕上げ: 改行で繋いで '> ' を付け加える。
+        PROMPT="${upper_prompt}"$'\n'"${lower_prompt}> "
 
-        # パス短縮の例
-        # See: http://0xcc.net/blog/archives/000032.html
+        # MEMO: パス短縮の例
         # %(5~,%-2~/.../%2~,%~)
+        # See: http://0xcc.net/blog/archives/000032.html
+    fi
+}  # }}}
+add-zsh-hook precmd _update_prompt
 
-        # コマンド訂正のプロンプト
-        SPROMPT="%F{red}(*'_'%)? もしかして '%r' かな? [そう!(y), ちがう!(n),a,e]:%f "
-        ;;
-    esac
-}
-precmd_functions=($precmd_functions _update_prompt)
-
+# コマンド訂正のプロンプト
+if [[ "${UID}" == 0 ]]; then
+    SPROMPT="%F{red}(o_o%)? correct '%R' to '%r' [nyae]?%f "
+else
+    SPROMPT="%F{red}(*'_'%)? もしかして: '%r' [そう(y), ちゃう(n),a,e]: %f"
+fi
 
 ## 右プロンプトにVCS情報を表示 {{{
 
@@ -145,7 +164,7 @@ RPROMPT=""
 autoload -Uz vcs_info
 autoload -Uz add-zsh-hook
 autoload -Uz is-at-least
-#autoload -Uz colors
+autoload -Uz colors
 
 # 以下の3つのメッセージをエクスポートする
 #   $vcs_info_msg_0_ : 通常メッセージ用 (緑)
@@ -191,22 +210,22 @@ if is-at-least 4.3.11; then
     # git の作業コピーのあるディレクトリのみフック関数を呼び出すようにする
     # (.git ディレクトリ内にいるときは呼び出さない)
     # .git ディレクトリ内では git status --porcelain などがエラーになるため
-    function +vi-git-hook-begin() {
+    function +vi-git-hook-begin() {  # {{{
         if [[ $(command git rev-parse --is-inside-work-tree 2> /dev/null) != 'true' ]]; then
             # 0以外を返すとそれ以降のフック関数は呼び出されない
             return 1
         fi
 
         return 0
-    }
+    }  # +vi-git-hook-begin }}}
 
-    # untracked ファイル表示
+    ### untracked ファイル表示 ###
     #
     # untracked ファイル(バージョン管理されていないファイル)がある場合は
     # unstaged (%u) に ? を表示
-    function +vi-git-untracked() {
+    function +vi-git-untracked() {  # {{{
         # zstyle formats, actionformats の2番目のメッセージのみ対象にする
-        if [[ "$1" != "1" ]]; then
+        if [[ "${1}" != "1" ]]; then
             return 0
         fi
 
@@ -217,13 +236,13 @@ if is-at-least 4.3.11; then
             # unstaged (%u) に追加
             hook_com[unstaged]+='?'
         fi
-    }
+    }  # +vi-git-untracked }}}
 
-    # push していないコミットの件数表示
+    ### push していないコミットの件数表示 ###
     #
     # リモートリポジトリに push していないコミットの件数を
     # pN という形式で misc (%m) に表示する
-    function +vi-git-push-status() {
+    function +vi-git-push-status() {  # {{{
         # zstyle formats, actionformats の2番目のメッセージのみ対象にする
         if [[ "$1" != "1" ]]; then
             return 0
@@ -240,18 +259,18 @@ if is-at-least 4.3.11; then
             | wc -l \
             | tr -d ' ')
 
-        if [[ "$ahead" -gt 0 ]]; then
+        if [[ "${ahead}" -gt 0 ]]; then
             # misc (%m) に追加
             hook_com[misc]+="(p${ahead})"
         fi
-    }
+    }  # +vi-git-push-status }}}
 
-    # マージしていない件数表示
+    ### マージしていない件数表示 ###
     #
     # master 以外のブランチにいる場合に、
     # 現在のブランチ上でまだ master にマージしていないコミットの件数を
     # (mN) という形式で misc (%m) に表示
-    function +vi-git-nomerge-branch() {
+    function +vi-git-nomerge-branch() {  # {{{
         # zstyle formats, actionformats の2番目のメッセージのみ対象にする
         if [[ "$1" != "1" ]]; then
             return 0
@@ -265,17 +284,17 @@ if is-at-least 4.3.11; then
         local nomerged
         nomerged=$(command git rev-list master..${hook_com[branch]} 2>/dev/null | wc -l | tr -d ' ')
 
-        if [[ "$nomerged" -gt 0 ]] ; then
+        if [[ "${nomerged}" -gt 0 ]] ; then
             # misc (%m) に追加
             hook_com[misc]+="(m${nomerged})"
         fi
-    }
+    }  # +vi-git-nomerge-branch }}}
 
 
     # stash 件数表示
     #
     # stash している場合は :SN という形式で misc (%m) に表示
-    function +vi-git-stash-count() {
+    function +vi-git-stash-count() {  # {{{
         # zstyle formats, actionformats の2番目のメッセージのみ対象にする
         if [[ "$1" != "1" ]]; then
             return 0
@@ -287,17 +306,17 @@ if is-at-least 4.3.11; then
             # misc (%m) に追加
             hook_com[misc]+=":S${stash}"
         fi
-    }
+    }  # +vi-git-stash-count }}}
 
 fi
 
-function _update_vcs_info_msg() {
+function _update_vcs_info_msg() {  # {{{
     local -a messages
     local prompt
 
     LANG=en_US.UTF-8 vcs_info
 
-    if [[ -z ${vcs_info_msg_0_} ]]; then
+    if [[ -z "${vcs_info_msg_0_}" ]]; then
         # vcs_info で何も取得していない場合はプロンプトを表示しない
         prompt=""
     else
@@ -312,8 +331,8 @@ function _update_vcs_info_msg() {
         prompt="${(j: :)messages}"
     fi
 
-    RPROMPT="$prompt"
-}
+    RPROMPT="${prompt}"
+}  # _update_vcs_info_msg }}}
 add-zsh-hook precmd _update_vcs_info_msg
 
 # }}}
@@ -323,18 +342,19 @@ add-zsh-hook precmd _update_vcs_info_msg
 # Change the title of an xterm {{{
 
 # See: http://www.faqs.org/docs/Linux-mini/Xterm-Title.html#ss4.1
-case $TERM in
-xterm*)
-    precmd () {print -Pn "\e]0;%n@%m: %~\a"}
-    ;;
-esac
+if [[ "${TERM}" =~ '^xterm' ]]; then
+    function _change_xterm_title() {
+        print -Pn "\e]0;%n@%m: %~\a"
+    }
+    add-zsh-hook precmd _change_xterm_title
+fi
 
 # }}}
 
 # History {{{
 
 # 履歴を保存するファイル
-HISTFILE=${ZDOTDIR}/.zsh_history
+HISTFILE="${ZDOTDIR}/.zsh_history"
 # メモリ内の履歴の数
 HISTSIZE=1000000
 # 保存される履歴の数
@@ -385,7 +405,11 @@ bindkey "^N" down-line-or-beginning-search
 ## setopt {{{
 
 # Use zsh completion system!
-autoload -Uz compinit && compinit -u
+autoload -Uz compinit
+compinit -i
+# compinit -u : すべての発見したファイルを使用
+# compinit -i : すべての安全でないファイルとディレクトリを無視
+# compinit -C : セキュリティチェック全体をスキップする
 
 # ディレクトリ名を入力するだけで移動
 setopt auto_cd
@@ -445,16 +469,16 @@ setopt always_last_prompt
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
 
 # 補完候補でオプションとかの表示をするときに左右を分けてる部分の設定
-zstyle ':completion:*' list-separator '==>'
+zstyle ':completion:*' list-separator '-->'
 
 # 補完候補を矢印キーなどで選択可能にする
-zstyle ':completion:*:default' menu select
+zstyle ':completion:*' menu select
 
 # 補完候補をLS_COLORSに合わせて色付け
-zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
+zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
 
 # cd ../ するときに今いるディレクトリを補完候補から外す
-zstyle ':completion:*' ignore-parents parent pwd ..
+zstyle ':completion:*:cd:*' ignore-parents parent pwd ..
 
 # 補完候補をキャッシュする
 zstyle ':completion:*' use-cache true
@@ -465,6 +489,33 @@ zstyle ':completion:*' verbose yes
 # 補完関数の表示を過剰にする
 #zstyle ':completion:*' completer _expand _complete _match _prefix _approximate _list _history
 
+# 補完時のメッセージの形式
+zstyle ':completion:*:descriptions' format '%F{yellow}%BCompleting%b%f %B%d%b'
+#zstyle ':completion:*:messages' format '%F{yellow}%d%f'
+zstyle ':completion:*:warnings' format '%F{red}No matches for:%f %F{yellow}%d%f'
+#zstyle ':completion:*:corrections' format '%F{yellow}%B%d %F{red}(errors: %e)%b%f'
+
+# マッチ種別を別々に表示
+zstyle ':completion:*' group-name ''
+
+# manの補完をセクション番号別に表示させる
+zstyle ':completion:*:manuals' separate-sections true
+
+# 補完から除くパターン
+zstyle ':completion:*:*files' ignored-patterns '.DS_Store'
+
+# }}}
+
+# chpwd_recent_dirs (cdr) {{{
+
+if is-at-least 4.3.11; then
+    autoload -Uz chpwd_recent_dirs cdr
+    add-zsh-hook chpwd chpwd_recent_dirs
+    zstyle ':chpwd:*' recent-dirs-max 500
+    zstyle ':chpwd:*' recent-dirs-default true
+    zstyle ':completion:*' recent-dirs-insert always
+fi
+
 # }}}
 
 ## Misc {{{
@@ -473,64 +524,149 @@ zstyle ':completion:*' verbose yes
 # 自動的に消費時間の統計情報を表示する。
 REPORTTIME=3
 
-# スラッシュを単語の一部と見なさない
-# ==> C-w の単語削除時にディレクトリ単位で(スラッシュごとに)削除できる
-WORDCHARS='*?_-.[]~=&;!#$%^(){}<>'
-# 「|」も単語区切りと見なす
-WORDCHARS="${WORDCHARS}|"
+## スラッシュを単語の一部と見なさない
+## ==> C-w の単語削除時にディレクトリ単位で(スラッシュごとに)削除できる
+#WORDCHARS='*?_-.[]~=&;!#$%^(){}<>'
+## 「|」も単語区切りと見なす
+#WORDCHARS="${WORDCHARS}|"
+
+# 単語の区切り文字を指定する
+autoload -Uz select-word-style
+select-word-style default
+# ここで指定した文字は単語区切りとみなされる
+# ==> / を区切りとして扱えば、^W でディレクトリ単位の削除ができる
+zstyle ':zle:*' word-chars " /=;@:{},"
+zstyle ':zle:*' word-style unspecified
 
 # }}}
 
 ## Aliases {{{
 
-init_aliases    # at ${profiles}/functions
-
 # Global aliases (works only on zsh)
-alias -g L="| $PAGER"
-alias -g G="| grep"
-alias -g TW="| tw --pipe"
-alias -g V="| vim -"
+alias -g L="| ${PAGER}"
+alias -g G='| grep'
+alias -g TW='| tw --pipe'
+alias -g V='| vim -'
 
-#alias -s pdf="open -a Preview.app"
-#alias -s html="vim"
+#alias -s pdf='open -a Preview.app'
+#alias -s html='vim'
+
+alias cd-='cd -'
+
+if [[ "$(uname)" =~ 'Darwin' ]] && (( $+commands[sw_vers] )); then
+    # MacOS用
+    # topコマンド (CPU使用率ソート)
+    # 項目: PID,コマンド名,ユーザ,CPU使用率,メモリ,スレッド,状態,時間
+    alias top='top -o cpu -stats pid,command,user,cpu,rsize,vsize,th,pstate,time'
+fi
+
+# color ls
+case "${OSTYPE}" in
+    freebsd*|darwin*)
+        alias ls='ls -G'
+        ;;
+    linux*)
+        alias ls='ls --color=auto'
+        ;;
+esac
+
+# ls related
+alias ll='ls -alF'
+alias la='ls -A'
+alias l='ls -CF'
+
+# grep related
+alias egrep='egrep --color=auto'
+alias fgrep='fgrep --color=auto'
+alias grep='grep --color=auto'
+
+# tree コマンドで日本語を表示する
+alias tree='tree -N'
+
+# tmux のセッションがあればアタッチする
+alias tmuxx='tmux a || tmux'
+
+# Use MacVim.
+if [[ -d '/Applications/MacVim.app/Contents/MacOS' ]]; then
+    # Use MacVim's binary on Terminal.
+    alias vim='/Applications/MacVim.app/Contents/MacOS/Vim'
+    alias vimdiff='/Applications/MacVim.app/Contents/MacOS/vimdiff'
+    alias view='/Applications/MacVim.app/Contents/MacOS/view'
+
+    # Use GUI MacVim.
+    alias mvim='/Applications/MacVim.app/Contents/MacOS/mvim'
+    alias mvimdiff='/Applications/MacVim.app/Contents/MacOS/mvimdiff'
+    alias mview='/Applications/MacVim.app/Contents/MacOS/mview'
+fi
+
+#alias vi=vim
+## vim の起動オプション
+## -u {file}: 使用する vimrc の指定 (NONEでは何も使わない、vi互換になる)
+## -i {file}: 使用する viminfo の指定 (NONEでは何も使わない)
+## -N: set nocompatible の状態で起動
+#alias vi='vim -u NONE -i NONE -N'
+alias vi='vim -u NONE -i NONE'
 
 # }}}
 
 ## chpwd {{{
 
-function chpwd() {
-
-    # chpwdで自動でlsをするとき、ファイル数が多ければ上下5つだけ表示する
-    # See: http://zshscreenvimvimpwget.blog27.fc2.com/blog-entry-10.html
-    if [ 150 -le $(ls | wc -l) ]; then
-        ls | head -n 5
-        echo '...'
-        ls | tail -n 5
-        echo "$(ls | wc -l) files exist."
-    else
-        ls
+# See: http://qiita.com/yuyuchu3333/items/b10542db482c3ac8b059
+function ls_abbrev() {  # {{{
+    if [[ ! -r "${PWD}" ]]; then
+        return
     fi
+    # -a : Do not ignore entries starting with ..
+    # -A : Show all except . and ..
+    # -C : Force multi-column output.
+    # -F : Append indicator (one of */=>@|) to entries.
+    local cmd_ls='ls'
+    local -a opt_ls
+    opt_ls=('-ACF' '--color=always' '--group-directories-first')
+    case "${OSTYPE}" in
+        freebsd*|darwin*)
+            if (( $+commands[gls] )); then
+                cmd_ls='gls'
+            else
+                # -G : Enable colorized output.
+                opt_ls=('-ACFG')
+            fi
+            ;;
+    esac
 
-    # Show the number of the current directory's ToDo.
-    ztodo
+    local ls_result
+    ls_result=$(CLICOLOR_FORCE=1 COLUMNS="${COLUMNS}" \
+        command "${cmd_ls}" "${opt_ls[@]}" | sed $'/^\e\[[0-9;]*m$/d')
 
-    # Show the directory stack.
-    #dirs
-}
+    local ls_lines=$(echo "${ls_result}" | wc -l | tr -d ' ')
+    local prompt_lines=$(print -P "${PROMPT}" | wc -l | tr -d ' ')
+    local remaining_lines=$[LINES - (prompt_lines * 2) - 4]
+
+    if [[ "${ls_lines}" -gt "${remaining_lines}" ]]; then
+        echo "${ls_result}" | head -n $[remaining_lines / 2]
+        echo '...'
+        echo "${ls_result}" | tail -n $[remaining_lines / 2]
+        echo "$(command ls -1 -A | wc -l | tr -d ' ') files exist."
+    else
+        echo "${ls_result}"
+    fi
+}  # ls_abbrev }}}
+#autoload -Uz ls_abbrev
+add-zsh-hook chpwd ls_abbrev
 
 # }}}
 
 ## Incremental completion on zsh {{{
 
 # See: http://mimosa-pudica.net/zsh-incremental.html
-source ${ZDOTDIR}/plugin/incr*.zsh
+source "${ZDOTDIR}/plugin/incr-0.2.zsh"
 
 # }}}
 
 ## auto-fu.zsh {{{
 
-#if [ -f ${HOME}/auto-fu/auto-fu.zsh ]; then
-#    source ${HOME}/auto-fu/auto-fu.zsh
+#if [[ -f "${HOME}/auto-fu/auto-fu.zsh" ]]; then
+#    source "${HOME}/auto-fu/auto-fu.zsh"
 #    function zle-line-init () {
 #    auto-fu-init
 #}
@@ -542,18 +678,19 @@ source ${ZDOTDIR}/plugin/incr*.zsh
 
 ## zaw.zsh {{{
 
-if [ -f ${HOME}/zaw/zaw.zsh ]; then
-    source ${HOME}/zaw/zaw.zsh
+if [[ -f "${ZDOTDIR}/zaw/zaw.zsh" ]]; then
+    source "${ZDOTDIR}/zaw/zaw.zsh"
     bindkey '^R' zaw-history
 fi
 
 # }}}
 
 ## zsh-syntax-highlighting {{{
-
+#
 # See: https://github.com/zsh-users/zsh-syntax-highlighting
-if [ -f ~/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ]; then
-    source ~/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+if [[ -f "${ZDOTDIR}/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" ]]
+then
+    source "${ZDOTDIR}/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
 fi
 
 # }}}
@@ -562,16 +699,17 @@ fi
 
 # キャプションにディレクトリ名か実行中のコマンド名表示
 # See: http://masutaka.net/chalow/cat_zsh.html
-case "$TERM" in
-screen)
-    preexec() {
-        echo -ne "\ek#${1%% *}\e\\"
-    }
-    precmd() {
+if [[ "${TERM}" == 'screen' && -n "$WINDOW" ]]; then
+    function _screen_nice_caption_precmd() {
         echo -ne "\ek$(basename $(pwd))\e\\"
     }
-    ;;
-esac
+    add-zsh-hook precmd _screen_nice_caption_precmd
+
+    function _screen_nice_caption_preexec() {
+        echo -ne "\ek#${1%% *}\e\\"
+    }
+    add-zsh-hook preexec _screen_nice_caption_preexec
+fi
 
 # }}}
 
@@ -588,19 +726,60 @@ autoload -Uz zed
 
 # ztodo: simple per-directory todo list manager (+completion).
 autoload -Uz ztodo
+function _try_ztodo() { ztodo 2> /dev/null || true }
+add-zsh-hook chpwd _try_ztodo
 
 # tetris (Usage: M-x tetris RET)
-#autoload -Uz tetris && zle -N tetris
+#autoload -Uz tetris; zle -N tetris
 
 # 以前に実行したコマンドを入力するコマンド"r"の無効化
 #disable r
+
+# Separator.
+# See: http://qiita.com/Linda_pp/items/674b8582772747ede9c3
+function separator() {  # {{{
+    local i
+    echo -n ${fg_bold[yellow]}
+    for i in $(seq 1 ${COLUMNS}); do
+        echo -n '~'
+    done
+    echo -n ${reset_color}
+}  # }}}
+#autoload -Uz separator
+
+# Kiritorisen.
+# See: https://github.com/rhysd/dotfiles/blob/master/zshrc
+function kiritori() {  # {{{
+    local i
+    echo -n ${fg_bold[blue]}
+    for i in $(seq 1 $((${COLUMNS}/4-2))); do
+        echo -n '- '
+    done
+    echo -n ' ｷﾘﾄﾘｾﾝ '
+    for i in $(seq 1 $((${COLUMNS}/4-2))); do
+        echo -n ' -'
+    done
+    echo -n ${reset_color}
+    echo
+}  # }}}
+#autoload -Uz kiritori
+
+# alc search
+autoload -Uz alc
+# Wikipedia search
+autoload -Uz wikipedia
+
+# command_not_found_handler (Ubuntu only?)
+if [[ -f '/etc/zsh_command_not_found' ]]; then
+    source '/etc/zsh_command_not_found'
+fi
 
 # }}}
 
 ## Load local and temporary config file {{{
 
-if [ -f ~/.zshrc.local ]; then
-    . ~/.zshrc.local
+if [[ -f "${HOME}/.zshrc.local" ]]; then
+    source "${HOME}/.zshrc.local"
 fi
 
 # }}}
