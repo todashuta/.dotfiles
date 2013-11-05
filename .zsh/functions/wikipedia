@@ -1,0 +1,48 @@
+# wikipedia
+# =========
+#
+# 使い方:
+#
+#   fpath に設定されているディレクトリに設置後、
+#   autoload -Uz wikipedia
+#   とすることで使えるようになる。
+#
+#   % wikipedia [WORD]
+#
+#   [WORD] が複数からなる場合でも '' や "" でくくる必要はない
+
+
+# w3m, lynx のどちらもインストールされていないときのメッセージ
+if (( ! $+commands[w3m] && ! $+commands[lynx] )); then
+    echo "Please install 'w3m' or 'lynx'!"
+    return 1
+fi
+
+
+# 引数がない場合は使い方を表示する
+# 引数があれば 変数 url に代入
+if [[ $# == 0 ]]; then
+    echo -e 'Usage: wikipedia [WORD]...'
+    return 1
+else
+    local url="http://ja.wikipedia.org/wiki/$*"
+fi
+
+# ローカル変数とする
+local result
+
+# w3m を優先して使う
+if (( $+commands[w3m] )); then
+    # -dump : 標準出力に出力
+    result=$(w3m -dump "${url}")
+elif (( $+commands[lynx] )); then
+    # -dump : 標準出力に出力
+    # -nonumbers : リンクやフィールドに番号を付けない
+    result=$(lynx -dump -nonumbers "${url}")
+fi
+
+# 結果を less に渡す
+echo "${result}" | less
+
+
+# vim: set ft=zsh et:
