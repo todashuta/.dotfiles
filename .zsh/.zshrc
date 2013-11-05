@@ -774,6 +774,16 @@ if [[ -f '/etc/zsh_command_not_found' ]]; then
     source '/etc/zsh_command_not_found'
 fi
 
+# C-lでrehashもする
+# See: http://d.hatena.ne.jp/shinichiro_h/20080424/1208971521
+_clear-screen-with-rehash() {
+    zle clear-screen
+    rehash
+    zle reset-prompt
+}
+zle -N _clear-screen-with-rehash
+bindkey '^L' _clear-screen-with-rehash
+
 # }}}
 
 ## Load local and temporary config file {{{
