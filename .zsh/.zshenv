@@ -137,13 +137,9 @@ manpath=(
 ## PAGER {{{
 
 # lv を優先して lv がなかったら less を使用する
-if (( $+commands[lv] )); then
-    export PAGER='lv'
-elif (( $+commands[less] )); then
-    export PAGER='less'
-else
-    export PAGER='more'  # fallback
-fi
+export PAGER='more'  # fallback
+(( $+commands[less] )) && export PAGER='less'
+(( $+commands[lv] )) && export PAGER='lv'
 
 # lv の設定
 if (( $+commands[lv] )); then
@@ -189,11 +185,8 @@ fi
 
 ## EDITOR {{{
 
-if (( $+commands[vim] )); then
-    export EDITOR='vim'
-elif (( $+commands[vi] )); then
-    export EDITOR='vi'
-fi
+(( $+commands[vi] )) && export EDITOR='vi'
+(( $+commands[vim] )) && export EDITOR='vim'
 
 # }}}
 
