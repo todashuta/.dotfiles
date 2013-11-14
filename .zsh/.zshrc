@@ -59,7 +59,7 @@ autoload -Uz add-zsh-hook
 # See: http://aperiodic.net/phil/prompt/
 # See: http://zsh.sourceforge.net/Guide/zshguide05.html
 #
-_update_prompt() {  # {{{
+function _update_prompt() {  # {{{
     if [[ "${UID}" == 0 ]]; then
         ## root のプロンプト
         #
@@ -776,7 +776,7 @@ fi
 
 # C-lでrehashもする
 # See: http://d.hatena.ne.jp/shinichiro_h/20080424/1208971521
-_clear-screen-with-rehash() {
+function _clear-screen-with-rehash() {
     zle clear-screen
     rehash
     zle reset-prompt
