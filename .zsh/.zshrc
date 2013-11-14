@@ -785,6 +785,11 @@ function _clear-screen-with-rehash() {
 zle -N _clear-screen-with-rehash
 bindkey '^L' _clear-screen-with-rehash
 
+# go completion.
+if [[ -f "$(echo ${^fpath}/go(N))" ]]; then
+    source ${^fpath}/go(N)
+fi
+
 # }}}
 
 ## Load local and temporary config file {{{
