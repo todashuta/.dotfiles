@@ -725,9 +725,10 @@ bindkey "^[[Z" reverse-menu-complete
 autoload -Uz zed
 
 # ztodo: simple per-directory todo list manager (+completion).
-autoload -Uz ztodo
-function _try_ztodo() { ztodo 2> /dev/null || true }
-add-zsh-hook chpwd _try_ztodo
+if [[ -f "$(echo ${^fpath}/ztodo(N))" ]]; then
+    autoload -Uz ztodo
+    add-zsh-hook chpwd ztodo
+fi
 
 # tetris (Usage: M-x tetris RET)
 #autoload -Uz tetris; zle -N tetris
