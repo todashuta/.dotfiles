@@ -509,11 +509,12 @@ zstyle ':completion:*:*files' ignored-patterns '.DS_Store'
 # chpwd_recent_dirs (cdr) {{{
 
 if is-at-least 4.3.11; then
-    autoload -Uz chpwd_recent_dirs cdr
+    autoload -Uz chpwd_recent_dirs cdr add-zsh-hook
     add-zsh-hook chpwd chpwd_recent_dirs
-    zstyle ':chpwd:*' recent-dirs-max 500
+    zstyle ':chpwd:*' recent-dirs-max 512
     zstyle ':chpwd:*' recent-dirs-default true
     zstyle ':completion:*' recent-dirs-insert always
+    #zstyle ':chpwd:*' recent-dirs-file "${ZDOTDIR}/.chpwd-recent-dirs"
 fi
 
 # }}}
