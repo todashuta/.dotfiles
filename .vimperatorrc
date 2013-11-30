@@ -8,6 +8,9 @@ cnoremap <C-n>  <Down>
 
 nnoremap <C-h>  :<C-u>help<Space>
 
+nnoremap <Esc><Esc>  :<C-u>nohlsearch<CR>
+"nnoremap <C-[><C-[>  :<C-u>nohlsearch<CR>
+
 set hintchars=hjklasdfgyuiopqwertnmzxcvb
 set status=input,history,tabcount,position,bookmark,ssl
 set titlestring=Firefox
