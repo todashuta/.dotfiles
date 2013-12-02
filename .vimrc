@@ -399,6 +399,10 @@ NeoBundleLazy 'saihoooooooo/vim-textobj-space', {
       \     'mappings' : [['xo', 'aS'], ['xo', 'iS']]
       \ }}
 NeoBundle 'mattn/lisper-vim'
+NeoBundleLazy 'rbtnn/puyo.vim', {
+      \   'autoload' : {
+      \     'commands' : 'Puyo'
+      \ }}
 
 if has('python')
   NeoBundleLazy 'gregsexton/VimCalc', {
