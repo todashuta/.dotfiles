@@ -871,24 +871,24 @@ autocmd MyAutoCmd FileType markdown
 function! s:on_FileType_markdown()
   " Insert space sensibly after '-', '+', '*', '>'.
   inoremap <buffer><expr> -
-        \ search('\(^\t*\<bar>^\t*-\s\)\%#', 'bcn') ?
+        \ search('^\s*\%(-\s\)*\%#', 'bcn') ?
         \   smartchr#one_of('- ', '-') : '-'
   inoremap <buffer><expr> +
-        \ search('\(^\t*\<bar>^\t*+\s\)\%#', 'bcn') ?
+        \ search('^\s*\%(+\s\)*\%#', 'bcn') ?
         \   smartchr#one_of('+ ', '+') : '+'
   inoremap <buffer><expr> *
-        \ search('\(^\t*\<bar>^\t*\*\s\)\%#', 'bcn') ?
+        \ search('^\s*\%(\*\s\)*\%#', 'bcn') ?
         \   smartchr#one_of('* ', '*') : '*'
   inoremap <buffer><expr> >
-        \ search('\(^\t*\<bar>^\t*>\s\)\%#', 'bcn') ?
+        \ search('^\s*\%(>\s\)*\%#', 'bcn') ?
         \   smartchr#one_of('> ', '>') : '>'
 
   " Insert space sensibly after '#', '.'.
   inoremap <buffer><expr> #
-        \ search('\(^\t*\<bar>^\t*#\s\<bar>^\t*##*\s\)\%#', 'bcn') ?
+        \ search('^\s*\%(##*\s\)\?\%#', 'bcn') ?
         \   smartchr#one_of('# ', '## ') : '#'
   inoremap <buffer><expr> .
-        \ search('\(^[0-9][0-9]*\<bar>^[0-9][0-9]*\.\s\)\%#', 'bcn') ?
+        \ search('^\s*[0-9][0-9]*\%(\.\s\)\?\%#', 'bcn') ?
         \   smartchr#one_of('. ', '.') : '.'
 endfunction
 
