@@ -411,8 +411,13 @@ if has('python')
         \ }}
   NeoBundleLazy 'vim-scripts/VOoM', {
         \   'autoload' : {
-        \     'filetypes' : ['html', 'markdown', 'python', 'latex']
-        \ }}
+        \     'commands' : [
+        \         { 'name' : 'Voom',
+        \           'complete' : 'custom,voom#Complete' },
+        \         { 'name' : 'VoomToggle',
+        \           'complete' : 'custom,voom#Complete' },
+        \         'Voomhelp', 'Voomlog', 'Voomexec'
+        \ ]}}
 endif
 
 if executable('ag')
