@@ -25,13 +25,18 @@ bindkey -e
 typeset -U fpath
 # パスの設定
 fpath=(  # {{{
+    # See: http://blog.n-z.jp/blog/2013-12-12-zsh-cleanup-path.html
+    #
+    # allow directories only (-/)
+    # reject world-writable directories (^W)
+
     # My functions. (alc, wikipedia...)
-    ${ZDOTDIR}/functions(N-/)
+    ${ZDOTDIR}/functions(N-/^W)
 
     # Homebrew installed zsh-completions.
-    /usr/local/share/zsh-completions(N-/)
+    /usr/local/share/zsh-completions(N-/^W)
     # git-cloned zsh-completions.
-    ${HOME}/.repos/zsh-completions/src(N-/)
+    ${HOME}/.repos/zsh-completions/src(N-/^W)
 
     ${fpath}  # デフォルトの fpath
 )  # }}}
