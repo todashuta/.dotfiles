@@ -20,27 +20,32 @@ export LANG='ja_JP.UTF-8'
 typeset -U path
 
 path=(  # {{{
+    # See: http://blog.n-z.jp/blog/2013-12-12-zsh-cleanup-path.html
+    #
+    # allow directories only (-/)
+    # reject world-writable directories (^W)
+
     # For Homebrew
-    /usr/local/bin(N-/)
-    /usr/local/sbin(N-/)
+    /usr/local/bin(N-/^W)
+    /usr/local/sbin(N-/^W)
 
     # For MacPorts
-    /opt/local/bin(N-/)
-    /opt/local/sbin(N-/)
+    /opt/local/bin(N-/^W)
+    /opt/local/sbin(N-/^W)
 
     # X11 (XQuartz)
-    /opt/X11/bin(N-/)
+    /opt/X11/bin(N-/^W)
 
     # Use MacVim on Terminal.
-    #/Applications/MacVim.app/Contents/MacOS(N-/)
+    #/Applications/MacVim.app/Contents/MacOS(N-/^W)
 
     # Use coreutils without the prefix "g".
-    #/usr/local/opt/coreutils/libexec/gnubin
+    #/usr/local/opt/coreutils/libexec/gnubin(N-/^W)
 
     # My shell scripts.
-    ${HOME}/bin(N-/)
+    ${HOME}/bin(N-/^W)
     # prefix=${HOME}/local でインストールしたものの場所
-    ${HOME}/local/bin(N-/)
+    ${HOME}/local/bin(N-/^W)
 
     ${path}  # システムのデフォルトのパス
 )  # }}}
@@ -70,7 +75,7 @@ fi
 # node.js
 if (( $+commands[node] )); then
     # npm
-    path=(${path} /usr/local/share/npm/bin(N-/))
+    path=(${path} /usr/local/share/npm/bin(N-/^W))
 
     # NODE_PATH
     if [[ -e '/usr/local/share/npm/lib/node_modules' ]]; then
@@ -84,7 +89,7 @@ if (( $+commands[go] )); then
     export GOPATH="${HOME}/local/go"
 
     # go installed binaries.
-    path=(${path} ${GOPATH}/bin(N-/))
+    path=(${path} ${GOPATH}/bin(N-/^W))
 fi
 
 # }}}
@@ -97,7 +102,7 @@ if (( $+commands[rbenv] )); then
     eval "$(rbenv init -)"
 elif [[ -x "${HOME}/.rbenv/bin/rbenv" ]]; then
     # For git-cloned rbenv.
-    path=(${HOME}/.rbenv/bin(N-/) ${path})
+    path=(${HOME}/.rbenv/bin(N-/^W) ${path})
     eval "$(rbenv init -)"
 fi
 
@@ -112,7 +117,7 @@ if (( $+commands[pyenv] )); then
 elif [[ -x "${HOME}/.pyenv/bin/pyenv" ]]; then
     # For git-cloned pyenv.
     export PYENV_ROOT="${HOME}/.pyenv"
-    path=(${PYENV_ROOT}/bin(N-/) ${path})
+    path=(${PYENV_ROOT}/bin(N-/^W) ${path})
     eval "$(pyenv init -)"
 fi
 
@@ -126,7 +131,7 @@ typeset -U manpath
 
 manpath=(
     # MANPATH of the Coreutils - GNU core utilities.
-    #/usr/local/opt/coreutils/libexec/gnuman(N-/)
+    #/usr/local/opt/coreutils/libexec/gnuman(N-/^W)
 
     ${manpath}  # システムのデフォルトのパス
 )
