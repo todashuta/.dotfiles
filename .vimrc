@@ -1000,19 +1000,19 @@ endif
 autocmd MyAutoCmd WinEnter *
       \ let &l:cursorline = get(w:, 'save_cursorline', &cursorline)
 autocmd MyAutoCmd WinLeave *
-      \ let w:save_cursorline = &l:cursorline | :let &l:cursorline = 0
+      \ let [w:save_cursorline, &l:cursorline] = [&l:cursorline, 0]
 
 " Highlight cursor column sensibly only current window.
 autocmd MyAutoCmd WinEnter *
       \ let &l:cursorcolumn = get(w:, 'save_cursorcolumn', &cursorcolumn)
 autocmd MyAutoCmd WinLeave *
-      \ let w:save_cursorcolumn = &l:cursorcolumn | :let &l:cursorcolumn = 0
+      \ let [w:save_cursorcolumn, &l:cursorcolumn] = [&l:cursorcolumn, 0]
 
 " Current window colorcolumn.
 autocmd MyAutoCmd WinEnter *
       \ let &l:colorcolumn = get(w:, 'save_colorcolumn', &colorcolumn)
 autocmd MyAutoCmd WinLeave *
-      \ let w:save_colorcolumn = &l:colorcolumn | :let &l:colorcolumn = 0
+      \ let [w:save_colorcolumn, &l:colorcolumn] = [&l:colorcolumn, 0]
 
 " }}}
 
