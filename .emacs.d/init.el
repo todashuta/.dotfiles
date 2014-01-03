@@ -22,22 +22,22 @@
 
 ;;; Emacs version 23以前用
 (when (<= emacs-major-version 23)
-      (load "~/.emacs.d/23/general.el")
-        (if window-system
-          (progn
-            (load "~/.emacs.d/23/window-system.el")
-)))
+  (progn
+    (load "~/.emacs.d/23/general.el")
+    (if window-system
+      (load "~/.emacs.d/23/window-system.el"))))
 
 ;;; Emacs version 24以降用
+;(when (>= emacs-major-version 24)
+;  (progn
+;    (load "~/.emacs.d/24/general.el")
+;    (if (window-system)
+;      (load "~/.emacs.d/24/window-system.el"))))
 (when (>= emacs-major-version 24)
-      (load "~/.emacs.d/24/general.el")
-        (if (window-system)
-            (progn
-              (load "~/.emacs.d/24/window-system.el")
-)))
+  (load "~/.emacs.d/24/init.el"))
 
 ;;; }}}
 
 
-;; vim:foldmethod=marker
-;; end  of init.el
+;; vim: set foldmethod=marker et:
+;; __END__
