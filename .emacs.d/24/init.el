@@ -108,6 +108,15 @@
     (ac-set-trigger-key "TAB")))  ;; 補完を作動させるキー(非自動スタート時)
 
 ;;
+;; anything
+;;
+(when (require 'anything nil 'noerror)
+  (global-set-key "\C-x\C-b" 'anything-filelist+))
+
+;; iswitchb-mode
+(iswitchb-mode t)
+
+;;
 ;; color-theme-tomorrow
 ;;
 ;(when (require 'color-theme-tomorrow nil 'noerror)
