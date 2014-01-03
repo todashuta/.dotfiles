@@ -11,6 +11,7 @@ tmux*.log
 
 .emacs.d/games/*
 .emacs.d/auto-save-list/*
+.emacs.d/el-get/*
 
 .vim/bundle/*
 !.vim/bundle/neobundle.vim
