@@ -156,18 +156,18 @@
     (add-to-list 'default-frame-alist '(font . "fontset-rictyinconsolata")))
   ;; Linux
   (when (eq system-type 'gnu/linux)
-    (custom-set-faces '(default ((t (
-                      :weight normal
-                      :height 120
-                      :width normal
-                      :family "Ricty"))))))
+    (custom-set-faces
+      '(default ((t (:weight normal
+                     :height 120
+                     :width normal
+                     :family "Ricty"))))))
   ;; Windows
   (when (eq system-type 'windows-nt)
-    (custom-set-faces '(default ((t (
-                      :weight normal
-                      :height 120
-                      :width normal
-                      :family "Ricty")))))))
+    (custom-set-faces
+      '(default ((t (:weight normal
+                     :height 120
+                     :width normal
+                     :family "Ricty")))))))
 
 ;; 初期ディレクトリの設定 (Windows)
 (when (eq system-type 'windows-nt)
