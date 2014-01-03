@@ -4,7 +4,7 @@
 ;; 言語を日本語にする
 (set-language-environment 'japanese)
 ;; 極力UTF-8とする
-(prefer-coding-system 'utf-8 )
+(prefer-coding-system 'utf-8)
 
 ;; linum
 (when (require 'linum nil 'noerror)
