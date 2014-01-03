@@ -20,21 +20,19 @@
 
 ;;; Emacsのバージョンで分ける {{{
 
-;;; Emacs version 23以前用
+;;; Emacs version 23 以前用
 (when (<= emacs-major-version 23)
   (progn
-    (load "~/.emacs.d/23/general.el")
+    (load "~/.emacs.d/23/init.el")
     (if window-system
       (load "~/.emacs.d/23/window-system.el"))))
 
-;;; Emacs version 24以降用
-;(when (>= emacs-major-version 24)
-;  (progn
-;    (load "~/.emacs.d/24/general.el")
-;    (if (window-system)
-;      (load "~/.emacs.d/24/window-system.el"))))
+;;; Emacs version 24 以降用
 (when (>= emacs-major-version 24)
-  (load "~/.emacs.d/24/init.el"))
+  (progn
+    (load "~/.emacs.d/24/init.el")
+    (if window-system
+      (load "~/.emacs.d/24/window-system.el"))))
 
 ;;; }}}
 
