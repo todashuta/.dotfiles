@@ -19,6 +19,11 @@
   (global-hl-line-mode 1)
   (global-hl-line-mode -1))
 
+;; show-paren-mode
+(show-paren-mode t)
+;; 括弧内をハイライトする
+(setq show-paren-style 'expression)
+
 ;; Disable menu bar on CUI.
 (if window-system
   (menu-bar-mode 1)
