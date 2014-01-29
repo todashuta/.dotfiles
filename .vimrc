@@ -404,6 +404,11 @@ NeoBundleLazy 'rbtnn/puyo.vim', {
       \   'autoload' : {
       \     'commands' : 'Puyo'
       \ }}
+NeoBundleLazy 'deris/vim-rengbang', {
+      \   'autoload' : {
+      \     'function_prefix' : 'rengbang',
+      \     'commands' : ['RengBang', 'RengBangUsePrev', 'RengBangConfirm']
+      \ }}
 
 if has('python')
   NeoBundleLazy 'gregsexton/VimCalc', {
