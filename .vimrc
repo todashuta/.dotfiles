@@ -241,7 +241,7 @@ NeoBundleLazy 'nathanaelkane/vim-indent-guides', {
       \   'autoload' : {
       \     'mappings' : [['n', '<Plug>IndentGuidesToggle']],
       \ }}
-NeoBundleLazy 'skammer/vim-css-color', {
+NeoBundleLazy 'ap/vim-css-color', {
       \   'gui' : 1,
       \   'autoload' : {
       \     'filetypes' : ['html', 'css']
