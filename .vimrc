@@ -242,9 +242,8 @@ NeoBundleLazy 'nathanaelkane/vim-indent-guides', {
       \     'mappings' : [['n', '<Plug>IndentGuidesToggle']],
       \ }}
 NeoBundleLazy 'ap/vim-css-color', {
-      \   'gui' : 1,
       \   'autoload' : {
-      \     'filetypes' : ['html', 'css']
+      \     'filetypes' : ['html', 'css', 'sass']
       \ }}
 NeoBundleLazy 'lilydjwg/colorizer', {
       \   'autoload' : {
@@ -301,10 +300,7 @@ NeoBundleLazy 'ujihisa/neco-look', {
       \   'autoload' : {
       \     'insert' : 1
       \ }}
-NeoBundleLazy 'airblade/vim-gitgutter', {
-      \   'autoload' : {
-      \     'commands' : ['GitGutterEnable']
-      \ }}
+NeoBundle 'mhinz/vim-signify'
 NeoBundleLazy 'kchmck/vim-coffee-script', {
       \   'autoload' : {
       \     'filetypes' : ['coffee']
@@ -437,6 +433,12 @@ endif
 
 if has('conceal')
   NeoBundle 'Yggdroot/indentLine'
+endif
+
+if s:is_windows
+  NeoBundle 'istepura/vim-toolbar-icons-silk', {
+        \   'gui' : 1
+        \ }
 endif
 
 " Local plugins directory like pathogen. (For develop plugins, etc.)
@@ -1945,6 +1947,9 @@ let vimrplugin_screenplugin = 0
 
 " Filetype vim.
 "let g:vim_indent_cont = 0
+
+" vim-signify
+let g:signify_vcs_list = ['git']
 
 " }}}
 
