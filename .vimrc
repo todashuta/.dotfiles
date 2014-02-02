@@ -199,12 +199,7 @@ NeoBundleLazy 'Shougo/vimshell.vim', {
       \     'commands' : ['VimShell', 'VimShellPop', 'VimShellInteractive']
       \ }}
 NeoBundleLazy 'mattn/emmet-vim'
-NeoBundleLazy 'thinca/vim-ref', {
-      \   'autoload' : {
-      \     'commands' : [
-      \         { 'name' : 'Ref',
-      \           'complete' : 'customlist,ref#complete' },
-      \ ]}}
+NeoBundleLazy 'thinca/vim-ref'
 NeoBundleLazy 'mattn/calendar-vim', {
       \   'autoload' : {
       \     'commands' : ['Calendar', 'CalendarH']
@@ -1805,10 +1800,16 @@ nnoremap <silent> [toggle]il
 
 " vim-ref {{{
 
-let bundle = neobundle#get('vim-ref')
-  function! bundle.hooks.on_source(bundle)
+if neobundle#tap('vim-ref')
+  call neobundle#config({
+        \   'autoload' : {
+        \     'commands' : [
+        \         { 'name' : 'Ref',
+        \           'complete' : 'customlist,ref#complete' },
+        \ ]}})
 
-    let ref_webdict_config = {
+  function! neobundle#tapped.hooks.on_source(bundle)
+    let g:ref_source_webdict_sites = {
           \ 'alc' : {
           \   'url' : 'http://eow.alc.co.jp/%s',
           \   'keyword_encoding' : 'utf-8',
@@ -1816,16 +1817,15 @@ let bundle = neobundle#get('vim-ref')
           \   'line' : 32,
           \ }}
 
-    "function! ref_webdict_config.alc.filter(output)
+    "function! g:ref_source_webdict_sites.alc.filter(output)
     "  return join(split(a:output, "\n")[32:], "\n")
     "endfunction
 
-    let ref_webdict_config.default = 'alc'
-
-    let g:ref_source_webdict_sites = ref_webdict_config
-
+    let g:ref_source_webdict_sites.default = 'alc'
   endfunction
-unlet bundle
+
+  call neobundle#untap()
+endif
 
 " }}}
 
