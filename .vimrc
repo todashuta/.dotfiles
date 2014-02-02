@@ -192,11 +192,7 @@ NeoBundleLazy 'kana/vim-smartchr', {
       \     'insert' : 1,
       \ }}
 NeoBundle 'kana/vim-submode'
-NeoBundleLazy 'kana/vim-niceblock', {
-      \   'autoload' : {
-      \     'mappings' : [
-      \       ['x', '<Plug>(niceblock-I)'], ['x', '<Plug>(niceblock-A)']
-      \ ]}}
+NeoBundleLazy 'kana/vim-niceblock'
 NeoBundleLazy 'glidenote/memolist.vim', {
       \   'autoload' : {
       \     'commands' : ['MemoGrep', 'MemoList', 'MemoNew']
@@ -1941,8 +1937,18 @@ vmap +  <Plug>(expand_region_expand)
 vmap _  <Plug>(expand_region_shrink)
 
 " vim-niceblock
-xmap I  <Plug>(niceblock-I)
-xmap A  <Plug>(niceblock-A)
+if neobundle#tap('vim-niceblock')
+  call neobundle#config({
+        \   'autoload' : {
+        \     'mappings' : [
+        \       ['x', '<Plug>(niceblock-I)'], ['x', '<Plug>(niceblock-A)']
+        \ ]}})
+
+  xmap I  <Plug>(niceblock-I)
+  xmap A  <Plug>(niceblock-A)
+
+  call neobundle#untap()
+endif
 
 " open-browser.vim
 if neobundle#tap('open-browser.vim')
