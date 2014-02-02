@@ -113,15 +113,7 @@ NeoBundleLazy 'Shougo/unite.vim', {
       \           'complete' : 'customlist,unite#complete#source' },
       \         'UniteWithBufferDir'
       \ ]}}
-NeoBundleLazy 'Shougo/vimfiler.vim', {
-      \   'depends' : 'Shougo/unite.vim',
-      \   'autoload' : {
-      \     'explorer' : 1,
-      \     'commands' : [
-      \         { 'name' : 'VimFiler',
-      \           'complete' : 'customlist,vimfiler#complete' },
-      \         'VimFilerBufferDir',
-      \ ]}}
+NeoBundleLazy 'Shougo/vimfiler.vim'
 NeoBundleLazy 'Shougo/unite-outline', {
       \   'autoload' : {
       \     'unite_sources' : 'outline'
@@ -1743,8 +1735,24 @@ endif
 
 " vimfiler.vim {{{
 
-let bundle = neobundle#get('vimfiler.vim')
-  function! bundle.hooks.on_source(bundle)
+if neobundle#tap('vimfiler.vim')
+  call neobundle#config({
+        \   'depends' : 'Shougo/unite.vim',
+        \   'autoload' : {
+        \     'explorer' : 1,
+        \     'commands' : [
+        \         { 'name' : 'VimFiler',
+        \           'complete' : 'customlist,vimfiler#complete' },
+        \         'VimFilerBufferDir',
+        \ ]}})
+
+  nnoremap <silent> <Space>e
+        \ :<C-u>VimFiler -buffer-name=VimFiler -quit<CR>
+  nnoremap <silent> <Space>f
+        \ :<C-u>VimFilerBufferDir -buffer-name=VimFiler
+        \ -split -simple -winwidth=30 -no-quit -toggle<CR>
+
+  function! neobundle#tapped.hooks.on_source(bundle)
     " Use vimfiler as default explorer like netrw.
     let g:vimfiler_as_default_explorer = 1
 
@@ -1770,13 +1778,9 @@ let bundle = neobundle#get('vimfiler.vim')
       " VimFiler settings. (Key mapping... etc)
     endfunction
   endfunction
-unlet bundle
 
-nnoremap <silent> <Space>e
-      \ :<C-u>VimFiler -buffer-name=VimFiler -quit<CR>
-nnoremap <silent> <Space>f
-      \ :<C-u>VimFilerBufferDir -buffer-name=VimFiler
-      \ -split -simple -winwidth=30 -no-quit -toggle<CR>
+  call neobundle#untap()
+endif
 
 " }}}
 
