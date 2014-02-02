@@ -256,10 +256,7 @@ NeoBundleLazy 'thinca/vim-scouter', {
 NeoBundleLazy 'thinca/vim-visualstar'
 "NeoBundle 'vim-scripts/ShowMarks'
 "NeoBundle 'Lokaltog/vim-easymotion'
-NeoBundleLazy 'taku-o/vim-toggle', {
-      \   'autoload' : {
-      \     'mappings' : [['n', '<Plug>ToggleN']],
-      \ }}
+NeoBundleLazy 'taku-o/vim-toggle'
 NeoBundleLazy 'ujihisa/neco-look', {
       \   'autoload' : {
       \     'insert' : 1
@@ -1951,7 +1948,16 @@ if neobundle#tap('vim-surround')
 endif
 
 " vim-toggle
-nmap <silent> +  <Plug>ToggleN
+if neobundle#tap('vim-toggle')
+  call neobundle#config({
+        \   'autoload' : {
+        \     'mappings' : [['n', '<Plug>ToggleN']],
+        \ }})
+
+  nmap <silent> +  <Plug>ToggleN
+
+  call neobundle#untap()
+endif
 
 " vim-expand-region
 if neobundle#tap('vim-expand-region')
