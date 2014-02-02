@@ -171,11 +171,7 @@ NeoBundle 'altercation/vim-colors-solarized'
 NeoBundleLazy 'othree/eregex.vim'
 "NeoBundle 'scrooloose/nerdtree'
 NeoBundleLazy 'thinca/vim-quickrun'
-NeoBundleLazy 'tyru/open-browser.vim', {
-      \   'autoload' : {
-      \     'function_prefix' : 'openbrowser',
-      \     'mappings' : [['nx', '<Plug>(openbrowser-smart-search)']],
-      \ }}
+NeoBundleLazy 'tyru/open-browser.vim'
 NeoBundleLazy 'h1mesuke/vim-alignta', {
       \   'autoload' : {
       \     'commands' : ['Alignta', 'Align']
@@ -1945,9 +1941,19 @@ xmap I  <Plug>(niceblock-I)
 xmap A  <Plug>(niceblock-A)
 
 " open-browser.vim
-"let g:netrw_nogx = 1  " Disable netrw's gx mapping.
-nmap gx  <Plug>(openbrowser-smart-search)
-vmap gx  <Plug>(openbrowser-smart-search)
+if neobundle#tap('open-browser.vim')
+  call neobundle#config({
+        \   'autoload' : {
+        \     'function_prefix' : 'openbrowser',
+        \     'mappings' : [['nx', '<Plug>(openbrowser-smart-search)']],
+        \ }})
+
+  "let g:netrw_nogx = 1  " Disable netrw's gx mapping.
+  nmap gx  <Plug>(openbrowser-smart-search)
+  vmap gx  <Plug>(openbrowser-smart-search)
+
+  call neobundle#untap()
+endif
 
 " VimCalc
 let g:VCalc_WindowPosition = 'bottom'
