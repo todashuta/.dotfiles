@@ -256,12 +256,7 @@ NeoBundleLazy 'thinca/vim-scouter', {
       \     'commands' : [
       \         { 'name' : 'Scouter', 'complete' : 'file' }
       \ ]}}
-NeoBundleLazy 'thinca/vim-visualstar', {
-      \   'autoload' : {
-      \     'mappings' : [
-      \       ['x', '<Plug>(visualstar-*)'], ['x', '<Plug>(visualstar-#)'],
-      \       ['x', '<Plug>(visualstar-g*)'], ['x', '<Plug>(visualstar-g#)'],
-      \ ]}}
+NeoBundleLazy 'thinca/vim-visualstar'
 "NeoBundle 'vim-scripts/ShowMarks'
 "NeoBundle 'Lokaltog/vim-easymotion'
 NeoBundleLazy 'taku-o/vim-toggle', {
@@ -1913,10 +1908,21 @@ runtime macros/matchit.vim
 nmap <silent> <Leader>tc  <Plug>Colorizer
 
 " vim-visualstar
-xmap *  <Plug>(visualstar-*)N
-xmap #  <Plug>(visualstar-#)N
-xmap g*  <Plug>(visualstar-g*)N
-xmap g#  <Plug>(visualstar-g#)N
+if neobundle#tap('vim-visualstar')
+  call neobundle#config({
+        \   'autoload' : {
+        \     'mappings' : [
+        \       ['x', '<Plug>(visualstar-*)'], ['x', '<Plug>(visualstar-#)'],
+        \       ['x', '<Plug>(visualstar-g*)'], ['x', '<Plug>(visualstar-g#)'],
+        \ ]}})
+
+  xmap *  <Plug>(visualstar-*)N
+  xmap #  <Plug>(visualstar-#)N
+  xmap g*  <Plug>(visualstar-g*)N
+  xmap g#  <Plug>(visualstar-g#)N
+
+  call neobundle#untap()
+endif
 
 " vim-surround
 if neobundle#tap('vim-surround')
