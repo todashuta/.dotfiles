@@ -176,15 +176,7 @@ NeoBundleLazy 'h1mesuke/vim-alignta', {
       \   'autoload' : {
       \     'commands' : ['Alignta', 'Align']
       \ }}
-NeoBundleLazy 'tpope/vim-surround', {
-      \   'autoload' : {
-      \     'mappings' : [
-      \       ['n', '<Plug>Dsurround'], ['n', '<Plug>Csurround'],
-      \       ['n', '<Plug>Ysurround'], ['n', '<Plug>YSurround'],
-      \       ['n', '<Plug>Yssurround'], ['n', '<Plug>YSsurround'],
-      \       ['n', '<Plug>YSsurround'], ['x', '<Plug>VSurround'],
-      \       ['x', '<Plug>VgSurround'],
-      \ ]}}
+NeoBundleLazy 'tpope/vim-surround'
 "NeoBundle 'troydm/easybuffer.vim'
 "NeoBundle 'vim-scripts/DirDo.vim'
 NeoBundleLazy 'kana/vim-smartchr', {
@@ -1919,15 +1911,29 @@ xmap g*  <Plug>(visualstar-g*)N
 xmap g#  <Plug>(visualstar-g#)N
 
 " vim-surround
-nmap ds   <Plug>Dsurround
-nmap cs   <Plug>Csurround
-nmap ys   <Plug>Ysurround
-nmap yS   <Plug>YSurround
-nmap yss  <Plug>Yssurround
-nmap ySs  <Plug>YSsurround
-nmap ySS  <Plug>YSsurround
-xmap S    <Plug>VSurround
-xmap gS   <Plug>VgSurround
+if neobundle#tap('vim-surround')
+  call neobundle#config({
+        \   'autoload' : {
+        \     'mappings' : [
+        \       ['n', '<Plug>Dsurround'], ['n', '<Plug>Csurround'],
+        \       ['n', '<Plug>Ysurround'], ['n', '<Plug>YSurround'],
+        \       ['n', '<Plug>Yssurround'], ['n', '<Plug>YSsurround'],
+        \       ['n', '<Plug>YSsurround'], ['x', '<Plug>VSurround'],
+        \       ['x', '<Plug>VgSurround'],
+        \ ]}})
+
+  nmap ds   <Plug>Dsurround
+  nmap cs   <Plug>Csurround
+  nmap ys   <Plug>Ysurround
+  nmap yS   <Plug>YSurround
+  nmap yss  <Plug>Yssurround
+  nmap ySs  <Plug>YSsurround
+  nmap ySS  <Plug>YSsurround
+  xmap S    <Plug>VSurround
+  xmap gS   <Plug>VgSurround
+
+  call neobundle#untap()
+endif
 
 " vim-toggle
 nmap <silent> +  <Plug>ToggleN
