@@ -212,10 +212,7 @@ NeoBundleLazy 'mattn/calendar-vim', {
       \   'autoload' : {
       \     'commands' : ['Calendar', 'CalendarH']
       \ }}
-NeoBundleLazy 'nathanaelkane/vim-indent-guides', {
-      \   'autoload' : {
-      \     'mappings' : [['n', '<Plug>IndentGuidesToggle']],
-      \ }}
+NeoBundleLazy 'nathanaelkane/vim-indent-guides'
 NeoBundleLazy 'ap/vim-css-color', {
       \   'autoload' : {
       \     'filetypes' : ['html', 'css', 'sass']
@@ -1566,11 +1563,22 @@ unlet bundle
 
 " vim-indent-guides {{{
 
-nmap <silent> <Leader>ig  <Plug>IndentGuidesToggle
+if neobundle#tap('vim-indent-guides')
+  call neobundle#config({
+        \   'autoload' : {
+        \     'mappings' : [['n', '<Plug>IndentGuidesToggle']],
+        \ }})
 
-"let g:indent_guides_enable_on_vim_startup = 1
-let g:indent_guides_color_change_percent = 30
-let g:indent_guides_guide_size = 1
+  nmap <silent> <Leader>ig  <Plug>IndentGuidesToggle
+
+  function! neobundle#tapped.hooks.on_source(bundle)
+    "let g:indent_guides_enable_on_vim_startup = 1
+    let g:indent_guides_color_change_percent = 30
+    let g:indent_guides_guide_size = 1
+  endfunction
+
+  call neobundle#untap()
+endif
 
 " }}}
 
