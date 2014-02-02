@@ -103,10 +103,7 @@ if has('lua') && (v:version > 703 || v:version == 703 && has('patch885'))
 else
   NeoBundleLazy 'Shougo/neocomplcache.vim'
 endif
-NeoBundleLazy 'Shougo/neosnippet.vim', {
-      \   'autoload' : {
-      \     'insert' : 1,
-      \ }}
+NeoBundleLazy 'Shougo/neosnippet.vim'
 NeoBundle 'Shougo/neosnippet-snippets'
 NeoBundle 'honza/vim-snippets'
 NeoBundleLazy 'Shougo/unite.vim', {
@@ -1216,9 +1213,13 @@ endif
 
 " neosnippet.vim {{{
 
-let bundle = neobundle#get('neosnippet.vim')
-  function! bundle.hooks.on_source(bundle)
+if neobundle#tap('neosnippet.vim')
+  call neobundle#config({
+        \   'autoload' : {
+        \     'insert' : 1,
+        \ }})
 
+  function! neobundle#tapped.hooks.on_source(bundle)
     " Plugin key-mappings.
     imap <C-k>  <Plug>(neosnippet_expand_or_jump)
     smap <C-k>  <Plug>(neosnippet_expand_or_jump)
@@ -1237,9 +1238,10 @@ let bundle = neobundle#get('neosnippet.vim')
 
     " Enable snipMate compatibility feature.
     let g:neosnippet#enable_snipmate_compatibility = 1
-
   endfunction
-unlet bundle
+
+  call neobundle#untap()
+endif
 
 " }}}
 
