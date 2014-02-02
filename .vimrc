@@ -99,15 +99,9 @@ call neobundle#rc(expand('~/.vim/bundle'))
 
 " Github repositories.
 if has('lua') && (v:version > 703 || v:version == 703 && has('patch885'))
-  NeoBundleLazy 'Shougo/neocomplete.vim', {
-        \   'autoload' : {
-        \     'insert' : 1,
-        \ }}
+  NeoBundleLazy 'Shougo/neocomplete.vim'
 else
-  NeoBundleLazy 'Shougo/neocomplcache.vim', {
-        \   'autoload' : {
-        \     'insert' : 1,
-        \ }}
+  NeoBundleLazy 'Shougo/neocomplcache.vim'
 endif
 NeoBundleLazy 'Shougo/neosnippet.vim', {
       \   'autoload' : {
@@ -1089,131 +1083,135 @@ autocmd MyAutoCmd BufReadPost * call s:restore_cursor_position()
 " Plugin: "{{{
 "
 " neocomplete.vim {{{
-if neobundle#is_installed('neocomplete.vim')
 
-  " Use neocomplete.
-  let g:neocomplete#enable_at_startup = 1
+if neobundle#tap('neocomplete.vim')
+  call neobundle#config({
+        \   'autoload' : {
+        \     'insert' : 1,
+        \ }})
 
-  let bundle = neobundle#get('neocomplete.vim')
-    function! bundle.hooks.on_source(bundle)
+  function! neobundle#tapped.hooks.on_source(bundle)
+    " Use neocomplete.
+    let g:neocomplete#enable_at_startup = 1
+    " Use smartcase.
+    let g:neocomplete#enable_smart_case = 1
+    " Use fuzzy completion.
+    let g:neocomplete#enable_fuzzy_completion = 1
+    " Set minimum syntax keyword length.
+    let g:neocomplete#sources#syntax#min_keyword_length = 3
 
-      " Use smartcase.
-      let g:neocomplete#enable_smart_case = 1
-      " Use fuzzy completion.
-      let g:neocomplete#enable_fuzzy_completion = 1
-      " Set minimum syntax keyword length.
-      let g:neocomplete#sources#syntax#min_keyword_length = 3
+    " mappings {{{
+    " <CR>: Close popup and save indent.
+    imap <expr> <CR>
+          \ neocomplete#smart_close_popup() . "\<Plug>(smartinput_CR)"
+    " For no insert <CR> key.
+    "imap <expr> <CR> pumvisible() ?
+    "      \ neocomplete#close_popup() : "\<Plug>(smartinput_CR)"
 
-      " mappings {{{
-      " <CR>: Close popup and save indent.
-      imap <expr> <CR>
-            \ neocomplete#smart_close_popup() . "\<Plug>(smartinput_CR)"
-      " For no insert <CR> key.
-      "imap <expr> <CR> pumvisible() ?
-      "      \ neocomplete#close_popup() : "\<Plug>(smartinput_CR)"
+    " <Tab>: completion.
+    inoremap <expr> <Tab>  pumvisible() ? "\<C-n>" : "\<Tab>"
+    " <Shift-Tab>: Reverse completion.
+    inoremap <expr> <S-Tab>  pumvisible() ? "\<C-p>" : "\<C-h>"
 
-      " <Tab>: completion.
-      inoremap <expr> <Tab>  pumvisible() ? "\<C-n>" : "\<Tab>"
-      " <Shift-Tab>: Reverse completion.
-      inoremap <expr> <S-Tab>  pumvisible() ? "\<C-p>" : "\<C-h>"
+    " <C-g>: Undo completion.
+    inoremap <expr><C-g>  neocomplete#undo_completion()
+    " <C-l>: Complete common string.
+    inoremap <expr><C-l>  neocomplete#complete_common_string()
 
-      " <C-g>: Undo completion.
-      inoremap <expr><C-g>  neocomplete#undo_completion()
-      " <C-l>: Complete common string.
-      inoremap <expr><C-l>  neocomplete#complete_common_string()
+    " <C-h>, <BS>: Close popup and delete backward char.
+    imap <expr> <C-h>
+          \ neocomplete#smart_close_popup() . "\<Plug>(smartinput_C-h)"
+    imap <expr> <BS>
+          \ neocomplete#smart_close_popup() . "\<Plug>(smartinput_BS)"
 
-      " <C-h>, <BS>: Close popup and delete backward char.
-      imap <expr> <C-h>
-            \ neocomplete#smart_close_popup() . "\<Plug>(smartinput_C-h)"
-      imap <expr> <BS>
-            \ neocomplete#smart_close_popup() . "\<Plug>(smartinput_BS)"
+    " <C-e>: Close popup and move to end.
+    inoremap <expr> <C-e>  neocomplete#close_popup() . "\<End>"
+    " <C-y>: paste.
+    "inoremap <expr> <C-y>
+    "      \ pumvisible() ? neocomplete#close_popup() : "\<C-r>\""
 
-      " <C-e>: Close popup and move to end.
-      inoremap <expr> <C-e>  neocomplete#close_popup() . "\<End>"
-      " <C-y>: paste.
-      "inoremap <expr> <C-y>
-      "      \ pumvisible() ? neocomplete#close_popup() : "\<C-r>\""
+    " Filename completion.
+    "inoremap <expr> <C-x><C-f>
+    "      \ neocomplete#start_manual_complete('filename_complete')
 
-      " Filename completion.
-      "inoremap <expr> <C-x><C-f>
-      "      \ neocomplete#start_manual_complete('filename_complete')
+    " }}}
+  endfunction
 
-      " }}}
-
-    endfunction
-  unlet bundle
-
+  call neobundle#untap()
 endif
+
 " }}}
 
 " neocomplcache.vim {{{
-if neobundle#is_installed('neocomplcache.vim')
 
-  " Launches neocomplcache automatically on vim startup.
-  let g:neocomplcache_enable_at_startup = 1
+if neobundle#tap('neocomplcache.vim')
+  call neobundle#config({
+        \   'autoload' : {
+        \     'insert' : 1,
+        \ }})
 
-  let bundle = neobundle#get('neocomplcache.vim')
-    function! bundle.hooks.on_source(bundle)
+  function! neobundle#tapped.hooks.on_source(bundle)
+    " Launches neocomplcache automatically on vim startup.
+    let g:neocomplcache_enable_at_startup = 1
+    " AutoCompPop like behavior.
+    "let g:neocomplcache_enable_auto_select = 1
+    " The number of candidates in popup menu. (Default: 100)
+    "let g:neocomplcache_max_list = 20
+    " Close preview window automatically.
+    let g:neocomplcache_enable_auto_close_preview = 1
+    " Use smartcase.
+    let g:neocomplcache_enable_smart_case = 1
+    " Define dictionary.
+    let g:neocomplcache_dictionary_filetype_lists = {
+          \ 'default' : '',
+          \ 'vimshell' : expand('~/.vimshell/command-history')
+          \ }
+    let g:neocomplcache_vim_completefuncs = {
+          \ 'Ref' : 'ref#complete',
+          \ 'Unite' : 'unite#complete#source',
+          \ 'VimShell' : 'vimshell#complete'
+          \ }
 
-      " AutoCompPop like behavior.
-      "let g:neocomplcache_enable_auto_select = 1
-      " The number of candidates in popup menu. (Default: 100)
-      "let g:neocomplcache_max_list = 20
-      " Close preview window automatically.
-      let g:neocomplcache_enable_auto_close_preview = 1
-      " Use smartcase.
-      let g:neocomplcache_enable_smart_case = 1
-      " Define dictionary.
-      let g:neocomplcache_dictionary_filetype_lists = {
-            \ 'default' : '',
-            \ 'vimshell' : expand('~/.vimshell/command-history')
-            \ }
-      let g:neocomplcache_vim_completefuncs = {
-            \ 'Ref' : 'ref#complete',
-            \ 'Unite' : 'unite#complete#source',
-            \ 'VimShell' : 'vimshell#complete'
-            \ }
+    " mappings {{{
+    " <CR>: Close popup and save indent.
+    imap <expr> <CR>
+          \ neocomplcache#smart_close_popup() . "\<Plug>(smartinput_CR)"
+    " For no inserting <CR> key.
+    "imap <expr> <CR>  pumvisible() ?
+    "      \ neocomplcache#close_popup() : "\<Plug>(smartinput_CR)"
 
-      " mappings {{{
-      " <CR>: Close popup and save indent.
-      imap <expr> <CR>
-            \ neocomplcache#smart_close_popup() . "\<Plug>(smartinput_CR)"
-      " For no inserting <CR> key.
-      "imap <expr> <CR>  pumvisible() ?
-      "      \ neocomplcache#close_popup() : "\<Plug>(smartinput_CR)"
+    " <Tab>: completion.
+    inoremap <expr> <Tab>  pumvisible() ? "\<C-n>" : "\<Tab>"
+    " <Shift-Tab>: Reverse completion.
+    inoremap <expr> <S-Tab>  pumvisible() ? "\<C-p>" : "\<C-h>"
 
-      " <Tab>: completion.
-      inoremap <expr> <Tab>  pumvisible() ? "\<C-n>" : "\<Tab>"
-      " <Shift-Tab>: Reverse completion.
-      inoremap <expr> <S-Tab>  pumvisible() ? "\<C-p>" : "\<C-h>"
+    " <C-g>: Undo completion.
+    inoremap <expr> <C-g>  neocomplcache#undo_completion()
+    " <C-l>: Complete common string.
+    inoremap <expr> <C-l>  neocomplcache#complete_common_string()
 
-      " <C-g>: Undo completion.
-      inoremap <expr> <C-g>  neocomplcache#undo_completion()
-      " <C-l>: Complete common string.
-      inoremap <expr> <C-l>  neocomplcache#complete_common_string()
+    " <C-h>, <BS>: Close popup and delete backward char.
+    imap <expr> <C-h>
+          \ neocomplcache#smart_close_popup() . "\<Plug>(smartinput_C-h)"
+    imap <expr> <BS>
+          \ neocomplcache#smart_close_popup() . "\<Plug>(smartinput_BS)"
 
-      " <C-h>, <BS>: Close popup and delete backward char.
-      imap <expr> <C-h>
-            \ neocomplcache#smart_close_popup() . "\<Plug>(smartinput_C-h)"
-      imap <expr> <BS>
-            \ neocomplcache#smart_close_popup() . "\<Plug>(smartinput_BS)"
+    " <C-e>: Close popup and move to end.
+    inoremap <expr> <C-e>  neocomplcache#close_popup() . "\<End>"
+    " <C-y>: paste.
+    "inoremap <expr> <C-y>
+    "      \ pumvisible() ? neocomplcache#close_popup() : "\<C-r>\""
 
-      " <C-e>: Close popup and move to end.
-      inoremap <expr> <C-e>  neocomplcache#close_popup() . "\<End>"
-      " <C-y>: paste.
-      "inoremap <expr> <C-y>
-      "      \ pumvisible() ? neocomplcache#close_popup() : "\<C-r>\""
+    " Filename completion.
+    inoremap <expr> <C-x><C-f>
+          \ neocomplcache#start_manual_complete('filename_complete')
 
-      " Filename completion.
-      inoremap <expr> <C-x><C-f>
-            \ neocomplcache#start_manual_complete('filename_complete')
+    " }}}
+  endfunction
 
-      " }}}
-
-    endfunction
-  unlet bundle
-
+  call neobundle#untap()
 endif
+
 " }}}
 
 " neosnippet.vim {{{
