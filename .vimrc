@@ -299,12 +299,7 @@ NeoBundleLazy 'jnwhiteh/vim-golang', {
       \   'autoload' : {
       \     'filetypes' : ['go']
       \ }}
-NeoBundleLazy 'terryma/vim-expand-region', {
-      \   'autoload' : {
-      \     'mappings' : [
-      \       ['x', '<Plug>(expand_region_expand)'],
-      \       ['x', '<Plug>(expand_region_shrink)']
-      \ ]}}
+NeoBundleLazy 'terryma/vim-expand-region'
 NeoBundleLazy 'mfumi/snake.vim', {
       \   'autoload' : {
       \     'commands' : 'Snake'
@@ -1959,8 +1954,19 @@ endif
 nmap <silent> +  <Plug>ToggleN
 
 " vim-expand-region
-vmap +  <Plug>(expand_region_expand)
-vmap _  <Plug>(expand_region_shrink)
+if neobundle#tap('vim-expand-region')
+  call neobundle#config({
+        \   'autoload' : {
+        \     'mappings' : [
+        \       ['x', '<Plug>(expand_region_expand)'],
+        \       ['x', '<Plug>(expand_region_shrink)']
+        \ ]}})
+
+  vmap +  <Plug>(expand_region_expand)
+  vmap _  <Plug>(expand_region_shrink)
+
+  call neobundle#untap()
+endif
 
 " vim-niceblock
 if neobundle#tap('vim-niceblock')
