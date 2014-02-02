@@ -217,10 +217,7 @@ NeoBundleLazy 'ap/vim-css-color', {
       \   'autoload' : {
       \     'filetypes' : ['html', 'css', 'sass']
       \ }}
-NeoBundleLazy 'lilydjwg/colorizer', {
-      \   'autoload' : {
-      \     'mappings' : [['n', '<Plug>Colorizer']]
-      \ }}
+NeoBundleLazy 'lilydjwg/colorizer'
 NeoBundleLazy 'koron/nyancat-vim', {
       \   'autoload' : {
       \     'commands' : ['Nyancat', 'Nyancat2']
@@ -1905,7 +1902,16 @@ runtime macros/matchit.vim
 "      \ 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
 
 " colorizer.vim
-nmap <silent> <Leader>tc  <Plug>Colorizer
+if neobundle#tap('colorizer')
+  call neobundle#config({
+        \   'autoload' : {
+        \     'mappings' : [['n', '<Plug>Colorizer']]
+        \ }})
+
+  nmap <silent> <Leader>tc  <Plug>Colorizer
+
+  call neobundle#untap()
+endif
 
 " vim-visualstar
 if neobundle#tap('vim-visualstar')
