@@ -173,13 +173,7 @@ NeoBundleLazy 'othree/eregex.vim', {
       \     'commands' : ['E2v', 'M', 'S', 'G', 'V']
       \ }}
 "NeoBundle 'scrooloose/nerdtree'
-NeoBundleLazy 'thinca/vim-quickrun', {
-      \   'autoload' : {
-      \     'mappings' : [['nx', '<Plug>(quickrun)']],
-      \     'commands' : [
-      \         { 'name' : 'QuickRun',
-      \           'complete' : 'customlist,quickrun#complete' },
-      \ ]}}
+NeoBundleLazy 'thinca/vim-quickrun'
 NeoBundleLazy 'tyru/open-browser.vim', {
       \   'autoload' : {
       \     'function_prefix' : 'openbrowser',
@@ -1712,12 +1706,19 @@ unlet bundle
 
 " quickrun.vim {{{
 
-nmap <silent> <Leader>r  <Plug>(quickrun)
-xmap <silent> <Leader>r  <Plug>(quickrun)
+if neobundle#tap('vim-quickrun')
+  call neobundle#config({
+        \   'autoload' : {
+        \     'mappings' : [['nx', '<Plug>(quickrun)']],
+        \     'commands' : [
+        \         { 'name' : 'QuickRun',
+        \           'complete' : 'customlist,quickrun#complete' },
+        \ ]}})
 
-let bundle = neobundle#get('vim-quickrun')
-  function! bundle.hooks.on_source(bundle)
+  nmap <silent> <Leader>r  <Plug>(quickrun)
+  xmap <silent> <Leader>r  <Plug>(quickrun)
 
+  function! neobundle#tapped.hooks.on_source(bundle)
     nnoremap <expr><silent> <C-c>
           \ quickrun#is_running() ? quickrun#sweep_sessions() : "\<C-c>"
 
@@ -1752,9 +1753,10 @@ let bundle = neobundle#get('vim-quickrun')
             \   'outputter' : 'null',
             \ }
     endif
-
   endfunction
-unlet bundle
+
+  call neobundle#untap()
+endif
 
 " }}}
 
