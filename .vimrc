@@ -168,10 +168,7 @@ NeoBundle 'Shougo/vimproc.vim', {
       \     'unix' : 'make -f make_unix.mak',
       \ }}
 NeoBundle 'altercation/vim-colors-solarized'
-NeoBundleLazy 'othree/eregex.vim', {
-      \   'autoload' : {
-      \     'commands' : ['E2v', 'M', 'S', 'G', 'V']
-      \ }}
+NeoBundleLazy 'othree/eregex.vim'
 "NeoBundle 'scrooloose/nerdtree'
 NeoBundleLazy 'thinca/vim-quickrun'
 NeoBundleLazy 'tyru/open-browser.vim', {
@@ -1316,13 +1313,24 @@ unlet bundle
 
 " eregex.vim {{{
 
-" Default disable.
-let g:eregex_default_enable = 0
+if neobundle#tap('eregex.vim')
+  call neobundle#config({
+        \   'autoload' : {
+        \     'commands' : ['E2v', 'M', 'S', 'G', 'V']
+        \ }})
 
-"nnoremap /  :M/
-"nnoremap ?  :M?
-nnoremap ,/  :M/
-nnoremap ,?  :M?
+  "nnoremap /  :M/
+  "nnoremap ?  :M?
+  nnoremap ,/  :M/
+  nnoremap ,?  :M?
+
+  function! neobundle#tapped.hooks.on_source(bundle)
+    " Default disable.
+    let g:eregex_default_enable = 0
+  endfunction
+
+  call neobundle#untap()
+endif
 
 " }}}
 
