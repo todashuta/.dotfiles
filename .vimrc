@@ -1486,20 +1486,26 @@ call togglebg#map('<F5>')
 " If you use a iTerm besides use solarized iTerm profiles,
 " separate the config 'light' from 'dark' by $ITERM_PROFILE.
 function! s:judge_background_and_colorschemes()
-  let g:solarized_termcolors = ($ITERM_PROFILE =~? 'solarized') ? '16' : '256'
+  let background = 'dark'
+  let colorscheme = 'hybrid'
+  let g:solarized_termcolors = 256
+  let g:Powerline_colorscheme = 'default'
 
   if exists('$ITERM_PROFILE') && ($ITERM_PROFILE =~? 'solarized')
-    let &background = ($ITERM_PROFILE =~? 'light') ? 'light' : 'dark'
-    let g:Powerline_colorscheme = ($ITERM_PROFILE =~? 'light') ?
-          \ 'solarized' : 'solarized16'
-    colorscheme solarized
-  else
-    set background=dark
-    let g:Powerline_colorscheme = 'default'
-    colorscheme hybrid
+    let colorscheme = 'solarized'
+    let g:solarized_termcolors = 16
+    let g:Powerline_colorscheme = 'solarized16'
+
+    if ($ITERM_PROFILE =~? 'light')
+      let background = 'light'
+      let g:Powerline_colorscheme = 'solarized'
+    endif
   endif
+
+  let &background = background
+  execute 'colorscheme' colorscheme
 endfunction
-if s:is_term && (!exists('g:colors_name') || has('vim_starting'))
+if s:is_term && has('vim_starting')
   call s:judge_background_and_colorschemes()
 endif
 
