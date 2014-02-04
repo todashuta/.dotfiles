@@ -218,7 +218,9 @@ NeoBundleLazy 'basyura/TweetVim', {
       \     'commands' : ['TweetVimHomeTimeline', 'TweetVimSay'],
       \     'unite_sources' : 'tweetvim',
       \ }}
-NeoBundle 'todashuta/vim-powerline', 'develop'
+"NeoBundle 'todashuta/vim-powerline', 'develop'
+NeoBundle 'bling/vim-airline'
+"NeoBundle 'itchyny/lightline.vim'
 NeoBundleLazy 'thinca/vim-painter', {
       \   'autoload' : {
       \     'commands' : 'PainterStart'
@@ -307,7 +309,6 @@ NeoBundleLazy 'thinca/vim-editvar', {
 NeoBundle 'rbtnn/vimconsole.vim'
 NeoBundle 'tpope/vim-fugitive'
 NeoBundle 'vim-jp/vital.vim'
-"NeoBundle 'bling/vim-airline'
 NeoBundleLazy 'kana/vim-textobj-user', {
       \   'autoload' : {
       \     'function_prefix' : 'textobj'
@@ -1610,6 +1611,21 @@ if neobundle#tap('vim-powerline')
 
   " No need to show mode due to Powerline.
   set noshowmode
+
+  call neobundle#untap()
+endif
+
+" }}}
+
+" vim-airline {{{
+
+if neobundle#tap('vim-airline')
+  "let g:airline_theme = 'powerlineish'
+  let g:airline_left_sep = ''
+  let g:airline_right_sep = ''
+  "let g:airline_left_sep = '▶'
+  "let g:airline_right_sep = '◀'
+  let g:vimfiler_force_overwrite_statusline = 0
 
   call neobundle#untap()
 endif
