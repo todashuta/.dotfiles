@@ -1574,38 +1574,45 @@ endif
 
 " vim-powerline {{{
 "
-"let g:Powerline_symbols = 'fancy'            " Requires a patched font.
-"let g:Powerline_cache_enabled = 0
-let g:Powerline_stl_path_style = 'short'
-let g:Powerline_dividers_override = s:is_windows ?
-      \ ['', '', '', '<'] : ['', '', '', "\u276e"]
-let g:Powerline_symbols_override = {
-      \   'BRANCH' : '',
-      \   'LINE' : ''
-      \ }
+if neobundle#tap('vim-powerline')
+  "let g:Powerline_symbols = 'fancy'    " Requires a patched font.
+  "let g:Powerline_cache_enabled = 0
+  let g:Powerline_stl_path_style = 'short'
+  let g:Powerline_dividers_override = s:is_windows ?
+        \ ['', '', '', '<'] : ['', '', '', "\u276e"]
+  let g:Powerline_symbols_override = {
+        \   'BRANCH' : '',
+        \   'LINE' : ''
+        \ }
 
-function! s:sync_powerline_colorscheme()
-  if exists(':PowerlineReloadColorscheme')
-    let g:Powerline_colorscheme = (g:colors_name == 'solarized') ?
-        \ ((&background == 'light') ? 'solarized' : 'solarized16') : 'default'
+  function! s:update_powerline()
+    if !exists(':PowerlineReloadColorscheme')
+      return
+    endif
+
+    let g:Powerline_colorscheme = (g:colors_name == 'solarized')
+          \ ? ((&background == 'light') ? 'solarized' : 'solarized16')
+          \ : 'default'
     "PowerlineClearCache
     PowerlineReloadColorscheme
+  endfunction
+
+  " Reload Powerline automatically after loading a color scheme.
+  autocmd MyAutoCmd ColorScheme * silent call s:update_powerline()
+  " Reload Powerline automatically when the Vim start-up.
+  "autocmd MyAutoCmd VimEnter * silent call s:update_powerline()
+
+  " Finalize Powerline. (Reset Powerline colorscheme for next time)
+  if s:is_term && exists('$ITERM_PROFILE')
+    autocmd MyAutoCmd VimLeave * call s:set_colorscheme_nicely()
+          \| silent call s:update_powerline()
   endif
-endfunction
 
-" Reload Powerline automatically after loading a color scheme.
-autocmd MyAutoCmd ColorScheme * silent call s:sync_powerline_colorscheme()
-" Reload Powerline automatically when the Vim start-up.
-"autocmd MyAutoCmd VimEnter * silent call s:sync_powerline_colorscheme()
+  " No need to show mode due to Powerline.
+  set noshowmode
 
-" Finalize Powerline. (Reset Powerline colorscheme for next time)
-if s:is_term && exists('$ITERM_PROFILE')
-  autocmd MyAutoCmd VimLeave * call s:set_colorscheme_nicely()
-        \| silent call s:sync_powerline_colorscheme()
+  call neobundle#untap()
 endif
-
-" No need to show mode due to Powerline.
-set noshowmode
 
 " }}}
 
