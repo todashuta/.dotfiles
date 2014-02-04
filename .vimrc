@@ -1620,6 +1620,7 @@ endif
 " vim-airline {{{
 
 if neobundle#tap('vim-airline')
+  set noshowmode
   "let g:airline_theme = 'powerlineish'
   let g:airline_left_sep = ''
   let g:airline_right_sep = ''
