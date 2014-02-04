@@ -1483,9 +1483,7 @@ let g:solarized_visibility = 'low'
 " Toggle background key (Light or Dark)
 call togglebg#map('<F5>')
 
-" If you use a iTerm besides use solarized iTerm profiles,
-" separate the config 'light' from 'dark' by $ITERM_PROFILE.
-function! s:judge_background_and_colorschemes()
+function! s:set_colorscheme_nicely()
   let background = 'dark'
   let colorscheme = 'hybrid'
   let g:solarized_termcolors = 256
@@ -1506,7 +1504,7 @@ function! s:judge_background_and_colorschemes()
   execute 'colorscheme' colorscheme
 endfunction
 if s:is_term && has('vim_starting')
-  call s:judge_background_and_colorschemes()
+  call s:set_colorscheme_nicely()
 endif
 
 " }}}
@@ -1602,7 +1600,7 @@ autocmd MyAutoCmd ColorScheme * silent call s:sync_powerline_colorscheme()
 
 " Finalize Powerline. (Reset Powerline colorscheme for next time)
 if s:is_term && exists('$ITERM_PROFILE')
-  autocmd MyAutoCmd VimLeave * call s:judge_background_and_colorschemes()
+  autocmd MyAutoCmd VimLeave * call s:set_colorscheme_nicely()
         \| silent call s:sync_powerline_colorscheme()
 endif
 
