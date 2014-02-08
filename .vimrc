@@ -364,7 +364,7 @@ endif
 "endif
 
 if has('conceal')
-  NeoBundle 'Yggdroot/indentLine'
+  NeoBundle 'Yggdroot/indentLine', 'f0d6cf942c'
 endif
 
 if s:is_windows
@@ -1815,19 +1815,23 @@ endif
 
 " indentLine {{{
 
-let g:indentLine_char = s:is_unicode ? '¦' : '|'
-let g:indentLine_showFirstIndentLevel = 1
-let g:indentLine_indentLevel = 20
-"let g:indentLine_noConcealCursor = 1
-let g:indentLine_fileTypeExclude = ['help']
+if neobundle#tap('indentLine')
+  let g:indentLine_char = s:is_unicode ? '¦' : '|'
+  let g:indentLine_showFirstIndentLevel = 1
+  let g:indentLine_indentLevel = 20
+  "let g:indentLine_noConcealCursor = 1
+  let g:indentLine_fileTypeExclude = ['help']
 
-if s:is_reloading && exists(':IndentLinesReset')
-  IndentLinesReset
+  if s:is_reloading && exists(':IndentLinesReset')
+    IndentLinesReset
+  endif
+
+  " Toggle indentLines.
+  nnoremap <silent> [toggle]il
+        \ :<C-u>IndentLinesToggle<CR>
+
+  call neobundle#untap()
 endif
-
-" Toggle indentLines.
-nnoremap <silent> [toggle]il
-      \ :<C-u>IndentLinesToggle<CR>
 
 " }}}
 
