@@ -1358,6 +1358,8 @@ let bundle = neobundle#get('unite.vim')
     autocmd MyAutoCmd FileType unite
           \ call s:on_FileType_unite()
     function! s:on_FileType_unite()
+      silent! syntax clear IndentLine
+
       " <C-w>: Deletes a path upward.
       imap <buffer> <C-w>  <Plug>(unite_delete_backward_path)
       " <Tab>: Goes to the next candidate, or goes to the top from the bottom.
@@ -1805,6 +1807,7 @@ if neobundle#tap('vimfiler.vim')
           \ call s:on_FileType_vimfiler()
     function! s:on_FileType_vimfiler()
       " VimFiler settings. (Key mapping... etc)
+      silent! syntax clear IndentLine
     endfunction
   endfunction
 
