@@ -1734,26 +1734,31 @@ if neobundle#tap('vim-quickrun')
           \   'outputter/buffer/close_on_empty' : 1,
           \   'split' : 'below',
           \   'hook/time/enable' : 1,
-          \   'running_mark' : '(*''_'')> じっこうちゅう...',
+          \   'running_mark' : "(*'_')> じっこうちゅう...",
           \ }
     "let g:quickrun_config.markdown = {
     "      \   'outputter' : 'browser'
     "      \ }
 
-    if s:is_mac
-      " Preview markdown file using QuickLook(Requires a QLMarkdown).
-      if executable('qlmanage')
-        let g:quickrun_config.markdown = {
-              \   'command' : 'qlmanage',
-              \   'cmdopt' : '-p',
-              \   'outputter' : 'null',
-              \ }
-      endif
-
-      " View html file on Web browser using 'open' command.
+    " View html file on Web browser.
+    if s:is_mac && executable('open')
       let g:quickrun_config.html = {
-            \   'runner' : 'system',
             \   'command' : 'open',
+            \   'outputter' : 'null',
+            \ }
+    endif
+    if executable('xdg-open')
+      let g:quickrun_config.html = {
+            \   'command' : 'xdg-open',
+            \   'outputter' : 'null',
+            \ }
+    endif
+
+    " Preview markdown file using QuickLook(Requires a QLMarkdown).
+    if s:is_mac && executable('qlmanage')
+      let g:quickrun_config.markdown = {
+            \   'command' : 'qlmanage',
+            \   'cmdopt' : '-p',
             \   'outputter' : 'null',
             \ }
     endif
