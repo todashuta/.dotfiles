@@ -126,17 +126,22 @@ function _update_prompt() {  # {{{
         # 顔文字。直前のコマンドの成否で変化する。 0: (*'_'), 0以外: (*@_@)
         local zsh_face="%(?.%F{blue}(*'_')%f.%F{red}(*@_@%)%f)"
 
-        # GNU Screen 上でウインドウ番号を表示する用。
-        local screen_winnr="${WINDOW:+"[${WINDOW}]"}"
+        local -a env_info
 
-        # tmux 上でウインドウ番号やペインの番号を表示する用。
-        local tmux_info=''
-        if [[ -n "${TMUX}" ]]; then
-            local tmux_info='$(command tmux display -p "[#I-#P]")'
-        fi
+        # ssh でログインされているときは [ssh] と表示する
+        [[ -n "${SSH_TTY}" ]] && env_info+='[ssh]'
 
-        # プロンプト2段目: ジョブ数 顔文字 screenウインドウ番号
-        local lower_prompt="jobs:%j ${zsh_face}${screen_winnr}${tmux_info}"
+        # GNU Screen 上でウインドウ番号を表示する
+        [[ -n "${WINDOW}" ]] && env_info+="[${WINDOW}]"
+
+        # tmux 上でウインドウ番号とペインの番号を表示する
+        [[ -n "${TMUX}" ]] && env_info+="$(command tmux display -p '[#I-#P]')"
+
+        # vim の :shell コマンドで起動されているときは [vim] と表示する
+        [[ -n "${VIMRUNTIME}" ]] && env_info+='[vim]'
+
+        # プロンプト2段目: ジョブ数 顔文字 環境情報
+        local lower_prompt="jobs:%j ${zsh_face}${(j::)env_info}"
 
         # MEMO:
         # $'\n': 改行
