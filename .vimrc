@@ -963,34 +963,33 @@ set laststatus=2
 
 " Set statusline.
 "function! s:my_statusline()
-"  let is_wide_column = (&columns >= 80)
+"  let is_wide = (&columns >= 80)
 "
-"  let value = ''
+"  let _ = []
 "  " Paste mode Indicator.
-"  let value .= is_wide_column ?
-"        \ '%{&paste ? "  [PASTE]" : ""}' : '%{&paste ? "[P]" : ""}'
+"  let _ += [&paste ? (is_wide ? '[PASTE] ' : '[P]') : '']
 "  " Buffer number.
-"  let value .= ' [%2n]'
+"  let _ += ['[%2n]']
 "  " File path / File name.
-"  let value .= is_wide_column ? ' %<%F' : '%<%t'
+"  let _ += [is_wide ? ' %<%F' : '%<%t']
 "  " Modified flag, Readonly flag, Help flag, Preview flag.
-"  let value .= '%m%r%h%w'
+"  let _ += ['%m%r%h%w']
 "  " Separation point between left and right, and Space.
-"  let value .= '%= '
+"  let _ += ['%=  ']
 "  " Filetype, Fileencoding, Fileformat.
-"  let value .= is_wide_column
+"  let _ += [is_wide
 "        \ ? printf('[%s][%s][%s]',
-"        \          '%{strlen(&filetype) ? &filetype : "no ft"}',
-"        \          '%{(&fileencoding == "") ? &encoding : &fileencoding}',
-"        \          '%{&fileformat}')
-"        \ : printf('[%s:%s:%s]',
-"        \          '%{&filetype}', '%{&fileencoding}', '%{&fileformat}')
+"        \          (strlen(&filetype) ? &filetype : 'no ft'),
+"        \          (empty(&fileencoding) ? &encoding : &fileencoding),
+"        \          &fileformat
+"        \         )
+"        \ : printf('[%s:%s:%s]', &filetype, &fileencoding, &fileformat)]
 "  " Cursor position. (Numbers of lines in buffer)
-"  let value .= is_wide_column ? ' [%4l/%L:%3v]' : '[%3l:%2v]'
+"  let _ += [is_wide ? ' [%4l/%L:%3v]' : '[%3l:%2v]']
 "  " Percentage through file in lines as in |CTRL-G|.
-"  let value .= ' %3p%% '
+"  let _ += [' %3p%% ']
 "
-"  return value
+"  return join(_, '')
 "endfunction
 "
 "let &statusline = '%!'.s:SID_PREFIX().'my_statusline()'
