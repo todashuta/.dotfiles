@@ -113,6 +113,7 @@ NeoBundleLazy 'Shougo/unite.vim', {
       \           'complete' : 'customlist,unite#complete#source' },
       \         'UniteWithBufferDir'
       \ ]}}
+NeoBundle 'Shougo/neomru.vim'
 NeoBundleLazy 'Shougo/vimfiler.vim'
 NeoBundleLazy 'Shougo/unite-outline', {
       \   'autoload' : {
