@@ -656,21 +656,19 @@ nnoremap <silent> <Space>=  :<C-u>wincmd =<CR>
 " Yank from the cursor to the end of line.
 nnoremap Y  y$
 
-" Command-Line mode keymappings (Emacs like)
-" <C-a>: move to head.
-cnoremap <C-a>    <Home>
-" <C-b>: previous char.
-cnoremap <C-b>    <Left>
-" <C-d>: delete char.
-cnoremap <C-d>    <Del>
-" <C-e>: move to end.
-cnoremap <C-e>    <End>
-" <C-f>: next char.
-cnoremap <C-f>    <Right>
-" <C-n>: next history.
-cnoremap <C-n>    <Down>
-" <C-p>: previous history.
-cnoremap <C-p>    <Up>
+" Emacs-style editing on the command-line.
+cnoremap <C-a>  <Home>
+cnoremap <C-b>  <Left>
+cnoremap <C-d>  <Del>
+cnoremap <C-e>  <End>
+cnoremap <C-f>  <Right>
+
+" Command-Line history completion.
+cnoremap <C-p>  <Up>
+cnoremap <C-n>  <Down>
+cnoremap <Up>  <C-p>
+cnoremap <Down>  <C-n>
+
 " <C-k>: delete to end.
 cnoremap <C-k>  <C-\>e getcmdpos() == 1 ?
       \ '' :  getcmdline()[: getcmdpos()-2]<CR>
