@@ -613,34 +613,13 @@ if exists('&omnifunc')
   autocmd MyAutoCmd FileType xml,html inoremap <buffer> </  </<C-x><C-o>
 endif
 
-" Next tab, Previous tab.
-if has('gui_running')
-  nnoremap <C-Tab>    gt
-  nnoremap <C-S-Tab>  gT
-endif
-nnoremap gl  gt
-nnoremap gh  gT
-
 " Enter ';' to use command-line (Swap ':' and ';').
 noremap ;  :
 noremap :  ;
 
-" <Space-CR>: line break.
-nnoremap <Space><CR>  i<CR><Esc>
-
 " Visual shifting (does not exit Visual mode)
 xnoremap <  <gv
 xnoremap >  >gv
-
-" Quick shifting.
-nnoremap <  <<
-nnoremap >  >>
-
-" Indent
-if has('gui_running')
-  xnoremap <Tab>    >gv
-  xnoremap <S-Tab>  <gv
-endif
 
 " Shift + Arrow key: Resize split windows.
 nnoremap <silent> <S-Left>   :<C-u>wincmd <<CR>
@@ -688,24 +667,19 @@ nnoremap <silent> <Space>R   :<C-u>source $MYVIMRC
 nmap <Space>t  [toggle]
 nnoremap [toggle]  <Nop>
 
-" Toggle hlsearch
 nnoremap <silent> [toggle]h
       \ :<C-u>call <SID>toggle_option('hlsearch')<CR>
-" Toggle wrap
 nnoremap <silent> [toggle]w
       \ :<C-u>call <SID>toggle_option('wrap')<CR>
-" Toggle cursorline.
 nnoremap <silent> [toggle]-
       \ :<C-u>call <SID>toggle_option('cursorline')<CR>
-" Toggle cursorcolumn.
 nnoremap <silent> [toggle]<Bar>
       \ :<C-u>call <SID>toggle_option('cursorcolumn')<CR>
-" Toggle list
 nnoremap <silent> [toggle]l
       \ :<C-u>call <SID>toggle_option('list')<CR>
-" Toggle wrapscan
 nnoremap <silent> [toggle]/
       \ :<C-u>call <SID>toggle_option('wrapscan')<CR>
+
 " Toggle line number.
 nnoremap <silent> [toggle]n
       \ :<C-u>call <SID>toggle_line_number()<CR>
@@ -726,9 +700,9 @@ nnoremap <silent> [toggle]m
 " Lookup help three times more than regular speed.
 nnoremap <C-h>  :<C-u>help<Space>
 
-" <Space>c: close current window nimbly.
+" <Space>c: close current window.
 nnoremap <silent> <Space>c  :<C-u>close<CR>
-" <Space>o: close all other windows nimbly.
+" <Space>o: close all other windows.
 nnoremap <silent> <Space>o  :<C-u>only<CR>
 
 " Split window.
@@ -843,7 +817,7 @@ inoremap <C-b>  <Left>
 inoremap <expr> <C-a>
       \ search('^\s\s*\%#', 'bcn') ? "\<C-o>g0" : "\<C-o>g^"
 " <C-e>: Move to end.
-"inoremap <C-e>  <End>
+silent! inoremap <unique> <C-e>  <End>
 
 " }}}
 
@@ -1077,13 +1051,9 @@ if neobundle#tap('neocomplete.vim')
         \ }})
 
   function! neobundle#tapped.hooks.on_source(bundle)
-    " Use neocomplete.
     let g:neocomplete#enable_at_startup = 1
-    " Use smartcase.
     let g:neocomplete#enable_smart_case = 1
-    " Use fuzzy completion.
     let g:neocomplete#enable_fuzzy_completion = 1
-    " Set minimum syntax keyword length.
     let g:neocomplete#sources#syntax#min_keyword_length = 3
 
     " mappings {{{
@@ -1095,14 +1065,16 @@ if neobundle#tap('neocomplete.vim')
     "      \ neocomplete#close_popup() : "\<Plug>(smartinput_CR)"
 
     " <Tab>: completion.
-    inoremap <expr> <Tab>  pumvisible() ? "\<C-n>" : "\<Tab>"
+    inoremap <expr> <Tab>
+          \ pumvisible() ? "\<C-n>" : "\<Tab>"
     " <Shift-Tab>: Reverse completion.
-    inoremap <expr> <S-Tab>  pumvisible() ? "\<C-p>" : "\<C-h>"
+    inoremap <expr> <S-Tab>
+          \ pumvisible() ? "\<C-p>" : "\<C-h>"
 
-    " <C-g>: Undo completion.
-    inoremap <expr><C-g>  neocomplete#undo_completion()
-    " <C-l>: Complete common string.
-    inoremap <expr><C-l>  neocomplete#complete_common_string()
+    inoremap <expr> <C-g>
+          \ neocomplete#undo_completion()
+    inoremap <expr> <C-l>
+          \ neocomplete#complete_common_string()
 
     " <C-h>, <BS>: Close popup and delete backward char.
     imap <expr> <C-h>
@@ -1111,7 +1083,8 @@ if neobundle#tap('neocomplete.vim')
           \ neocomplete#smart_close_popup() . "\<Plug>(smartinput_BS)"
 
     " <C-e>: Close popup and move to end.
-    inoremap <expr> <C-e>  neocomplete#close_popup() . "\<End>"
+    inoremap <expr> <C-e>
+          \ neocomplete#close_popup() . "\<End>"
     " <C-y>: paste.
     "inoremap <expr> <C-y>
     "      \ pumvisible() ? neocomplete#close_popup() : "\<C-r>\""
@@ -1137,17 +1110,15 @@ if neobundle#tap('neocomplcache.vim')
         \ }})
 
   function! neobundle#tapped.hooks.on_source(bundle)
-    " Launches neocomplcache automatically on vim startup.
     let g:neocomplcache_enable_at_startup = 1
+
     " AutoCompPop like behavior.
     "let g:neocomplcache_enable_auto_select = 1
     " The number of candidates in popup menu. (Default: 100)
     "let g:neocomplcache_max_list = 20
-    " Close preview window automatically.
+
     let g:neocomplcache_enable_auto_close_preview = 1
-    " Use smartcase.
     let g:neocomplcache_enable_smart_case = 1
-    " Define dictionary.
     let g:neocomplcache_dictionary_filetype_lists = {
           \ 'default' : '',
           \ 'vimshell' : expand('~/.vimshell/command-history')
@@ -1167,14 +1138,16 @@ if neobundle#tap('neocomplcache.vim')
     "      \ neocomplcache#close_popup() : "\<Plug>(smartinput_CR)"
 
     " <Tab>: completion.
-    inoremap <expr> <Tab>  pumvisible() ? "\<C-n>" : "\<Tab>"
+    inoremap <expr> <Tab>
+          \ pumvisible() ? "\<C-n>" : "\<Tab>"
     " <Shift-Tab>: Reverse completion.
-    inoremap <expr> <S-Tab>  pumvisible() ? "\<C-p>" : "\<C-h>"
+    inoremap <expr> <S-Tab>
+          \ pumvisible() ? "\<C-p>" : "\<C-h>"
 
-    " <C-g>: Undo completion.
-    inoremap <expr> <C-g>  neocomplcache#undo_completion()
-    " <C-l>: Complete common string.
-    inoremap <expr> <C-l>  neocomplcache#complete_common_string()
+    inoremap <expr> <C-g>
+          \ neocomplcache#undo_completion()
+    inoremap <expr> <C-l>
+          \ neocomplcache#complete_common_string()
 
     " <C-h>, <BS>: Close popup and delete backward char.
     imap <expr> <C-h>
@@ -1225,7 +1198,6 @@ if neobundle#tap('neosnippet.vim')
     " If you are using neosnippet with neocomplcache, I recommend this config:
     " let g:neocomplcache_enable_auto_close_preview = 1
 
-    " Enable snipMate compatibility feature.
     let g:neosnippet#enable_snipmate_compatibility = 1
   endfunction
 
@@ -1306,32 +1278,23 @@ autocmd MyAutoCmd VimEnter,VimResized * let g:unite_winheight = &lines/2
 nmap <Space>u  [unite]
 nnoremap [unite]  <Nop>
 
-" Unite source.
 nnoremap <silent> [unite]u
       \ :<C-u>Unite source<CR>
-" Buffers. (Unite buffer)
 nnoremap <silent> [unite]b
       \ :<C-u>Unite buffer -buffer-name=Buffers<CR>
-" Files. (Unite file)
 nnoremap <silent> [unite]f
       \ :<C-u>UniteWithBufferDir file -buffer-name=Files<CR>
-" Recently used files. (Unite file_mru)
 nnoremap <silent> [unite]r
-      \ :<C-u>Unite file_mru -buffer-name=Recent<CR>
-" Registers. (Unite register)
+      \ :<C-u>Unite file_mru -buffer-name=Recent -default-action=tabopen<CR>
 nnoremap <silent> [unite]p
       \ :<C-u>Unite register -buffer-name=Registers<CR>
-" Marks. (Unite mark)
 nnoremap <silent> [unite]m
       \ :<C-u>Unite mark -buffer-name=Marks<CR>
-" All (Unite buffer file_mru bookmark file)
 nnoremap <silent> [unite]a
       \ :<C-u>Unite buffer file_mru bookmark file
       \ -buffer-name=All -hide-source-names<CR>
-" Unite outline
 nnoremap <silent> <Space>-
       \ :<C-u>Unite outline -buffer-name=Outline<CR>
-" TweetVim
 nnoremap <silent> [unite]t
       \ :<C-u>Unite tweetvim -buffer-name=TweetVim<CR>
 
