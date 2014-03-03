@@ -3,9 +3,7 @@
 
 " Initialize: "{{{
 "
-if &compatible
-  set nocompatible  " Be IMproved.
-endif
+if &compatible | set nocompatible | endif
 
 " Startup time.
 " See: https://gist.github.com/thinca/1518874
