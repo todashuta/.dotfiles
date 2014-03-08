@@ -1454,24 +1454,24 @@ let g:solarized_visibility = 'low'
 call togglebg#map('<F5>')
 
 function! s:set_colorscheme_nicely()
-  let background = 'dark'
-  let colorscheme = 'hybrid'
+  let background_tone = 'dark'
+  let colorscheme_name = 'hybrid'
   let g:solarized_termcolors = 256
   let g:Powerline_colorscheme = 'default'
 
   if exists('$ITERM_PROFILE') && ($ITERM_PROFILE =~? 'solarized')
-    let colorscheme = 'solarized'
+    let colorscheme_name = 'solarized'
     let g:solarized_termcolors = 16
     let g:Powerline_colorscheme = 'solarized16'
 
     if ($ITERM_PROFILE =~? 'light')
-      let background = 'light'
+      let background_tone = 'light'
       let g:Powerline_colorscheme = 'solarized'
     endif
   endif
 
-  let &background = background
-  execute 'colorscheme' colorscheme
+  let &background = background_tone
+  execute 'colorscheme' colorscheme_name
 endfunction
 if s:is_term && has('vim_starting')
   call s:set_colorscheme_nicely()
