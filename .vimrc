@@ -317,6 +317,14 @@ NeoBundleLazy 'kana/vim-textobj-indent', {
       \     'mappings' : [
       \       ['xo', 'ai'], ['xo', 'ii'], ['xo', 'aI'], ['xo', 'iI']
       \ ]}}
+NeoBundleLazy 'kana/vim-textobj-line', {
+      \   'autoload' : {
+      \     'mappings' : [['xo', 'al'], ['xo', 'il']]
+      \ }}
+NeoBundleLazy 'kana/vim-textobj-entire', {
+      \   'autoload' : {
+      \     'mappings' : [['xo', 'ae'], ['xo', 'ie']]
+      \ }}
 "NeoBundle 'kana/vim-textobj-jabraces'
 NeoBundleLazy 'thinca/vim-textobj-comment', {
       \   'autoload' : {
