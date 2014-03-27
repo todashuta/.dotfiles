@@ -23,16 +23,16 @@
 ;;; Emacs version 23 以前用
 (when (<= emacs-major-version 23)
   (progn
-    (load "~/.emacs.d/23/init.el")
+    (load (expand-file-name "~/.emacs.d/23/init.el"))
     (if window-system
-      (load "~/.emacs.d/23/window-system.el"))))
+      (load (expand-file-name "~/.emacs.d/23/window-system.el")))))
 
 ;;; Emacs version 24 以降用
 (when (>= emacs-major-version 24)
   (progn
-    (load "~/.emacs.d/24/init.el")
+    (load (expand-file-name "~/.emacs.d/24/init.el"))
     (if window-system
-      (load "~/.emacs.d/24/window-system.el"))))
+      (load (expand-file-name "~/.emacs.d/24/window-system.el")))))
 
 ;;; }}}
 

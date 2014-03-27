@@ -185,7 +185,7 @@
 
 ;; 初期ディレクトリの設定 (Windows)
 (when (eq system-type 'windows-nt)
-  (setq default-directory "~/"))
+  (setq default-directory (expand-file-name "~/")))
 
 ;; GUI関連 (Mac)
 (when (and window-system (eq system-type 'darwin))
