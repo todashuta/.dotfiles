@@ -73,8 +73,8 @@
 ;;
 ;; el-get (master branch)
 ;;
-(setq el-get-dir "~/.emacs.d/el-get")  ;; default
-(add-to-list 'load-path "~/.emacs.d/el-get/el-get")
+(setq el-get-dir (expand-file-name "~/.emacs.d/el-get"))  ;; default
+(add-to-list 'load-path (expand-file-name "~/.emacs.d/el-get/el-get"))
 
 (unless (require 'el-get nil 'noerror)
   (with-current-buffer
@@ -101,7 +101,7 @@
 (when (require 'auto-complete-config nil 'noerror)
   (require 'auto-complete-config)
   (add-to-list 'ac-dictionary-directories
-               "~/.emacs.d/el-get/auto-complete/dict")
+               (expand-file-name "~/.emacs.d/el-get/auto-complete/dict"))
   (ac-config-default)
   (setq ac-use-menu-map t)
   (when ac-use-menu-map
