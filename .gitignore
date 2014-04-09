@@ -1,8 +1,6 @@
 .netrwhist
 .DS_Store
 
-tmux*.log
-
 .zsh/.zsh_history
 .zsh/.zcompdump
 .zsh/.zcalc_history
