@@ -2027,7 +2027,17 @@ let vimrplugin_screenplugin = 0
 "let g:vim_indent_cont = 0
 
 " vim-signify
-let g:signify_vcs_list = ['git']
+if neobundle#tap('vim-signify')
+  let g:signify_vcs_list = ['git']
+  nmap <C-p>  <Plug>(signify-prev-hunk)zz
+  nmap <C-n>  <Plug>(signify-next-hunk)zz
+  nnoremap <silent> [toggle]s
+        \ :<C-u>SignifyToggle<CR>
+  nnoremap <silent> [toggle]S
+        \ :<C-u>SignifyToggleHighlight<CR>
+
+  call neobundle#untap()
+endif
 
 " }}}
 
