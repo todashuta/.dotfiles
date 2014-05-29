@@ -21,12 +21,11 @@ if exists('+regexpengine')
 endif
 
 let s:is_term = !has('gui_running')
-let s:is_linux = has('unix') && (system('uname') =~? 'linux')
 let s:is_windows = has('win16') || has('win32') || has('win64')
 let s:is_cygwin = has('win32unix')
 let s:is_mac = !s:is_windows && !s:is_cygwin
       \ && (has('mac') || has('macunix') || has('gui_macvim') ||
-      \   (!isdirectory('/proc') && executable('sw_vers')))
+      \   (!isdirectory('/proc') && executable('/usr/bin/sw_vers')))
 
 let s:is_reloading = !has('vim_starting')
 
@@ -365,7 +364,7 @@ if executable('ag')
   NeoBundle 'rking/ag.vim'
 endif
 
-"if executable('mdfind')
+"if executable('/usr/bin/mdfind')
 "  NeoBundle 'choplin/unite-spotlight',
 "        \ { 'depends' : 'Shougo/unite.vim' }
 "endif
@@ -1338,7 +1337,7 @@ let bundle = neobundle#get('unite.vim')
     endfunction
 
     " unite-action quicklook
-    if executable('qlmanage')
+    if executable('/usr/bin/qlmanage')
       let quicklook = {
             \   'description' : 'qlmanage -p {word}',
             \   'is_selectable' : 1,
@@ -1708,7 +1707,7 @@ if neobundle#tap('vim-quickrun')
     "      \ }
 
     " View html file on Web browser.
-    if s:is_mac && executable('open')
+    if s:is_mac && executable('/usr/bin/open')
       let g:quickrun_config.html = {
             \   'command' : 'open',
             \   'outputter' : 'null',
@@ -1722,7 +1721,7 @@ if neobundle#tap('vim-quickrun')
     endif
 
     " Preview markdown file using QuickLook(Requires a QLMarkdown).
-    if s:is_mac && executable('qlmanage')
+    if s:is_mac && executable('/usr/bin/qlmanage')
       let g:quickrun_config.markdown = {
             \   'command' : 'qlmanage',
             \   'cmdopt' : '-p',
