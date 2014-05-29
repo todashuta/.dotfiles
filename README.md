@@ -1,13 +1,30 @@
-Profiles
-========
+# dotfiles
 
-Welcome to my repositories of profiles and dotfiles.  
-Dropboxで管理していたのをGithubに移行してみようかと
 
-Usage
-=====
+<!--
+## Usage
 
-Clone from github.
+### Install
 
-	% mkdir ~/.profiles.d
-	% git clone git://github.com/todashuta/profiles.git ~/profiles.d
+```
+% cd
+% git clone git://github.com/todashuta/.dotfiles.git ~/.dotfiles
+% cd .dotfiles
+% ./setup install
+```
+
+### Update
+
+```
+% cd ~/.dotfiles
+% git pull --rebase
+% git submodule update --init --recursive
+```
+
+### Uninstall
+
+```
+% cd ~/.dotfiles
+% ./setup uninstall
+```
+-->
