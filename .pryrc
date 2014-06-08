@@ -6,7 +6,7 @@
 Pry.config.prompt = [
   proc { |target_self, nest_level, pry|
     prompt = "[#{pry.input_array.size}] "
-    prompt << "#{Rails.verson}@" if defined?(Rails)
+    prompt << "#{Rails.version}@" if defined?(Rails)
     prompt << "#{RUBY_VERSION}-p#{RUBY_PATCHLEVEL}(#{Pry.view_clip(target_self)})"
     prompt << ":#{nest_level}" unless nest_level.zero?
     prompt << '> '
@@ -15,7 +15,7 @@ Pry.config.prompt = [
 
   proc { |target_self, nest_level, pry|
     prompt = "[#{pry.input_array.size}] "
-    prompt << "#{Rails.verson}@" if defined?(Rails)
+    prompt << "#{Rails.version}@" if defined?(Rails)
     prompt << "#{RUBY_VERSION}-p#{RUBY_PATCHLEVEL}(#{Pry.view_clip(target_self)})"
     prompt << ":#{nest_level}" unless nest_level.zero?
     prompt << '| '
