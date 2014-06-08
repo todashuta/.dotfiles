@@ -23,7 +23,12 @@ Pry.config.prompt = [
   }
 ]
 
-require 'awesome_print'
+begin
+  require 'awesome_print'
+  Pry.config.print = proc { |output, value| output.puts value.ai }
+rescue
+  puts "Unable to load 'awesome_print', please install 'awesome_print'."
+end
 
 
 # vim: set ft=ruby:
