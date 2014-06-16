@@ -15,6 +15,7 @@
 	df = diff
 	dfw = diff --word-diff
 	br = branch
+	unstage = reset HEAD --
 [core]
 	editor = vim
 	pager = lv -c
