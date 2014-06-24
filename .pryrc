@@ -26,7 +26,7 @@ Pry.config.prompt = [
 begin
   require 'awesome_print'
   Pry.config.print = proc { |output, value| output.puts value.ai }
-rescue
+rescue Exception => e
   puts "Unable to load 'awesome_print', please install 'awesome_print'."
 end
 
