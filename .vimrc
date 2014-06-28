@@ -578,7 +578,10 @@ inoremap <silent> <Esc>  <Esc>`^
 inoremap <silent> <C-[>  <Esc>`^
 
 " Paste.
-inoremap <C-r>*  <C-o>:set paste<CR><C-r>*<C-o>:set nopaste<CR>
+inoremap <expr> <C-r>*
+      \ "\<C-o>:set paste\<CR>\<C-r>"
+      \ .(exists('+clipboard') ? '*' : '"')
+      \ ."\<C-o>:set nopaste\<CR>"
 
 " Move cursor by display line.
 noremap j  gj
