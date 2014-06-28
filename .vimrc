@@ -1255,7 +1255,7 @@ if neobundle#tap('eregex.vim')
   nnoremap ,?  :M?
 
   function! neobundle#tapped.hooks.on_source(bundle)
-    " Default disable.
+    " Disable eregex.vim key mapping
     let g:eregex_default_enable = 0
   endfunction
 
