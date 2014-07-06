@@ -1,0 +1,10 @@
+;; guile initialize file
+
+
+;; Enable 'readline' command-line editing.
+;; More infomation: '$ man guile'
+(use-modules (ice-9 readline))
+(activate-readline)
+
+
+;; vim: set ft=scheme et :
