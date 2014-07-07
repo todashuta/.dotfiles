@@ -203,10 +203,7 @@ NeoBundleLazy 'othree/html5.vim', {
       \   'autoload' : {
       \     'filetypes' : ['html', 'css']
       \ }}
-NeoBundleLazy 'kana/vim-smartinput', {
-      \   'autoload' : {
-      \     'insert' : 1,
-      \ }}
+NeoBundleLazy 'kana/vim-smartinput'
 "NeoBundle 'kien/ctrlp.vim'
 NeoBundleLazy 'basyura/TweetVim', {
       \   'depends' : [
@@ -1840,6 +1837,11 @@ endif
 " vim-smartinput {{{
 
 if neobundle#tap('vim-smartinput')
+  call neobundle#config({
+        \   'autoload' : {
+        \     'insert' : 1,
+        \ }})
+
   function! neobundle#tapped.hooks.on_post_source(bundle)
     function! s:smartinput_define_my_rules()
       call smartinput#map_to_trigger('i', '<Plug>(smartinput_BS)',
