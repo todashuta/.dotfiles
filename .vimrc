@@ -1900,7 +1900,7 @@ if neobundle#tap('vim-smartinput')
   endfunction
 
   function! s:smartinput_is_enabled()
-    return len(smartinput#scope().available_nrules) > 0
+    return len(smartinput#scope()['available_nrules']) > 0
   endfunction
 
   function! s:cmd_SmartinputToggleEnabled()
