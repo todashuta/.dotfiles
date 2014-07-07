@@ -1839,41 +1839,85 @@ endif
 
 " vim-smartinput {{{
 
-let bundle = neobundle#get('vim-smartinput')
-  function! bundle.hooks.on_source(bundle)
+if neobundle#tap('vim-smartinput')
+  function! neobundle#tapped.hooks.on_post_source(bundle)
+    function! s:smartinput_define_my_rules()
+      call smartinput#map_to_trigger('i', '<Plug>(smartinput_BS)',
+            \                        '<BS>',
+            \                        '<BS>')
+      call smartinput#map_to_trigger('i', '<Plug>(smartinput_C-h)',
+            \                        '<BS>',
+            \                        '<C-h>')
+      call smartinput#map_to_trigger('i', '<Plug>(smartinput_CR)',
+            \                        '<Enter>',
+            \                        '<Enter>')
+      "call smartinput#map_to_trigger('i', '<Plug>(smartinput_C-j)',
+      "      \                        '<Enter>',
+      "      \                        '<C-j>')
+      "call smartinput#map_to_trigger('i', '<Plug>(smartinput_NL)',
+      "      \                        '<Enter>',
+      "      \                        '<NL>')
+      "call smartinput#map_to_trigger('i', '<Plug>(smartinput_Return)',
+      "      \                        '<Enter>',
+      "      \                        '<Return>')
+      call smartinput#map_to_trigger('c', '<Plug>(smartinput_NL)',
+            \                        '<Enter>',
+            \                        '<C-j>')
+      call smartinput#map_to_trigger('c', '<Plug>(smartinput_C-h)',
+            \                        '<BS>',
+            \                        '<C-h>')
+      call smartinput#map_to_trigger('c', '<Plug>(smartinput_CR)',
+            \                        '<Enter>',
+            \                        '<Return>')
 
-    " Define fallback mappings.
-    call smartinput#map_to_trigger('i', '<Plug>(smartinput_BS)',
-          \                        '<BS>',
-          \                        '<BS>')
-    call smartinput#map_to_trigger('i', '<Plug>(smartinput_C-h)',
-          \                        '<BS>',
-          \                        '<C-h>')
-    call smartinput#map_to_trigger('i', '<Plug>(smartinput_CR)',
-          \                        '<Enter>',
-          \                        '<Enter>')
-    "call smartinput#map_to_trigger('i', '<Plug>(smartinput_C-j)',
-    "      \                        '<Enter>',
-    "      \                        '<C-j>')
-    "call smartinput#map_to_trigger('i', '<Plug>(smartinput_NL)',
-    "      \                        '<Enter>',
-    "      \                        '<NL>')
-    "call smartinput#map_to_trigger('i', '<Plug>(smartinput_Return)',
-    "      \                        '<Enter>',
-    "      \                        '<Return>')
+      " TODO: ['"', "'", '(', ')', '[', ']', '`', '{', '}', '|']
+      call smartinput#map_to_trigger('i', '<Bar>', '<Bar>', '<Bar>')
+      call smartinput#define_rule({
+            \   'at': '\({\|\<do\>\)\s*\%#',
+            \   'char': '<Bar>',
+            \   'input': '<Bar><Bar><Left>',
+            \   'filetype': ['ruby'],
+            \ })
 
-    call smartinput#map_to_trigger('c', '<Plug>(smartinput_NL)',
-          \                        '<Enter>',
-          \                        '<C-j>')
-    call smartinput#map_to_trigger('c', '<Plug>(smartinput_C-h)',
-          \                        '<BS>',
-          \                        '<C-h>')
-    call smartinput#map_to_trigger('c', '<Plug>(smartinput_CR)',
-          \                        '<Enter>',
-          \                        '<Return>')
-
+      call smartinput#map_to_trigger('i', '"', '"', '"')
+      "call smartinput#define_rule({
+      "      \   'at' : '\%#',
+      "      \   'char' : '"',
+      "      \   'input' : '"',
+      "      \   'filetype' : ['html'],
+      "      \ })
+      " TODO: better regexp
+      call smartinput#define_rule({
+            \   'at': '\<\S.*\>="\<\S.*\%#',
+            \   'char': '"',
+            \   'input': '"',
+            \   'filetype': ['html'],
+            \ })
+    endfunction
+    call s:smartinput_define_my_rules()
   endfunction
-unlet bundle
+
+  function! s:smartinput_is_enabled()
+    return len(smartinput#scope().available_nrules) > 0
+  endfunction
+
+  function! s:cmd_SmartinputToggleEnabled()
+    if s:smartinput_is_enabled()
+      call smartinput#clear_rules()
+      echo 'Disable smartinput'
+    else
+      call smartinput#define_default_rules()
+      call s:smartinput_define_my_rules()
+      echo 'Enable smartinput'
+    endif
+  endfunction
+  command! -nargs=0 SmartinputToggleEnabled
+        \ call s:cmd_SmartinputToggleEnabled()
+  "nnoremap <silent> [toggle]q
+  "      \ :<C-u>SmartinputToggleEnabled<CR>
+
+  call neobundle#untap()
+endif
 
 " }}}
 
