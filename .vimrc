@@ -695,7 +695,7 @@ nnoremap <silent> [toggle]p
       \ :<C-u>call <SID>toggle_option('paste')<CR>:set mouse=<CR>
 " Toggle mouse.
 nnoremap <silent> [toggle]m
-      \ :<C-u>exe'set'&mouse=='a'?'mouse=':'mouse=a'<CR>:set mouse?<CR>
+      \ :<C-u>let &mouse = &mouse == 'a' ? '' : 'a'<CR>:set mouse?<CR>
 
 " Look see registers.
 "nnoremap <silent> <Space>r
