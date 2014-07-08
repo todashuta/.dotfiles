@@ -1905,11 +1905,18 @@ if neobundle#tap('vim-smartinput')
 
   function! s:cmd_SmartinputToggleEnabled()
     if s:smartinput_is_enabled()
+      let s:saved_smartinput_rules = smartinput#scope()['available_nrules']
       call smartinput#clear_rules()
       echo 'vim-smartinput is disabled'
     else
-      call smartinput#define_default_rules()
-      call s:smartinput_define_my_rules()
+      if exists('s:saved_smartinput_rules')
+        let s = smartinput#scope()
+        let s['available_nrules'] = s:saved_smartinput_rules
+        unlet s:saved_smartinput_rules
+      else
+        call smartinput#define_default_rules()
+        call s:smartinput_define_my_rules()
+      endif
       echo 'vim-smartinput is enabled'
     endif
   endfunction
