@@ -695,7 +695,7 @@ nnoremap <silent> [toggle]p
       \ :<C-u>call <SID>toggle_option('paste')<CR>:set mouse=<CR>
 " Toggle mouse.
 nnoremap <silent> [toggle]m
-      \ :<C-u>let &mouse = &mouse == 'a' ? '' : 'a'<CR>:set mouse?<CR>
+      \ :<C-u>let &mouse = (&mouse == 'a' ? '' : 'a')<CR>:set mouse?<CR>
 
 " Look see registers.
 "nnoremap <silent> <Space>r
@@ -884,7 +884,7 @@ if exists('+colorcolumn')
   " Toggle colorcolumn.
   nnoremap <silent> [toggle]cc
         \ :<C-u>let &colorcolumn =
-        \   empty(&colorcolumn) ? <SID>get_colorcolumns(79) : ''<CR>
+        \   &colorcolumn == '' ? <SID>get_colorcolumns(79) : ''<CR>
 endif
 
 let s:listchars = {
