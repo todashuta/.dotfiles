@@ -84,17 +84,13 @@ if has('vim_starting')
     set runtimepath^=~/.vim,~/.vim/after
   endif
 
-  " Load neobundle.
   set runtimepath+=~/.vim/bundle/neobundle.vim
 endif
 
-" neobundle log file path.
 let g:neobundle#log_filename = expand('~/.neobundle_log')
 
-" Initialize neobundle
 call neobundle#rc(expand('~/.vim/bundle'))
 
-" Github repositories.
 if has('lua') && (v:version > 703 || v:version == 703 && has('patch885'))
   NeoBundleLazy 'Shougo/neocomplete.vim'
 else
@@ -386,9 +382,8 @@ let g:loaded_vimballPlugin = 1
 " Disable getscript.vim
 let g:loaded_getscriptPlugin = 1
 
-filetype plugin indent on    " Required!
+filetype plugin indent on
 
-" Installation check
 "NeoBundleCheck
 
 " Enable syntax color
