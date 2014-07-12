@@ -836,7 +836,7 @@ set t_Co=256
 "  colorscheme solarized
 "endif
 " Number of screen lines to use for the command-line.
-set cmdheight=1
+set cmdheight=2
 " Show (partial) command in the last line of the screen.
 set showcmd
 " Minimal number of screen lines to keep above and below the cursor.
@@ -890,25 +890,21 @@ let s:listchars = {
       \ }
 
 if has('vim_starting')  " Don't reset twice on reloading.
-  " Indicate tab, wrap, trailing spaces and eol or not.
   set list
-  " Strings to use in 'list' mode and for the :list command.
   let &listchars = s:is_unicode ?
         \ s:listchars['modern'] : s:listchars['classic']
 
-  " Line number.
   if (v:version >= 704)
     " Show relativenumber with absolute line number on cursor line.
-    set relativenumber number
+    "set relativenumber number
+
+    set norelativenumber nonumber
   else
-    set number
-    "set relativenumber
+    set nonumber
   endif
 
-  " Lines longer than the width of the window will wrap.
-  set wrap
-  " Highlight cursor line.
-  set cursorline
+  set nowrap
+  set nocursorline
 endif
 
 " Highlight cursor line sensibly only current window.
