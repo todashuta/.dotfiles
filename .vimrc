@@ -89,7 +89,7 @@ endif
 
 let g:neobundle#log_filename = expand('~/.neobundle_log')
 
-call neobundle#rc(expand('~/.vim/bundle'))
+call neobundle#begin(expand('~/.vim/bundle'))
 
 if has('lua') && (v:version > 703 || v:version == 703 && has('patch885'))
   NeoBundleLazy 'Shougo/neocomplete.vim'
@@ -381,6 +381,8 @@ let g:loaded_netrwPlugin = 1
 let g:loaded_vimballPlugin = 1
 " Disable getscript.vim
 let g:loaded_getscriptPlugin = 1
+
+call neobundle#end()
 
 filetype plugin indent on
 
