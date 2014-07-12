@@ -367,7 +367,7 @@ endif
 "endif
 
 if has('conceal')
-  NeoBundle 'Yggdroot/indentLine', 'f0d6cf942c'
+  NeoBundle 'Yggdroot/indentLine'
 endif
 
 if s:is_windows
