@@ -1638,24 +1638,22 @@ let bundle = neobundle#get('vimshell.vim')
       call vimshell#set_alias('edit', 'vim --split=tabedit $$args')
       call vimshell#set_alias('quicklook', 'qlmanage -p $$args')
 
-      call vimshell#hook#add('chpwd', 'my_chpwd', s:vimshell_hooks.chpwd)
-      call vimshell#hook#add('emptycmd', 'my_emptycmd',
-            \                s:vimshell_hooks.emptycmd)
+      let hooks = {}
+      function! hooks.chpwd(args, context)
+        if len(split(glob('*'), '\n')) < 100
+          call vimshell#execute('ls')
+        else
+          cal vimshell#execute('echo "Many files."')
+        endif
+      endfunction
+      function! hooks.emptycmd(cmdline, context)
+        "call vimshell#set_prompt_command('clear')
+        return 'clear'
+      endfunction
+      call vimshell#hook#add('chpwd', 'my_chpwd', hooks.chpwd)
+      call vimshell#hook#add('emptycmd', 'my_emptycmd', hooks.emptycmd)
+      unlet hooks
     endfunction
-
-    let s:vimshell_hooks = {}
-    function! s:vimshell_hooks.chpwd(args, context)
-      if len(split(glob('*'), '\n')) < 100
-        call vimshell#execute('ls')
-      else
-        call vimshell#execute('echo "Many files."')
-      endif
-    endfunction
-    function! s:vimshell_hooks.emptycmd(cmdline, context)
-      call vimshell#set_prompt_command('clear')
-      return 'clear'
-    endfunction
-
   endfunction
 unlet bundle
 
