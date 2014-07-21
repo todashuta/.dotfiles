@@ -967,18 +967,24 @@ set laststatus=2
 
 " }}}
 
-" Highlight japanese zenkaku space. "{{{
+" Highlight "{{{
 "
-function! s:highlight_zenkaku_space()
-  highlight ZenkakuSpace term=underline ctermbg=64 guibg=#719e07
-  match ZenkakuSpace /　/
+function! s:additional_highlight()
+  " Highlight ideographic space (japanese zenkaku space)
+  highlight IdeographicSpace term=underline ctermbg=64 guibg=#719e07
+  match IdeographicSpace /　/
+  " Silent matchparen
+  highlight MatchParen
+        \ guifg=NONE guibg=NONE ctermfg=NONE ctermbg=NONE
+        \ term=underline cterm=underline gui=underline
+  " Change cursor color when IME is on.
+  highlight CursorIM guifg=#fdf6e3 guibg=#dc322f
 endfunction
 autocmd MyAutoCmd VimEnter,WinEnter,ColorScheme *
-      \ call s:highlight_zenkaku_space()
-
-if s:is_reloading
-  call s:highlight_zenkaku_space()
-endif
+      \ call s:additional_highlight()
+autocmd MyAutoCmd SourceCmd $MYVIMRC
+      \ call s:additional_highlight()
+"autocmd MyAutoCmd SourceCmd $MYVIMRC doautocmd ColorScheme
 
 " }}}
 
