@@ -443,7 +443,7 @@ if has('iconv') && !has('kaoriya')
   unlet s:enc_jis
 endif
 
-if has('guess_encode') && (&fileencodings !~# 'guess')
+if has('guess_encode') && index(split(&fileencodings, ','), 'guess') == -1
   set fileencodings^=guess
 endif
 
