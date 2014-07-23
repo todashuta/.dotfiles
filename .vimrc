@@ -27,8 +27,6 @@ let s:is_mac = !s:is_windows && !s:is_cygwin
       \ && (has('mac') || has('macunix') || has('gui_macvim') ||
       \   (!isdirectory('/proc') && executable('/usr/bin/sw_vers')))
 
-let s:is_reloading = !has('vim_starting')
-
 " Use English interface.
 if s:is_windows
   language message en
@@ -982,9 +980,8 @@ function! s:additional_highlight()
 endfunction
 autocmd MyAutoCmd VimEnter,WinEnter,ColorScheme *
       \ call s:additional_highlight()
-autocmd MyAutoCmd SourceCmd $MYVIMRC
+autocmd MyAutoCmd User VimrcReloaded
       \ call s:additional_highlight()
-"autocmd MyAutoCmd SourceCmd $MYVIMRC doautocmd ColorScheme
 
 " }}}
 
@@ -1787,9 +1784,8 @@ if neobundle#tap('indentLine')
   "let g:indentLine_noConcealCursor = 1
   let g:indentLine_fileTypeExclude = ['help']
 
-  if s:is_reloading && exists(':IndentLinesReset')
-    IndentLinesReset
-  endif
+  autocmd MyAutoCmd User VimrcReloaded
+        \ IndentLinesReset
 
   " Toggle indentLines.
   nnoremap <silent> [toggle]il
@@ -2221,7 +2217,13 @@ endif
 
 " Finalize: "{{{
 "
-if s:is_reloading
+if !has('vim_starting')
+  if v:version > 703 || v:version == 703 && has('patch438')
+    doautocmd <nomodeline> MyAutoCmd User VimrcReloaded
+  else
+    doautocmd MyAutoCmd User VimrcReloaded
+  endif
+
   " Call on_source hook when reloading .vimrc.
   call neobundle#call_hook('on_source')
 endif
