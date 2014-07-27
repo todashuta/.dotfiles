@@ -386,7 +386,6 @@ filetype plugin indent on
 
 "NeoBundleCheck
 
-" Enable syntax color
 syntax enable
 
 " }}}
@@ -1435,12 +1434,11 @@ let g:unite_source_menu_menus.unite = {
 
 " SOLARIZED {{{
 
-" Disable Solarized Menu.
+"let g:solarized_hitrail = 1
+let g:loaded_togglebg = 1
 let g:solarized_menu = 0
-" Visibility of `listchars' (normal, high, low)
 let g:solarized_visibility = 'low'
-" Toggle background key (Light or Dark)
-call togglebg#map('<F5>')
+"call togglebg#map('<F5>')
 
 function! s:set_colorscheme_nicely()
   let background_tone = 'dark'
@@ -1448,12 +1446,12 @@ function! s:set_colorscheme_nicely()
   let g:solarized_termcolors = 256
   let g:Powerline_colorscheme = 'default'
 
-  if exists('$ITERM_PROFILE') && ($ITERM_PROFILE =~? 'solarized')
+  if $ITERM_PROFILE != '' && $ITERM_PROFILE =~? 'solarized'
     let colorscheme_name = 'solarized'
     let g:solarized_termcolors = 16
     let g:Powerline_colorscheme = 'solarized16'
 
-    if ($ITERM_PROFILE =~? 'light')
+    if $ITERM_PROFILE =~? 'light'
       let background_tone = 'light'
       let g:Powerline_colorscheme = 'solarized'
     endif
