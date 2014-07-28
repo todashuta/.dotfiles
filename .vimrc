@@ -222,7 +222,7 @@ NeoBundleLazy 'thinca/vim-scouter', {
 NeoBundleLazy 'thinca/vim-visualstar'
 "NeoBundle 'vim-scripts/ShowMarks'
 "NeoBundle 'Lokaltog/vim-easymotion'
-NeoBundleLazy 'taku-o/vim-toggle'
+NeoBundleLazy 'AndrewRadev/switch.vim'
 NeoBundleLazy 'ujihisa/neco-look', {
       \   'autoload' : {
       \     'insert' : 1
@@ -2001,14 +2001,20 @@ if neobundle#tap('vim-surround')
   call neobundle#untap()
 endif
 
-" vim-toggle
-if neobundle#tap('vim-toggle')
+" switch.vim
+if neobundle#tap('switch.vim')
   call neobundle#config({
-        \   'autoload' : {
-        \     'mappings' : [['n', '<Plug>ToggleN']],
+        \   'autoload': {
+        \     'commands': ['Switch'],
         \ }})
 
-  nmap <silent> +  <Plug>ToggleN
+  nnoremap <silent> +  :<C-u>Switch<CR>
+
+  function! neobundle#tapped.hooks.on_source(bundle)
+    let g:switch_custom_definitions = [
+          \   ['foo', 'bar', 'baz'],
+          \ ]
+  endfunction
 
   call neobundle#untap()
 endif
