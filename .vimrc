@@ -969,7 +969,8 @@ set laststatus=2
 function! s:additional_highlight()
   " Highlight ideographic space (japanese zenkaku space)
   highlight IdeographicSpace term=underline ctermbg=64 guibg=#719e07
-  match IdeographicSpace /　/
+  execute 'match IdeographicSpace'
+        \ '/'.(has('iconv') ? iconv("\x81\x40", 'cp932', &encoding) : '').'/'
   " Silent matchparen
   highlight MatchParen
         \ guifg=NONE guibg=NONE ctermfg=NONE ctermbg=NONE
