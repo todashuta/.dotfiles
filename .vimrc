@@ -1058,6 +1058,47 @@ if neobundle#tap('neocomplete.vim')
     let g:neocomplete#enable_smart_case = 1
     let g:neocomplete#enable_fuzzy_completion = 1
     let g:neocomplete#sources#syntax#min_keyword_length = 3
+    let g:neocomplete#force_overwrite_completefunc = 1
+    "let g:neocomplete#skip_auto_completion_time = '0.3'
+    "let g:neocomplete#disable_auto_complete = 1
+
+    let g:neocomplete#sources#dictionary#dictionaries = get(g:,
+          \ 'neocomplete#sources#dictionary#dictionaries', {})
+    call extend(g:neocomplete#sources#dictionary#dictionaries, {
+          \   'default': '',
+          \   'vimshell': expand('~/.vimshell/command-history'),
+          \ })
+
+    let g:neocomplete#sources#vim#complete_functions = get(g:,
+          \ 'neocomplete#sources#vim#complete_functions', {})
+    call extend(g:neocomplete#sources#vim#complete_functions, {
+          \   'Ref': 'ref#complete',
+          \   'Unite': 'unite#complete#source',
+          \   'VimShell': 'vimshell#complete',
+          \ })
+
+    let g:neocomplete#sources#omni#functions = get(g:,
+          \ 'neocomplete#sources#omni#functions', {})
+    call extend(g:neocomplete#sources#omni#functions, {
+          \   'clojure': 'clojurecomplete#Complete',
+          \ })
+
+    let g:neocomplete#force_omni_input_patterns = get(g:,
+          \ 'neocomplete#force_omni_input_patterns', {})
+    call extend(g:neocomplete#force_omni_input_patterns, {
+          \   'cpp': '[^.[:digit:] *\t]\%(\.\|->\)\w*\|\h\w*::\w*',
+          \   'html': '<\/\w*',
+          \   'php': '<\/\w*',
+          \   'ruby': '[^. *\t]\.\w*\|\h\w*::',
+          \   'xml': '<\/\w*',
+          \ })
+
+    "let g:neocomplete#sources#omni#input_patterns = get(g:,
+    "      \ 'neocomplete#sources#omni#input_patterns', {})
+    "call extend(g:neocomplete#sources#omni#input_patterns, {
+    "      \   'html': '<\/\w*',
+    "      \   'php': '<\/\w*',
+    "      \ })
 
     " mappings {{{
     " <CR>: Close popup and save indent.
