@@ -1155,23 +1155,45 @@ if neobundle#tap('neocomplcache.vim')
 
   function! neobundle#tapped.hooks.on_source(bundle)
     let g:neocomplcache_enable_at_startup = 1
-
-    " AutoCompPop like behavior.
     "let g:neocomplcache_enable_auto_select = 1
-    " The number of candidates in popup menu. (Default: 100)
     "let g:neocomplcache_max_list = 20
-
     let g:neocomplcache_enable_auto_close_preview = 1
     let g:neocomplcache_enable_smart_case = 1
-    let g:neocomplcache_dictionary_filetype_lists = {
-          \ 'default' : '',
-          \ 'vimshell' : expand('~/.vimshell/command-history')
-          \ }
-    let g:neocomplcache_vim_completefuncs = {
-          \ 'Ref' : 'ref#complete',
-          \ 'Unite' : 'unite#complete#source',
-          \ 'VimShell' : 'vimshell#complete'
-          \ }
+
+    let g:neocomplcache_dictionary_filetype_lists = get(g:,
+          \ 'neocomplcache_dictionary_filetype_lists', {})
+    call extend(g:neocomplcache_dictionary_filetype_lists, {
+          \   'default': '',
+          \   'vimshell': expand('~/.vimshell/command-history'),
+          \ })
+
+    let g:neocomplcache_vim_completefuncs = get(g:,
+          \ 'neocomplcache_vim_completefuncs', {})
+    call extend(g:neocomplcache_vim_completefuncs, {
+          \   'Ref': 'ref#complete',
+          \   'Unite': 'unite#complete#source',
+          \   'VimShell': 'vimshell#complete',
+          \ })
+
+    let g:neocomplcache_force_omni_patterns = get(g:,
+          \ 'neocomplcache_force_omni_patterns', {})
+    call extend(g:neocomplcache_force_omni_patterns, {
+          \   'html': '<\/\w*',
+          \   'php': '<\/\w*',
+          \   'xml': '<\/\w*',
+          \ })
+
+    let g:neocomplcache_omni_patterns = get(g:,
+          \ 'neocomplcache_omni_patterns', {})
+    call extend(g:neocomplcache_omni_patterns, {
+          \   'go': '[^.[:digit:] *\t]\.\w*',
+          \ })
+
+    "let g:neocomplcache_omni_functions = get(g:,
+    "      \ 'neocomplcache_omni_functions', {})
+    "call extend(g:neocomplcache_omni_functions, {
+    "      \   'go': 'gocomplete#Complete',
+    "      \ })
 
     " mappings {{{
     " <CR>: Close popup and save indent.
