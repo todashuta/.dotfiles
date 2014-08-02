@@ -48,8 +48,8 @@ augroup MyAutoCmd
   autocmd!
 augroup END
 
-" Delete a vimrc_example's autocmd group.
-silent! augroup! vimrcEx
+" Delete vimrc_example's autocommands.
+silent! autocmd! vimrcEx
 
 if s:is_windows && exists('+shellslash')
   " Use a forward slash as a path separator.
