@@ -43,7 +43,7 @@ endif
 let g:mapleader = '\'
 "let g:maplocalleader = ','
 
-" Reset all autocmd defined in this file.
+" Reset all autocommands defined in this file.
 augroup MyAutoCmd
   autocmd!
 augroup END
