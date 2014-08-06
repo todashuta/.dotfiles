@@ -154,10 +154,7 @@ NeoBundleLazy 'h1mesuke/vim-alignta', {
 NeoBundleLazy 'tpope/vim-surround'
 "NeoBundle 'troydm/easybuffer.vim'
 "NeoBundle 'vim-scripts/DirDo.vim'
-NeoBundleLazy 'kana/vim-smartchr', {
-      \   'autoload' : {
-      \     'insert' : 1,
-      \ }}
+NeoBundleLazy 'kana/vim-smartchr'
 NeoBundle 'kana/vim-submode'
 NeoBundleLazy 'kana/vim-niceblock'
 NeoBundleLazy 'glidenote/memolist.vim', {
@@ -1532,30 +1529,31 @@ endif
 
 " vim-smartchr {{{
 
-let bundle = neobundle#get('vim-smartchr')
-  function! bundle.hooks.on_source(bundle)
+if neobundle#tap('vim-smartchr')
+  call neobundle#config({
+        \   'autoload': {
+        \     'function_prefix': 'smartchr',
+        \ }})
 
-    "inoremap <expr> =  smartchr#one_of(' = ', ' == ', ' === ', '=')
-    inoremap <expr> ,  smartchr#one_of(', ', ',')
-
-    augroup MyAutoCmd
-      "autocmd FileType vim
-      "      \ inoremap <expr> :  smartchr#one_of(' : ', ':')
-    augroup END
-
-    "inoremap <expr> :  smartchr#one_of(': ', ' : ', ':')
-    "inoremap <buffer> <expr> .  smartchr#loop('.',  ' . ',  '..', '...')
-
-    "augroup MyAutoCmd
-    "  autocmd FileType css inoremap <expr> :  smartchr#one_of(':')
-    "augroup END
-    augroup MyAutoCmd
-      autocmd FileType R
-            \ inoremap <buffer><expr> <  smartchr#one_of('<', '<-', '<<')
-    augroup END
-
+  function! s:init_smartchr()
+    "inoremap <buffer><expr> =  smartchr#one_of(' = ', ' == ', ' === ', '=')
+    "inoremap <buffer><expr> :  smartchr#one_of(': ', ' : ', ':')
+    "inoremap <buffer><expr> .  smartchr#loop('.',  ' . ',  '..', '...')
+    inoremap <buffer><expr> ,  smartchr#one_of(', ', ',')
   endfunction
-unlet bundle
+  autocmd MyAutoCmd FileType * call s:init_smartchr()
+
+  augroup MyAutoCmd
+    "autocmd FileType vim
+    "      \ inoremap <buffer><expr> :  smartchr#one_of(' : ', ':')
+    "autocmd FileType css
+    "      \ inoremap <buffer><expr> :  smartchr#one_of(':')
+    autocmd FileType R
+          \ inoremap <buffer><expr> <  smartchr#one_of('<', '<-', '<<')
+  augroup END
+
+  call neobundle#untap()
+endif
 
 " }}}
 
