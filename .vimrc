@@ -1764,7 +1764,7 @@ if neobundle#tap('vim-quickrun')
     nnoremap <expr><silent> <C-c>
           \ quickrun#is_running() ? quickrun#sweep_sessions() : "\<C-c>"
 
-    let g:quickrun_config = {}
+    let g:quickrun_config = get(g:, 'quickrun_config', {})
     let g:quickrun_config._ = {
           \   'runner' : 'vimproc',
           \   'runner/vimproc/updatetime' : 1000,
@@ -2097,9 +2097,9 @@ if neobundle#tap('switch.vim')
   nnoremap <silent> +  :<C-u>Switch<CR>
 
   function! neobundle#tapped.hooks.on_source(bundle)
-    let g:switch_custom_definitions = [
-          \   ['foo', 'bar', 'baz'],
-          \ ]
+    "let g:switch_custom_definitions = [
+    "      \   ['foo', 'bar', 'baz'],
+    "      \ ]
   endfunction
 
   call neobundle#untap()
