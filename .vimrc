@@ -43,6 +43,30 @@ endif
 let g:mapleader = '\'
 "let g:maplocalleader = ','
 
+" Define alternative key name for Insert mode competion plugin.
+function! s:define_alternative_key_name(...)
+  let is_overwrite = get(a:, '1', 0)
+  let keys = [
+        \   ['BS', '<BS>'],
+        \   ['C-h', '<C-h>'],
+        \   ['CR', '<CR>'],
+        \   ['C-j', '<C-j>'],
+        \   ['NL', '<NL>'],
+        \   ['Return', '<Return>'],
+        \ ]
+
+  for [name, rhs] in keys
+    execute printf('inoremap %s <SID>(%s)  %s',
+          \        is_overwrite ? '' : '<unique>',
+          \        name,
+          \        rhs
+          \       )
+  endfor
+endfunction
+if has('vim_starting')
+  call s:define_alternative_key_name()
+endif
+
 " Reset all autocommands defined in this file.
 augroup MyAutoCmd
   autocmd!
@@ -1099,11 +1123,11 @@ if neobundle#tap('neocomplete.vim')
 
     " mappings {{{
     " <CR>: Close popup and save indent.
-    imap <expr> <CR>
-          \ neocomplete#smart_close_popup() . "\<Plug>(smartinput_CR)"
+    inoremap <script><expr> <CR>
+          \ neocomplete#smart_close_popup() . "\<SID>(CR)"
     " For no insert <CR> key.
-    "imap <expr> <CR> pumvisible() ?
-    "      \ neocomplete#close_popup() : "\<Plug>(smartinput_CR)"
+    "inoremap <script><expr> <CR> pumvisible() ?
+    "      \ neocomplete#close_popup() : "\<SID>(CR)"
 
     " <Tab>: completion.
     inoremap <expr> <Tab>
@@ -1118,10 +1142,10 @@ if neobundle#tap('neocomplete.vim')
           \ neocomplete#complete_common_string()
 
     " <C-h>, <BS>: Close popup and delete backward char.
-    imap <expr> <C-h>
-          \ neocomplete#smart_close_popup() . "\<Plug>(smartinput_C-h)"
-    imap <expr> <BS>
-          \ neocomplete#smart_close_popup() . "\<Plug>(smartinput_BS)"
+    inoremap <script><expr> <C-h>
+          \ neocomplete#smart_close_popup() . "\<SID>(C-h)"
+    inoremap <script><expr> <BS>
+          \ neocomplete#smart_close_popup() . "\<SID>(BS)"
 
     " <C-e>: Close popup and move to end.
     inoremap <expr> <C-e>
@@ -1194,11 +1218,11 @@ if neobundle#tap('neocomplcache.vim')
 
     " mappings {{{
     " <CR>: Close popup and save indent.
-    imap <expr> <CR>
-          \ neocomplcache#smart_close_popup() . "\<Plug>(smartinput_CR)"
+    inoremap <script><expr> <CR>
+          \ neocomplcache#smart_close_popup() . "\<SID>(CR)"
     " For no inserting <CR> key.
-    "imap <expr> <CR>  pumvisible() ?
-    "      \ neocomplcache#close_popup() : "\<Plug>(smartinput_CR)"
+    "inoremap <script><expr> <CR>  pumvisible() ?
+    "      \ neocomplcache#close_popup() : "\<SID>(CR)"
 
     " <Tab>: completion.
     inoremap <expr> <Tab>
@@ -1213,10 +1237,10 @@ if neobundle#tap('neocomplcache.vim')
           \ neocomplcache#complete_common_string()
 
     " <C-h>, <BS>: Close popup and delete backward char.
-    imap <expr> <C-h>
-          \ neocomplcache#smart_close_popup() . "\<Plug>(smartinput_C-h)"
-    imap <expr> <BS>
-          \ neocomplcache#smart_close_popup() . "\<Plug>(smartinput_BS)"
+    inoremap <script><expr> <C-h>
+          \ neocomplcache#smart_close_popup() . "\<SID>(C-h)"
+    inoremap <script><expr> <BS>
+          \ neocomplcache#smart_close_popup() . "\<SID>(BS)"
 
     " <C-e>: Close popup and move to end.
     inoremap <expr> <C-e>  neocomplcache#close_popup() . "\<End>"
@@ -1897,31 +1921,31 @@ if neobundle#tap('vim-smartinput')
 
   function! neobundle#tapped.hooks.on_post_source(bundle)
     function! s:smartinput_define_my_rules()
-      call smartinput#map_to_trigger('i', '<Plug>(smartinput_BS)',
+      call smartinput#map_to_trigger('i', s:SID_PREFIX() . '(BS)',
             \                        '<BS>',
             \                        '<BS>')
-      call smartinput#map_to_trigger('i', '<Plug>(smartinput_C-h)',
+      call smartinput#map_to_trigger('i', s:SID_PREFIX() . '(C-h)',
             \                        '<BS>',
             \                        '<C-h>')
-      call smartinput#map_to_trigger('i', '<Plug>(smartinput_CR)',
+      call smartinput#map_to_trigger('i', s:SID_PREFIX() . '(CR)',
             \                        '<Enter>',
             \                        '<Enter>')
-      "call smartinput#map_to_trigger('i', '<Plug>(smartinput_C-j)',
+      "call smartinput#map_to_trigger('i', s:SID_PREFIX() . '(C-j)',
       "      \                        '<Enter>',
       "      \                        '<C-j>')
-      "call smartinput#map_to_trigger('i', '<Plug>(smartinput_NL)',
+      "call smartinput#map_to_trigger('i', s:SID_PREFIX() . '(NL)',
       "      \                        '<Enter>',
       "      \                        '<NL>')
-      "call smartinput#map_to_trigger('i', '<Plug>(smartinput_Return)',
+      "call smartinput#map_to_trigger('i', s:SID_PREFIX() . '(Return)',
       "      \                        '<Enter>',
       "      \                        '<Return>')
-      call smartinput#map_to_trigger('c', '<Plug>(smartinput_NL)',
+      call smartinput#map_to_trigger('c', s:SID_PREFIX() . '(NL)',
             \                        '<Enter>',
             \                        '<C-j>')
-      call smartinput#map_to_trigger('c', '<Plug>(smartinput_C-h)',
+      call smartinput#map_to_trigger('c', s:SID_PREFIX() . '(C-h)',
             \                        '<BS>',
             \                        '<C-h>')
-      call smartinput#map_to_trigger('c', '<Plug>(smartinput_CR)',
+      call smartinput#map_to_trigger('c', s:SID_PREFIX() . '(CR)',
             \                        '<Enter>',
             \                        '<Return>')
 
