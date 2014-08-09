@@ -121,13 +121,7 @@ endif
 NeoBundleLazy 'Shougo/neosnippet.vim'
 NeoBundle 'Shougo/neosnippet-snippets'
 NeoBundle 'honza/vim-snippets'
-NeoBundleLazy 'Shougo/unite.vim', {
-      \   'autoload' : {
-      \     'commands' : [
-      \         { 'name' : 'Unite',
-      \           'complete' : 'customlist,unite#complete#source' },
-      \         'UniteWithBufferDir'
-      \ ]}}
+NeoBundleLazy 'Shougo/unite.vim'
 NeoBundle 'Shougo/neomru.vim'
 NeoBundleLazy 'Shougo/vimfiler.vim'
 NeoBundleLazy 'Shougo/unite-outline', {
@@ -191,6 +185,8 @@ NeoBundleLazy 'hallison/vim-markdown', {
       \ }}
 NeoBundleLazy 'Shougo/vimshell.vim'
 NeoBundleLazy 'mattn/emmet-vim'
+NeoBundle 'koron/codic-vim'
+NeoBundle 'rhysd/unite-codic.vim'
 NeoBundleLazy 'thinca/vim-ref'
 NeoBundleLazy 'mattn/calendar-vim', {
       \   'autoload' : {
@@ -1348,48 +1344,61 @@ endif
 
 " unite.vim {{{
 
-" The height of unite window it's split horizontally.
-autocmd MyAutoCmd VimEnter,VimResized * let g:unite_winheight = &lines/2
+if neobundle#tap('unite.vim')
+  call neobundle#config({
+        \   'autoload': {
+        \     'commands': [
+        \         { 'name': 'Unite',
+        \           'complete': 'customlist,unite#complete#source' },
+        \         'UniteWithBufferDir'
+        \ ]}})
 
-" Unite prefix key.
-nmap <Space>u  [unite]
-nnoremap [unite]  <Nop>
+  " The height of unite window it's split horizontally.
+  autocmd MyAutoCmd VimEnter,VimResized * let g:unite_winheight = &lines/2
 
-nnoremap <silent> [unite]u
-      \ :<C-u>Unite source<CR>
-nnoremap <silent> [unite]b
-      \ :<C-u>Unite buffer -buffer-name=Buffers<CR>
-nnoremap <silent> [unite]f
-      \ :<C-u>UniteWithBufferDir file -buffer-name=Files<CR>
-nnoremap <silent> [unite]r
-      \ :<C-u>Unite file_mru -buffer-name=Recent -default-action=tabopen<CR>
-nnoremap <silent> [unite]p
-      \ :<C-u>Unite register -buffer-name=Registers<CR>
-nnoremap <silent> [unite]m
-      \ :<C-u>Unite mark -buffer-name=Marks<CR>
-nnoremap <silent> [unite]a
-      \ :<C-u>Unite buffer file_mru bookmark file
-      \ -buffer-name=All -hide-source-names<CR>
-nnoremap <silent> <Space>-
-      \ :<C-u>Unite outline -buffer-name=Outline<CR>
-nnoremap <silent> [unite]t
-      \ :<C-u>Unite tweetvim -buffer-name=TweetVim<CR>
+  " Unite prefix key.
+  nmap <Space>u  [unite]
+  nnoremap [unite]  <Nop>
 
-let bundle = neobundle#get('unite.vim')
-  function! bundle.hooks.on_source(bundle)
+  nnoremap <silent> [unite]u
+        \ :<C-u>Unite source<CR>
+  nnoremap <silent> [unite]b
+        \ :<C-u>Unite buffer -buffer-name=Buffers<CR>
+  nnoremap <silent> [unite]f
+        \ :<C-u>UniteWithBufferDir file -buffer-name=Files<CR>
+  nnoremap <silent> [unite]r
+        \ :<C-u>Unite file_mru -buffer-name=Recent -default-action=tabopen<CR>
+  nnoremap <silent> [unite]p
+        \ :<C-u>Unite register -buffer-name=Registers<CR>
+  nnoremap <silent> [unite]m
+        \ :<C-u>Unite mark -buffer-name=Marks<CR>
+  nnoremap <silent> [unite]a
+        \ :<C-u>Unite buffer file_mru bookmark file
+        \ -buffer-name=All -hide-source-names<CR>
+  nnoremap <silent> <Space>-
+        \ :<C-u>Unite outline -buffer-name=Outline<CR>
+  nnoremap <silent> [unite]t
+        \ :<C-u>Unite tab:no-current -buffer-name=TabPage<CR>
+  nnoremap <silent> [unite]T
+        \ :<C-u>Unite tweetvim -buffer-name=TweetVim<CR>
+  "nnoremap <silent> [unite]/
+  "      \ :<C-u>Unite line/fast -buffer-name=Search
+  "      \ -start-insert -auto-preview -no-split<CR>
+  nnoremap <silent> [unite]e
+        \ :<C-u>Unite menu:shortcut -buffer-name=Shortcut<CR>
+  nnoremap <silent> [unite]s
+        \ :<C-u>Unite menu:vimshell -buffer-name=VimShell<CR>
 
-    " Unite buffer will be in Insert Mode immediately.
+  function! neobundle#tapped.hooks.on_source(bundle)
     let g:unite_enable_start_insert = 1
-    " Split position.
     "let g:unite_split_rule = 'botright'
-    " Pretty prompt
     let g:unite_prompt = "(*'-')> "
 
     " unite-build: error or warning markup icon (enabled only in GVim).
     let g:unite_build_error_icon =
-          \ expand('~/.vim/signs/err.').(s:is_windows ? 'bmp' : 'png')
+          \ expand('~/.vim/signs/err.' . (s:is_windows ? 'bmp' : 'png'))
     let g:unite_build_warning_icon =
-          \ expand('~/.vim/signs/warn.').(s:is_windows ? 'bmp' : 'png')
+          \ expand('~/.vim/signs/warn.' . (s:is_windows ? 'bmp' : 'png'))
 
     autocmd MyAutoCmd FileType unite
           \ call s:on_FileType_unite()
@@ -1409,13 +1418,13 @@ let bundle = neobundle#get('unite.vim')
     " unite-action quicklook
     if executable('/usr/bin/qlmanage')
       let quicklook = {
-            \   'description' : 'qlmanage -p {word}',
-            \   'is_selectable' : 1,
-            \   'is_quit' : 0,
+            \   'description': 'qlmanage -p {word}',
+            \   'is_selectable': 1,
+            \   'is_quit': 0,
             \ }
       function! quicklook.func(candidates)
-        for l:candidate in a:candidates
-          call system('qlmanage -p '.l:candidate.action__path)
+        for candidate in a:candidates
+          call unite#util#system('qlmanage -p ' . candidate.action__path)
         endfor
       endfunction
       call unite#custom_action('openable', 'quicklook', quicklook)
@@ -1431,85 +1440,74 @@ let bundle = neobundle#get('unite.vim')
       "let g:unite_source_grep_max_candidates = 200
     endif
 
+    let g:unite_source_menu_menus = {}
+    let g:unite_source_menu_menus.shortcut = {
+          \ 'description': 'Useful shortcuts.',
+          \ 'command_candidates': [
+          \     ['Edit vimrc', 'edit $MYVIMRC'],
+          \     ['Edit gvimrc', 'edit $MYGVIMRC'],
+          \     ['Reload vimrc', 'source $MYVIMRC'],
+          \     ['NeoBundle', 'Unite source -input=neobundle\ '],
+          \     ['NeoBundleUpdate',
+          \             'Unite neobundle/update -log -no-start-insert -wrap'],
+          \     ['VimShell shortcuts', 'Unite menu:vimshell'],
+          \     ['Encoding', 'Unite menu:encoding'],
+          \     ['Outline vertical', 'Unite outline
+          \             -no-quit -vertical -winwidth=30 -no-start-insert'],
+          \     ['unite-output:message', 'Unite output:message'],
+          \     ['tig', 'Unite tig -no-start-insert'],
+          \     ['All mappings',
+          \             'Unite output:map|map!|lmap -no-start-insert'],
+          \     ['Unite Beautiful Attack', 'Unite -auto-preview colorscheme'],
+          \     ['transparency',
+          \             'Unite -auto-preview -no-start-insert transparency'],
+          \     ['Nyancat!!', 'Nyancat2'],
+          \     ['Check system uptime', '!uptime'],
+          \     ['Check system swap file', '!du -hc /var/vm/swapfile*'],
+          \     ['Tweet', 'TweetVimSay'],
+          \     ['earthquake.gem', 'VimShellInteractive earthquake'],
+          \ ]}
+    let g:unite_source_menu_menus.vimshell = {
+          \ 'description': 'VimShellInteractive shortcuts.',
+          \ 'command_candidates': [
+          \     [' 1. irb (Ruby)', 'VimShellInteractive irb'],
+          \     [' 2. pry (Ruby)', 'VimShellInteractive pry'],
+          \     [' 3. python', 'VimShellInteractive python'],
+          \     [' 4. Perl', 'VimShellInteractive perl -de 1'],
+          \     [' 5. php', 'VimShellInteractive php -a'],
+          \     [' 6. MySQL', 'VimShellInteractive mysql -u root -p'],
+          \     [' 7. R', 'VimShellInteractive R'],
+          \     [' 8. VimShell', 'VimShell'],
+          \     [' 9. VimShellPop', 'VimShellPop'],
+          \     ['10. VimShellSendString', 'VimShellSendString'],
+          \ ]}
+    let g:unite_source_menu_menus.encoding = {
+          \ 'description': 'Open with a specific character code again.',
+          \ 'command_candidates': [
+          \     ['UTF-8', 'Utf8'],
+          \     ['ISO-2022-JP', 'Iso2022jp'],
+          \     ['CP932', 'Cp932'],
+          \     ['EUC-JP', 'Eucjp'],
+          \     ['UTF-16', 'Utf16'],
+          \     ['UTF-16-BE', 'Utf16be'],
+          \ ]}
+    let g:unite_source_menu_menus.unite = {
+          \ 'description': 'Start unite sources',
+          \ 'command_candidates': [
+          \     ['colorscheme',
+          \             'Unite colorscheme -auto-preview -no-start-insert'],
+          \     ['outline', 'Unite outline -no-start-insert'],
+          \     ['mark', 'Unite mark -no-start-insert'],
+          \     ['build', 'Unite build -no-start-insert'],
+          \     ['transparency',
+          \             'Unite transparency -auto-preview -no-start-insert'],
+          \     ['', ''],
+          \     ['', ''],
+          \ ]}
   endfunction
-unlet bundle
 
-" Unite search
-nnoremap <silent> [unite]/
-      \ :<C-u>Unite line/fast -buffer-name=Search
-      \ -start-insert -auto-preview -no-split<CR>
-
-let g:unite_source_menu_menus = {}
-
-let g:unite_source_menu_menus.shortcut = {
-      \ 'description' : 'Useful shortcuts.',
-      \ 'command_candidates' : [
-      \     ['Edit vimrc', 'edit $MYVIMRC'],
-      \     ['Edit gvimrc', 'edit $MYGVIMRC'],
-      \     ['Reload vimrc', 'source $MYVIMRC'],
-      \     ['NeoBundle', 'Unite source -input=neobundle\ '],
-      \     ['NeoBundleUpdate',
-      \             'Unite neobundle/update -log -no-start-insert -wrap'],
-      \     ['VimShell shortcuts', 'Unite menu:vimshell'],
-      \     ['Encoding', 'Unite menu:encoding'],
-      \     ['Outline vertical', 'Unite outline
-      \             -no-quit -vertical -winwidth=30 -no-start-insert'],
-      \     ['unite-output:message', 'Unite output:message'],
-      \     ['tig', 'Unite tig -no-start-insert'],
-      \     ['All mappings', 'Unite output:map|map!|lmap -no-start-insert'],
-      \     ['Unite Beautiful Attack', 'Unite -auto-preview colorscheme'],
-      \     ['transparency',
-      \             'Unite -auto-preview -no-start-insert transparency'],
-      \     ['Nyancat!!', 'Nyancat2'],
-      \     ['Check system uptime', '!uptime'],
-      \     ['Check system swap file', '!du -hc /var/vm/swapfile*'],
-      \     ['Tweet', 'TweetVimSay'],
-      \     ['earthquake.gem', 'VimShellInteractive earthquake'],
-      \ ]}
-nnoremap <silent> [unite]e
-      \ :<C-u>Unite menu:shortcut -buffer-name=Shortcut<CR>
-
-let g:unite_source_menu_menus.vimshell = {
-      \ 'description' : 'VimShellInteractive shortcuts.',
-      \ 'command_candidates' : [
-      \     [' 1. irb (Ruby)', 'VimShellInteractive irb'],
-      \     [' 2. pry (Ruby)', 'VimShellInteractive pry'],
-      \     [' 3. python', 'VimShellInteractive python'],
-      \     [' 4. Perl', 'VimShellInteractive perl -de 1'],
-      \     [' 5. php', 'VimShellInteractive php -a'],
-      \     [' 6. MySQL', 'VimShellInteractive mysql -u root -p'],
-      \     [' 7. R', 'VimShellInteractive R'],
-      \     [' 8. VimShell', 'VimShell'],
-      \     [' 9. VimShellPop', 'VimShellPop'],
-      \     ['10. VimShellSendString', 'VimShellSendString'],
-      \ ]}
-nnoremap <silent> [unite]s
-      \ :<C-u>Unite menu:vimshell -buffer-name=VimShell<CR>
-
-let g:unite_source_menu_menus.encoding = {
-      \ 'description' : 'Open with a specific character code again.',
-      \ 'command_candidates' : [
-      \     ['UTF-8', 'Utf8'],
-      \     ['ISO-2022-JP', 'Iso2022jp'],
-      \     ['CP932', 'Cp932'],
-      \     ['EUC-JP', 'Eucjp'],
-      \     ['UTF-16', 'Utf16'],
-      \     ['UTF-16-BE', 'Utf16be'],
-      \ ]}
-
-let g:unite_source_menu_menus.unite = {
-      \ 'description' : 'Start unite sources',
-      \ 'command_candidates' : [
-      \     ['colorscheme',
-      \             'Unite colorscheme -auto-preview -no-start-insert'],
-      \     ['outline', 'Unite outline -no-start-insert'],
-      \     ['mark', 'Unite mark -no-start-insert'],
-      \     ['build', 'Unite build -no-start-insert'],
-      \     ['transparency',
-      \             'Unite transparency -auto-preview -no-start-insert'],
-      \     ['', ''],
-      \     ['', ''],
-      \ ]}
+  call neobundle#untap()
+endif
 
 " }}}
 
@@ -1580,18 +1578,14 @@ endif
 " vim-indent-guides {{{
 
 if neobundle#tap('vim-indent-guides')
-  call neobundle#config({
-        \   'autoload' : {
-        \     'mappings' : [['n', '<Plug>IndentGuidesToggle']],
-        \ }})
+  let g:indent_guides_enable_on_vim_startup = 1
+  let g:indent_guides_default_mapping = 0
+  let g:indent_guides_guide_size = 1
+  let g:indent_guides_color_change_percent = 30
+  let g:indent_guides_exclude_filetypes = ['help', 'unite']
 
-  nmap <silent> <Leader>ig  <Plug>IndentGuidesToggle
-
-  function! neobundle#tapped.hooks.on_source(bundle)
-    "let g:indent_guides_enable_on_vim_startup = 1
-    let g:indent_guides_color_change_percent = 30
-    let g:indent_guides_guide_size = 1
-  endfunction
+  nnoremap <silent> [toggle]ig
+        \ :<C-u>IndentGuidesToggle<CR>
 
   call neobundle#untap()
 endif
@@ -1824,9 +1818,11 @@ if neobundle#tap('vimfiler.vim')
         \         'VimFilerBufferDir',
         \ ]}})
 
-  nnoremap <silent> <Space>e
+  nmap <Space>f  [vimfiler]
+  nnoremap [vimfiler]  <Nop>
+  nnoremap <silent> [vimfiler]e
         \ :<C-u>VimFiler -buffer-name=VimFiler -quit<CR>
-  nnoremap <silent> <Space>f
+  nnoremap <silent> [vimfiler]f
         \ :<C-u>VimFilerBufferDir -buffer-name=VimFiler
         \ -split -simple -winwidth=30 -no-quit -toggle<CR>
 
