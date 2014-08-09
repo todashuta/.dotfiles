@@ -67,6 +67,10 @@ if has('vim_starting')
   call s:define_alternative_key_name()
 endif
 
+" Reserved Prefixes
+nmap <Space>  [Space]
+nnoremap [Space]  <Nop>
+
 " Reset all autocommands defined in this file.
 augroup MyAutoCmd
   autocmd!
@@ -642,7 +646,7 @@ nnoremap <silent> <S-Up>     :<C-u>wincmd +<CR>
 nnoremap <silent> <S-Down>   :<C-u>wincmd -<CR>
 
 " <Space-=>: Make all windows equally high and wide.
-nnoremap <silent> <Space>=  :<C-u>wincmd =<CR>
+nnoremap <silent> [Space]=  :<C-u>wincmd =<CR>
 
 " Yank from the cursor to the end of line.
 nnoremap Y  y$
@@ -666,19 +670,16 @@ cnoremap <C-k>  <C-\>e getcmdpos() == 1 ?
 " <C-y>:  paste.
 cnoremap <C-y>    <C-r>*
 
-" Release Space Key for Mappings below. (not required)
-nnoremap <Space>  <Nop>
-
 " Quick edit and reload .vimrc/.gvimrc
-nnoremap <silent> <Space>..  :<C-u>tabedit $MYVIMRC<CR>
-nnoremap <silent> <Space>.g  :<C-u>tabedit $MYGVIMRC<CR>
-nnoremap <silent> <Space>R   :<C-u>source $MYVIMRC
+nnoremap <silent> [Space]..  :<C-u>tabedit $MYVIMRC<CR>
+nnoremap <silent> [Space].g  :<C-u>tabedit $MYGVIMRC<CR>
+nnoremap <silent> [Space]R   :<C-u>source $MYVIMRC
                               \ \| if has('gui_running')
                               \ \|   source $MYGVIMRC
                               \ \| endif <CR>
 
 " toggle-option prefix key.
-nmap <Space>t  [toggle]
+nmap [Space]t  [toggle]
 nnoremap [toggle]  <Nop>
 
 nnoremap <silent> [toggle]h
@@ -715,16 +716,16 @@ nnoremap <silent> [toggle]m
 nnoremap <C-h>  :<C-u>help<Space>
 
 " <Space>c: close current window.
-nnoremap <silent> <Space>c  :<C-u>close<CR>
+nnoremap <silent> [Space]c  :<C-u>close<CR>
 " <Space>o: close all other windows.
-nnoremap <silent> <Space>o  :<C-u>only<CR>
+nnoremap <silent> [Space]o  :<C-u>only<CR>
 
 " Split window.
-nnoremap <silent> <Space>s  :<C-u>split<CR>
-nnoremap <silent> <Space>v  :<C-u>vsplit<CR>
+nnoremap <silent> [Space]s  :<C-u>split<CR>
+nnoremap <silent> [Space]v  :<C-u>vsplit<CR>
 
 " buffer operation prefix key.
-nmap <Space>b  [buffer]
+nmap [Space]b  [buffer]
 nnoremap [buffer]  <Nop>
 
 " <Space-bb>: go to the alternate buffer.
@@ -736,7 +737,7 @@ nnoremap <silent> [buffer]n  :<C-u>bnext<CR>
 " <Space-bt>: thumbnail-style buffer select.
 nnoremap <silent> [buffer]t  :<C-u>Thumbnail -here<CR>
 " <Space-BS>: Unload buffer and delete it from the buffer list.
-nnoremap <silent> <Space><BS>  :<C-u>bdelete<CR>
+nnoremap <silent> [Space]<BS>  :<C-u>bdelete<CR>
 
 nnoremap q  <Nop>
 nnoremap Q  q
@@ -749,12 +750,12 @@ nnoremap ZZ  :<C-u>call <SID>print_error('ZZ is disabled.')<CR>
 nnoremap ZQ  :<C-u>call <SID>print_error('ZQ is disabled.')<CR>
 
 " Moving cursor to other windows.
-nnoremap <silent> <Space>h  :<C-u>wincmd h<CR>
-nnoremap <silent> <Space>j  :<C-u>wincmd j<CR>
-nnoremap <silent> <Space>k  :<C-u>wincmd k<CR>
-nnoremap <silent> <Space>l  :<C-u>wincmd l<CR>
+nnoremap <silent> [Space]h  :<C-u>wincmd h<CR>
+nnoremap <silent> [Space]j  :<C-u>wincmd j<CR>
+nnoremap <silent> [Space]k  :<C-u>wincmd k<CR>
+nnoremap <silent> [Space]l  :<C-u>wincmd l<CR>
 
-nmap <Space><Space>  [Space2]
+nmap [Space]<Space>  [Space2]
 nnoremap [Space2]  <Nop>
 
 nnoremap <silent> [Space2]h
@@ -1357,7 +1358,7 @@ if neobundle#tap('unite.vim')
   autocmd MyAutoCmd VimEnter,VimResized * let g:unite_winheight = &lines/2
 
   " Unite prefix key.
-  nmap <Space>u  [unite]
+  nmap [Space]u  [unite]
   nnoremap [unite]  <Nop>
 
   nnoremap <silent> [unite]u
@@ -1375,7 +1376,7 @@ if neobundle#tap('unite.vim')
   nnoremap <silent> [unite]a
         \ :<C-u>Unite buffer file_mru bookmark file
         \ -buffer-name=All -hide-source-names<CR>
-  nnoremap <silent> <Space>-
+  nnoremap <silent> [Space]-
         \ :<C-u>Unite outline -buffer-name=Outline<CR>
   nnoremap <silent> [unite]t
         \ :<C-u>Unite tab:no-current -buffer-name=TabPage<CR>
@@ -1675,12 +1676,12 @@ if neobundle#tap('vimshell.vim')
         \     'commands': ['VimShell', 'VimShellPop', 'VimShellInteractive']
         \ }})
 
-  silent! noremap <unique> <Space>r
+  silent! noremap <unique> [Space]r
         \ :<C-u>call <SID>print_error(
         \   '<Space-r> is reserved for vimshell.')<CR>
 
   function! neobundle#tapped.hooks.on_source(bundle)
-    noremap <silent> <Space>r
+    noremap <silent> [Space]r
           \ :VimShellSendString<CR>
 
     " Prompt.
@@ -1818,7 +1819,7 @@ if neobundle#tap('vimfiler.vim')
         \         'VimFilerBufferDir',
         \ ]}})
 
-  nmap <Space>f  [vimfiler]
+  nmap [Space]f  [vimfiler]
   nnoremap [vimfiler]  <Nop>
   nnoremap <silent> [vimfiler]e
         \ :<C-u>VimFiler -buffer-name=VimFiler -quit<CR>
