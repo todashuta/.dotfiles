@@ -189,11 +189,7 @@ NeoBundleLazy 'hallison/vim-markdown', {
       \   'autoload' : {
       \     'filetypes' : ['markdown']
       \ }}
-NeoBundleLazy 'Shougo/vimshell.vim', {
-      \   'depends' : ['Shougo/vimproc.vim', 'Shougo/unite.vim'],
-      \   'autoload' : {
-      \     'commands' : ['VimShell', 'VimShellPop', 'VimShellInteractive']
-      \ }}
+NeoBundleLazy 'Shougo/vimshell.vim'
 NeoBundleLazy 'mattn/emmet-vim'
 NeoBundleLazy 'thinca/vim-ref'
 NeoBundleLazy 'mattn/calendar-vim', {
@@ -1678,12 +1674,18 @@ endif
 
 " vimshell.vim {{{
 
-silent! noremap <silent> <Space>r
-      \ :<C-u>echo '<Space-r>: Not defined.'<CR>
+if neobundle#tap('vimshell.vim')
+  call neobundle#config({
+        \   'depends': ['Shougo/vimproc.vim', 'Shougo/unite.vim'],
+        \   'autoload': {
+        \     'commands': ['VimShell', 'VimShellPop', 'VimShellInteractive']
+        \ }})
 
-let bundle = neobundle#get('vimshell.vim')
-  function! bundle.hooks.on_source(bundle)
+  silent! noremap <unique> <Space>r
+        \ :<C-u>call <SID>print_error(
+        \   '<Space-r> is reserved for vimshell.')<CR>
 
+  function! neobundle#tapped.hooks.on_source(bundle)
     noremap <silent> <Space>r
           \ :VimShellSendString<CR>
 
@@ -1742,7 +1744,9 @@ let bundle = neobundle#get('vimshell.vim')
       unlet hooks
     endfunction
   endfunction
-unlet bundle
+
+  call neobundle#untap()
+endif
 
 " }}}
 
