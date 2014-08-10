@@ -67,7 +67,7 @@ if has('vim_starting')
   call s:define_alternative_key_name()
 endif
 
-" Reserved Prefixes
+" Prefix key to show [Space] in the bottom line.
 nmap <Space>  [Space]
 nnoremap [Space]  <Nop>
 
@@ -755,20 +755,20 @@ nnoremap <silent> [Space]j  :<C-u>wincmd j<CR>
 nnoremap <silent> [Space]k  :<C-u>wincmd k<CR>
 nnoremap <silent> [Space]l  :<C-u>wincmd l<CR>
 
-nmap [Space]<Space>  [Space2]
-nnoremap [Space2]  <Nop>
+"nmap [Space]<Space>  [Space2]
+"nnoremap [Space2]  <Nop>
 
-nnoremap <silent> [Space2]h
+nnoremap <silent> [Space]H
       \ :<C-u>wincmd h<CR>:resize<CR>:vertical resize<CR>
-nnoremap <silent> [Space2]j
+nnoremap <silent> [Space]J
       \ :<C-u>wincmd j<CR>:resize<CR>:vertical resize<CR>
-nnoremap <silent> [Space2]k
+nnoremap <silent> [Space]K
       \ :<C-u>wincmd k<CR>:resize<CR>:vertical resize<CR>
-nnoremap <silent> [Space2]l
+nnoremap <silent> [Space]L
       \ :<C-u>wincmd l<CR>:resize<CR>:vertical resize<CR>
-nnoremap <silent> [Space2]c
+nnoremap <silent> [Space]C
       \ :<C-u>lcd %:p:h<CR>:echo 'lcd ' . expand('%:p:h')<CR>
-nnoremap <silent> [Space2]b  :<C-u>Unite buffer<CR>
+nnoremap <silent> [Space]B  :<C-u>Unite buffer<CR>
 
 " (visual mode) p: Paste from the last yank.
 xnoremap p  "0p
@@ -983,8 +983,8 @@ set laststatus=2
 function! s:additional_highlight()
   " Highlight ideographic space (japanese zenkaku space)
   highlight IdeographicSpace term=underline ctermbg=64 guibg=#719e07
-  execute 'match IdeographicSpace'
-        \ '/'.(has('iconv') ? iconv("\x81\x40", 'cp932', &encoding) : '').'/'
+  execute printf('match IdeographicSpace /%s/',
+        \ (has('iconv') ? iconv("\x81\x40", 'cp932', &encoding) : ''))
   " Silent matchparen
   highlight MatchParen
         \ guifg=NONE guibg=NONE ctermfg=NONE ctermbg=NONE
