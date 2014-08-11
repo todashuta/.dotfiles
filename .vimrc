@@ -1759,8 +1759,13 @@ if neobundle#tap('vim-quickrun')
   xmap <silent> <Leader>r  <Plug>(quickrun)
 
   function! neobundle#tapped.hooks.on_source(bundle)
+    function! s:quickrun_sweep_sessions()
+      call quickrun#sweep_sessions()
+      return ''
+    endfunction
     nnoremap <expr><silent> <C-c>
-          \ quickrun#is_running() ? quickrun#sweep_sessions() : "\<C-c>"
+          \ (quickrun#is_running() ?
+          \   <SID>quickrun_sweep_sessions() : '') . "\<C-c>"
 
     let g:quickrun_config = get(g:, 'quickrun_config', {})
     let g:quickrun_config._ = {
