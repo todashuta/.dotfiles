@@ -520,6 +520,13 @@ set autoread
 " Don't create backup files.
 set nobackup noswapfile
 
+" Undo persistence
+if has('persistent_undo')
+  set undofile
+  let &undodir = expand('~/.vimundo')
+  silent! call mkdir(&undodir, 'p', 0700)
+endif
+
 " }}}
 
 " Indent,Tab: "{{{
