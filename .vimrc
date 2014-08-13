@@ -89,13 +89,14 @@ if !exists('$MYGVIMRC')
 endif
 
 " Anywhere SID.
-function! s:SID()
-  return matchstr(expand('<sfile>'), '<SNR>\zs\d\+\ze_SID$')
-endfunction
-
-function! s:SID_PREFIX()
-  return printf('<SNR>%d_', s:SID())
-endfunction
+if !exists('s:SID_PREFIX')
+  function! s:SID()
+    return matchstr(expand('<sfile>'), '<SNR>\zs\d\+\ze_SID$')
+  endfunction
+  let s:SID_PREFIX = printf('<SNR>%d_', s:SID())
+  lockvar s:SID_PREFIX
+  delfunction s:SID
+endif
 
 function! s:print_error(msg)
   echohl ErrorMsg
@@ -981,7 +982,7 @@ set laststatus=2
 "  return join(_, '')
 "endfunction
 "
-"let &statusline = '%!'.s:SID_PREFIX().'my_statusline()'
+"let &statusline = '%!' . s:SID_PREFIX . 'my_statusline()'
 
 " }}}
 
@@ -1706,7 +1707,7 @@ if neobundle#tap('vimshell.vim')
             \   )
     endfunction
 
-    "let g:vimshell_user_prompt = s:SID_PREFIX().'vimshell_my_prompt()'
+    "let g:vimshell_user_prompt = s:SID_PREFIX . 'vimshell_my_prompt()'
     "let g:vimshell_prompt = "(*'_')> "
     "let g:vimshell_secondary_prompt = '> '
 
@@ -1933,31 +1934,31 @@ if neobundle#tap('vim-smartinput')
 
   function! neobundle#tapped.hooks.on_post_source(bundle)
     function! s:smartinput_define_my_rules()
-      call smartinput#map_to_trigger('i', s:SID_PREFIX() . '(BS)',
+      call smartinput#map_to_trigger('i', s:SID_PREFIX . '(BS)',
             \                        '<BS>',
             \                        '<BS>')
-      call smartinput#map_to_trigger('i', s:SID_PREFIX() . '(C-h)',
+      call smartinput#map_to_trigger('i', s:SID_PREFIX . '(C-h)',
             \                        '<BS>',
             \                        '<C-h>')
-      call smartinput#map_to_trigger('i', s:SID_PREFIX() . '(CR)',
+      call smartinput#map_to_trigger('i', s:SID_PREFIX . '(CR)',
             \                        '<Enter>',
             \                        '<Enter>')
-      "call smartinput#map_to_trigger('i', s:SID_PREFIX() . '(C-j)',
+      "call smartinput#map_to_trigger('i', s:SID_PREFIX . '(C-j)',
       "      \                        '<Enter>',
       "      \                        '<C-j>')
-      "call smartinput#map_to_trigger('i', s:SID_PREFIX() . '(NL)',
+      "call smartinput#map_to_trigger('i', s:SID_PREFIX . '(NL)',
       "      \                        '<Enter>',
       "      \                        '<NL>')
-      "call smartinput#map_to_trigger('i', s:SID_PREFIX() . '(Return)',
+      "call smartinput#map_to_trigger('i', s:SID_PREFIX . '(Return)',
       "      \                        '<Enter>',
       "      \                        '<Return>')
-      call smartinput#map_to_trigger('c', s:SID_PREFIX() . '(NL)',
+      call smartinput#map_to_trigger('c', s:SID_PREFIX . '(NL)',
             \                        '<Enter>',
             \                        '<C-j>')
-      call smartinput#map_to_trigger('c', s:SID_PREFIX() . '(C-h)',
+      call smartinput#map_to_trigger('c', s:SID_PREFIX . '(C-h)',
             \                        '<BS>',
             \                        '<C-h>')
-      call smartinput#map_to_trigger('c', s:SID_PREFIX() . '(CR)',
+      call smartinput#map_to_trigger('c', s:SID_PREFIX . '(CR)',
             \                        '<Enter>',
             \                        '<Return>')
 
