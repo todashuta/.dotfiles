@@ -90,12 +90,12 @@ endif
 
 " Anywhere SID.
 if !exists('s:SID_PREFIX')
-  function! s:SID()
-    return matchstr(expand('<sfile>'), '<SNR>\zs\d\+\ze_SID$')
+  function! s:_SID()
+    return matchstr(expand('<sfile>'), '<SNR>\zs\d\+\ze__SID$')
   endfunction
-  let s:SID_PREFIX = printf('<SNR>%d_', s:SID())
+  let s:SID_PREFIX = printf('<SNR>%d_', s:_SID())
   lockvar s:SID_PREFIX
-  delfunction s:SID
+  delfunction s:_SID
 endif
 
 function! s:print_error(msg)
