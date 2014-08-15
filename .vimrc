@@ -1362,9 +1362,6 @@ if neobundle#tap('unite.vim')
         \         'UniteWithBufferDir'
         \ ]}})
 
-  " The height of unite window it's split horizontally.
-  autocmd MyAutoCmd VimEnter,VimResized * let g:unite_winheight = &lines/2
-
   " Unite prefix key.
   nmap [Space]u  [unite]
   nnoremap [unite]  <Nop>
@@ -1399,9 +1396,19 @@ if neobundle#tap('unite.vim')
         \ :<C-u>Unite menu:vimshell -buffer-name=VimShell<CR>
 
   function! neobundle#tapped.hooks.on_source(bundle)
-    let g:unite_enable_start_insert = 1
-    "let g:unite_split_rule = 'botright'
-    let g:unite_prompt = "(*'-')> "
+    call unite#custom#profile('default', 'context', {
+          \   'start_insert': 1,
+          \   'prompt': "(*'-')> ",
+          \   'direction': 'topleft',
+          \   'winheight': &lines/2,
+          \ })
+    call unite#custom#profile('action', 'context', {
+          \   'prompt': "(*'_')> ",
+          \ })
+    "if executable('cmigemo') || has('migemo')
+    "  call unite#custom#source('file_rec', 'matchers', 'matcher_migemo')
+    "  call unite#custom#source('line', 'matchers', 'matcher_migemo')
+    "endif
 
     " unite-build: error or warning markup icon (enabled only in GVim).
     let g:unite_build_error_icon =
