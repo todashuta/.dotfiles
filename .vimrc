@@ -100,9 +100,10 @@ endif
 
 function! s:print_error(msg)
   echohl ErrorMsg
-  echomsg a:msg
+  for m in split(a:msg, "\n")
+    echomsg m
+  endfor
   echohl None
-  "let v:errmsg = a:msg
 endfunction
 
 " Set runtimepath.
