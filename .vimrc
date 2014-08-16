@@ -524,8 +524,7 @@ set nobackup noswapfile
 
 " Undo persistence
 if has('persistent_undo')
-  set undofile
-  let &undodir = expand('~/.vimundo')
+  set undofile undodir=~/var/vim/undo
   silent! call mkdir(&undodir, 'p', 0700)
 endif
 
