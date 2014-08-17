@@ -638,10 +638,6 @@ if exists('&omnifunc')
   autocmd MyAutoCmd FileType xml,html inoremap <buffer> </  </<C-x><C-o>
 endif
 
-" Enter ';' to use command-line (Swap ':' and ';').
-noremap ;  :
-noremap :  ;
-
 " Visual shifting (does not exit Visual mode)
 xnoremap <  <gv
 xnoremap >  >gv
@@ -674,8 +670,6 @@ cnoremap <Down>  <C-n>
 " <C-k>: delete to end.
 cnoremap <C-k>  <C-\>e getcmdpos() == 1 ?
       \ '' :  getcmdline()[: getcmdpos()-2]<CR>
-" <C-y>:  paste.
-cnoremap <C-y>    <C-r>*
 
 " Quick edit and reload .vimrc/.gvimrc
 nnoremap <silent> [Space]..  :<C-u>tabedit $MYVIMRC<CR>
