@@ -226,7 +226,6 @@ NeoBundleLazy 'basyura/TweetVim', {
       \     'commands' : ['TweetVimHomeTimeline', 'TweetVimSay'],
       \     'unite_sources' : 'tweetvim',
       \ }}
-"NeoBundle 'todashuta/vim-powerline', 'develop'
 NeoBundle 'bling/vim-airline'
 "NeoBundle 'itchyny/lightline.vim'
 NeoBundleLazy 'thinca/vim-painter', {
@@ -1539,16 +1538,13 @@ function! s:set_colorscheme_nicely()
   let background_tone = 'dark'
   let colorscheme_name = 'hybrid'
   let g:solarized_termcolors = 256
-  let g:Powerline_colorscheme = 'default'
 
   if $ITERM_PROFILE != '' && $ITERM_PROFILE =~? 'solarized'
     let colorscheme_name = 'solarized'
     let g:solarized_termcolors = 16
-    let g:Powerline_colorscheme = 'solarized16'
 
     if $ITERM_PROFILE =~? 'light'
       let background_tone = 'light'
-      let g:Powerline_colorscheme = 'solarized'
     endif
   endif
 
@@ -1618,50 +1614,6 @@ endif
 "let g:netrw_alto = 1
 " Hiding files pattern. (Regular expression, comma separated.)
 "let g:netrw_list_hide = '.DS_Store'
-
-" }}}
-
-" vim-powerline {{{
-"
-if neobundle#tap('vim-powerline')
-  "let g:Powerline_symbols = 'fancy'    " Requires a patched font.
-  "let g:Powerline_cache_enabled = 0
-  let g:Powerline_stl_path_style = 'short'
-  let g:Powerline_dividers_override = s:is_windows ?
-        \ ['', '', '', '<'] : ['', '', '', "\u276e"]
-  let g:Powerline_symbols_override = {
-        \   'BRANCH' : '',
-        \   'LINE' : ''
-        \ }
-
-  function! s:update_powerline()
-    if !exists(':PowerlineReloadColorscheme')
-      return
-    endif
-
-    let g:Powerline_colorscheme = (g:colors_name == 'solarized')
-          \ ? ((&background == 'light') ? 'solarized' : 'solarized16')
-          \ : 'default'
-    "PowerlineClearCache
-    PowerlineReloadColorscheme
-  endfunction
-
-  " Reload Powerline automatically after loading a color scheme.
-  autocmd MyAutoCmd ColorScheme * silent call s:update_powerline()
-  " Reload Powerline automatically when the Vim start-up.
-  "autocmd MyAutoCmd VimEnter * silent call s:update_powerline()
-
-  " Finalize Powerline. (Reset Powerline colorscheme for next time)
-  if s:is_term && exists('$ITERM_PROFILE')
-    autocmd MyAutoCmd VimLeave * call s:set_colorscheme_nicely()
-          \| silent call s:update_powerline()
-  endif
-
-  " No need to show mode due to Powerline.
-  set noshowmode
-
-  call neobundle#untap()
-endif
 
 " }}}
 
