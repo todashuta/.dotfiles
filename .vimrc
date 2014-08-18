@@ -518,8 +518,12 @@ set fileformats=unix,dos,mac
 set hidden
 " Auto reload if file is changed.
 set autoread
-" Don't create backup files.
-set nobackup noswapfile
+
+set nobackup writebackup backupdir=~/var/vim/backup
+silent! call mkdir(&backupdir, 'p', 0700)
+
+set swapfile directory=~/var/vim/swap
+silent! call mkdir(&directory, 'p', 0700)
 
 " Undo persistence
 if has('persistent_undo')
