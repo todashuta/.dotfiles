@@ -608,7 +608,10 @@ if !exists('s:grepprgs')
   if executable('git')
     call add(s:grepprgs, 'git grep -nIH')
   endif
-  "call add(s:grepprgs, 'internal')
+
+  if empty(s:grepprgs)
+    call add(s:grepprgs, 'internal')
+  endif
 endif
 if has('vim_starting')
   let &grepprg = s:grepprgs[0]
