@@ -615,8 +615,8 @@ if has('vim_starting')
 endif
 
 " :grep wrapper
-command! -nargs=+ -complete=file
-      \ Grep call s:cmd_Grep(<q-args>)
+command! -nargs=+ -complete=file Grep
+      \ call s:cmd_Grep(<q-args>)
 function! s:cmd_Grep(args)
   " FIXME: Better escape.
   "execute printf('silent grep! %s', escape(a:args, '|'))
