@@ -586,6 +586,63 @@ silent! set wildignorecase
 set suffixes& suffixes+=.DS_Store
 "set suffixes+=.tmp,.bmp,.gif,.ico,.jpg,.png
 
+if !exists('s:grepprgs')
+  let s:grepprgs = []
+  if executable('ggrep')
+    call add(s:grepprgs, 'ggrep -nrIH --exclude-dir=.git')
+  elseif executable('grep')
+    call add(s:grepprgs, 'grep -nrIH --exclude-dir=.git')
+  endif
+  if executable('pt')
+    call add(s:grepprgs, 'pt --nogroup --nocolor')
+  elseif executable('ag')
+    call add(s:grepprgs, 'ag --nogroup --nocolor')
+  elseif executable('ack')
+    call add(s:grepprgs, 'ack -H --nogroup --nocolor')
+  elseif executable('ack-grep')
+    call add(s:grepprgs, 'ack-grep -H --nogroup --nocolor')
+  endif
+  "if executable('jvgrep')
+  "  call add(s:grepprgs, 'jvgrep -R')
+  "endif
+  if executable('git')
+    call add(s:grepprgs, 'git grep -nIH')
+  endif
+  "call add(s:grepprgs, 'internal')
+endif
+if has('vim_starting')
+  let &grepprg = s:grepprgs[0]
+endif
+
+" :grep wrapper
+command! -nargs=+ -complete=file
+      \ Grep call s:cmd_Grep(<q-args>)
+function! s:cmd_Grep(args)
+  " FIXME: Better escape.
+  "execute printf('silent grep! %s', escape(a:args, '|'))
+  execute printf('silent grep! %s', a:args)
+  redraw!
+  if len(getqflist()) == 0
+    call s:print_error(printf('Grep: no matches found: %s', a:args))
+    cclose
+    return
+  endif
+  cwindow
+endfunction
+
+nnoremap [Space]/
+      \ :<C-u>Grep<Space>
+nnoremap <silent> [toggle]g
+      \ :<C-u>call <SID>toggle_grepprg()<CR>
+nnoremap <silent> [toggle]G
+      \ :<C-u>echo printf("'grepprg' = %s", &grepprg)<CR>
+function! s:toggle_grepprg()
+  let i = (index(s:grepprgs, &grepprg) + 1) % len(s:grepprgs)
+  let prev_grepprg = &grepprg
+  let &grepprg = s:grepprgs[i]
+  echo printf("'grepprg' = %s (was %s)", &grepprg, prev_grepprg)
+endfunction
+
 " }}}
 
 " Key Mappings: "{{{
