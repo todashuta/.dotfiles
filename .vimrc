@@ -625,7 +625,7 @@ function! s:cmd_Grep(args)
   "execute printf('silent grep! %s', escape(a:args, '|'))
   execute printf('silent grep! %s', a:args)
   redraw!
-  if len(getqflist()) == 0
+  if empty(getqflist())
     call s:print_error(printf('Grep: no matches found: %s', a:args))
     cclose
     return
