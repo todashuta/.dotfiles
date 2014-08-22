@@ -639,13 +639,17 @@ nnoremap [Space]/
       \ :<C-u>Grep<Space>
 nnoremap <silent> [toggle]g
       \ :<C-u>call <SID>toggle_grepprg()<CR>
-nnoremap <silent> [toggle]G
-      \ :<C-u>echo printf("'grepprg' = %s", &grepprg)<CR>
 function! s:toggle_grepprg()
   let i = (index(s:grepprgs, &grepprg) + 1) % len(s:grepprgs)
   let prev_grepprg = &grepprg
   let &grepprg = s:grepprgs[i]
   echo printf("'grepprg' = %s (was %s)", &grepprg, prev_grepprg)
+endfunction
+nnoremap <silent> [toggle]G
+      \ :<C-u>call <SID>print_grepprgs()<CR>
+function! s:print_grepprgs()
+  echo join(['-------| grepprg |-------'] + map(copy(s:grepprgs),
+        \ '(v:val ==# &grepprg ? "[*] " : "[ ] ") . v:val'), "\n")
 endfunction
 
 autocmd MyAutoCmd FileType qf
