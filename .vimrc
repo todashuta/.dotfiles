@@ -595,12 +595,14 @@ if !exists('s:grepprgs')
   endif
   if executable('pt')
     call add(s:grepprgs, 'pt --nogroup --nocolor')
-  elseif executable('ag')
+  endif
+  if executable('ag')
     call add(s:grepprgs, 'ag --nogroup --nocolor')
-  elseif executable('ack')
-    call add(s:grepprgs, 'ack -H --nogroup --nocolor')
+  endif
+  if executable('ack')
+    call add(s:grepprgs, 'ack -H --nogroup --nocolor --column')
   elseif executable('ack-grep')
-    call add(s:grepprgs, 'ack-grep -H --nogroup --nocolor')
+    call add(s:grepprgs, 'ack-grep -H --nogroup --nocolor --column')
   endif
   "if executable('jvgrep')
   "  call add(s:grepprgs, 'jvgrep -R')
@@ -616,6 +618,8 @@ endif
 if has('vim_starting')
   let &grepprg = s:grepprgs[0]
 endif
+
+set grepformat& grepformat^=%f:%l:%c:%m
 
 " :grep wrapper
 command! -nargs=+ -complete=file Grep
