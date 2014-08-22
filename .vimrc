@@ -625,7 +625,7 @@ function! s:cmd_Grep(args)
   "execute printf('silent grep! %s', escape(a:args, '|'))
   execute printf('silent grep! %s', a:args)
   redraw!
-  cwindow
+  botright cwindow
   if empty(getqflist())
     call s:print_error(printf('Grep: no matches found: %s', a:args))
   endif
@@ -642,6 +642,23 @@ function! s:toggle_grepprg()
   let prev_grepprg = &grepprg
   let &grepprg = s:grepprgs[i]
   echo printf("'grepprg' = %s (was %s)", &grepprg, prev_grepprg)
+endfunction
+
+autocmd MyAutoCmd FileType qf
+      \ call s:on_FileType_quickfix()
+function! s:on_FileType_quickfix()
+  nnoremap <buffer> <CR>  <CR>
+endfunction
+
+" See: http://vim.g.hatena.ne.jp/ka-nacht/20090119/1232347709
+nnoremap <silent> [toggle]q
+      \ :<C-u>call <SID>toggle_quickfix_window()<CR>
+function! s:toggle_quickfix_window()
+  let _ = winnr('$')
+  cclose
+  if _ == winnr('$')
+    botright cwindow
+  endif
 endfunction
 
 " }}}
