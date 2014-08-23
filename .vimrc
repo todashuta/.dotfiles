@@ -648,7 +648,7 @@ endfunction
 nnoremap <silent> [toggle]G
       \ :<C-u>call <SID>print_grepprgs()<CR>
 function! s:print_grepprgs()
-  echo join(['-------| grepprg |-------'] + map(copy(s:grepprgs),
+  echo join(['-----| List of grepprgs |-----'] + map(copy(s:grepprgs),
         \ '(v:val ==# &grepprg ? "[*] " : "[ ] ") . v:val'), "\n")
 endfunction
 
