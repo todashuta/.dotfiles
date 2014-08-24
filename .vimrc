@@ -23,6 +23,7 @@ endif
 let s:is_term = !has('gui_running')
 let s:is_windows = has('win16') || has('win32') || has('win64')
 let s:is_cygwin = has('win32unix')
+let s:is_win_console = s:is_cygwin || (s:is_windows && s:is_term)
 let s:is_mac = !s:is_windows && !s:is_cygwin
       \ && (has('mac') || has('macunix') || has('gui_macvim') ||
       \   (!isdirectory('/proc') && executable('/usr/bin/sw_vers')))
@@ -419,8 +420,6 @@ endif
 
 " Must after set of 'encoding'.
 scriptencoding utf-8
-
-let s:is_unicode = (&encoding ==# 'utf-8') || (&termencoding ==# 'utf-8')
 
 " fileencodings.
 if has('iconv') && !has('kaoriya')
@@ -990,8 +989,8 @@ let s:listchars = {
 
 if has('vim_starting')  " Don't reset twice on reloading.
   set list
-  let &listchars = s:is_unicode ?
-        \ s:listchars['modern'] : s:listchars['classic']
+  let &listchars = s:is_win_console ?
+        \ s:listchars['classic'] : s:listchars['modern']
 
   if (v:version >= 704)
     " Show relativenumber with absolute line number on cursor line.
@@ -1889,7 +1888,7 @@ if neobundle#tap('vimfiler.vim')
           \ : split(glob('/mnt/*'), '\n') + split(glob('/media/*'), '\n') +
           \   split(glob('/Volumes/*'), '\n') + split(glob('/Users/*'), '\n')
 
-    if s:is_unicode
+    if !s:is_win_console
       " Like Textmate icons.
       let g:vimfiler_tree_leaf_icon = ' '
       let g:vimfiler_tree_opened_icon = '▾'
@@ -1915,7 +1914,7 @@ endif
 " indentLine {{{
 
 if neobundle#tap('indentLine')
-  let g:indentLine_char = s:is_unicode ? '¦' : '|'
+  let g:indentLine_char = s:is_win_console ? '|' : '¦'
   let g:indentLine_showFirstIndentLevel = 1
   let g:indentLine_indentLevel = 20
   "let g:indentLine_noConcealCursor = 1
