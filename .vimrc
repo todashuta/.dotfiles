@@ -413,8 +413,8 @@ syntax enable
 " Use the UTF-8 encoding inside Vim.
 set encoding=utf-8
 
-if s:is_cygwin || (s:is_windows && s:is_term)
-  set encoding=cp932 termencoding=
+if s:is_cygwin || s:is_windows
+  set termencoding=cp932
 endif
 
 " Must after set of 'encoding'.
