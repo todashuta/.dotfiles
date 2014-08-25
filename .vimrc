@@ -2334,12 +2334,14 @@ endif
 autocmd MyAutoCmd VimEnter * lcd %:p:h
 
 " Editing binary file. See :help hex-editing
+" DO NOT MERGE THESE TWO LINES INTO ONE.
 augroup BinaryXXD
   autocmd!
-  autocmd BufReadPre   *.bin let &binary=1
+  autocmd BufReadPre   *.bin let &binary = 1
   autocmd BufReadPost  * if &binary | silent %!xxd -g 1
   autocmd BufReadPost  *   setlocal filetype=xxd | endif
-  autocmd BufWritePre  * if &binary | %!xxd -r | endif
+  autocmd BufWritePre  * if &binary | %!xxd -r
+  autocmd BufWritePre  *   endif
   autocmd BufWritePost * if &binary | silent %!xxd -g 1
   autocmd BufWritePost *   setlocal nomodified | endif
 augroup END
