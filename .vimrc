@@ -1137,13 +1137,17 @@ autocmd MyAutoCmd InsertLeave *
 
 " Restore cursor position. {{{
 "
+autocmd MyAutoCmd BufReadPost *
+      \ call s:restore_cursor_position()
 function! s:restore_cursor_position()
+  if &filetype == 'gitcommit'
+    return
+  endif
+
   if line("'\"") > 1 && line("'\"") <= line("$")
     execute 'normal! g`"'
   endif
 endfunction
-
-autocmd MyAutoCmd BufReadPost * call s:restore_cursor_position()
 
 " }}}
 
