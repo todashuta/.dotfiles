@@ -60,8 +60,7 @@ function! s:define_alternative_key_name(...)
     execute printf('inoremap %s <SID>(%s)  %s',
           \        is_overwrite ? '' : '<unique>',
           \        name,
-          \        rhs
-          \       )
+          \        rhs)
   endfor
 endfunction
 if has('vim_starting')
