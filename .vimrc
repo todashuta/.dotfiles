@@ -761,12 +761,15 @@ cnoremap <C-k>  <C-\>e getcmdpos() == 1 ?
       \ '' :  getcmdline()[: getcmdpos()-2]<CR>
 
 " Quick edit and reload .vimrc/.gvimrc
-nnoremap <silent> [Space]..  :<C-u>tabedit $MYVIMRC<CR>
-nnoremap <silent> [Space].g  :<C-u>tabedit $MYGVIMRC<CR>
-nnoremap <silent> [Space]R   :<C-u>source $MYVIMRC
-                              \ \| if has('gui_running')
-                              \ \|   source $MYGVIMRC
-                              \ \| endif <CR>
+nnoremap <silent> [Space]..
+      \ :<C-u>tabedit $MYVIMRC<CR>
+nnoremap <silent> [Space].g
+      \ :<C-u>tabedit $MYGVIMRC<CR>
+nnoremap <silent> [Space]R
+      \ :<C-u>source $MYVIMRC
+      \ <Bar> if has('gui_running')
+      \ <Bar>   source $MYGVIMRC
+      \ <Bar> endif<CR>
 
 " toggle-option prefix key.
 nmap [Space]t  [toggle]
