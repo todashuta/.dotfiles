@@ -44,7 +44,7 @@ endif
 let g:mapleader = '\'
 "let g:maplocalleader = ','
 
-" Define alternative key name for Insert mode competion plugin.
+" Define alternative key name for Insert mode completion plugin.
 function! s:define_alternative_key_name(...)
   let is_overwrite = get(a:, '1', 0)
   let keys = [
