@@ -587,6 +587,10 @@ set suffixes& suffixes+=.DS_Store
 
 if !exists('s:grepprgs')
   let s:grepprgs = []
+
+  " ggrep - GNU grep
+  "   If possible, use GNU grep on Mac OS X, because:
+  "   GNU grep is much faster than BSD grep.
   if executable('ggrep')
     call add(s:grepprgs, 'ggrep -nrIH --exclude-dir=.git')
   elseif executable('grep')
