@@ -63,7 +63,7 @@ function! s:define_alternative_key_name(...)
           \        rhs)
   endfor
 endfunction
-if has('vim_starting')
+if has('vim_starting')  " Do not redefine on reloading .vimrc.
   call s:define_alternative_key_name()
 endif
 
@@ -79,16 +79,16 @@ augroup END
 " Delete vimrc_example's autocommands.
 silent! autocmd! vimrcEx
 
-if s:is_windows && exists('+shellslash')
-  " Use a forward slash as a path separator.
+" Use a forward slash as a path separator (on Windows).
+if exists('+shellslash')
   set shellslash
 endif
 
-if !exists('$MYGVIMRC')
+if $MYGVIMRC == ''
   let $MYGVIMRC = expand('~/.gvimrc')
 endif
 
-" Anywhere SID.
+" Anywhere SID for complicated script.
 if !exists('s:SID_PREFIX')
   function! s:_SID()
     return matchstr(expand('<sfile>'), '<SNR>\zs\d\+\ze__SID$')
