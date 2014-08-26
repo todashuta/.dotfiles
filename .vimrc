@@ -630,8 +630,8 @@ function! s:cmd_Grep(args)
   " FIXME: Better escape.
   "execute printf('silent grep! %s', escape(a:args, '|'))
   execute printf('silent grep! %s', a:args)
-  redraw!
   botright cwindow
+  redraw!
   if empty(getqflist())
     call s:print_error(printf('Grep: no matches found: %s', a:args))
   endif
