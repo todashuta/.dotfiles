@@ -948,7 +948,11 @@ set scrolloff=2
 " Disable bell.
 set visualbell t_vb=
 " A fullwidth character is displayed in vim properly.
-silent! set ambiwidth=double
+if s:is_windows && has('kaoriya') && has('gui_running')
+  set ambiwidth=auto
+else
+  set ambiwidth=double
+endif
 
 if has('conceal')
   set conceallevel=2 concealcursor=ni
