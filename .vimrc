@@ -1143,7 +1143,8 @@ autocmd MyAutoCmd InsertLeave *
 autocmd MyAutoCmd BufReadPost *
       \ call s:restore_cursor_position()
 function! s:restore_cursor_position()
-  if &filetype == 'gitcommit'
+  let ignore_filetypes = ['gitcommit']
+  if index(ignore_filetypes, &l:filetype) >= 0
     return
   endif
 
