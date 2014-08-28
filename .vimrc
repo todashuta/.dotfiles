@@ -625,16 +625,42 @@ set grepformat& grepformat^=%f:%l:%c:%m
 
 " :grep wrapper
 command! -nargs=+ -complete=file Grep
-      \ call s:cmd_Grep(<q-args>)
-function! s:cmd_Grep(args)
+      \ call s:cmd_Grep('grep', <q-args>)
+command! -nargs=+ -complete=file Grepadd
+      \ call s:cmd_Grep('grepadd', <q-args>)
+function! s:cmd_Grep(cmd, args)
+  let prev_qflist = copy(getqflist())
   " FIXME: Better escape.
   "execute printf('silent grep! %s', escape(a:args, '|'))
-  execute printf('silent grep! %s', a:args)
+  execute printf('silent %s! %s', a:cmd, a:args)
   botright cwindow
   redraw!
-  if empty(getqflist())
+  if ((a:cmd ==# 'grep') && empty(getqflist())) ||
+        \   ((a:cmd ==# 'grepadd') && (getqflist() ==# prev_qflist))
     call s:print_error(printf('Grep: no matches found: %s', a:args))
   endif
+  unlet prev_qflist
+endfunction
+
+" :vimgrep wrapper
+command! -nargs=+ -complete=file Vimgrep
+      \ call s:cmd_Vimgrep('vimgrep', <q-args>)
+command! -nargs=+ -complete=file Vimgrepadd
+      \ call s:cmd_Vimgrep('vimgrepadd', <q-args>)
+function! s:cmd_Vimgrep(cmd, args)
+  let save_eventignore = &eventignore
+  set eventignore+=BufRead
+  try
+    execute printf('%s %s', a:cmd, a:args)
+    botright cwindow
+    redraw!
+  catch
+    botright cwindow
+    redraw!
+    call s:print_error(v:exception)
+  finally
+    let &eventignore = save_eventignore
+  endtry
 endfunction
 
 nnoremap [Space]/
