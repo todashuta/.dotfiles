@@ -1138,12 +1138,12 @@ command! -bang -bar -complete=file -nargs=? Utf16
 command! -bang -bar -complete=file -nargs=? Utf16be
       \ edit<bang> ++enc=ucs-2 <args>
 
-" Change encoding commands
-command! ChgEncUtf8      setlocal fileencoding=utf-8
-command! ChgEncSjis      setlocal fileencoding=sjis
-command! ChgEncEucjp     setlocal fileencoding=euc-jp
-command! ChgEncIso2022jp setlocal fileencoding=iso-2202-jp
-command! ChgEncCp932     setlocal fileencoding=cp932
+" Change encoding command
+command! -nargs=? -complete=customlist,s:cmd_SetFenc_complete SetFenc
+      \ setlocal fileencoding=<args>
+function! s:cmd_SetFenc_complete(ArgLead, CmdLine, CursorPos)
+  return ['utf-8', 'sjis', 'euc-jp', 'iso-2022-jp', 'cp932']
+endfunction
 
 " }}}
 
