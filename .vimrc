@@ -1149,8 +1149,8 @@ command! ChgEncCp932     setlocal fileencoding=cp932
 
 " While entering insert mode, disable hlsearch temporary. {{{
 "
-autocmd MyAutoCmd InsertEnter * setlocal nohlsearch
-autocmd MyAutoCmd InsertLeave * setlocal hlsearch
+"autocmd MyAutoCmd InsertEnter * setlocal nohlsearch
+"autocmd MyAutoCmd InsertLeave * setlocal hlsearch
 
 " }}}
 
