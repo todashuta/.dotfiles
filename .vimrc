@@ -2362,7 +2362,7 @@ if s:is_term
 endif
 
 " Change the current directory to the current working directory on Vim startup.
-autocmd MyAutoCmd VimEnter * lcd %:p:h
+"autocmd MyAutoCmd VimEnter * lcd %:p:h
 
 " Editing binary file. See :help hex-editing
 augroup BinaryXXD
@@ -2376,12 +2376,15 @@ augroup BinaryXXD
         \ | endif
   autocmd BufWritePre *
         \   if &binary
+        \ |   let s:binary_xxd_cursor_pos = getpos('.')
         \ |   execute '%!xxd -r'
         \ | endif
   autocmd BufWritePost *
         \   if &binary
         \ |   execute 'silent %!xxd -g 1'
         \ |   setlocal nomodified
+        \ |   call setpos('.', s:binary_xxd_cursor_pos)
+        \ |   unlet s:binary_xxd_cursor_pos
         \ | endif
 augroup END
 
