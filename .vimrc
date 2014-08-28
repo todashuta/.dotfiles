@@ -1139,10 +1139,32 @@ command! -bang -bar -complete=file -nargs=? Utf16be
       \ edit<bang> ++enc=ucs-2 <args>
 
 " Change encoding command
-command! -nargs=? -complete=customlist,s:cmd_SetFenc_complete SetFenc
+command! -nargs=? -complete=customlist,s:cmd_Fenc_complete Fenc
       \ setlocal fileencoding=<args>
-function! s:cmd_SetFenc_complete(ArgLead, CmdLine, CursorPos)
+function! s:cmd_Fenc_complete(ArgLead, CmdLine, CursorPos)
   return ['utf-8', 'sjis', 'euc-jp', 'iso-2022-jp', 'cp932']
+endfunction
+
+" Change fileformat command
+command! -nargs=1 -complete=customlist,s:cmd_Ff_complete Ff
+      \ call s:cmd_Ff(<q-args>)
+let s:fileformats = {
+      \   'CR': 'mac',
+      \   'CR+LF': 'dos',
+      \   'LF': 'unix',
+      \   'dos': 'dos',
+      \   'mac': 'mac',
+      \   'unix': 'unix',
+      \ }
+function! s:cmd_Ff_complete(ArgLead, CmdLine, CursorPos)
+  return keys(s:fileformats)
+endfunction
+function! s:cmd_Ff(arg)
+  if !has_key(s:fileformats, a:arg)
+    call s:print_error(printf('Ff: Invalid end-of-line name: %s', a:arg))
+    return
+  endif
+  execute 'setlocal fileformat=' . s:fileformats[a:arg]
 endfunction
 
 " }}}
