@@ -1142,7 +1142,8 @@ command! -bang -bar -complete=file -nargs=? Utf16be
 command! -nargs=? -complete=customlist,s:cmd_Fenc_complete Fenc
       \ setlocal fileencoding=<args>
 function! s:cmd_Fenc_complete(ArgLead, CmdLine, CursorPos)
-  return ['utf-8', 'sjis', 'euc-jp', 'iso-2022-jp', 'cp932']
+  let fencs = ['utf-8', 'sjis', 'euc-jp', 'iso-2022-jp', 'cp932']
+  return filter(fencs, 'v:val =~? "^" . a:ArgLead')
 endfunction
 
 " Change fileformat command
@@ -1157,7 +1158,7 @@ let s:fileformats = {
       \   'unix': 'unix',
       \ }
 function! s:cmd_Ff_complete(ArgLead, CmdLine, CursorPos)
-  return keys(s:fileformats)
+  return filter(keys(s:fileformats), 'v:val =~? "^" . a:ArgLead')
 endfunction
 function! s:cmd_Ff(arg)
   if !has_key(s:fileformats, a:arg)
