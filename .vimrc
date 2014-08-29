@@ -1139,7 +1139,7 @@ command! -bang -bar -complete=file -nargs=? Utf16be
       \ edit<bang> ++enc=ucs-2 <args>
 
 " Change encoding command
-command! -nargs=? -complete=customlist,s:cmd_Fenc_complete Fenc
+command! -bar -nargs=? -complete=customlist,s:cmd_Fenc_complete Fenc
       \ setlocal fileencoding=<args>
 function! s:cmd_Fenc_complete(ArgLead, CmdLine, CursorPos)
   let fencs = ['utf-8', 'sjis', 'euc-jp', 'iso-2022-jp', 'cp932']
@@ -1147,7 +1147,7 @@ function! s:cmd_Fenc_complete(ArgLead, CmdLine, CursorPos)
 endfunction
 
 " Change fileformat command
-command! -nargs=1 -complete=customlist,s:cmd_Ff_complete Ff
+command! -bar -nargs=1 -complete=customlist,s:cmd_Ff_complete Ff
       \ call s:cmd_Ff(<q-args>)
 let s:fileformats = {
       \   'CR': 'mac',
