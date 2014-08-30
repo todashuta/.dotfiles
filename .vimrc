@@ -610,7 +610,7 @@ if !exists('s:grepprgs')
   "  call add(s:grepprgs, 'jvgrep -R')
   "endif
   if executable('git')
-    call add(s:grepprgs, 'git grep -nIH')
+    call add(s:grepprgs, 'git --no-pager grep -nIH')
   endif
 
   if empty(s:grepprgs)
