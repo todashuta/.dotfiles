@@ -11,7 +11,8 @@ if has('vim_starting') && has('reltime')
   let s:startuptime = reltime()
   augroup vimrc-startuptime
     autocmd! VimEnter *
-          \ echomsg 'startuptime: ' . reltimestr(reltime(s:startuptime))
+          \   echomsg 'startuptime: ' . reltimestr(reltime(s:startuptime))
+          \ | unlet s:startuptime
   augroup END
 endif
 
