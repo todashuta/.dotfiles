@@ -199,7 +199,7 @@ NeoBundleLazy 'mattn/calendar-vim', {
       \   'autoload' : {
       \     'commands' : ['Calendar', 'CalendarH']
       \ }}
-NeoBundleLazy 'nathanaelkane/vim-indent-guides'
+"NeoBundle 'nathanaelkane/vim-indent-guides'
 NeoBundleLazy 'ap/vim-css-color', {
       \   'autoload' : {
       \     'filetypes' : ['html', 'css', 'sass']
