@@ -379,7 +379,7 @@ endif
 "        \ { 'depends' : 'Shougo/unite.vim' }
 "endif
 
-if has('conceal')
+if has('conceal') && !s:is_win_console
   NeoBundle 'Yggdroot/indentLine'
 endif
 
