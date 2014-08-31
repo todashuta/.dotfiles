@@ -353,6 +353,7 @@ NeoBundleLazy 'deris/vim-rengbang', {
       \     'function_prefix' : 'rengbang',
       \     'commands' : ['RengBang', 'RengBangUsePrev', 'RengBangConfirm']
       \ }}
+NeoBundle 'thinca/vim-prettyprint'
 
 if has('python')
   NeoBundleLazy 'gregsexton/VimCalc', {
