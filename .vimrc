@@ -1563,8 +1563,6 @@ if neobundle#tap('unite.vim')
     autocmd MyAutoCmd FileType unite
           \ call s:on_FileType_unite()
     function! s:on_FileType_unite()
-      silent! syntax clear IndentLine
-
       " <C-w>: Deletes a path upward.
       imap <buffer> <C-w>  <Plug>(unite_delete_backward_path)
       " <Tab>: Goes to the next candidate, or goes to the top from the bottom.
@@ -1967,7 +1965,6 @@ if neobundle#tap('vimfiler.vim')
           \ call s:on_FileType_vimfiler()
     function! s:on_FileType_vimfiler()
       " VimFiler settings. (Key mapping... etc)
-      silent! syntax clear IndentLine
     endfunction
   endfunction
 
@@ -1983,8 +1980,12 @@ if neobundle#tap('indentLine')
   let g:indentLine_showFirstIndentLevel = 1
   let g:indentLine_indentLevel = 20
   "let g:indentLine_noConcealCursor = 1
-  let g:indentLine_fileTypeExclude = ['help']
+  "let g:indentLine_fileTypeExclude =
+  "      \ ['help', 'quickrun', 'unite', 'vimfiler']
 
+  autocmd MyAutoCmd FileType
+        \ help,quickrun,unite,vimfiler
+        \ silent! IndentLinesDisable
   autocmd MyAutoCmd User VimrcReloaded
         \ IndentLinesReset
 
