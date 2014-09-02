@@ -277,9 +277,13 @@ NeoBundleLazy 'todashuta/unite-transparency', {
       \   'autoload' : {
       \     'unite_sources' : 'transparency'
       \ }}
-NeoBundleLazy 'jnwhiteh/vim-golang', {
-      \   'autoload' : {
-      \     'filetypes' : ['go']
+NeoBundleLazy 'google/vim-ft-go', {
+      \   'autoload': {
+      \     'filetypes': ['go'],
+      \ }}
+NeoBundleLazy 'vim-jp/vim-go-extra', {
+      \   'autoload': {
+      \     'filetypes': ['go'],
       \ }}
 NeoBundleLazy 'terryma/vim-expand-region'
 NeoBundleLazy 'mfumi/snake.vim', {
@@ -2289,6 +2293,9 @@ if neobundle#tap('vim-signify')
 
   call neobundle#untap()
 endif
+
+" gocode (vim-go-extra)
+let g:gocomplete#system_function = 'vimproc#system'
 
 " }}}
 
