@@ -277,10 +277,12 @@ NeoBundleLazy 'todashuta/unite-transparency', {
       \   'autoload' : {
       \     'unite_sources' : 'transparency'
       \ }}
-NeoBundleLazy 'google/vim-ft-go', {
-      \   'autoload': {
-      \     'filetypes': ['go'],
-      \ }}
+if !filereadable($VIMRUNTIME . '/ftplugin/go.vim')
+  NeoBundleLazy 'google/vim-ft-go', {
+        \   'autoload': {
+        \     'filetypes': ['go'],
+        \ }}
+endif
 NeoBundleLazy 'vim-jp/vim-go-extra', {
       \   'autoload': {
       \     'filetypes': ['go'],
