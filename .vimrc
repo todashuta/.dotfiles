@@ -757,9 +757,10 @@ nnoremap <C-o>  <C-o>zz
 nnoremap <C-i>  <C-i>zz
 
 " Insert close tags automatically in editing xml and html.
-if exists('&omnifunc')
-  autocmd MyAutoCmd FileType xml,html inoremap <buffer> </  </<C-x><C-o>
-endif
+"if exists('&omnifunc')
+"  autocmd MyAutoCmd FileType xml,html,php
+"        \ inoremap <buffer> </  </<C-x><C-o>
+"endif
 
 " Visual shifting (does not exit Visual mode)
 xnoremap <  <gv
