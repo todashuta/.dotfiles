@@ -695,7 +695,9 @@ function! s:on_FileType_quickfix()
 endfunction
 
 " See: http://vim.g.hatena.ne.jp/ka-nacht/20090119/1232347709
-nnoremap <silent> [toggle]q
+"nnoremap <silent> [toggle]q
+"      \ :<C-u>call <SID>toggle_quickfix_window()<CR>
+nnoremap <silent> [quickfix]s
       \ :<C-u>call <SID>toggle_quickfix_window()<CR>
 function! s:toggle_quickfix_window()
   let _ = winnr('$')
@@ -704,6 +706,21 @@ function! s:toggle_quickfix_window()
     botright cwindow
   endif
 endfunction
+
+nmap s  [quickfix]
+nnoremap [quickfix]  <Nop>
+nnoremap <silent> [quickfix]r   :<C-u>execute 'crewind ' . v:count1<CR>
+nnoremap <silent> [quickfix]j   :<C-u>cnext<CR>
+nnoremap <silent> [quickfix]k   :<C-u>cprevious<CR>
+nnoremap <silent> [quickfix]J   :<C-u>cnfile<CR>
+nnoremap <silent> [quickfix]K   :<C-u>cpfile<CR>
+nnoremap <silent> [quickfix]gg  :<C-u>cfirst<CR>
+nnoremap <silent> [quickfix]G   :<C-u>clast<CR>
+nnoremap <silent> [quickfix]o   :<C-u>botright copen<CR>
+nnoremap <silent> [quickfix]c   :<C-u>cclose<CR>
+nnoremap <silent> [quickfix]p   :<C-u>colder<CR>
+nnoremap <silent> [quickfix]n   :<C-u>cnewer<CR>
+nnoremap [quickfix]/  :<C-u>Grep<Space>
 
 " }}}
 
