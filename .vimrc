@@ -720,7 +720,11 @@ nnoremap <silent> [quickfix]o   :<C-u>botright copen<CR>
 nnoremap <silent> [quickfix]c   :<C-u>cclose<CR>
 nnoremap <silent> [quickfix]p   :<C-u>colder<CR>
 nnoremap <silent> [quickfix]n   :<C-u>cnewer<CR>
+
 nnoremap [quickfix]/  :<C-u>Grep<Space>
+nnoremap [quickfix]a  :<C-u>Grepadd<Space>
+nnoremap [quickfix]?  :<C-u>Vimgrep<Space>
+nnoremap [quickfix]A  :<C-u>Vimgrepadd<Space>
 
 " }}}
 
