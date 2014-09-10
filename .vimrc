@@ -692,6 +692,8 @@ autocmd MyAutoCmd FileType qf
       \ call s:on_FileType_quickfix()
 function! s:on_FileType_quickfix()
   nnoremap <buffer> <CR>  <CR>
+  nnoremap <buffer> <C-p>  :<C-u>colder<CR>
+  nnoremap <buffer> <C-n>  :<C-u>cnewer<CR>
 endfunction
 
 " See: http://vim.g.hatena.ne.jp/ka-nacht/20090119/1232347709
