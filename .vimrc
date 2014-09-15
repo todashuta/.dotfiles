@@ -1495,8 +1495,9 @@ endif
 
 if neobundle#tap('eregex.vim')
   call neobundle#config({
-        \   'autoload' : {
-        \     'commands' : ['E2v', 'M', 'S', 'G', 'V']
+        \   'autoload': {
+        \     'commands': ['E2v', 'M', 'S', 'G', 'V'],
+        \     'functions': ['E2v'],
         \ }})
 
   "nnoremap /  :M/
