@@ -1653,8 +1653,8 @@ if neobundle#tap('unite.vim')
           \     ['transparency',
           \             'Unite -auto-preview -no-start-insert transparency'],
           \     ['Nyancat!!', 'Nyancat2'],
-          \     ['Check system uptime', '!uptime'],
-          \     ['Check system swap file', '!du -hc /var/vm/swapfile*'],
+          \     ['Check system uptime', 'VimProcBang uptime'],
+          \     ['Check system swap file', 'VimProcBang du -hc /var/vm/swapfile*'],
           \     ['Tweet', 'TweetVimSay'],
           \     ['earthquake.gem', 'VimShellInteractive earthquake'],
           \ ]}
