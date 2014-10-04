@@ -161,11 +161,12 @@ NeoBundleLazy 'Shougo/unite-build', {
       \     'unite_sources' : 'build'
       \ }}
 NeoBundle 'Shougo/vimproc.vim', {
-      \   'build' : {
-      \     'windows' : 'make -f make_mingw32.mak',
-      \     'cygwin' : 'make -f make_cygwin.mak',
-      \     'mac' : 'make -f make_mac.mak',
-      \     'unix' : 'make -f make_unix.mak',
+      \   'build': {
+      \     'windows': 'tools\\update-dll-mingw',
+      \     'cygwin': 'make -f make_cygwin.mak',
+      \     'mac': 'make -f make_mac.mak',
+      \     'linux': 'make',
+      \     'unix': 'gmake',
       \ }}
 NeoBundle 'altercation/vim-colors-solarized'
 NeoBundleLazy 'othree/eregex.vim'
