@@ -2150,8 +2150,8 @@ if neobundle#tap('vim-smartinput')
   endfunction
   command! -nargs=0 SmartinputToggleEnabled
         \ call s:cmd_SmartinputToggleEnabled()
-  "nnoremap <silent> [toggle]q
-  "      \ :<C-u>SmartinputToggleEnabled<CR>
+  nnoremap <silent> [toggle]'
+        \ :<C-u>SmartinputToggleEnabled<CR>
 
   call neobundle#untap()
 endif
