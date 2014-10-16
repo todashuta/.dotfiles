@@ -1,0 +1,7 @@
+# .gemrc
+
+gem: --no-ri --no-rdoc  # deprecated
+#gem: --no-document
+
+# vim: set ft=yaml :
+# __END__
