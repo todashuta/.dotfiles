@@ -9,16 +9,13 @@
 	interactive = auto
 	grep = auto
 [alias]
-	cm = commit -m
 	ss = status -sb
 	sl = shortlog -sn
-	df = diff
-	dfw = diff --word-diff
-	br = branch
+	wdiff = diff --word-diff
 	unstage = reset HEAD --
 [core]
 	editor = vim
-	pager = lv -c
+	#pager = lv -c
 [merge]
 	tool = vimdiff
 
