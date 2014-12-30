@@ -495,13 +495,10 @@ set modeline
 
 " Use a mouse on terminal.
 if has('mouse')
-  try
-    set ttymouse=sgr
-  catch /^Vim\%((\a\+)\)\=:E474/
-    silent! set ttymouse=xterm2
-  finally
-    set mouse=a
-  endtry
+  set mouse=a
+  silent! set ttymouse=xterm
+  silent! set ttymouse=xterm2
+  silent! set ttymouse=sgr
 endif
 
 " Indicates a fast terminal connection.
