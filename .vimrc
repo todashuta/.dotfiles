@@ -629,46 +629,6 @@ endif
 
 set grepformat& grepformat^=%f:%l:%c:%m
 
-" :grep wrapper
-command! -nargs=+ -complete=file Grep
-      \ call s:cmd_Grep('grep', <q-args>)
-command! -nargs=+ -complete=file Grepadd
-      \ call s:cmd_Grep('grepadd', <q-args>)
-function! s:cmd_Grep(cmd, args)
-  let prev_qflist = copy(getqflist())
-  " FIXME: Better escape.
-  "execute printf('silent grep! %s', escape(a:args, '|'))
-  execute printf('silent %s! %s', a:cmd, a:args)
-  botright cwindow
-  redraw!
-  if ((a:cmd ==# 'grep') && empty(getqflist())) ||
-        \   ((a:cmd ==# 'grepadd') && (getqflist() ==# prev_qflist))
-    call s:print_error(printf('Grep: no matches found: %s', a:args))
-  endif
-  unlet prev_qflist
-endfunction
-
-" :vimgrep wrapper
-command! -nargs=+ -complete=file Vimgrep
-      \ call s:cmd_Vimgrep('vimgrep', <q-args>)
-command! -nargs=+ -complete=file Vimgrepadd
-      \ call s:cmd_Vimgrep('vimgrepadd', <q-args>)
-function! s:cmd_Vimgrep(cmd, args)
-  let save_eventignore = &eventignore
-  set eventignore+=BufRead
-  try
-    execute printf('%s %s', a:cmd, a:args)
-    botright cwindow
-    redraw!
-  catch
-    botright cwindow
-    redraw!
-    call s:print_error(v:exception)
-  finally
-    let &eventignore = save_eventignore
-  endtry
-endfunction
-
 nnoremap <silent> [toggle]g
       \ :<C-u>call <SID>toggle_grepprg()<CR>
 function! s:toggle_grepprg()
@@ -719,10 +679,16 @@ nnoremap <silent> [quickfix]c   :<C-u>cclose<CR>
 nnoremap <silent> [quickfix]p   :<C-u>colder<CR>
 nnoremap <silent> [quickfix]n   :<C-u>cnewer<CR>
 
-nnoremap [quickfix]/  :<C-u>Grep<Space>
-nnoremap [quickfix]a  :<C-u>Grepadd<Space>
-nnoremap [quickfix]?  :<C-u>Vimgrep<Space>
-nnoremap [quickfix]A  :<C-u>Vimgrepadd<Space>
+nnoremap [quickfix]/  :<C-u>silent grep!<Space>
+nnoremap [quickfix]a  :<C-u>silent grepadd!<Space>
+nnoremap [quickfix]?
+      \ :<C-u>/j **/* <Bar> botright cwindow<Home>noautocmd
+      \ <C-r>=(v:count == v:count1 ? v:count : '')<CR>vimgrep /
+nnoremap [quickfix]A
+      \ :<C-u>/j **/* <Bar> botright cwindow<Home>noautocmd
+      \ <C-r>=(v:count == v:count1 ? v:count : '')<CR>vimgrepadd /
+
+autocmd MyAutoCmd QuickFixCmdPost [^l]* botright cwindow | redraw!
 
 " }}}
 
