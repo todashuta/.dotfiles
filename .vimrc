@@ -669,8 +669,6 @@ function! s:cmd_Vimgrep(cmd, args)
   endtry
 endfunction
 
-nnoremap [Space]/
-      \ :<C-u>Grep<Space>
 nnoremap <silent> [toggle]g
       \ :<C-u>call <SID>toggle_grepprg()<CR>
 function! s:toggle_grepprg()
