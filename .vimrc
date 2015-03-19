@@ -743,22 +743,22 @@ inoremap <expr> <C-r>*
       \ . "\<C-o>:set nopaste\<CR>"
 
 " Move cursor by display line.
-noremap j  gj
-noremap k  gk
-noremap gj  j
-noremap gk  k
+"noremap j  gj
+"noremap k  gk
+"noremap gj  j
+"noremap gk  k
 
 " Stop the search highlightings and clear messages on the last line.
 nnoremap <Esc><Esc>  :<C-u>nohlsearch<CR>:<BS>
 
 " Move to the first non-blank characters of the screen line.
 "noremap <expr> H  search('^\s\s*\%#', 'bcn') ? 'g0' : 'g^'
-noremap <expr> H  &wrap ?
-      \ (search('^\s\s*\%#', 'bcn') ? 'g0' : 'g^') : 'zH'
+"noremap <expr> H  &wrap ?
+"      \ (search('^\s\s*\%#', 'bcn') ? 'g0' : 'g^') : 'zH'
 " Move to the last characters of the screen line.
 "noremap L g$
-noremap <expr> L  &wrap ?
-      \ 'g$' : 'zL'
+"noremap <expr> L  &wrap ?
+"      \ 'g$' : 'zL'
 
 " Centering search result and open fold.
 nnoremap n  nzzzv
