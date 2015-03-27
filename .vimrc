@@ -713,7 +713,7 @@ inoremap <expr> <C-r>*
 "noremap gk  k
 
 " Stop the search highlightings and clear messages on the last line.
-nnoremap <Esc><Esc>  :<C-u>nohlsearch<CR>:<BS>
+nnoremap <silent> <Esc><Esc>  :<C-u>nohlsearch<CR>:echo<CR>
 
 " Move to the first non-blank characters of the screen line.
 "noremap <expr> H  search('^\s\s*\%#', 'bcn') ? 'g0' : 'g^'
