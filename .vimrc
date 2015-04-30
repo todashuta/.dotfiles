@@ -683,10 +683,10 @@ nnoremap [quickfix]/  :<C-u>silent grep!<Space>
 nnoremap [quickfix]a  :<C-u>silent grepadd!<Space>
 nnoremap [quickfix]?
       \ :<C-u>/j **/* <Bar> botright cwindow<Home>noautocmd
-      \ <C-r>=(v:count == v:count1 ? v:count : '')<CR>vimgrep /
+      \ <C-r>=(v:count == v:count1 ? v:count : '')<CR>vimgrep /<C-f>
 nnoremap [quickfix]A
       \ :<C-u>/j **/* <Bar> botright cwindow<Home>noautocmd
-      \ <C-r>=(v:count == v:count1 ? v:count : '')<CR>vimgrepadd /
+      \ <C-r>=(v:count == v:count1 ? v:count : '')<CR>vimgrepadd /<C-f>
 
 autocmd MyAutoCmd QuickFixCmdPost [^l]* botright cwindow | redraw!
 
@@ -852,8 +852,8 @@ nnoremap <silent> [buffer]t  :<C-u>Thumbnail -here<CR>
 " <Space-BS>: Unload buffer and delete it from the buffer list.
 nnoremap <silent> [Space]<BS>  :<C-u>bdelete<CR>
 
-nnoremap q  <Nop>
-nnoremap Q  q
+"nnoremap q  <Nop>
+nnoremap Q  <Nop>
 nnoremap K  <Nop>
 "nnoremap qK  K
 
