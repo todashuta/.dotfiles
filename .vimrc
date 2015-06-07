@@ -47,7 +47,7 @@ let g:mapleader = '\'
 
 " Define alternative key name for Insert mode completion plugin.
 function! s:define_alternative_key_name(...)
-  let is_overwrite = get(a:, '1', 0)
+  let overwrite_p = get(a:, '1', 0)
   let keys = [
         \   ['BS', '<BS>'],
         \   ['C-h', '<C-h>'],
@@ -59,7 +59,7 @@ function! s:define_alternative_key_name(...)
 
   for [name, rhs] in keys
     execute printf('inoremap %s <SID>(%s)  %s',
-          \        is_overwrite ? '' : '<unique>',
+          \        overwrite_p ? '' : '<unique>',
           \        name,
           \        rhs)
   endfor
@@ -593,9 +593,7 @@ set suffixes& suffixes+=.DS_Store
 if !exists('s:grepprgs')
   let s:grepprgs = []
 
-  " ggrep - GNU grep
-  "   If possible, use GNU grep on Mac OS X, because:
-  "   GNU grep is much faster than BSD grep.
+  " ggrep: GNU grep - GNU grep is much faster than BSD grep.
   if executable('ggrep')
     call add(s:grepprgs, 'ggrep -nrIH --exclude-dir=.git')
   elseif executable('grep')
@@ -647,6 +645,7 @@ endfunction
 autocmd MyAutoCmd FileType qf
       \ call s:on_FileType_quickfix()
 function! s:on_FileType_quickfix()
+  setlocal nowrap colorcolumn=
   nnoremap <buffer> <CR>  <CR>
   nnoremap <buffer> <C-p>  :<C-u>colder<CR>
   nnoremap <buffer> <C-n>  :<C-u>cnewer<CR>
@@ -780,6 +779,10 @@ cnoremap <Down>  <C-n>
 cnoremap <C-k>  <C-\>e getcmdpos() == 1 ?
       \ '' :  getcmdline()[: getcmdpos()-2]<CR>
 
+" for file complete (or insert glob).
+cnoremap <expr> <C-g>  (getcmdline() =~# '/$') ?
+      \ "\<Space>\<BS>" : (getcmdline() =~# '\S$' ? ' ' : '')."**/*"
+
 " Quick edit and reload .vimrc/.gvimrc
 nnoremap <silent> [Space]..
       \ :<C-u>tabedit $MYVIMRC<CR>
@@ -898,14 +901,14 @@ nnoremap c  "_c
 " (visual mode) v: Rotate wise of visual mode.
 xnoremap <expr> v  <SID>keys_to_rotate_wise_of_visual_mode()
 function! s:keys_to_rotate_wise_of_visual_mode()
-  let is_loop = get(g:, 'VisualModeRotation_enable_loop', 0)
+  let loop_p = get(g:, 'VisualModeRotation_enable_loop', 0)
 
   if mode() ==# 'v'
     return 'V'
   elseif mode() ==# 'V'
     return "\<C-v>"
   elseif mode() ==# "\<C-v>"
-    return is_loop ? 'v' : "\<Esc>"
+    return loop_p ? 'v' : "\<Esc>"
   endif
 endfunction
 
@@ -2242,6 +2245,7 @@ if neobundle#tap('vim-niceblock')
 
   xmap I  <Plug>(niceblock-I)
   xmap A  <Plug>(niceblock-A)
+  xnoremap <expr> gr  niceblock#force_blockwise('r')
 
   call neobundle#untap()
 endif
@@ -2323,13 +2327,11 @@ augroup END
 
 " Commands: "{{{
 "
-" Toggle listchars strings {{{
-
-command! ToggleListcharsStrings let &listchars =
+command! ToggleListcharsStrings  let &listchars =
       \ (&listchars ==# s:listchars['classic']) ?
       \   s:listchars['modern'] : s:listchars['classic']
-
-" }}}
+command! Swapfiles
+      \ echo vimproc#system('vim -r')
 
 " Toggle options {{{
 
