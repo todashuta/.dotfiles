@@ -593,7 +593,7 @@ set suffixes& suffixes+=.DS_Store
 if !exists('s:grepprgs')
   let s:grepprgs = []
 
-  " ggrep: GNU grep - GNU grep is much faster than BSD grep.
+  " ggrep (GNU grep) is much faster than BSD grep.
   if executable('ggrep')
     call add(s:grepprgs, 'ggrep -nrIH --exclude-dir=.git')
   elseif executable('grep')
@@ -999,17 +999,17 @@ set pumheight=15
 " http://hanschen.org/2012/10/24/
 " http://stackoverflow.com/questions/2447109/showing-a-different-background-colour-in-vim-past-80-characters
 if exists('+colorcolumn')
-  function! s:get_colorcolumns(start)
-    let end = a:start + 255
-    return (a:start == 0) ?
-          \ '' : join(range(a:start, end), ',')
+  function! s:get_colorcolumns(first)
+    let last = a:first + 255
+    return (a:first == 0) ?
+          \ '' : join(range(a:first, last), ',')
   endfunction
 
   if has('vim_starting')
     let &colorcolumn = s:get_colorcolumns(79)
   endif
 
-  " Toggle colorcolumn.
+  " Toggle colorcolumns.
   nnoremap <silent> [toggle]cc
         \ :<C-u>let &colorcolumn =
         \   &colorcolumn == '' ? <SID>get_colorcolumns(79) : ''<CR>
@@ -2347,19 +2347,15 @@ function! s:toggle_line_number()
   if exists('+relativenumber')
     if (v:version >= 704)
       " Toggle between relative with absolute on cursor line and no numbers.
-      if (!&l:number && !&l:relativenumber)
-        setlocal relativenumber number
-      else
-        setlocal norelativenumber nonumber
-      endif
+      let [&l:relativenumber, &l:number] =
+            \ (&l:relativenumber || &l:number) ? [0, 0] : [1, 1]
     else
-      " Toggle between absolute => relative => no numbers.
-      execute 'setlocal' (&l:number ==# &l:relativenumber) ?
+      " Rotate absolute => relative => no numbers.
+      execute 'setlocal' (&l:number == &l:relativenumber) ?
             \ 'number! number?' : 'relativenumber! relativenumber?'
     endif
   else
-    " Toggle between number and nonumber.
-    call s:toggle_option('number')
+    setlocal number! number?
   endif
 endfunction
 
