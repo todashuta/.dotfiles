@@ -652,8 +652,6 @@ function! s:on_FileType_quickfix()
 endfunction
 
 " See: http://vim.g.hatena.ne.jp/ka-nacht/20090119/1232347709
-"nnoremap <silent> [toggle]q
-"      \ :<C-u>call <SID>toggle_quickfix_window()<CR>
 nnoremap <silent> [quickfix]s
       \ :<C-u>call <SID>toggle_quickfix_window()<CR>
 function! s:toggle_quickfix_window()
@@ -705,23 +703,8 @@ inoremap <expr> <C-r>*
       \ . (exists('+clipboard') ? '*' : '"')
       \ . "\<C-o>:set nopaste\<CR>"
 
-" Move cursor by display line.
-"noremap j  gj
-"noremap k  gk
-"noremap gj  j
-"noremap gk  k
-
 " Stop the search highlightings and clear messages on the last line.
 nnoremap <silent> <Esc><Esc>  :<C-u>nohlsearch<CR>:echo<CR>
-
-" Move to the first non-blank characters of the screen line.
-"noremap <expr> H  search('^\s\s*\%#', 'bcn') ? 'g0' : 'g^'
-"noremap <expr> H  &wrap ?
-"      \ (search('^\s\s*\%#', 'bcn') ? 'g0' : 'g^') : 'zH'
-" Move to the last characters of the screen line.
-"noremap L g$
-"noremap <expr> L  &wrap ?
-"      \ 'g$' : 'zL'
 
 " Centering search result and open fold.
 nnoremap n  nzzzv
@@ -747,8 +730,8 @@ nnoremap <C-i>  <C-i>zz
 "endif
 
 " Visual shifting (does not exit Visual mode)
-xnoremap <  <gv
-xnoremap >  >gv
+"xnoremap <  <gv
+"xnoremap >  >gv
 
 " Shift + Arrow key: Resize split windows.
 nnoremap <silent> <S-Left>   :<C-u>wincmd <<CR>
@@ -772,8 +755,8 @@ cnoremap <C-f>  <Right>
 " Command-Line history completion.
 cnoremap <C-p>  <Up>
 cnoremap <C-n>  <Down>
-cnoremap <Up>  <C-p>
-cnoremap <Down>  <C-n>
+"cnoremap <Up>  <C-p>
+"cnoremap <Down>  <C-n>
 
 " <C-k>: delete to end.
 cnoremap <C-k>  <C-\>e getcmdpos() == 1 ?
@@ -811,32 +794,18 @@ nnoremap <silent> [toggle]l
 nnoremap <silent> [toggle]/
       \ :<C-u>call <SID>toggle_option('wrapscan')<CR>
 
-" Toggle line number.
 nnoremap <silent> [toggle]n
       \ :<C-u>call <SID>toggle_line_number()<CR>
-" Toggle Paste.
 nnoremap <silent> [toggle]p
       \ :<C-u>call <SID>toggle_option('paste')<CR>:set mouse=<CR>
-" Toggle mouse.
 nnoremap <silent> [toggle]m
       \ :<C-u>let &mouse = (&mouse == 'a' ? '' : 'a')<CR>:set mouse?<CR>
-
-" Look see registers.
-"nnoremap <silent> <Space>r
-"      \ :<C-u>registers<CR>
-" Look see marks.
-"nnoremap <silent> <Space>m
-"      \ :<C-u>marks<CR>
 
 " Lookup help three times more than regular speed.
 nnoremap <C-h>  :<C-u>help<Space>
 
-" <Space>c: close current window.
 nnoremap <silent> [Space]c  :<C-u>close<CR>
-" <Space>o: close all other windows.
 nnoremap <silent> [Space]o  :<C-u>only<CR>
-
-" Split window.
 nnoremap <silent> [Space]s  :<C-u>split<CR>
 nnoremap <silent> [Space]v  :<C-u>vsplit<CR>
 
@@ -844,26 +813,14 @@ nnoremap <silent> [Space]v  :<C-u>vsplit<CR>
 nmap [Space]b  [buffer]
 nnoremap [buffer]  <Nop>
 
-" <Space-bb>: go to the alternate buffer.
 nnoremap <silent> [buffer]b  :<C-u>b#<CR>
-" <Space-bp>: go to the previous buffer.
 nnoremap <silent> [buffer]p  :<C-u>bprevious<CR>
-" <Space-bn>: go to the next buffer.
 nnoremap <silent> [buffer]n  :<C-u>bnext<CR>
-" <Space-bt>: thumbnail-style buffer select.
 nnoremap <silent> [buffer]t  :<C-u>Thumbnail -here<CR>
-" <Space-BS>: Unload buffer and delete it from the buffer list.
 nnoremap <silent> [Space]<BS>  :<C-u>bdelete<CR>
 
-"nnoremap q  <Nop>
 nnoremap Q  <Nop>
-nnoremap K  <Nop>
-"nnoremap qK  K
-
-" Disable dangerous ZZ.
-nnoremap ZZ  :<C-u>call <SID>print_error('ZZ is disabled.')<CR>
-" Disable dangerous ZQ.
-nnoremap ZQ  :<C-u>call <SID>print_error('ZQ is disabled.')<CR>
+"nnoremap K  <Nop>
 
 " Moving cursor to other windows.
 nnoremap <silent> [Space]h  :<C-u>wincmd h<CR>
@@ -887,13 +844,13 @@ nnoremap <silent> [Space]C
 nnoremap <silent> [Space]B  :<C-u>Unite buffer<CR>
 
 " (visual mode) p: Paste from the last yank.
-xnoremap p  "0p
+"xnoremap p  "0p
 " (visual mode) P: Original visual mode 'p' behavior.
-xnoremap P  p
+"xnoremap P  p
 
 " x, X: Delete into the blackhole register to not clobber the last yank.
-nnoremap x  "_x
-nnoremap X  "_X
+"nnoremap x  "_x
+"nnoremap X  "_X
 
 " c: Change into the blackhole register to not clobber the last yank.
 nnoremap c  "_c
@@ -938,17 +895,6 @@ function! s:on_FileType_markdown()
         \ search('^\s*[0-9][0-9]*\%(\.\s\)\?\%#', 'bcn') ?
         \   smartchr#one_of('. ', '.') : '.'
 endfunction
-
-" <C-f>, <C-b>: page move.
-"inoremap <expr> <C-f>  pumvisible() ? "\<PageDown>" : "\<Right>"
-inoremap <C-f>  <Right>
-"inoremap <expr> <C-b>  pumvisible() ? "\<PageUp>" : "\<Left>"
-inoremap <C-b>  <Left>
-" <C-a>: Move to head+.
-inoremap <expr> <C-a>
-      \ search('^\s\s*\%#', 'bcn') ? "\<C-o>g0" : "\<C-o>g^"
-" <C-e>: Move to end.
-silent! inoremap <unique> <C-e>  <End>
 
 " }}}
 
