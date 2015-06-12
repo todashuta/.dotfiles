@@ -945,20 +945,28 @@ set pumheight=15
 " http://hanschen.org/2012/10/24/
 " http://stackoverflow.com/questions/2447109/showing-a-different-background-colour-in-vim-past-80-characters
 if exists('+colorcolumn')
-  function! s:get_colorcolumns(first)
-    let last = a:first + 255
-    return (a:first == 0) ?
-          \ '' : join(range(a:first, last), ',')
+  command! -bang -nargs=? Colorcolumn
+        \ call s:cmd_Colorcolumn(<bang>0, <q-args>)
+  function! s:cmd_Colorcolumn(bang, col)
+    if a:col == ''
+      setlocal colorcolumn=
+      return
+    endif
+
+    if a:bang
+      let &l:colorcolumn = join(range(a:col, a:col+255), ',')
+    else
+      let &l:colorcolumn = a:col
+    endif
   endfunction
 
   if has('vim_starting')
-    let &colorcolumn = s:get_colorcolumns(79)
+    Colorcolumn! 79
   endif
 
   " Toggle colorcolumns.
   nnoremap <silent> [toggle]cc
-        \ :<C-u>let &colorcolumn =
-        \   &colorcolumn == '' ? <SID>get_colorcolumns(79) : ''<CR>
+        \ :<C-u>execute 'Colorcolumn!' (&l:colorcolumn == '' ? '79' : '')<CR>
 endif
 
 let s:listchars = {
@@ -966,20 +974,11 @@ let s:listchars = {
       \   'modern'  : 'tab:▸ ,trail:›,precedes:«,extends:»,nbsp:␣'
       \ }
 
-if has('vim_starting')  " Don't reset twice on reloading.
+if has('vim_starting')
   set list
-  let &listchars = s:is_win_console ?
-        \ s:listchars['classic'] : s:listchars['modern']
-
-  if (v:version >= 704)
-    " Show relativenumber with absolute line number on cursor line.
-    "set relativenumber number
-
-    set norelativenumber nonumber
-  else
-    set nonumber
-  endif
-
+  let &listchars = s:listchars[(s:is_win_console ? 'classic' : 'modern')]
+  silent! set norelativenumber
+  set nonumber
   set nowrap
   set nocursorline
 endif
