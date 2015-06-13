@@ -106,7 +106,8 @@ endfunction
 " Set runtimepath.
 if has('vim_starting')
   if s:is_windows
-    set runtimepath^=~/.vim,~/.vim/after
+    set runtimepath^=~/.vim
+    set runtimepath+=~/.vim/after
   endif
 
   set runtimepath+=~/.vim/bundle/neobundle.vim
