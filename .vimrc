@@ -182,7 +182,7 @@ NeoBundleLazy 'tpope/vim-surround'
 "NeoBundle 'vim-scripts/DirDo.vim'
 NeoBundleLazy 'kana/vim-smartchr'
 NeoBundle 'kana/vim-submode'
-NeoBundleLazy 'kana/vim-niceblock'
+NeoBundle 'kana/vim-niceblock'
 NeoBundleLazy 'glidenote/memolist.vim', {
       \   'autoload' : {
       \     'commands' : ['MemoGrep', 'MemoList', 'MemoNew']
@@ -869,33 +869,6 @@ function! s:keys_to_rotate_wise_of_visual_mode()
   endif
 endfunction
 
-" Settings for markdown
-autocmd MyAutoCmd FileType markdown
-      \ call s:on_FileType_markdown()
-function! s:on_FileType_markdown()
-  " Insert space sensibly after '-', '+', '*', '>'.
-  inoremap <buffer><expr> -
-        \ search('^\s*\%(-\s\)*\%#', 'bcn') ?
-        \   smartchr#one_of('- ', '-') : '-'
-  inoremap <buffer><expr> +
-        \ search('^\s*\%(+\s\)*\%#', 'bcn') ?
-        \   smartchr#one_of('+ ', '+') : '+'
-  inoremap <buffer><expr> *
-        \ search('^\s*\%(\*\s\)*\%#', 'bcn') ?
-        \   smartchr#one_of('* ', '*') : '*'
-  inoremap <buffer><expr> >
-        \ search('^\s*\%(>\s\)*\%#', 'bcn') ?
-        \   smartchr#one_of('> ', '>') : '>'
-
-  " Insert space sensibly after '#', '.'.
-  inoremap <buffer><expr> #
-        \ search('^\s*\%(##*\s\)\?\%#', 'bcn') ?
-        \   smartchr#one_of('# ', '## ') : '#'
-  inoremap <buffer><expr> .
-        \ search('^\s*[0-9][0-9]*\%(\.\s\)\?\%#', 'bcn') ?
-        \   smartchr#one_of('. ', '.') : '.'
-endfunction
-
 " }}}
 
 " Visual: "{{{
@@ -1410,10 +1383,8 @@ if neobundle#tap('eregex.vim')
         \     'functions': ['E2v'],
         \ }})
 
-  "nnoremap /  :M/
-  "nnoremap ?  :M?
-  nnoremap ,/  :M/
-  nnoremap ,?  :M?
+  nnoremap <Leader>/  :<C-u>M/
+  nnoremap <Leader>?  :<C-u>M?
 
   function! neobundle#tapped.hooks.on_source(bundle)
     " Disable eregex.vim key mapping
@@ -1659,10 +1630,6 @@ if neobundle#tap('vim-smartchr')
   autocmd MyAutoCmd FileType * call s:init_smartchr()
 
   augroup MyAutoCmd
-    "autocmd FileType vim
-    "      \ inoremap <buffer><expr> :  smartchr#one_of(' : ', ':')
-    "autocmd FileType css
-    "      \ inoremap <buffer><expr> :  smartchr#one_of(':')
     autocmd FileType R
           \ inoremap <buffer><expr> <  smartchr#one_of('<', '<-', '<<')
   augroup END
@@ -2182,14 +2149,6 @@ endif
 
 " vim-niceblock
 if neobundle#tap('vim-niceblock')
-  call neobundle#config({
-        \   'autoload' : {
-        \     'mappings' : [
-        \       ['x', '<Plug>(niceblock-I)'], ['x', '<Plug>(niceblock-A)']
-        \ ]}})
-
-  xmap I  <Plug>(niceblock-I)
-  xmap A  <Plug>(niceblock-A)
   xnoremap <expr> gr  niceblock#force_blockwise('r')
 
   call neobundle#untap()
