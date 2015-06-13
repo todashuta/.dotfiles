@@ -176,7 +176,7 @@ NeoBundleLazy 'h1mesuke/vim-alignta', {
 NeoBundleLazy 'tpope/vim-surround'
 "NeoBundle 'troydm/easybuffer.vim'
 "NeoBundle 'vim-scripts/DirDo.vim'
-NeoBundleLazy 'kana/vim-smartchr'
+"NeoBundleLazy 'kana/vim-smartchr'
 NeoBundle 'kana/vim-submode'
 NeoBundle 'kana/vim-niceblock'
 NeoBundleLazy 'glidenote/memolist.vim', {
@@ -214,8 +214,8 @@ NeoBundleLazy 'othree/html5.vim', {
       \   'autoload' : {
       \     'filetypes' : ['html', 'css']
       \ }}
-NeoBundleLazy 'kana/vim-smartinput'
 "NeoBundle 'kien/ctrlp.vim'
+"NeoBundleLazy 'kana/vim-smartinput'
 NeoBundleLazy 'basyura/TweetVim', {
       \   'depends' : [
       \       'basyura/twibill.vim', 'tyru/open-browser.vim'
@@ -741,22 +741,11 @@ nnoremap <silent> [Space]=  :<C-u>wincmd =<CR>
 " Yank from the cursor to the end of line.
 nnoremap Y  y$
 
-" Emacs-style editing on the command-line.
-cnoremap <C-a>  <Home>
-cnoremap <C-b>  <Left>
-cnoremap <C-d>  <Del>
-cnoremap <C-e>  <End>
-cnoremap <C-f>  <Right>
-
 " Command-Line history completion.
 cnoremap <C-p>  <Up>
 cnoremap <C-n>  <Down>
 "cnoremap <Up>  <C-p>
 "cnoremap <Down>  <C-n>
-
-" <C-k>: delete to end.
-cnoremap <C-k>  <C-\>e getcmdpos() == 1 ?
-      \ '' :  getcmdline()[: getcmdpos()-2]<CR>
 
 " for file complete (or insert glob).
 cnoremap <expr> <C-g>  (getcmdline() =~# '/$') ?
@@ -864,6 +853,9 @@ function! s:keys_to_rotate_wise_of_visual_mode()
     return loop_p ? 'v' : "\<Esc>"
   endif
 endfunction
+
+" Use ':tjump' instead of ':tag'.
+nnoremap <C-]>  g<C-]>
 
 " }}}
 
@@ -2213,6 +2205,12 @@ endfunction
 
 " Enable omni completion {{{
 "
+" SyntaxComplete.vim:  See :help ft-syntax-omni
+autocmd MyAutoCmd FileType *
+      \   if &l:omnifunc == ''
+      \ |   setlocal omnifunc=syntaxcomplete#Complete
+      \ | endif
+
 augroup MyAutoCmd
   autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
   autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
@@ -2320,6 +2318,17 @@ autocmd MyAutoCmd BufReadPost * call s:ReCheck_FENC()
 
 " If true Vim master, use English help file?
 set helplang& helplang=ja,en
+
+function! s:init_cmdwin()
+  setlocal wrap colorcolumn=
+  setlocal conceallevel=0  " See: https://github.com/vim-jp/issues/issues/733
+
+  nnoremap <silent><buffer> <CR>  <CR>
+  nnoremap <silent><buffer> <Esc><Esc>  :<C-u>close<CR>
+  inoremap <silent><buffer> <Esc><Esc>  <Esc>:<C-u>close<CR>
+  "startinsert!
+endfunction
+autocmd MyAutoCmd CmdwinEnter * call s:init_cmdwin()
 
 " }}}
 
