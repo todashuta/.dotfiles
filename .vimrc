@@ -42,12 +42,11 @@ if has('gui_macvim')
 endif
 
 " Define <Leader>, <LocalLeader>
-let g:mapleader = '\'
+"let g:mapleader = '\'
 "let g:maplocalleader = ','
 
 " Define alternative key name for Insert mode completion plugin.
-function! s:define_alternative_key_name(...)
-  let overwrite_p = get(a:, '1', 0)
+function! s:define_alternative_key_names()
   let keys = [
         \   ['BS', '<BS>'],
         \   ['C-h', '<C-h>'],
@@ -58,14 +57,11 @@ function! s:define_alternative_key_name(...)
         \ ]
 
   for [name, rhs] in keys
-    execute printf('inoremap %s <SID>(%s)  %s',
-          \        overwrite_p ? '' : '<unique>',
-          \        name,
-          \        rhs)
+    execute printf('inoremap <SID>(%s)  %s', name, rhs)
   endfor
 endfunction
-if has('vim_starting')  " Do not redefine on reloading .vimrc.
-  call s:define_alternative_key_name()
+if has('vim_starting')
+  call s:define_alternative_key_names()
 endif
 
 " Prefix key to show [Space] in the bottom line.
