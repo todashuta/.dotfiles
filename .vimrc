@@ -683,6 +683,10 @@ nnoremap [quickfix]A
 
 autocmd MyAutoCmd QuickFixCmdPost [^l]* botright cwindow | redraw!
 
+command! -bang RemoveInvalidQuickFixItems
+      \ call setqflist(filter(copy(getqflist()), 'v:val.valid'),
+      \   (<bang>0 ? 'r' : ''))
+
 " }}}
 
 " Key Mappings: "{{{
