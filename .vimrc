@@ -357,6 +357,14 @@ NeoBundleLazy 'deris/vim-rengbang', {
       \     'commands' : ['RengBang', 'RengBangUsePrev', 'RengBangConfirm']
       \ }}
 NeoBundle 'thinca/vim-prettyprint'
+NeoBundle 'mattn/sonictemplate-vim'
+NeoBundle 'pangloss/vim-javascript'
+NeoBundle 'mxw/vim-jsx', {
+      \   'depends': 'pangloss/vim-javascript',
+      \ }
+NeoBundle 'thinca/vim-ft-clojure'
+NeoBundle 'vim-jp/cpp-vim'
+NeoBundle 'Rip-Rip/clang_complete'
 
 if has('python')
   NeoBundleLazy 'gregsexton/VimCalc', {
@@ -2154,6 +2162,19 @@ let vimrplugin_screenplugin = 0
 
 " Filetype vim.
 "let g:vim_indent_cont = 0
+
+" clang_complete
+if neobundle#tap('clang_complete')
+  let g:clang_complete_auto = 0
+  let g:clang_use_library = 1
+  if s:is_mac
+    let g:clang_library_path = '/Library/Developer/CommandLineTools/usr/lib'
+  else
+    " TODO: linux, windows...
+  endif
+
+  call neobundle#untap()
+endif
 
 " vim-signify
 if neobundle#tap('vim-signify')
