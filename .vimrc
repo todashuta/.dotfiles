@@ -1085,13 +1085,6 @@ endfunction
 
 " }}}
 
-" While entering insert mode, disable hlsearch temporary. {{{
-"
-"autocmd MyAutoCmd InsertEnter * setlocal nohlsearch
-"autocmd MyAutoCmd InsertLeave * setlocal hlsearch
-
-" }}}
-
 " On diff mode, diffupdate automatically when insert leave. {{{
 "
 autocmd MyAutoCmd InsertLeave *
