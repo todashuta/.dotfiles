@@ -285,7 +285,6 @@ NeoBundleLazy 'vim-jp/vim-go-extra', {
       \   'autoload': {
       \     'filetypes': ['go'],
       \ }}
-NeoBundleLazy 'terryma/vim-expand-region'
 NeoBundleLazy 'mfumi/snake.vim', {
       \   'autoload' : {
       \     'commands' : 'Snake'
@@ -2117,21 +2116,6 @@ if neobundle#tap('switch.vim')
     "      \   ['foo', 'bar', 'baz'],
     "      \ ]
   endfunction
-
-  call neobundle#untap()
-endif
-
-" vim-expand-region
-if neobundle#tap('vim-expand-region')
-  call neobundle#config({
-        \   'autoload' : {
-        \     'mappings' : [
-        \       ['x', '<Plug>(expand_region_expand)'],
-        \       ['x', '<Plug>(expand_region_shrink)']
-        \ ]}})
-
-  vmap +  <Plug>(expand_region_expand)
-  vmap _  <Plug>(expand_region_shrink)
 
   call neobundle#untap()
 endif
