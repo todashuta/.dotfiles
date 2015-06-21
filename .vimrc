@@ -1772,12 +1772,13 @@ if neobundle#tap('vim-quickrun')
 
   function! neobundle#tapped.hooks.on_source(bundle)
     function! s:quickrun_sweep_sessions()
-      call quickrun#sweep_sessions()
-      return ''
+      if quickrun#is_running()
+        call quickrun#sweep_sessions()
+      endif
+      return ''  " to not move the cursor position by implicit return 0.
     endfunction
     nnoremap <expr><silent> <C-c>
-          \ (quickrun#is_running() ?
-          \   <SID>quickrun_sweep_sessions() : '') . "\<C-c>"
+          \ <SID>quickrun_sweep_sessions() . "\<C-c>"
 
     let g:quickrun_config = get(g:, 'quickrun_config', {})
     let g:quickrun_config._ = {
