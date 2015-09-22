@@ -2157,6 +2157,9 @@ let vimrplugin_screenplugin = 0
 " Filetype vim.
 "let g:vim_indent_cont = 0
 
+" Filetype sh:  See :help ft-bash-syntax
+let g:is_bash = 1
+
 " clang_complete
 if neobundle#tap('clang_complete')
   let g:clang_complete_auto = 0
