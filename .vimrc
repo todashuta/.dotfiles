@@ -695,6 +695,10 @@ command! -bang RemoveInvalidQuickFixItems
       \ call setqflist(filter(copy(getqflist()), 'v:val.valid'),
       \   (<bang>0 ? 'r' : ''))
 
+" tag related
+set tags=./tags;  " ';': Upward search  See :help file-searching
+set cscopetag  " <C-]> performs just like g<C-]>
+
 " }}}
 
 " Key Mappings: "{{{
@@ -865,9 +869,6 @@ function! s:keys_to_rotate_wise_of_visual_mode()
     return loop_p ? 'v' : "\<Esc>"
   endif
 endfunction
-
-" Use ':tjump' instead of ':tag'.
-nnoremap <C-]>  g<C-]>
 
 " }}}
 
