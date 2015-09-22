@@ -697,7 +697,7 @@ command! -bang RemoveInvalidQuickFixItems
 
 " tag related
 set tags=./tags;  " ';': Upward search  See :help file-searching
-set cscopetag  " <C-]> performs just like g<C-]>
+set cscopetag     " <C-]> performs just like g<C-]>
 
 " }}}
 
