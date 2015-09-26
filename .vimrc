@@ -2332,6 +2332,7 @@ function! s:init_cmdwin()
   setlocal conceallevel=0  " See: https://github.com/vim-jp/issues/issues/733
 
   nnoremap <silent><buffer> <CR>  <CR>
+  nnoremap <buffer> <C-c>  <C-c>
 endfunction
 autocmd MyAutoCmd CmdwinEnter * call s:init_cmdwin()
 
