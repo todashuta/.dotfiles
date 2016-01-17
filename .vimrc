@@ -2239,6 +2239,18 @@ command! ToggleListcharsStrings  let &listchars =
 command! Swapfiles
       \ echo vimproc#system('vim -r')
 
+if s:is_windows
+  command! -bang -complete=file -nargs=? Cmd
+        \ execute 'silent !start cmd.exe /k cd' (<q-args> != ''
+        \   ? <q-args> : (<bang>0 ? expand('%:p:h') : getcwd()))
+  command! -bang -complete=file -nargs=? Explorer
+        \ execute printf('silent !start explorer.exe "%s"', tr((<q-args> != ''
+        \   ? <q-args> : (<bang>0 ? expand('%:p:h') : getcwd())), '/', '\'))
+  command! -bang -complete=file -nargs=? PowerShell
+        \ execute printf('silent !start powershell.exe -NoExit -Command "cd ''%s''"',
+        \   (<q-args> != '' ? <q-args> : (<bang>0 ? expand('%:p:h') : getcwd())))
+endif
+
 " Toggle options {{{
 
 function! s:toggle_option(option_name)
