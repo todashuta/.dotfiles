@@ -410,6 +410,8 @@ let g:loaded_netrwPlugin = 1
 let g:loaded_vimballPlugin = 1
 " Disable getscript.vim
 let g:loaded_getscriptPlugin = 1
+" Disable rrhelper.vim
+let g:loaded_rrhelper = 1
 
 call neobundle#end()
 
