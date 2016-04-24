@@ -1182,7 +1182,7 @@ if neobundle#tap('neocomplete.vim')
           \ (pumvisible() ? "\<C-y>" : "") . "\<SID>(CR)"
     " For no insert <CR> key.
     "inoremap <script><expr> <CR> pumvisible() ?
-    "      \ neocomplete#close_popup() : "\<SID>(CR)"
+    "      \ "\<C-y>" : "\<SID>(CR)"
 
     " <Tab>: completion.
     inoremap <expr> <Tab>
