@@ -1179,7 +1179,7 @@ if neobundle#tap('neocomplete.vim')
     " mappings {{{
     " <CR>: Close popup and save indent.
     inoremap <script><expr> <CR>
-          \ neocomplete#smart_close_popup() . "\<SID>(CR)"
+          \ (pumvisible() ? "\<C-y>" : "") . "\<SID>(CR)"
     " For no insert <CR> key.
     "inoremap <script><expr> <CR> pumvisible() ?
     "      \ neocomplete#close_popup() : "\<SID>(CR)"
