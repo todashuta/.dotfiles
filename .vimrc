@@ -2168,7 +2168,8 @@ if neobundle#tap('clang_complete')
   let g:clang_complete_auto = 0
   let g:clang_use_library = 1
   if s:is_mac
-    let g:clang_library_path = '/Library/Developer/CommandLineTools/usr/lib'
+    let g:clang_library_path = '/Applications/Xcode.app/Contents/Developer/
+          \Toolchains/XcodeDefault.xctoolchain/usr/lib'
   else
     " TODO: linux, windows...
   endif
