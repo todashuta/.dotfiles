@@ -637,7 +637,7 @@ function ls_abbrev() {  # {{{
     # -F : Append indicator (one of */=>@|) to entries.
     local cmd_ls='ls'
     local -a opt_ls
-    opt_ls=('-ACF' '--color=always' '--group-directories-first')
+    opt_ls=('-ACF' '--color=always' '--group-directories-first' --ignore=Icon$'\r')
     case "${OSTYPE}" in
         freebsd*|darwin*)
             if (( $+commands[gls] )); then
