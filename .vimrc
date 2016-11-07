@@ -67,6 +67,9 @@ endif
 " Prefix key to show [Space] in the bottom line.
 nmap <Space>  [Space]
 nnoremap [Space]  <Nop>
+" Prefix key to show [S] in the bottom line.
+nmap S  [S]
+nnoremap [S]  <Nop>
 
 " Reset all autocommands defined in this file.
 augroup MyAutoCmd
@@ -2118,7 +2121,8 @@ if neobundle#tap('switch.vim')
         \     'commands': ['Switch'],
         \ }})
 
-  nnoremap <silent> +  :<C-u>Switch<CR>
+  "nnoremap [S]  :<C-u>Switch<CR>
+  nnoremap [S]S  :<C-u>Switch<CR>
 
   function! neobundle#tapped.hooks.on_source(bundle)
     "let g:switch_custom_definitions = [
