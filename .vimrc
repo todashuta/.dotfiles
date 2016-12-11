@@ -715,7 +715,7 @@ inoremap <silent> <Esc>  <Esc>`^
 inoremap <silent> <C-[>  <Esc>`^
 
 " Paste.
-inoremap <expr> <C-r>*  "\<C-r>\<C-o>".(exists('+clipboard') ? '*' : '"')
+inoremap <expr> <C-r><C-v>  "\<C-r>\<C-o>".(exists('+clipboard') ? '*' : '"')
 
 " Stop the search highlightings and clear messages on the last line.
 nnoremap <silent> <Esc><Esc>  :<C-u>nohlsearch<CR>:echo<CR>
