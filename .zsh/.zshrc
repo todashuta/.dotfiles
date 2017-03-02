@@ -631,6 +631,10 @@ fi
 #alias vi='vim -u NONE -i NONE -N'
 alias vi='vim -u NONE -i NONE'
 
+alias v=vim
+alias j='jobs -l'
+alias f=fg
+
 # }}}
 
 ## chpwd {{{
