@@ -73,8 +73,10 @@ unamestr="$(uname)"
     link "$dotfilesdir/.zsh" "$HOME/.zsh"
     if [ "$unamestr" = Linux ]; then
         link "$dotfilesdir/.zshenv-linux.zsh" "$HOME/.zshenv"
-    else
+    elif [ "$unamestr" = Darwin ]; then
         # macOS
+        link "$dotfilesdir/.zshenv-darwin.zsh" "$HOME/.zshenv"
+    else
         link "$dotfilesdir/.zshenv" "$HOME/.zshenv"
     fi
     link "$dotfilesdir/.zshrc" "$HOME/.zshrc"
