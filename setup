@@ -1,0 +1,97 @@
+#!/bin/sh
+
+dotfilesdir="$(cd "$(dirname "$0")" && pwd)"
+
+show_help() {
+    cat << 'EOS'
+Usage: ./setup [OPTION]
+  -h :  Show this help
+  -v :  Verbose mode
+EOS
+}
+
+info() {
+    echo "[INFO]  $*"
+}
+
+error() {
+    echo "[ERROR] $*" 1>&2
+}
+
+link() {
+    if [ ! -e "$1" ]; then
+        error "File or directory does not exist: $1"
+        return 1
+    fi
+
+    if [ -e "$2" ]; then
+        if [ "$1" -ef "$2" ]; then
+            [ "$verbose" = yes ] && info "File or directory already installed: $2"
+            return 0
+        else
+            error "File or directory already exists: $2"
+            return 1
+        fi
+    fi
+
+    ln -s "$1" "$2"
+}
+
+verbose=no
+
+while [ $# -gt 0 ]
+do
+    case $1 in
+    -h)
+        show_help
+        exit 0
+        ;;
+    -v)
+        verbose=yes
+        ;;
+    *)
+        error "Unknown option: $1"
+        exit 1
+        ;;
+    esac
+
+    shift
+done
+
+unamestr="$(uname)"
+
+{
+    ## vim
+    link "$dotfilesdir/.vimrc" "$HOME/.vimrc"
+    link "$dotfilesdir/.vim" "$HOME/.vim"
+    #link "$dotfilesdir/.gvimrc" "$HOME/.gvimrc"
+
+    ## emacs
+    #link "$dotfilesdir/.emacs.d" "$HOME/.emacs.d"
+
+    ## zsh
+    link "$dotfilesdir/.zsh" "$HOME/.zsh"
+    if [ "$unamestr" = Linux ]; then
+        link "$dotfilesdir/.zshenv-linux.zsh" "$HOME/.zshenv"
+    else
+        # macOS
+        link "$dotfilesdir/.zshenv" "$HOME/.zshenv"
+    fi
+    link "$dotfilesdir/.zshrc" "$HOME/.zshrc"
+
+    ## tmux
+    link "$dotfilesdir/.tmux.conf" "$HOME/.tmux.conf"
+
+    ## screen
+    link "$dotfilesdir/.screenrc" "$HOME/.screenrc"
+
+    ## git
+    link "$dotfilesdir/.gitconfig" "$HOME/.gitconfig"
+
+    ## misc
+    link "$dotfilesdir/.gdbinit" "$HOME/.gdbinit"
+    link "$dotfilesdir/.my.cnf" "$HOME/.my.cnf"
+    link "$dotfilesdir/.inputrc" "$HOME/.inputrc"
+}
+
+# vim: set et ts=4 sts=4 sw=4 :
