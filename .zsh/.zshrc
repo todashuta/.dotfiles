@@ -1,7 +1,16 @@
 # .zshrc
 # https://github.com/todashuta/profiles
 
-source "${HOME}/.dotfilesrc"
+DOTFILES_DIRECTORY=
+if [[ -d "$HOME/dotfiles" ]]; then
+    DOTFILES_DIRECTORY="$HOME/dotfiles"
+elif [[ -d "$HOME/.dotfiles" ]]; then
+    DOTFILES_DIRECTORY="$HOME/.dotfiles"
+elif [[ -d "$HOME/.profiles.d" ]]; then
+    DOTFILES_DIRECTORY="$HOME/.profiles.d"
+fi
+export DOTFILES_DIRECTORY
+
 if [[ -n "${DOTFILES_DIRECTORY}" ]]; then
     source "${DOTFILES_DIRECTORY}/functions"
 fi
