@@ -9,10 +9,20 @@
 	interactive = auto
 	grep = auto
 [alias]
-	ss = status -sb
-	sl = shortlog -sn
-	wdiff = diff --word-diff
+	s = status
+	d = diff
+	summary = status -s -u -b
+	contributors = shortlog -s -n
+	#wdiff = diff --word-diff
+	#hdiff = diff --diff-algorithm=histogram
 	unstage = reset HEAD --
+	precommit = diff --staged --diff-algorithm=histogram
+	branches = branch -a
+	tags = tag
+	stashes = stash list
+	remotes = remote -v
+	amend = commit --amend
+	discard = checkout --
 [core]
 	editor = vim
 	#pager = lv -c
