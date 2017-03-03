@@ -79,7 +79,6 @@ unamestr="$(uname)"
     else
         link "$dotfilesdir/.zshenv" "$HOME/.zshenv"
     fi
-    link "$dotfilesdir/.zshrc" "$HOME/.zshrc"
 
     ## tmux
     link "$dotfilesdir/.tmux.conf" "$HOME/.tmux.conf"
