@@ -33,3 +33,5 @@ export ZLS_COLORS="${LS_COLORS}"
 
 [ -x "$(which rbenv 2>/dev/null)" ] && eval "$(rbenv init - zsh)" || :
 [ -x "$(which plenv 2>/dev/null)" ] && eval "$(plenv init - zsh)" || :
+
+skip_global_compinit=1
