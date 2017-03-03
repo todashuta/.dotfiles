@@ -24,6 +24,8 @@ path=(
     #/sbin
 )
 
+PAGER=less
+export PAGER
 EDITOR=vim
 export EDITOR
 
