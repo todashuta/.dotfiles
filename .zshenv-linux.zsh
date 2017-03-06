@@ -2,10 +2,8 @@
 
 export ZDOTDIR="${HOME}/.zsh"
 
-GOROOT="$HOME/local/go/current"  # official binary
-export GOROOT
-GOPATH="$HOME/go"
-export GOPATH
+export GOROOT="$HOME/local/go/current"  # official binary
+export GOPATH="$HOME/go"
 
 typeset -gx -U path
 path=(
@@ -24,16 +22,14 @@ path=(
     #/sbin
 )
 
-PAGER=less
-export PAGER
-EDITOR=vim
-export EDITOR
+export PAGER=less
+export EDITOR=vim
 
 export LSCOLORS='gxfxcxdxbxegedabagacad'
 export LS_COLORS='di=36:ln=35:so=32:pi=33:ex=31:bd=34;46:cd=34;43:su=30;41:sg=36;40:tw=30;42:ow=30;43'
 export ZLS_COLORS="${LS_COLORS}"
 
-[ -x "$(which rbenv 2>/dev/null)" ] && eval "$(rbenv init - zsh)" || :
-[ -x "$(which plenv 2>/dev/null)" ] && eval "$(plenv init - zsh)" || :
+(( $+commands[rbenv] )) && eval "$(rbenv init - zsh)" || :
+#(( $+commands[plenv] )) && eval "$(plenv init - zsh)" || :
 
 skip_global_compinit=1
