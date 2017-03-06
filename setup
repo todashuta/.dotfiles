@@ -77,7 +77,8 @@ unamestr="$(uname)"
         # macOS
         link "$dotfilesdir/.zshenv-darwin.zsh" "$HOME/.zshenv"
     else
-        link "$dotfilesdir/.zshenv" "$HOME/.zshenv"
+        # FIXME
+        : link "$dotfilesdir/.zshenv" "$HOME/.zshenv"
     fi
 
     ## tmux
