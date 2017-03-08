@@ -330,6 +330,11 @@ if is-at-least 4.3.11; then
 fi
 
 function _update_vcs_info_msg() {  # {{{
+    if [[ -n "$disable_rprompt" ]]; then
+        RPROMPT="%F{red}--%f"
+        return 0
+    fi
+
     local -a messages
     local prompt
 
@@ -817,6 +822,10 @@ bindkey '^L' _clear-screen-with-rehash
 if [[ -f "$(echo ${^fpath}/go(N))" ]]; then
     source ${^fpath}/go(N)
 fi
+
+function toggle-rprompt() {
+    [[ -z "$disable_rprompt" ]] && disable_rprompt=1 || disable_rprompt=
+}
 
 # }}}
 
