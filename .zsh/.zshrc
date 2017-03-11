@@ -602,13 +602,15 @@ alias la='ls -A'
 alias l='ls -CF'
 
 # grep related
-function() {
-    local grep=grep
-    (( $+commands[ggrep] )) && grep=ggrep || :
-    alias egrep="$grep --color=auto -E"
-    alias fgrep="$grep --color=auto -F"
-    alias grep="$grep --color=auto"
-}
+if (( $+commands[ggrep] )); then
+    alias egrep='ggrep --color=auto -E'
+    alias fgrep='ggrep --color=auto -F'
+    alias grep='ggrep --color=auto'
+else
+    alias egrep='grep --color=auto -E'
+    alias fgrep='grep --color=auto -F'
+    alias grep='grep --color=auto'
+fi
 
 # tree コマンドで日本語を表示する
 alias tree='tree -N'
