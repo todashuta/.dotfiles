@@ -1,0 +1,29 @@
+#!/bin/sh
+
+browser=
+[ -x "$(which lynx 2>/dev/null)" ] && browser=lynx || :
+[ -x "$(which w3m 2>/dev/null)" ] && browser=w3m || :
+
+if [ -z "$browser" ]; then
+    echo "Please install \`w3m' or \`lynx'!" 1>&2
+    exit 1
+fi
+
+if [ $# -eq 0 ]; then
+    echo "Usage: wikipedia [WORD]..." 1>&2
+    exit 1
+fi
+
+url="http://ja.wikipedia.org/wiki/$*"
+
+if [ "$browser" = w3m ]; then
+    result=$(w3m -dump "$url")
+elif [ "$browser" = lynx ]; then
+    result=$(lynx -dump -nonumbers "$url")
+fi
+
+[ -z "$PAGER" ] && pager=less || pager="$PAGER"
+
+echo "$result" | "$pager"
+
+# vim: set et ts=4 sts=4 sw=4 :

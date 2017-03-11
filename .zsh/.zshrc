@@ -40,7 +40,7 @@ fpath=(  # {{{
     # allow directories only (-/)
     # reject world-writable directories (^W)
 
-    # My functions. (alc, wikipedia...)
+    # My functions.
     ${ZDOTDIR}/functions(N-/^W)
 
     # Homebrew installed zsh-completions.
@@ -800,11 +800,6 @@ function kiritori() {  # {{{
     echo
 }  # }}}
 #autoload -Uz kiritori
-
-# alc search
-autoload -Uz alc
-# Wikipedia search
-autoload -Uz wikipedia
 
 # command_not_found_handler (Ubuntu only?)
 if [[ -f '/etc/zsh_command_not_found' ]]; then
