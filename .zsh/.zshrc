@@ -817,11 +817,6 @@ function _clear-screen-with-rehash() {
 zle -N _clear-screen-with-rehash
 bindkey '^L' _clear-screen-with-rehash
 
-# go completion.
-if [[ -f "$(echo ${^fpath}/go(N))" ]]; then
-    source ${^fpath}/go(N)
-fi
-
 function toggle-rprompt() {
     [[ -z "$disable_rprompt" ]] && disable_rprompt=1 || disable_rprompt=
 }
