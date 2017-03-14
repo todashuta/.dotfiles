@@ -8,6 +8,7 @@ export GOPATH="$HOME/go"
 typeset -gx -U path
 path=(
     ${HOME}/bin(N-/^W)
+    ${HOME}/.plenv/shims(N-/^W)
     ${HOME}/.plenv/bin(N-/^W)
     ${HOME}/.rbenv/bin(N-/^W)
     ${HOME}/.cargo/bin(N-/^W)
