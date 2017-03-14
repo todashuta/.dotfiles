@@ -643,6 +643,7 @@ alias vi='vim -u NONE -i NONE'
 alias v=vim
 alias j='jobs -l'
 alias f=fg
+alias xo=xdg-open
 
 # }}}
 
