@@ -1,0 +1,20 @@
+#!/bin/sh
+
+if ! which dconf >/dev/null 2>&1; then
+    echo "error: dconf command not found!" 1>&2
+    exit 1
+fi
+
+key=/org/gnome/desktop/input-sources/xkb-options
+
+if [ -z "$(dconf read $key)" ]; then
+    dconf write $key "['ctrl:swapcaps']"
+    echo "swapcaps is enabled"
+    echo "  Ctrl => Caps"
+    echo "  Caps => Ctrl"
+else
+    dconf reset $key
+    echo "swapcaps is disabled"
+    echo "  Ctrl => Ctrl"
+    echo "  Caps => Caps"
+fi
