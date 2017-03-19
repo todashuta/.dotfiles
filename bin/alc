@@ -1,8 +1,8 @@
 #!/bin/sh
 
 browser=
-[ -x "$(which lynx 2>/dev/null)" ] && browser=lynx || :
-[ -x "$(which w3m 2>/dev/null)" ] && browser=w3m || :
+which lynx >/dev/null 2>&1 && browser=lynx || :
+which w3m  >/dev/null 2>&1 && browser=w3m  || :
 
 if [ -z "$browser" ]; then
     echo "Please install \`w3m' or \`lynx'!" 1>&2
