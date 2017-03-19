@@ -81,6 +81,16 @@ unamestr="$(uname)"
         : link "$dotfilesdir/.zshenv" "$HOME/.zshenv"
     fi
 
+    ## bash
+    if [ "$unamestr" = Linux ]; then
+        link "$dotfilesdir/.bash_profile-linux.bash" "$HOME/.bash_profile"
+    elif [ "$unamestr" = Darwin ]; then
+        # macOS
+        link "$dotfilesdir/.bash_profile-darwin.bash" "$HOME/.bash_profile"
+    else
+        :  # FIXME
+    fi
+
     ## tmux
     link "$dotfilesdir/.tmux.conf" "$HOME/.tmux.conf"
 
