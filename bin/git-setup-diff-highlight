@@ -1,16 +1,16 @@
 #!/bin/sh
 
-if [ -f /usr/share/doc/git/contrib/diff-highlight/diff-highlight ]; then
-	## Linux
-	git config --local pager.diff 'perl /usr/share/doc/git/contrib/diff-highlight/diff-highlight | less'
-	git config --local pager.log  'perl /usr/share/doc/git/contrib/diff-highlight/diff-highlight | less'
-	git config --local pager.show 'perl /usr/share/doc/git/contrib/diff-highlight/diff-highlight | less'
-elif [ -f /usr/local/opt/git/share/git-core/contrib/diff-highlight/diff-highlight ]; then
-	## Homebrew installed path (macOS)
-	git config --local pager.diff 'perl /usr/local/opt/git/share/git-core/contrib/diff-highlight/diff-highlight | less'
-	git config --local pager.log  'perl /usr/local/opt/git/share/git-core/contrib/diff-highlight/diff-highlight | less'
-	git config --local pager.show 'perl /usr/local/opt/git/share/git-core/contrib/diff-highlight/diff-highlight | less'
-else
-	echo "Unknown platform.  Please update \`git-setup-diff-highlight'." 1>&2
-	exit 1
-fi
+for file in \
+	/usr/share/doc/git/contrib/diff-highlight/diff-highlight \
+	/usr/local/opt/git/share/git-core/contrib/diff-highlight/diff-highlight;
+do
+	[ -f "$file" ] && {
+		git config --local pager.diff "perl $file | less"
+		git config --local pager.log  "perl $file | less"
+		git config --local pager.show "perl $file | less"
+		exit 0
+	}
+done
+
+echo "Unknown platform.  Please update \`git-setup-diff-highlight'." 1>&2
+exit 1
