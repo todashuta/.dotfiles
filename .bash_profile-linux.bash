@@ -36,5 +36,4 @@ export PATH
 # If running interactively, load `~/.bashrc'
 case $- in
     *i*)  [ -f "$HOME/.bashrc" ] && . "$HOME/.bashrc" || : ;;
-    *)    : Nop ;;
 esac
