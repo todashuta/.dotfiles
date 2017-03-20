@@ -79,7 +79,7 @@ function _update_prompt() {  # {{{
         ## root のプロンプト
         #
         # プロンプト1段目の左側: "ユーザ名 at ホスト名 in " (color: red)
-        local user_info="%F{red}%n%f at %F{red}%m%f in "
+        local user_info="%{$fg_bold[red]%}%n%{$reset_color%} at %{$fg_bold[red]%}%m%{$reset_color%} in "
         # プロンプト1段目の左側: "ユーザ名@ホスト名 " (color: red)
         #local user_info="%F{red}%n@%m%f "
 
@@ -93,13 +93,13 @@ function _update_prompt() {  # {{{
 
         # プロンプト1段目右側: フルパスを表示 (color: blue)
         # cwd_size をオーバーする場合は左側(上の階層側)を...で省略
-        local cwd="%F{blue}%${cwd_size}<...<%~%<<%f"
+        local cwd="%{$fg_bold[blue]%}%${cwd_size}<...<%~%<<%{$reset_color%}"
 
         # プロンプト1段目
         local upper_prompt="${user_info}${cwd}"
 
         # 顔文字。直前のコマンドの成否で変化する。0: (o_o), 0以外: (@_@)
-        local zsh_face="%(?.%F{blue}(o_o)%f.%F{red}(@_@%)%f)"
+        local zsh_face="%(?.%{$fg_bold[blue]%}(o_o)%{$reset_color%}.%{$fg_bold[red]%}(@_@%)[%?]%{$reset_color%})"
 
         # GNU Screen 上ではウインドウ番号を表示する。
         local screen_winnr="${WINDOW:+"[${WINDOW}]"}"
@@ -114,7 +114,7 @@ function _update_prompt() {  # {{{
         ## root 以外用のプロンプト
         #
         # プロンプト1段目の左側: "ユーザ名 at ホスト名 in " (color: green)
-        local user_info="%F{green}%n%f at %F{green}%m%f in "
+        local user_info="%{$fg_bold[green]%}%n%{$reset_color%} at %{$fg_bold[green]%}%m%{$reset_color%} in "
         # プロンプト1段目の左側: "ユーザ名@ホスト名 " (color: green)
         #local upper_left="%F{green}%n@%m%f "
 
@@ -128,13 +128,13 @@ function _update_prompt() {  # {{{
 
         # プロンプト1段目右側: フルパスを表示 (color: yellow)
         # cwd_size をオーバーする場合は左側(上の階層側)を...で省略
-        local cwd="%F{yellow}%${cwd_size}<...<%~%<<%f"
+        local cwd="%{$fg_bold[yellow]%}%${cwd_size}<...<%~%<<%{$reset_color%}"
 
         # プロンプト1段目
         local upper_prompt="${user_info}${cwd}"
 
         # 顔文字。直前のコマンドの成否で変化する。 0: (*'_'), 0以外: (*@_@)
-        local zsh_face="%(?.%F{blue}(*'_')%f.%F{red}(*@_@%)%f)"
+        local zsh_face="%(?.%{$fg_bold[blue]%}(*'_')%{$reset_color%}.%{$fg_bold[red]%}(*@_@%)[%?]%{$reset_color%})"
 
         local -a env_info
 
@@ -170,9 +170,9 @@ add-zsh-hook precmd _update_prompt
 
 # コマンド訂正のプロンプト
 if [[ "${UID}" == 0 ]]; then
-    SPROMPT="%F{red}(o_o%)? correct '%R' to '%r' [nyae]?%f "
+    SPROMPT="%{$fg_bold[red]%}(o_o%)? correct '%R' to '%r' [nyae]?%{$reset_color%} "
 else
-    SPROMPT="%F{red}(*'_'%)? もしかして: '%r' [そう(y), ちゃう(n),a,e]: %f"
+    SPROMPT="%{$fg_bold[red]%}(*'_'%)? もしかして: '%r' [そう(y), ちゃう(n),a,e]:%{$reset_color%} "
 fi
 
 ## 右プロンプトにVCS情報を表示 {{{
