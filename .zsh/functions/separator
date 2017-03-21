@@ -1,0 +1,11 @@
+## Separator.
+## See: http://qiita.com/Linda_pp/items/674b8582772747ede9c3
+
+local i
+echo -n ${fg_bold[yellow]}
+for i in $(seq 1 ${COLUMNS}); do
+    echo -n '~'
+done
+echo -n ${reset_color}
+
+# vim: set ft=zsh et ts=4 sts=4 sw=4 :

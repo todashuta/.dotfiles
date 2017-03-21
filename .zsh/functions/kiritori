@@ -1,0 +1,16 @@
+## Kiritorisen.
+## See: https://github.com/rhysd/dotfiles/blob/master/zshrc
+
+local i
+echo -n ${fg_bold[blue]}
+for i in $(seq 1 $((${COLUMNS}/4-2))); do
+    echo -n '- '
+done
+echo -n ' ｷﾘﾄﾘｾﾝ '
+for i in $(seq 1 $((${COLUMNS}/4-2))); do
+    echo -n ' -'
+done
+echo -n ${reset_color}
+echo
+
+# vim: set ft=zsh et ts=4 sts=4 sw=4 :

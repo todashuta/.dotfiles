@@ -774,34 +774,11 @@ fi
 # 以前に実行したコマンドを入力するコマンド"r"の無効化
 #disable r
 
-# Separator.
-# See: http://qiita.com/Linda_pp/items/674b8582772747ede9c3
-function separator() {  # {{{
-    local i
-    echo -n ${fg_bold[yellow]}
-    for i in $(seq 1 ${COLUMNS}); do
-        echo -n '~'
-    done
-    echo -n ${reset_color}
-}  # }}}
-#autoload -Uz separator
-
-# Kiritorisen.
-# See: https://github.com/rhysd/dotfiles/blob/master/zshrc
-function kiritori() {  # {{{
-    local i
-    echo -n ${fg_bold[blue]}
-    for i in $(seq 1 $((${COLUMNS}/4-2))); do
-        echo -n '- '
-    done
-    echo -n ' ｷﾘﾄﾘｾﾝ '
-    for i in $(seq 1 $((${COLUMNS}/4-2))); do
-        echo -n ' -'
-    done
-    echo -n ${reset_color}
-    echo
-}  # }}}
-#autoload -Uz kiritori
+for fn in $ZDOTDIR/functions/*
+do
+    autoload -Uz "${fn:t}"
+done
+unset fn
 
 # command_not_found_handler (Ubuntu only?)
 if [[ -f '/etc/zsh_command_not_found' ]]; then
