@@ -529,6 +529,9 @@ zstyle ':completion:*:manuals' separate-sections true
 # 補完から除くパターン
 zstyle ':completion:*:*files' ignored-patterns '.DS_Store'
 
+# gitの自作サブコマンドを補完する
+zstyle ':completion:*:*:git:*' user-commands ${${(M)${(k)commands}:#git-*}/git-/}
+
 # }}}
 
 # chpwd_recent_dirs (cdr) {{{
