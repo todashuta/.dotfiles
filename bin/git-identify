@@ -1,0 +1,31 @@
+#!/bin/sh
+
+git rev-parse --git-dir >/dev/null 2>&1
+stat=$?
+
+[ $stat -ne 0 ] && {
+	# not a git repo
+	exit 1
+}
+
+set_name() {
+	git config --local user.name todashuta
+}
+
+set_email() {
+	git config --local user.email toda.shuta@gmail.com
+}
+
+current_name="$(git config --local --get user.name 2>/dev/null)"
+if [ -n "$current_name" ]; then
+	echo "既に user.name が設定されています。"
+else
+	set_name
+fi
+
+current_email="$(git config --local --get user.email 2>/dev/null)"
+if [ -n "$current_email" ]; then
+	echo "既に user.email が設定されています。"
+else
+	set_email
+fi
