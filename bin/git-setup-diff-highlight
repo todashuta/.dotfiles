@@ -1,16 +1,22 @@
 #!/bin/sh
 
-for file in \
-	/usr/share/doc/git/contrib/diff-highlight/diff-highlight \
-	/usr/local/opt/git/share/git-core/contrib/diff-highlight/diff-highlight;
-do
-	[ -f "$file" ] && {
-		git config --local pager.diff "perl $file | less"
-		git config --local pager.log  "perl $file | less"
-		git config --local pager.show "perl $file | less"
-		exit 0
-	}
+if ! which git >/dev/null 2>&1; then
+    echo "Please install \`git'." 1>&2
+    exit 1
+fi
+
+set -- \
+    /usr/share/doc/git/contrib/diff-highlight/diff-highlight \
+    /usr/local/opt/git/share/git-core/contrib/diff-highlight/diff-highlight
+
+for file in "$@"; do
+    [ -f "$file" ] && {
+        git config --local pager.diff "perl $file | less"
+        git config --local pager.log  "perl $file | less"
+        git config --local pager.show "perl $file | less"
+        exit 0
+    }
 done
 
-echo "Unknown platform.  Please update \`git-setup-diff-highlight'." 1>&2
+echo "\`diff-highlight' not found.  Please update \`git-setup-diff-highlight'." 1>&2
 exit 1
