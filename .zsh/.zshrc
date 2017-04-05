@@ -635,18 +635,16 @@ if [[ -d '/Applications/MacVim.app/Contents/MacOS' ]]; then
     alias mview='/Applications/MacVim.app/Contents/MacOS/mview'
 fi
 
-#alias vi=vim
-## vim の起動オプション
-## -u {file}: 使用する vimrc の指定 (NONEでは何も使わない、vi互換になる)
-## -i {file}: 使用する viminfo の指定 (NONEでは何も使わない)
-## -N: set nocompatible の状態で起動
-#alias vi='vim -u NONE -i NONE -N'
-alias vi='vim -u NONE -i NONE'
+# Minimal vim for emergency
+alias vi='vim -u NONE -i NONE -N'
 
 alias v=vim
 alias j='jobs -l'
 alias f=fg
-alias xo=xdg-open
+alias h=history
+alias c='printf "\017\033c"; stty sane; reset'
+
+(( $+commands[xdg-open] )) && alias xo=xdg-open || :
 
 # }}}
 
