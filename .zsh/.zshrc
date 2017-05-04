@@ -643,6 +643,8 @@ alias j='jobs -l'
 alias f=fg
 alias h=history
 alias c='printf "\017\033c"; stty sane; reset'
+alias lang-c='env LC_ALL=C LANG=C'
+alias date-iso8601='LANG=C date +%Y%m%dT%H%M%S%z'
 
 (( $+commands[xdg-open] )) && alias xo=xdg-open || :
 
