@@ -1,11 +1,11 @@
 #!/bin/sh
-
+#
 # Example:
 #
 #   $ hless Rakefile -l ruby
 #
 
-langdef=
+lang=
 
 while [ $# -gt 0 ]
 do
@@ -15,7 +15,7 @@ do
             echo "Please specify a language name" 1>&2
             exit 1
         }
-        langdef=$2
+        lang=$2
         shift
         ;;
     -*)
@@ -35,10 +35,9 @@ if [ -z "$file" ]; then
     exit 1
 fi
 
-if [ -z "$langdef" ]; then
-    source-highlight --failsafe -f esc --infer-lang --style-file=esc.style -i "$file" | less -R
-else
-    source-highlight --failsafe -f esc --lang-def="${langdef}.lang" --style-file=esc.style -i "$file" | less -R
-fi
+opt_lang="--infer-lang"
+[ -n "$lang" ] && opt_lang="--lang-def=${lang}.lang"
+
+source-highlight --failsafe -f esc "$opt_lang" --style-file=esc.style -i "$file" | less -R
 
 # vim: set et ts=4 sts=4 sw=4 :
