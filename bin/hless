@@ -1,0 +1,42 @@
+#!/bin/sh
+
+# Example:
+#
+#   $ hless Rakefile -l ruby
+#
+
+langdef=
+
+while [ $# -gt 0 ]
+do
+	case $1 in
+	--lang | -l)
+		[ -z "$2" ] && {
+			echo "Please specify a language name" 1>&2
+			exit 1
+		}
+		langdef=$2
+		shift
+		;;
+	-*)
+		echo "Unknown option: $1" 1>&2
+		exit 1
+		;;
+	*)
+		file=$1
+		;;
+	esac
+
+	shift
+done
+
+if [ -z "$file" ]; then
+	echo "Please specify a filename" 1>&2
+	exit 1
+fi
+
+if [ -z "$langdef" ]; then
+	source-highlight --failsafe -f esc --infer-lang --style-file=esc.style -i "$file" | less -R
+else
+	source-highlight --failsafe -f esc --lang-def="${langdef}.lang" --style-file=esc.style -i "$file" | less -R
+fi
