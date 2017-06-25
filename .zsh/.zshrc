@@ -664,10 +664,10 @@ function ls_abbrev() {  # {{{
     local cmd_ls='ls'
     local -a opt_ls
     opt_ls=(
-        '-ACF'
+        '-ACFq'
         '--color=always'
         '--group-directories-first'
-        --ignore=Icon$'\r'
+        #--ignore=Icon$'\r'
     )
     case "${OSTYPE}" in
         freebsd*|darwin*)
@@ -675,7 +675,7 @@ function ls_abbrev() {  # {{{
                 cmd_ls='gls'
             else
                 # -G : Enable colorized output.
-                opt_ls=('-ACFG')
+                opt_ls=('-ACFGq')
             fi
             ;;
     esac
