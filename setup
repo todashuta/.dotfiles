@@ -103,6 +103,7 @@ unamestr="$(uname)"
     ## misc
     link "$dotfilesdir/.gdbinit" "$HOME/.gdbinit"
     link "$dotfilesdir/.my.cnf" "$HOME/.my.cnf"
+    link "$dotfilesdir/.myclirc" "$HOME/.myclirc"
     link "$dotfilesdir/.inputrc" "$HOME/.inputrc"
 }
 
