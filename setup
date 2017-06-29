@@ -100,10 +100,12 @@ unamestr="$(uname)"
     ## git
     link "$dotfilesdir/.gitconfig" "$HOME/.gitconfig"
 
-    ## misc
-    link "$dotfilesdir/.gdbinit" "$HOME/.gdbinit"
+    ## DB
     link "$dotfilesdir/.my.cnf" "$HOME/.my.cnf"
     link "$dotfilesdir/.myclirc" "$HOME/.myclirc"
+
+    ## misc
+    link "$dotfilesdir/.gdbinit" "$HOME/.gdbinit"
     link "$dotfilesdir/.inputrc" "$HOME/.inputrc"
 }
 
