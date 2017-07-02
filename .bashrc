@@ -30,10 +30,10 @@ PS1="$(
 
 	# If this is an xterm set the title to user@host:dir
 	case "$TERM" in
-	xterm*|rxvt*)
+	(xterm*|rxvt*)
 		ps1='\[\e]0;\u@\h: \w\a\]'"$ps1"
 		;;
-	*)
+	(*)
 		:
 		;;
 	esac
