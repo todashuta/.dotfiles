@@ -1,24 +1,45 @@
 # .bashrc
-# https://github.com/todashuta/profiles
+# https://github.com/todashuta/.dotfiles
 
-
-## プロンプト {{{
-#
-#PS1="\[\e[32m\]\u@\h\[\e[0m\] \[\e[33m\]\w\[\e[0m\]\n\$ "
-RED='\[\e[31m\]'
-GREEN='\[\e[32m\]'
-BLUE='\[\e[34m\]'
-YELLOW='\[\e[33m\]'
-RESET_COLOR='\[\e[0m\]'
-
-case ${UID} in
-0)  # root
-	PS1="${RED}\u@\h${RESET_COLOR} ${BLUE}\w${RESET_COLOR}\n\$ "
-	;;
-*)  # Not root
-	PS1="${GREEN}\u@\h${RESET_COLOR} ${YELLOW}\w${RESET_COLOR}\n\$ "
-	;;
+# If not running interactively, don't do anything
+case $- in
+    *i*) ;;
+      *) return;;
 esac
+
+## Prompt {{{
+#
+PS1="$(
+	red='\[\033[0;31m\]'
+	green='\[\033[0;32m\]'
+	blue='\[\033[0;34m\]'
+	brown='\[\033[0;33m\]'
+
+	light_red='\[\033[01;31m\]'
+	light_green='\[\033[01;32m\]'
+	light_blue='\[\033[01;34m\]'
+	light_yellow='\[\033[01;33m\]'
+
+	reset_color='\[\033[00m\]'
+
+	if [[ "$UID" -eq 0 ]]; then
+		ps1="${light_red}\u@\h${reset_color}:${light_blue}\w${reset_color}\njobs:\j \$ "
+	else
+		ps1="${light_green}\u@\h${reset_color}:${light_blue}\w${reset_color}\njobs:\j \$ "
+	fi
+
+	# If this is an xterm set the title to user@host:dir
+	case "$TERM" in
+	xterm*|rxvt*)
+		ps1='\[\e]0;\u@\h: \w\a\]'"$ps1"
+		;;
+	*)
+		:
+		;;
+	esac
+
+	echo "$ps1"
+)"
 
 # }}}
 
@@ -26,7 +47,7 @@ esac
 ## History {{{
 #
 export HISTCONTROL=ignoreboth  # ignoreboth=ignorespace+ignoredups
-export HISTIGNORE="fg*:bg*:history*:cd*"
+#export HISTIGNORE="fg*:bg*:history*:cd*"
 
 HISTSIZE=10000             # 使用中のbashの履歴数
 HISTFILESIZE=100000        # ~/.bash_historyに記録する数
@@ -37,87 +58,84 @@ HISTFILESIZE=100000        # ~/.bash_historyに記録する数
 # }}}
 
 
-## ls色付けOS別分岐 {{{
+## enable color of ls  {{{
 #
+export LSCOLORS=gxfxcxdxbxegedabagacad
+export LS_COLORS='di=36:ln=35:so=32:pi=33:ex=31:bd=34;46:cd=34;43:su=30;41:sg=36;40:tw=30;42:ow=30;43'
 case "${OSTYPE}" in
 freebsd*|darwin*)
-  export LSCOLORS=gxfxcxdxbxegedabagacad
-  alias ls="ls -G"
-  ;;
+	alias ls="ls -G"
+	which gls >/dev/null 2>&1 && alias ls='gls --color=auto' || :
+	;;
 linux*)
-  export LS_COLORS='di=36:ln=35:so=32:pi=33:ex=31:bd=34;46:cd=34;43:su=30;41:sg=36;40:tw=30;42:ow=30;43'
-  alias ls="ls --color=auto"
-  ;;
+	alias ls="ls --color=auto"
+	;;
 esac
 
-#}}}
+# }}}
 
 
-## エイリアス。 {{{
+## aliases {{{
 #
+# job control
+alias f=fg
+alias j='jobs -l'
+
 # ls
 alias ll='ls -alF'
 alias la='ls -A'
 alias l='ls -CF'
+alias lt='ls -altFr'
 
 # grep
-alias grep='grep --color=auto'
-alias fgrep='fgrep --color=auto'
-alias egrep='egrep --color=auto'
+if which ggrep >/dev/null 2>&1; then
+	alias egrep='ggrep --color=auto -E'
+	alias fgrep='ggrep --color=auto -F'
+	alias grep='ggrep --color=auto'
+else
+	alias egrep='grep --color=auto -E'
+	alias fgrep='grep --color=auto -F'
+	alias grep='grep --color=auto'
+fi
 
 # cd
 alias cd-='cd ~-'
 alias ..='cd ..'
 
-# 確認付きファイル操作
-alias rmi='rm -i'
-alias mvi='mv -i'
-alias cpi='cp -i'
-
-# }}}
-
-
-## OS別エイリアス設定 {{{
-#
+# environment specific aliases
 case "${OSTYPE}" in
 freebsd*|darwin*)
-  if [ -f /Applications/Emacs.app/Contents/MacOS/Emacs ]; then
-    alias emacs='/Applications/Emacs.app/Contents/MacOS/Emacs -nw'
-    alias cemacs='/Applications/Emacs.app/Contents/MacOS/Emacs'
-  fi
+	#if [ -f /Applications/Emacs.app/Contents/MacOS/Emacs ]; then
+	#  alias emacs='/Applications/Emacs.app/Contents/MacOS/Emacs -nw'
+	#  alias cemacs='/Applications/Emacs.app/Contents/MacOS/Emacs'
+	#fi
 
-  if [ -f /Applications/MacVim.app/Contents/MacOS/MacVim ]; then
-    alias gvim='/Applications/MacVim.app/Contents/MacOS/mvim'
-  fi
+	if [ -f /Applications/MacVim.app/Contents/MacOS/MacVim ]; then
+		alias gvim='/Applications/MacVim.app/Contents/MacOS/mvim'
+	fi
 
-  if [ -f /Applications/MacVim.app/Contents/MacOS/Vim ]; then
-    alias vim='/Applications/MacVim.app/Contents/MacOS/Vim'
-  fi
+	if [ -f /Applications/MacVim.app/Contents/MacOS/Vim ]; then
+		alias vim='/Applications/MacVim.app/Contents/MacOS/Vim'
+	fi
 
-  alias firefox='open -a Firefox.app'
-  alias safari='open -a Safari.app'
-  ;;
+	#alias firefox='open -a Firefox.app'
+	#alias safari='open -a Safari.app'
+	;;
 linux*)
-
-  ;;
+	:
+	;;
 esac
 
 # }}}
 
 
-## ~/.bash_aliases があれば読み込む
-#
-if [ -f ~/.bash_aliases ]; then
-    . ~/.bash_aliases
-fi
+# colored GCC warnings and errors
+#export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
 
 
-## ローカル設定があれば読み込む
-#
-if [ -f ~/.bashrc.local ]; then
-    . ~/.bashrc.local
-fi
+[[ -f ~/.bash_aliases ]] && . ~/.bash_aliases || :
+[[ -f ~/.bashrc.local ]] && . ~/.bashrc.local || :
 
 
-# vim:foldmethod=marker
+# vim: set noet foldmethod=marker :
 # end of .bashrc
