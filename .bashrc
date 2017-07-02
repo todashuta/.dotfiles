@@ -126,6 +126,9 @@ linux*)
 	;;
 esac
 
+# editor
+type vim >/dev/null 2>&1 && alias vi='vim -u NONE -i NONE -N' || :
+
 # }}}
 
 
