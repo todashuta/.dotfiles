@@ -1,0 +1,12 @@
+#!/bin/sh
+
+if [ -f "$HOME/.ssh/rc" ]; then
+	echo '~/.ssh/rc => ~/.ssh/_rc'
+	mv "$HOME/.ssh/rc" "$HOME/.ssh/_rc"
+elif [ -f "$HOME/.ssh/_rc" ]; then
+	echo '~/.ssh/_rc => ~/.ssh/rc'
+	mv "$HOME/.ssh/_rc" "$HOME/.ssh/rc"
+else
+	echo "error: Both \`~/.ssh/rc' and \`~/.ssh/_rc' are not found." 1>&2
+	exit 1
+fi
