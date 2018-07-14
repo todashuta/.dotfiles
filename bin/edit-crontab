@@ -1,0 +1,18 @@
+#!/bin/sh
+
+[ -z "$EDITOR" ] && export EDITOR=vi || :
+
+crontab -l > ~/.crontab
+"$EDITOR" ~/.crontab || exit $?
+
+read -p "Install a new crontab? (y/N): " yn
+case "$yn" in
+[yY]*)
+	crontab ~/.crontab
+	exit $?
+	;;
+*)
+	echo abort 1>&2
+	exit 1
+	;;
+esac
