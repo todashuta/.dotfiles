@@ -1,0 +1,169 @@
+" vimrc
+
+let s:is_windows = has('win32')
+let $VIMDIR = expand(s:is_windows ? '~/vimfiles' : '~/.vim')
+
+if has('vim_starting')
+  "let $PATH .= ';'.expand('~/bin')
+  silent! autocmd! vimrcEx
+  filetype off | filetype plugin indent off
+  if s:is_windows
+    "let $HOME = $HOME
+  endif
+  let s:myrtp = join(glob($VIMDIR.'/plugins/*[^~]', 0, 1), ',')
+  if s:myrtp != ''
+    let &runtimepath .= ','.s:myrtp
+  endif
+  unlet s:myrtp
+  "helptags ALL
+endif
+
+if &encoding !=? 'utf-8'
+  let &termencoding = &encoding
+  set encoding=utf-8
+endif
+scriptencoding utf-8  " Must after set of 'encoding'.
+
+if exists('+shellslash')
+  set noshellslash
+endif
+
+if s:is_windows
+  language messages en
+else
+  language messages C
+endif
+
+set viminfo+=n~/var/vim/.viminfo
+set swapfile directory=~/var/vim/swap
+set undofile undodir=~/var/vim/undo
+set nobackup writebackup backupdir=~/var/vim/backup
+
+set helplang=ja,en
+set nofixendofline
+set history=800
+set noexpandtab tabstop=4 shiftwidth=4 softtabstop=0 shiftround
+set incsearch ignorecase smartcase wrapscan
+set hlsearch
+set autoindent
+set showmatch
+set wildmenu
+set laststatus=2 cmdheight=2 showcmd ruler
+set nowrap
+set list listchars=tab:>-,trail:-,extends:>,precedes:<,nbsp:%
+set nonumber norelativenumber
+set title
+set backspace=indent,eol,start
+set scrolloff=5
+let g:FFTable = { 'dos': 'CR+LF(dos)', 'unix': 'LF(unix)', 'mac': 'CR(mac)' }
+let &statusline = '#%n %{&modified?"*":""}%<%t%h%r [%{toupper(&fenc==""?(&enc."*"):&fenc).(&bomb?"(BOM)":"")};%{g:FFTable[&ff].(&eol?"":"-NoEOL")}] 0x%{FencB()}%= %y %l,%c%V %P'
+let &grepprg = s:is_windows ? 'jvgrep.exe -I -C' : 'grep -rnIH --exclude-dir=.git --exclude-dir=.hg --exclude-dir=.svn --exclude=tags'
+set grepformat& grepformat^=%f:%l:%c:%m
+set wildignore& wildignore+=*.exe,*.dll,*.zip,*.mp3,Thumbs.db,*.xls,*.xlsx,*.eml,*.fol,*.rd,*.rm,*.rs,*.3dm,*.3dmbak,*.ods,*.odp,*.psd,*.pdf,*.bmp,*.jpg,*.jpeg,*.gif,*.png
+set suffixes+=.rd,.exe,.dll,.pdf,.jpg,.jpeg,.gif,.zip,.png,.rs
+set hidden
+set clipboard+=unnamed
+set diffopt+=vertical diffexpr=diff#histogramdiffexpr()  " https://github.com/ynkdir/vim-diff
+set timeoutlen=2000
+set matchpairs+=<:>,「:」,【:】,『:』,（:）,＜:＞
+set cscopetag tags& tags-=tags tags+=./tags;
+set pumheight=10
+set cryptmethod=blowfish2
+"set pythonthreedll=C:/Python37/python37.dll
+
+cnoremap          <C-p>       <Up>
+cnoremap          <C-n>       <Down>
+inoremap <expr>   <C-Space>   (!pumvisible() && &l:omnifunc != '') ? "\<C-x>\<C-o>" : "\<C-n>"
+inoremap <silent> <ESC>       <ESC>:set iminsert=0<CR>
+inoremap          <C-@>       <Nop>
+nnoremap          <C-h>       :<C-u>h<Space>
+nnoremap          Q           <Nop>
+nnoremap          s           <Nop>
+nnoremap          s/          :<C-u>silent grep!<Space>
+nnoremap          sa          :<C-u>silent grepadd!<Space>
+nnoremap          s?          :<C-u>/j **/* <Bar> cwindow<Home>noautocmd vimgrep /<C-f>
+nnoremap          sA          :<C-u>/j **/* <Bar> cwindow<Home>noautocmd vimgrepadd /<C-f>
+nnoremap <silent> <Esc><Esc>  :<C-u>let v:hlsearch = !v:hlsearch<CR>
+
+if s:is_windows
+  nnoremap  se      :<C-u>Explorer<Space>
+  nnoremap  sE      :<C-u>Explorer!<CR>
+  nnoremap  <C-w>N  :<C-u>!start gvim.exe<CR>
+endif
+
+nnoremap  sr  :<C-u>CtrlPMRUFiles<CR>
+nnoremap  sb  :<C-u>CtrlPBuffer<CR>
+nnoremap  sf  :<C-u>CtrlPCurWD<CR>
+nnoremap  sF  :<C-u>CtrlPCurFile<CR>
+
+augroup vimrc
+  autocmd!
+  autocmd GUIEnter                      *      if argc() == 0 && getcwd() == $VIM | execute 'silent! cd c:\work' | endif
+  autocmd QuickFixCmdPost               [^l]*  botright cwindow | redraw!
+  autocmd VimEnter,WinEnter,ColorScheme *      highlight MatchParen guifg=NONE guibg=NONE ctermfg=NONE ctermbg=NONE term=underline cterm=underline gui=underline
+  autocmd VimEnter,WinEnter,ColorScheme *      highlight QuickFixLine guifg=NONE guibg=NONE ctermfg=NONE ctermbg=NONE term=underline cterm=underline gui=underline
+  autocmd VimEnter,WinEnter,ColorScheme *      if !has('gui_running') | execute 'highlight Pmenu ctermbg=3' | endif
+  autocmd FileType                      *      if &l:omnifunc == '' | setlocal omnifunc=syntaxcomplete#Complete | endif
+augroup END
+
+command!       DiffOrig                vert new | set bt=nofile | let b:is_difforigbuf = 1 | r ++edit # | 0d_ | diffthis | wincmd p | diffthis
+command!       DiffOrigOff             diffoff! | windo if get(b:, 'is_difforigbuf') | bwipeout | endif
+command!       EnableSyntaxcomplete    setlocal omnifunc=syntaxcomplete#Complete
+command!       Swapfiles               echo iconv(vimproc#system('vim -r'), &tenc, &enc)
+command!       ToggleLineNumber        let [&l:rnu, &l:nu] = (&l:rnu || &l:nu) ? [0, 0] : [1, 1]
+command! -bang RemoveInvalidQfixItems  call setqflist(filter(copy(getqflist()), 'v:val.valid'), (<bang>0 ? 'r' : ' '))
+
+if s:is_windows
+  command! -bang -complete=file -nargs=? Cmd         execute 'silent !start cmd.exe /k pushd' tr((<q-args> != '' ? <q-args> : (<bang>0 ? expand('%:p:h') : getcwd())), '/', '\')
+  command! -bang -complete=file -nargs=? Explorer    execute printf('silent !start explorer.exe "%s"', tr((<q-args> != '' ? <q-args> : (<bang>0 ? expand('%:p:h') : getcwd())), '/', '\'))
+  command!                      -nargs=1 MyCd        execute 'cd '.iconv(<q-args>, 'cp932', &enc)
+  command! -bang -complete=file -nargs=? PowerShell  execute printf('silent !start powershell.exe -NoExit -Command "cd ''%s''"', (<q-args> != '' ? <q-args> : (<bang>0 ? expand('%:p:h') : getcwd())))
+endif
+
+function! FencB()
+  let c = matchstr(getline('.'), '.', col('.')-1)
+  if c != ''
+    let c = iconv(c, &enc, &fenc)
+    return s:byte2hex(s:str2byte(c))
+  else
+    return '0'
+  endif
+endfunction
+function! s:str2byte(str)
+  return map(range(len(a:str)), 'char2nr(a:str[v:val])')
+endfunction
+function! s:byte2hex(bytes)
+  return join(map(copy(a:bytes), 'printf("%02X", v:val)'), '')
+endfunction
+
+let g:loaded_matchparen = 1
+let g:loaded_netrw = 1
+let g:loaded_netrwPlugin = 1
+let g:pascal_delphi = 1  " To highlight //-style comment
+let g:is_bash = 1
+
+let g:ctrlp_mruf_max = 512
+let g:gruvbox_italic = 0
+let g:sonictemplate_vim_template_dir = expand($VIMDIR.'/template')
+let g:quickrun_config = {}
+let g:quickrun_config['_'] = {
+      \   'runner': 'job',
+      \   'outputter/buffer/split': 'botright'
+      \ }
+let g:gocomplete#system_function = 'vimproc#system'
+let g:signify_vcs_list = [ 'git', 'hg' ]
+
+if has('vim_starting') && !has('gui_running')
+  colorscheme industry
+endif
+
+let s:vimrclocal = $MYVIMRC.'_local'
+if filereadable(s:vimrclocal)
+  execute 'source' s:vimrclocal
+endif
+
+filetype plugin indent on
+syntax enable
+set secure
+
+" vim: set et ts=2 sts=2 sw=2 :
