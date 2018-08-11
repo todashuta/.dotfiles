@@ -1,0 +1,53 @@
+" gvimrc
+
+scriptencoding utf-8
+
+augroup gvimrc
+  autocmd!
+  autocmd GUIEnter * call OnGuiEnter()
+augroup END
+
+function! OnGuiEnter()
+  set columns=120 lines=35
+  winpos 560 420
+endfunction
+
+augroup gvimrc-initial-directory
+  autocmd!
+  "autocmd GUIEnter * if argc() == 0 && getcwd() == $VIM | execute 'silent! cd c:\work' | endif
+  autocmd GUIEnter * if argc() == 0 && getcwd() == $VIM | execute 'silent! cd $HOME' | endif
+augroup END
+
+"set guifont=Consolas:h11 guifontwide=Ricty_Diminished:h11
+"set renderoptions=type:directx,renmode:5
+"set guifont=Consolas:h11 guifontwide=Myrica_M:h11
+"set renderoptions=type:directx,renmode:0
+
+"set guifont=BDF_UM+:h9 guifontwide=BDF_UM+:h9 renderoptions=
+set guifont=VL_Gothic:h9 guifontwide=VL_Gothic:h9 "rop=type:directx,renmode:4
+set renderoptions=type:directx,renmode:5
+
+set guioptions-=T guioptions-=m guioptions-=r guioptions-=L guioptions-=e
+let g:lucius_style = 'light'
+let g:lucius_contrast = 'low'
+let g:lucius_contrast_bg = 'normal'
+colorscheme lucius
+
+set visualbell& errorbells&
+if 0
+  let &t_vb = "\<Esc>|100f"
+  set visualbell errorbells belloff=esc
+endif
+
+"set guicursor& guicursor+=a:blinkon0
+set guicursor& guicursor+=a:blinkwait550-blinkon550-blinkoff550
+
+command! Diff2  browse tabedit | browse vsplit | windo diffthis
+command! Diff3  browse tabedit | browse vsplit | browse vsplit | windo diffthis
+
+let s:gvimrclocal = $MYGVIMRC.'_local'
+if filereadable(s:gvimrclocal)
+  execute 'source' s:gvimrclocal
+endif
+
+" vim: set et ts=2 sts=2 sw=2 :
