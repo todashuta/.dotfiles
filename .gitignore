@@ -11,5 +11,7 @@
 .emacs.d/auto-save-list/*
 .emacs.d/el-get/*
 
+.vim/vimrc_local
+.vim/gvimrc_local
 .vim/bundle/*
 !.vim/bundle/neobundle.vim
