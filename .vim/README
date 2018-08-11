@@ -1,1 +1,15 @@
+DOTVIM
+======
+
 Vim files, plugins and othes.
+
+How To Use
+----------
+
+* Windows
+
+    > mklink /j %USERPROFILE%\vimfiles path\to\this\repo\.vim
+
+* Linux, BSD, Mac
+
+    $ ln -s /path/to/this/repo/.vim ~/.vim
