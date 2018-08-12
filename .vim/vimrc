@@ -141,6 +141,20 @@ let g:loaded_netrwPlugin = 1
 let g:pascal_delphi = 1  " To highlight //-style comment
 let g:is_bash = 1
 
+" Packages
+"packadd! matchit
+packadd! ctrlp.vim
+packadd! sonictemplate-vim
+packadd! vim-quickrun
+packadd! vim-diff
+packadd! vim-lucius
+packadd! vim-niceblock
+packadd! vim-signify
+packadd! syntax-vim-ex
+packadd! vim-css3-syntax
+packadd! html5.vim
+packadd! vimdoc-ja
+
 let g:ctrlp_mruf_max = 512
 let g:gruvbox_italic = 0
 let g:sonictemplate_vim_template_dir = expand($VIMDIR.'/template')
@@ -151,6 +165,8 @@ let g:quickrun_config['_'] = {
       \ }
 let g:gocomplete#system_function = 'vimproc#system'
 let g:signify_vcs_list = [ 'git', 'hg' ]
+
+xnoremap <expr> gr  niceblock#force_blockwise('r')
 
 if has('vim_starting') && !has('gui_running')
   colorscheme industry
