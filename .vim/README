@@ -13,3 +13,10 @@ How To Use
 * Linux, BSD, Mac
 
     $ ln -s /path/to/this/repo/.vim ~/.vim
+
+Installing Packages
+-------------------
+
+1. Run Vim
+2. `:e $VIMDIR/packinstall.vim`
+3. `:so %`
