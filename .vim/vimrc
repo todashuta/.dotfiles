@@ -153,8 +153,9 @@ packadd! vim-signify
 packadd! syntax-vim-ex
 packadd! vim-css3-syntax
 packadd! html5.vim
-packadd! vimdoc-ja
+"packadd! vimdoc-ja
 
+let g:ctrlp_map = ''
 let g:ctrlp_mruf_max = 512
 let g:gruvbox_italic = 0
 let g:sonictemplate_vim_template_dir = expand($VIMDIR.'/template')
@@ -169,7 +170,11 @@ let g:signify_vcs_list = [ 'git', 'hg' ]
 xnoremap <expr> gr  niceblock#force_blockwise('r')
 
 if has('vim_starting') && !has('gui_running')
-  colorscheme industry
+  if s:is_windows
+    colorscheme industry
+  else
+    colorscheme ron
+  endif
 endif
 
 let s:vimrclocal = $MYVIMRC.'_local'
