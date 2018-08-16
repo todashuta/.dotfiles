@@ -4,11 +4,12 @@ let s:is_windows = has('win32')
 let $VIMDIR = expand(s:is_windows ? '~/vimfiles' : '~/.vim')
 
 if has('vim_starting')
-  "let $PATH .= ';'.expand('~/bin')
   silent! autocmd! vimrcEx
-  filetype off | filetype plugin indent off
+  filetype off
+  filetype plugin indent off
   if s:is_windows
     "let $HOME = $HOME
+    "let $PATH .= ';'.expand('~/bin')
   endif
   let s:myrtp = join(glob($VIMDIR.'/plugins/*[^~]', 0, 1), ',')
   if s:myrtp != ''
