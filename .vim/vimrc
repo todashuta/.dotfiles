@@ -1,16 +1,5 @@
 " vimrc
 
-" Startup time.
-" See: https://gist.github.com/thinca/1518874
-if has('vim_starting') && has('reltime')
-  let s:startuptime = reltime()
-  augroup vimrc-startuptime
-    autocmd! VimEnter *
-          \   echomsg 'startuptime: ' . reltimestr(reltime(s:startuptime))
-          \ | unlet s:startuptime
-  augroup END
-endif
-
 let s:is_windows = has('win32')
 let $VIMDIR = expand(s:is_windows ? '~/vimfiles' : '~/.vim')
 
@@ -19,7 +8,6 @@ if has('vim_starting')
   filetype off
   filetype plugin indent off
   if s:is_windows
-    "let g:path_orig = get(g:, 'path_orig', $PATH)
     "let $HOME = $HOME
     "let $PATH .= ';'.expand('~/bin')
   endif
@@ -31,12 +19,10 @@ if has('vim_starting')
   "helptags ALL
 endif
 
-"echom printf("<%s>, <%s>", &enc, &tenc)
-
-"if &encoding !=? 'utf-8'
-"  let &termencoding = &encoding
-"  set encoding=utf-8
-"endif
+if &encoding !=? 'utf-8'
+  let &termencoding = &encoding
+  set encoding=utf-8
+endif
 scriptencoding utf-8  " Must after set of 'encoding'.
 
 if exists('+shellslash')
@@ -74,8 +60,8 @@ let g:FFTable = { 'dos': 'CR+LF(dos)', 'unix': 'LF(unix)', 'mac': 'CR(mac)' }
 let &statusline = '#%n %{&modified?"*":""}%<%t%h%r [%{toupper(&fenc==""?(&enc."*"):&fenc).(&bomb?"(BOM)":"")};%{g:FFTable[&ff].(&eol?"":"-NoEOL")}] 0x%{FencB()}%= %y %l,%c%V %P'
 let &grepprg = s:is_windows ? 'jvgrep.exe -I -C' : 'grep -rnIH --exclude-dir=.git --exclude-dir=.hg --exclude-dir=.svn --exclude=tags'
 set grepformat& grepformat^=%f:%l:%c:%m
-"set wildignore& wildignore+=*.exe,*.dll,*.zip,*.mp3,Thumbs.db,*.xls,*.xlsx,*.eml,*.fol,*.rd,*.rm,*.rs,*.3dm,*.3dmbak,*.ods,*.odp,*.psd,*.pdf,*.bmp,*.jpg,*.jpeg,*.gif,*.png
-"set suffixes+=.rd,.exe,.dll,.pdf,.jpg,.jpeg,.gif,.zip,.png,.rs
+set wildignore& wildignore+=*.exe,*.dll,*.zip,*.mp3,Thumbs.db,*.xls,*.xlsx,*.eml,*.fol,*.rd,*.rm,*.rs,*.3dm,*.3dmbak,*.ods,*.odp,*.psd,*.pdf,*.bmp,*.jpg,*.jpeg,*.gif,*.png
+set suffixes+=.rd,.exe,.dll,.pdf,.jpg,.jpeg,.gif,.zip,.png,.rs
 set hidden
 set clipboard+=unnamed
 set diffopt+=vertical diffexpr=diff#histogramdiffexpr()  " https://github.com/ynkdir/vim-diff
@@ -176,9 +162,8 @@ let g:gruvbox_italic = 0
 let g:sonictemplate_vim_template_dir = expand($VIMDIR.'/template')
 let g:quickrun_config = {}
 let g:quickrun_config['_'] = {
-      \   'runner': (has('terminal') ? 'terminal' : exists('*ch_close_in') ? 'job' : 'vimproc'),
-      \   'outputter/buffer/split': 'botright',
-      \   'hook/time/enable': 1,
+      \   'runner': (exists('*ch_close_in') ? 'job' : 'vimproc'),
+      \   'outputter/buffer/split': 'botright'
       \ }
 let g:gocomplete#system_function = 'vimproc#system'
 let g:signify_vcs_list = [ 'git', 'hg' ]
