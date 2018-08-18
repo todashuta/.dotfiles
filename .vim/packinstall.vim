@@ -37,9 +37,7 @@ call minpac#add('todashuta/vim-niceblock',    {'type': 'opt', 'branch': '0.0.0'}
 call minpac#add('PProvost/vim-ps1',           {'type': 'opt'})
 call minpac#add('thinca/vim-quickrun',        {'type': 'opt'})
 call minpac#add('tyru/open-browser.vim',      {'type': 'opt'})
-
 call minpac#add('mhinz/vim-signify',          {'type': 'opt'})
-
 call minpac#add('vim-jp/syntax-vim-ex',       {'type': 'opt'})
 call minpac#add('morhetz/gruvbox',            {'type': 'opt'})
 call minpac#add('MaxMellon/vim-jsx-pretty',   {'type': 'opt'})
@@ -61,6 +59,7 @@ call minpac#add('thinca/vim-prettyprint',     {'type': 'opt'})
 call minpac#add('thinca/vim-ft-clojure',      {'type': 'opt'})
 call minpac#add('vim-jp/cpp-vim',             {'type': 'opt'})
 call minpac#add('vim-jp/vimdoc-ja',           {'type': 'opt'})
+call minpac#add('thinca/vim-zenspace',        {'type': 'opt'})
 
 call minpac#update()
 

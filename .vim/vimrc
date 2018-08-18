@@ -56,7 +56,7 @@ set list listchars=tab:>-,trail:-,extends:>,precedes:<,nbsp:%
 set nonumber norelativenumber
 set title
 set backspace=indent,eol,start
-set scrolloff=5
+set scrolloff=5 sidescrolloff=16
 let g:FFTable = { 'dos': 'CR+LF(dos)', 'unix': 'LF(unix)', 'mac': 'CR(mac)' }
 let &statusline = '#%n %{&modified?"*":""}%<%t%h%r [%{toupper(&fenc==""?(&enc."*"):&fenc).(&bomb?"(BOM)":"")};%{g:FFTable[&ff].(&eol?"":"-NoEOL")}] 0x%{FencB()}%= %y %l,%c%V %P'
 let &grepprg = s:is_windows ? 'jvgrep.exe -I -C' : 'grep -rnIH --exclude-dir=.git --exclude-dir=.hg --exclude-dir=.svn --exclude=tags'
@@ -148,6 +148,7 @@ let g:is_bash = 1
 packadd! ctrlp.vim
 packadd! sonictemplate-vim
 packadd! vim-quickrun
+packadd! vim-zenspace
 packadd! vim-diff
 packadd! vim-lucius
 packadd! vim-niceblock
