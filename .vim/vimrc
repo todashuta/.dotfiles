@@ -119,6 +119,8 @@ if s:is_windows
   command! -bang -complete=file -nargs=? Explorer    execute printf('silent !start explorer.exe "%s"', tr((<q-args> != '' ? <q-args> : (<bang>0 ? expand('%:p:h') : getcwd())), '/', '\'))
   command!                      -nargs=1 MyCd        execute 'cd '.iconv(<q-args>, 'cp932', &enc)
   command! -bang -complete=file -nargs=? PowerShell  execute printf('silent !start powershell.exe -NoExit -Command "cd ''%s''"', (<q-args> != '' ? <q-args> : (<bang>0 ? expand('%:p:h') : getcwd())))
+  command!                               TermCmdL    vertical topleft terminal ++close cmd.exe
+  command!                               TermCmdT    topleft terminal ++close cmd.exe
 endif
 
 function! FencB()
