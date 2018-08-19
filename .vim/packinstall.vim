@@ -60,6 +60,7 @@ call minpac#add('thinca/vim-ft-clojure',      {'type': 'opt'})
 call minpac#add('vim-jp/cpp-vim',             {'type': 'opt'})
 call minpac#add('vim-jp/vimdoc-ja',           {'type': 'opt'})
 call minpac#add('thinca/vim-zenspace',        {'type': 'opt'})
+call minpac#add('fatih/vim-go',               {'type': 'opt'})
 
 call minpac#update()
 
