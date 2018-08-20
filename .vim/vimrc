@@ -110,6 +110,8 @@ augroup END
 command!       DiffOrig                vert new | set bt=nofile | let b:is_difforigbuf = 1 | r ++edit # | 0d_ | diffthis | wincmd p | diffthis
 command!       DiffOrigOff             diffoff! | windo if get(b:, 'is_difforigbuf') | bwipeout | endif
 command!       EnableSyntaxcomplete    setlocal omnifunc=syntaxcomplete#Complete
+command!       PackEdit                tabedit $VIMDIR/packinstall.vim
+command!       PackUpdate              source $VIMDIR/packinstall.vim
 command!       Swapfiles               echo iconv(vimproc#system('vim -r'), &tenc, &enc)
 command!       ToggleLineNumber        let [&l:rnu, &l:nu] = (&l:rnu || &l:nu) ? [0, 0] : [1, 1]
 command! -bang RemoveInvalidQfixItems  call setqflist(filter(copy(getqflist()), 'v:val.valid'), (<bang>0 ? 'r' : ' '))
