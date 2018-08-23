@@ -1,0 +1,26 @@
+#!/bin/sh
+
+
+if ! which synclient >/dev/null 2>&1; then
+    echo "error: synclient command not found!" 1>&2
+    exit 1
+fi
+
+if which notify-send >/dev/null 2>&1; then
+    notify() {
+        notify-send -u low "$*"
+    }
+else
+    notify() {
+        :  # noop
+    }
+fi
+
+nextvalue=$(synclient -l | grep -c 'HorizTwoFingerScroll\s\+=\s\+0')
+synclient HorizTwoFingerScroll=$nextvalue
+
+if [ "$nextvalue" -eq 1 ]; then
+    notify "Horizontal Two Finger Scroll is Enabled"
+else
+    notify "Horizontal Two Finger Scroll is Disabled"
+fi
