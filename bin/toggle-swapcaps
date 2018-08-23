@@ -5,6 +5,16 @@ if ! which dconf >/dev/null 2>&1; then
     exit 1
 fi
 
+if which notify-send >/dev/null 2>&1; then
+    notify() {
+        notify-send -u low "$*"
+    }
+else
+    notify() {
+        :  # noop
+    }
+fi
+
 key=/org/gnome/desktop/input-sources/xkb-options
 
 if [ -z "$(dconf read $key)" ]; then
@@ -12,9 +22,11 @@ if [ -z "$(dconf read $key)" ]; then
     echo "swapcaps is enabled"
     echo "  Ctrl => Caps"
     echo "  Caps => Ctrl"
+    notify "swapcaps is enabled"
 else
     dconf reset $key
     echo "swapcaps is disabled"
     echo "  Ctrl => Ctrl"
     echo "  Caps => Caps"
+    notify "swapcaps is disabled"
 fi
