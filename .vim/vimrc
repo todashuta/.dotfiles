@@ -73,6 +73,7 @@ set pumheight=10
 set cryptmethod=blowfish2
 "set pythonthreedll=C:/Python37/python37.dll
 
+cnoremap          <C-x>       <C-r>=expand('%:h:~:.').(exists('+shellslash')&&!&shellslash?'\':'/')<CR>
 cnoremap          <C-p>       <Up>
 cnoremap          <C-n>       <Down>
 inoremap <expr>   <C-Space>   (!pumvisible() && &l:omnifunc != '') ? "\<C-x>\<C-o>" : "\<C-n>"
