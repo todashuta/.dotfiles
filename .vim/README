@@ -14,9 +14,23 @@ How To Use
 
     $ ln -s /path/to/this/repo/.vim ~/.vim
 
-Installing Packages
--------------------
+Packages (Plugins)
+------------------
 
-1. Run Vim
-2. `:e $VIMDIR/packinstall.vim`
-3. `:so %`
+__Initial Setup__
+
+1. `:PackUpdate`
+
+__Update Installed Packages__
+
+1. `:PackUpdate`
+
+__Remove Unused Packages__
+
+1. `:PackClean`
+
+__Add New Packages__
+
+1. `:PackEdit`, opens $VIMDIR/packinit.vim.
+2. Add the line of `call minpac#add(...)` and save it.
+3. `:PackUpdate`
