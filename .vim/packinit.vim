@@ -13,7 +13,7 @@ if !exists('*minpac#init')
     echom "`git` command is not available.  Please install Git client."
     finish
   endif
-  execute '!git clone git://github.com/k-takata/minpac '.expand($VIMDIR).'/pack/minpac/opt/minpac'
+  execute '!git clone https://github.com/k-takata/minpac '.expand($VIMDIR).'/pack/minpac/opt/minpac'
   packadd minpac
 endif
 
