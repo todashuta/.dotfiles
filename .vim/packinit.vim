@@ -57,5 +57,6 @@ call minpac#add('vim-jp/cpp-vim',             {'type': 'opt'})
 call minpac#add('vim-jp/vimdoc-ja',           {'type': 'opt'})
 call minpac#add('thinca/vim-zenspace',        {'type': 'opt'})
 call minpac#add('fatih/vim-go',               {'type': 'opt'})
+call minpac#add('itchyny/vim-parenmatch',     {'type': 'opt'})
 
 " vim: set et ts=2 sts=2 sw=2 fdm=marker :
