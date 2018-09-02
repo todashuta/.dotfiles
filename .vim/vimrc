@@ -112,7 +112,7 @@ augroup END
 command!       DiffOrig                vert new | set bt=nofile | let b:is_difforigbuf = 1 | r ++edit # | 0d_ | diffthis | wincmd p | diffthis
 command!       DiffOrigOff             diffoff! | windo if get(b:, 'is_difforigbuf') | bwipeout | endif
 command!       EnableSyntaxcomplete    setlocal omnifunc=syntaxcomplete#Complete
-command!       PackUpdate              source $VIMDIR/packinit.vim | call minpac#update()
+command!       PackUpdate              source $VIMDIR/packinit.vim | call minpac#update('', {'do': 'call minpac#status()'})
 command!       PackClean               source $VIMDIR/packinit.vim | call minpac#clean()
 command!       PackEdit                tabedit $VIMDIR/packinit.vim
 command!       Swapfiles               echo iconv(vimproc#system('vim -r'), &tenc, &enc)
