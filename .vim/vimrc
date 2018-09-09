@@ -107,6 +107,7 @@ augroup vimrc
   autocmd VimEnter,WinEnter,ColorScheme *      highlight QuickFixLine guifg=NONE guibg=NONE ctermfg=NONE ctermbg=NONE term=underline cterm=underline gui=underline
   autocmd VimEnter,WinEnter,ColorScheme *      if !has('gui_running') | execute 'highlight Pmenu ctermbg=3' | endif
   autocmd FileType                      *      if &l:omnifunc == '' | setlocal omnifunc=syntaxcomplete#Complete | endif
+  "autocmd VimEnter,WinEnter,ColorScheme *      if !has('gui_running') | execute 'highlight Normal ctermbg=NONE' | endif
 augroup END
 
 command!       DiffOrig                vert new | set bt=nofile | let b:is_difforigbuf = 1 | r ++edit # | 0d_ | diffthis | wincmd p | diffthis
