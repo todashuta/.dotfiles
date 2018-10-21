@@ -640,7 +640,7 @@ alias vi='vim -u NONE -i NONE -N'
 
 alias v=vim
 alias j='jobs -l'
-alias f=fg
+alias f=fg; compdef f=fg
 alias h=history
 alias c='printf "\017\033c"; stty sane; reset'
 alias lang-c='env LC_ALL=C LANG=C'
