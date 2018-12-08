@@ -62,7 +62,7 @@ unamestr="$(uname)"
 
 {
     ## vim
-    link "$dotfilesdir/.vimrc" "$HOME/.vimrc"
+    #link "$dotfilesdir/.vimrc" "$HOME/.vimrc"
     link "$dotfilesdir/.vim" "$HOME/.vim"
     #link "$dotfilesdir/.gvimrc" "$HOME/.gvimrc"
 
