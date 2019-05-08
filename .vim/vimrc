@@ -121,12 +121,21 @@ command!       ToggleLineNumber        let [&l:rnu, &l:nu] = (&l:rnu || &l:nu) ?
 command! -bang RemoveInvalidQfixItems  call setqflist(filter(copy(getqflist()), 'v:val.valid'), (<bang>0 ? 'r' : ' '))
 
 if s:is_windows
-  command! -bang -complete=file -nargs=? Cmd         execute 'silent !start cmd.exe /k pushd' tr((<q-args> != '' ? <q-args> : (<bang>0 ? expand('%:p:h') : getcwd())), '/', '\')
-  command! -bang -complete=file -nargs=? Explorer    execute printf('silent !start explorer.exe "%s"', tr((<q-args> != '' ? <q-args> : (<bang>0 ? expand('%:p:h') : getcwd())), '/', '\'))
+  function! s:start(cmdname, qargs, bang)
+    let cwd = (a:qargs != '' ? a:qargs : (a:bang ? expand('%:p:h') : getcwd()))
+    call term_start(printf($ComSpec.' /c start %s', a:cmdname), { 'term_finish': 'close', 'hidden': 1, 'cwd': cwd })
+  endfunction
+  function! s:term(qargs, bang)
+    let cwd = (a:qargs != '' ? a:qargs : (a:bang ? expand('%:p:h') : getcwd()))
+    call term_start(&shell, { 'term_finish': 'close', 'cwd': cwd })
+  endfunction
+
+  command! -bang -complete=dir  -nargs=? Cmd         call s:start('cmd.exe', <q-args>, <bang>0)
+  command! -bang -complete=dir  -nargs=? Explorer    call s:start('.', <q-args>, <bang>0)
   command!                      -nargs=1 MyCd        execute 'cd '.iconv(<q-args>, 'cp932', &enc)
-  command! -bang -complete=file -nargs=? PowerShell  execute printf('silent !start powershell.exe -NoExit -Command "cd ''%s''"', (<q-args> != '' ? <q-args> : (<bang>0 ? expand('%:p:h') : getcwd())))
-  command!                               TermCmdL    vertical topleft terminal ++close cmd.exe
-  command!                               TermCmdT    topleft terminal ++close cmd.exe
+  command! -bang -complete=dir  -nargs=? PowerShell  call s:start('powershell.exe', <q-args>, <bang>0)
+  command! -bang -complete=dir  -nargs=? LTerminal   vertical topleft call s:term(<q-args>, <bang>0)
+  command! -bang -complete=dir  -nargs=? TTerminal   topleft          call s:term(<q-args>, <bang>0)
 endif
 
 function! FencB()
@@ -179,7 +188,7 @@ let g:gruvbox_italic = 0
 let g:sonictemplate_vim_template_dir = expand($VIMDIR.'/template')
 let g:quickrun_config = {}
 let g:quickrun_config['_'] = {
-      \   'runner': (has('terminal') ? 'terminal' : exists('*ch_close_in') ? 'job' : 'vimproc'),
+      \   'runner': (exists('*ch_close_in') ? 'job' : 'vimproc'),
       \   'outputter/buffer/split': 'botright',
       \   'hook/time/enable': 1,
       \ }
