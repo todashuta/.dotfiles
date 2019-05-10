@@ -121,21 +121,23 @@ command!       ToggleLineNumber        let [&l:rnu, &l:nu] = (&l:rnu || &l:nu) ?
 command! -bang RemoveInvalidQfixItems  call setqflist(filter(copy(getqflist()), 'v:val.valid'), (<bang>0 ? 'r' : ' '))
 
 if s:is_windows
-  function! s:start(cmdname, qargs, bang)
-    let cwd = (a:qargs != '' ? a:qargs : (a:bang ? expand('%:p:h') : getcwd()))
-    call term_start(printf($ComSpec.' /c start %s', a:cmdname), { 'term_finish': 'close', 'hidden': 1, 'cwd': cwd })
+  function! s:start(cmd, dir, bang)
+    let cwd = (a:dir != '' ? a:dir : (a:bang ? expand('%:p:h') : getcwd()))
+    call term_start(a:cmd, { 'term_finish': 'close', 'hidden': 1, 'cwd': cwd })
   endfunction
-  function! s:term(qargs, bang)
-    let cwd = (a:qargs != '' ? a:qargs : (a:bang ? expand('%:p:h') : getcwd()))
-    call term_start(&shell, { 'term_finish': 'close', 'cwd': cwd })
+  function! s:term(cmd, dir, bang, vertical)
+    let cwd = (a:dir != '' ? a:dir : (a:bang ? expand('%:p:h') : getcwd()))
+    topleft call term_start(a:cmd, { 'vertical': a:vertical, 'term_finish': 'close', 'cwd': cwd, 'env': { 'VIM_TERMINAL': 1 } })
   endfunction
 
-  command! -bang -complete=dir  -nargs=? Cmd         call s:start('cmd.exe', <q-args>, <bang>0)
-  command! -bang -complete=dir  -nargs=? Explorer    call s:start('.', <q-args>, <bang>0)
-  command!                      -nargs=1 MyCd        execute 'cd '.iconv(<q-args>, 'cp932', &enc)
-  command! -bang -complete=dir  -nargs=? PowerShell  call s:start('powershell.exe', <q-args>, <bang>0)
-  command! -bang -complete=dir  -nargs=? LTerminal   vertical topleft call s:term(<q-args>, <bang>0)
-  command! -bang -complete=dir  -nargs=? TTerminal   topleft          call s:term(<q-args>, <bang>0)
+  command! -bang -complete=dir -nargs=? Cmd          execute 'silent !start cmd.exe /k pushd' tr((<q-args> != '' ? fnamemodify(<q-args>, ':p:h') : (<bang>0 ? expand('%:p:h') : getcwd())), '/', '\')
+  command! -bang -complete=dir -nargs=? Explorer     call s:start('explorer.exe .', <q-args>, <bang>0)
+  command!                     -nargs=1 MyCd         execute 'cd '.iconv(<q-args>, 'cp932', &enc)
+  command! -bang -complete=dir -nargs=? PowerShell   call s:start('powershell.exe -Command "Start-Process powershell.exe"', <q-args>, <bang>0)
+  command! -bang -complete=dir -nargs=? LTerminal    call s:term(&shell, <q-args>, <bang>0, 1)
+  command! -bang -complete=dir -nargs=? TTerminal    call s:term(&shell, <q-args>, <bang>0, 0)
+  command! -bang -complete=dir -nargs=? LTerminalPS  call s:term("powershell.exe", <q-args>, <bang>0, 1)
+  command! -bang -complete=dir -nargs=? TTerminalPS  call s:term("powershell.exe", <q-args>, <bang>0, 0)
 endif
 
 function! FencB()
