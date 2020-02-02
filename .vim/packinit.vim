@@ -62,6 +62,8 @@ call minpac#add('Shougo/vimproc.vim',         {'type': 'opt', 'do': (has('win32'
 call minpac#add('vim-jp/vital.vim',           {'type': 'opt'})
 call minpac#add('rhysd/vim-color-spring-night',{'type': 'opt'})
 call minpac#add('prabirshrestha/async.vim',   {'type': 'opt'})
+call minpac#add('prabirshrestha/asyncomplete.vim', {'type': 'opt'})
+call minpac#add('prabirshrestha/asyncomplete-lsp.vim', {'type': 'opt'})
 call minpac#add('prabirshrestha/vim-lsp',     {'type': 'opt'})
 
 " vim: set et ts=2 sts=2 sw=2 fdm=marker :

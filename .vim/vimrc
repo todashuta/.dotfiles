@@ -177,7 +177,7 @@ packadd! sonictemplate-vim
 packadd! syntax-vim-ex
 packadd! vim-css3-syntax
 packadd! vim-diff
-packadd! vim-go
+"packadd! vim-go
 packadd! vim-lucius
 packadd! vim-niceblock
 packadd! vim-quickrun
@@ -185,6 +185,10 @@ packadd! vim-signify
 packadd! vim-zenspace
 packadd! vim-fugitive
 packadd! vim-parenmatch
+packadd! async.vim
+packadd! asyncomplete.vim
+packadd! asyncomplete-lsp.vim
+packadd! vim-lsp
 
 let g:ctrlp_map = ''
 let g:ctrlp_mruf_max = 512
@@ -207,6 +211,20 @@ if has('vim_starting') && !has('gui_running')
   else
     colorscheme ron
   endif
+endif
+
+function! s:on_lsp_buffer_enabled() abort
+  setlocal omnifunc=lsp#complete
+endfunction
+autocmd vimrc User lsp_buffer_enabled call s:on_lsp_buffer_enabled()
+
+if executable('rls')
+  autocmd vimrc User lsp_setup call lsp#register_server({
+        \ 'name': 'rls',
+        \ 'cmd': {server_info->['rustup', 'run', 'stable', 'rls']},
+        \ 'workspace_config': {'rust': {'clippy_preference': 'on'}},
+        \ 'whitelist': ['rust'],
+        \ })
 endif
 
 let s:vimrclocal = $MYVIMRC.'_local'
