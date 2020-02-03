@@ -218,12 +218,33 @@ function! s:on_lsp_buffer_enabled() abort
 endfunction
 autocmd vimrc User lsp_buffer_enabled call s:on_lsp_buffer_enabled()
 
+if executable('gopls')
+  autocmd vimrc User lsp_setup call lsp#register_server({
+        \ 'name': 'gopls',
+        \ 'cmd': {server_info->['gopls']},
+        \ 'whitelist': ['go'],
+        \ })
+endif
 if executable('rls')
   autocmd vimrc User lsp_setup call lsp#register_server({
         \ 'name': 'rls',
         \ 'cmd': {server_info->['rustup', 'run', 'stable', 'rls']},
         \ 'workspace_config': {'rust': {'clippy_preference': 'on'}},
         \ 'whitelist': ['rust'],
+        \ })
+endif
+if executable('pyls')
+  autocmd vimrc User lsp_setup call lsp#register_server({
+        \ 'name': 'pyls',
+        \ 'cmd': {server_info->['pyls']},
+        \ 'whitelist': ['python'],
+        \ })
+endif
+if executable('clangd-6.0')
+  autocmd vimrc User lsp_setup call lsp#register_server({
+        \ 'name': 'clangd',
+        \ 'cmd': {server_info->['clangd-6.0']},
+        \ 'whitelist': ['c', 'cpp', 'objc', 'objcpp'],
         \ })
 endif
 
