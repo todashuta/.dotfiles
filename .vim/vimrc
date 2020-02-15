@@ -215,6 +215,9 @@ endif
 
 function! s:on_lsp_buffer_enabled() abort
   setlocal omnifunc=lsp#complete
+  nnoremap <buffer> K           :<C-u>LspHover<CR>
+  nnoremap <buffer> <C-]>       :<C-u>LspDefinition<CR>
+  nnoremap <buffer> <C-w><C-]>  :<C-u>split +LspDefinition<CR>
 endfunction
 autocmd vimrc User lsp_buffer_enabled call s:on_lsp_buffer_enabled()
 
