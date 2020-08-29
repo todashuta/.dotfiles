@@ -174,6 +174,7 @@ let g:is_bash = 1
 packadd! ctrlp.vim
 packadd! html5.vim
 packadd! sonictemplate-vim
+packadd! vim-jsx-pretty
 packadd! syntax-vim-ex
 packadd! vim-css3-syntax
 packadd! vim-diff
