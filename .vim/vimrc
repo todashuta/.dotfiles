@@ -214,8 +214,10 @@ if has('vim_starting') && !has('gui_running')
   endif
 endif
 
+let g:lsp_log_file = expand('~/var/vim/lsp.log')
 function! s:on_lsp_buffer_enabled() abort
   setlocal omnifunc=lsp#complete
+  setlocal signcolumn=yes
   nnoremap <buffer> K           :<C-u>LspHover<CR>
   nnoremap <buffer> <C-]>       :<C-u>LspDefinition<CR>
   nnoremap <buffer> <C-w><C-]>  :<C-u>split +LspDefinition<CR>
