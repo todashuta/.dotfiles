@@ -222,6 +222,8 @@ function! s:on_lsp_buffer_enabled() abort
   nnoremap <buffer> K           :<C-u>LspHover<CR>
   nnoremap <buffer> <C-]>       :<C-u>LspDefinition<CR>
   nnoremap <buffer> <C-w><C-]>  :<C-u>split +LspDefinition<CR>
+  nnoremap <silent><buffer> [e  :<C-u>LspPreviousDiagnostic<CR>
+  nnoremap <silent><buffer> ]e  :<C-u>LspNextDiagnostic<CR>
 endfunction
 autocmd vimrc User lsp_buffer_enabled call s:on_lsp_buffer_enabled()
 
