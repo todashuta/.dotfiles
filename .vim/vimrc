@@ -215,6 +215,7 @@ if has('vim_starting') && !has('gui_running')
 endif
 
 let g:lsp_log_file = expand('~/var/vim/lsp.log')
+let g:lsp_diagnostics_echo_cursor = 1
 function! s:on_lsp_buffer_enabled() abort
   setlocal omnifunc=lsp#complete
   setlocal signcolumn=yes
