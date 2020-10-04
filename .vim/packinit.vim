@@ -8,16 +8,17 @@ endif
 
 silent! packadd minpac
 
-if !exists('*minpac#init')
+try
+  call minpac#init()
+catch
   if !executable('git')
     echom "`git` command is not available.  Please install Git client."
     finish
   endif
   execute '!git clone https://github.com/k-takata/minpac '.expand($VIMDIR).'/pack/minpac/opt/minpac'
   packadd minpac
-endif
-
-call minpac#init()
+  call minpac#init()
+endtry
 " }}}
 
 call minpac#add('k-takata/minpac',            {'type': 'opt'})
