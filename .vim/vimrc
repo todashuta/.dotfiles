@@ -178,8 +178,9 @@ packadd! vim-jsx-pretty
 packadd! syntax-vim-ex
 packadd! vim-css3-syntax
 packadd! vim-diff
-"packadd! vim-go
 packadd! vim-lucius
+packadd! vim-color-spring-night
+packadd! tokyonight-vim
 packadd! vim-niceblock
 packadd! vim-quickrun
 packadd! vim-signify
@@ -219,13 +220,20 @@ let g:lsp_diagnostics_echo_cursor = 1
 function! s:on_lsp_buffer_enabled() abort
   setlocal omnifunc=lsp#complete
   setlocal signcolumn=yes
-  nnoremap <buffer> K           :<C-u>LspHover<CR>
-  nnoremap <buffer> <C-]>       :<C-u>LspDefinition<CR>
-  nnoremap <buffer> <C-w><C-]>  :<C-u>split +LspDefinition<CR>
-  nnoremap <silent><buffer> [e  :<C-u>LspPreviousDiagnostic<CR>
-  nnoremap <silent><buffer> ]e  :<C-u>LspNextDiagnostic<CR>
+  setlocal tagfunc=lsp#tagfunc
+
+  nmap <buffer> K   <Plug>(lsp-hover)
+  nmap <buffer> gd  <Plug>(lsp-definition)
+
+  "nnoremap <silent><buffer> [e  :<C-u>LspPreviousDiagnostic<CR>
+  "nnoremap <silent><buffer> ]e  :<C-u>LspNextDiagnostic<CR>
 endfunction
 autocmd vimrc User lsp_buffer_enabled call s:on_lsp_buffer_enabled()
+autocmd vimrc User lsp_float_opened call popup_setoptions(
+      \ lsp#ui#vim#output#getpreviewwinid(),
+      \ {
+      \   'borderchars': ['-', '|', '-', '|', '+', '+', '+', '+'],
+      \ })
 
 if executable('gopls')
   autocmd vimrc User lsp_setup call lsp#register_server({
