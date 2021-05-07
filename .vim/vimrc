@@ -191,6 +191,7 @@ packadd! async.vim
 packadd! asyncomplete.vim
 packadd! asyncomplete-lsp.vim
 packadd! vim-lsp
+packadd! vim-lsp-settings
 
 let g:ctrlp_map = ''
 let g:ctrlp_mruf_max = 512
@@ -234,36 +235,30 @@ autocmd vimrc User lsp_float_opened call popup_setoptions(
       \ {
       \   'borderchars': ['-', '|', '-', '|', '+', '+', '+', '+'],
       \ })
-
-if executable('gopls')
-  autocmd vimrc User lsp_setup call lsp#register_server({
-        \ 'name': 'gopls',
-        \ 'cmd': {server_info->['gopls']},
-        \ 'whitelist': ['go'],
-        \ })
-endif
-if executable('rls')
-  autocmd vimrc User lsp_setup call lsp#register_server({
-        \ 'name': 'rls',
-        \ 'cmd': {server_info->['rustup', 'run', 'stable', 'rls']},
-        \ 'workspace_config': {'rust': {'clippy_preference': 'on'}},
-        \ 'whitelist': ['rust'],
-        \ })
-endif
-if executable('pyls')
-  autocmd vimrc User lsp_setup call lsp#register_server({
-        \ 'name': 'pyls',
-        \ 'cmd': {server_info->['pyls']},
-        \ 'whitelist': ['python'],
-        \ })
-endif
-if executable('clangd-6.0')
-  autocmd vimrc User lsp_setup call lsp#register_server({
-        \ 'name': 'clangd',
-        \ 'cmd': {server_info->['clangd-6.0']},
-        \ 'whitelist': ['c', 'cpp', 'objc', 'objcpp'],
-        \ })
-endif
+let s:npm_available = executable('npm')
+let g:lsp_settings = {
+      \   'clangd': {
+      \     'cmd': ['clangd-6.0'],
+      \     'disabled': !executable('clangd-6.0') || 0,
+      \   },
+      \   'intelephense': {
+      \     'disabled': !s:npm_available || 0,
+      \     'workspace_config': {
+      \       'intelephense': {
+      \         'stubs': ['wordpress'],
+      \       }
+      \     }
+      \   },
+      \   'vim-language-server': {
+      \     'disabled': !s:npm_available || 0,
+      \   },
+      \   'typescript-language-server': {
+      \     'disabled': !s:npm_available || 0,
+      \   },
+      \   'json-languageserver': {
+      \     'disabled': !s:npm_available || 0,
+      \   },
+      \ }
 
 let s:vimrclocal = $MYVIMRC.'_local'
 if filereadable(s:vimrclocal)
