@@ -203,7 +203,6 @@ let g:quickrun_config['_'] = {
       \   'outputter/buffer/split': 'botright',
       \   'hook/time/enable': 1,
       \ }
-let g:gocomplete#system_function = 'vimproc#system'
 let g:signify_vcs_list = [ 'git', 'hg' ]
 
 xnoremap <expr> gr  niceblock#force_blockwise('r')
