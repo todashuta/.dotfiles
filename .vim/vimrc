@@ -20,7 +20,7 @@ if has('vim_starting')
   "helptags ALL
 endif
 
-if &encoding !=? 'utf-8'
+if &encoding !=? 'utf-8' && !filereadable($VIMDIR.'/use_system_encoding.txt')
   let &termencoding = &encoding
   set encoding=utf-8
 endif
