@@ -194,6 +194,7 @@ packadd! asyncomplete.vim
 packadd! asyncomplete-lsp.vim
 packadd! vim-lsp
 packadd! vim-lsp-settings
+packadd! vim-gitbranch
 
 let g:ctrlp_map = ''
 let g:ctrlp_mruf_max = 512
@@ -217,7 +218,8 @@ if has('vim_starting') && !has('gui_running')
   endif
 endif
 
-let g:lsp_log_file = expand('~/var/vim/lsp.log')
+let g:lsp_log_file = expand('~/var/vim/vim-lsp.log')
+let g:asyncomplete_log_file = expand('~/var/vim/asyncomplete.log')
 let g:lsp_diagnostics_echo_cursor = 1
 function! s:on_lsp_buffer_enabled() abort
   setlocal omnifunc=lsp#complete

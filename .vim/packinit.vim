@@ -67,5 +67,6 @@ call minpac#add('prabirshrestha/asyncomplete.vim', {'type': 'opt'})
 call minpac#add('prabirshrestha/asyncomplete-lsp.vim', {'type': 'opt'})
 call minpac#add('prabirshrestha/vim-lsp',     {'type': 'opt'})
 call minpac#add('mattn/vim-lsp-settings',     {'type': 'opt'})
+call minpac#add('itchyny/vim-gitbranch',      {'type': 'opt'})
 
 " vim: set et ts=2 sts=2 sw=2 fdm=marker :
