@@ -72,6 +72,7 @@ set cscopetag tags& tags-=tags tags+=./tags;
 set pumheight=10
 set cryptmethod=blowfish2
 set noequalalways
+set nrformats= nrformats+=unsigned
 
 "set pythonthreedll=C:/Python37/python37.dll
 
@@ -115,11 +116,12 @@ augroup END
 command!       DiffOrig                vert new | set bt=nofile | let b:is_difforigbuf = 1 | r ++edit # | 0d_ | diffthis | wincmd p | diffthis
 command!       DiffOrigOff             diffoff! | windo if get(b:, 'is_difforigbuf') | bwipeout | endif
 command!       EnableSyntaxcomplete    setlocal omnifunc=syntaxcomplete#Complete
+command!       NrformatsAlphaToggle    exe 'setlocal nf'.(&nf =~# 'alpha' ? '-=' : '+=').'alpha nf?'
 command!       PackUpdate              source $VIMDIR/packinit.vim | call minpac#update('', {'do': 'call minpac#status()'})
 command!       PackClean               source $VIMDIR/packinit.vim | call minpac#clean()
 command!       PackEdit                tabedit $VIMDIR/packinit.vim
 command!       Swapfiles               echo iconv(vimproc#system('vim -r'), &tenc, &enc)
-command!       ToggleLineNumber        let [&l:rnu, &l:nu] = (&l:rnu || &l:nu) ? [0, 0] : [1, 1]
+command!       LineNumberToggle        let [&l:rnu, &l:nu] = (&l:rnu || &l:nu) ? [0, 0] : [1, 1]
 command! -bang RemoveInvalidQfixItems  call setqflist(filter(copy(getqflist()), 'v:val.valid'), (<bang>0 ? 'r' : ' '))
 
 function! s:term(cmd, dir, bang, vertical)
