@@ -197,6 +197,7 @@ packadd! asyncomplete-lsp.vim
 packadd! vim-lsp
 packadd! vim-lsp-settings
 packadd! vim-gitbranch
+packadd! vim-toml
 
 let g:ctrlp_map = ''
 let g:ctrlp_mruf_max = 512
