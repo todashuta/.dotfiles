@@ -1,0 +1,30 @@
+version: 2
+#log-file: C:/Users/shuta/var/vim/efm-langserver.log
+#log-level: 1
+
+tools:
+  jsonlint-lint: &jsonlint-lint
+    lint-command: 'jsonlint -c'
+    lint-stdin: true
+    lint-formats:
+      - 'line %l, col %c, found: %m'
+
+  python-m-jsontool: &python-m-jsontool
+    lint-command: 'python -m json.tool'
+    lint-stdin: true
+    lint-formats:
+      - '%m: line %l column %c %r'
+
+  #gojq-lint: &gojq-lint
+  #  lint-command: 'gojq .'
+  #  lint-stdin: true
+  #  lint-formats:
+  #    - 'gojq: invalid json: %f:%l'
+  #    - '%l | %r'
+  #    - '^ %m'
+
+languages:
+  json:
+    - <<: *jsonlint-lint
+    - <<: *python-m-jsontool
+    #- <<: *gojq-lint
