@@ -196,6 +196,7 @@ packadd! asyncomplete.vim
 packadd! asyncomplete-lsp.vim
 packadd! vim-lsp
 packadd! vim-lsp-settings
+packadd! vim-lsp-icons
 packadd! vim-gitbranch
 packadd! vim-toml
 packadd! vim-vsnip
@@ -247,7 +248,7 @@ let s:npm_available = executable('npm')
 let g:lsp_settings = {
       \   'efm-langserver': {
       \     'cmd': [lsp_settings#exec_path('efm-langserver'), '-c='.$VIMDIR.'/efm-langserver-config.yaml'],
-      \     'disabled': 0,
+      \     'disabled': !executable('go') || 0,
       \   },
       \   'clangd': {
       \     'cmd': ['clangd-6.0'],
