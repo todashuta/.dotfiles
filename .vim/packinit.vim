@@ -69,5 +69,7 @@ call minpac#add('prabirshrestha/vim-lsp',     {'type': 'opt'})
 call minpac#add('mattn/vim-lsp-settings',     {'type': 'opt'})
 call minpac#add('itchyny/vim-gitbranch',      {'type': 'opt'})
 call minpac#add('cespare/vim-toml',           {'type': 'opt'})
+call minpac#add('hrsh7th/vim-vsnip',          {'type': 'opt'})
+call minpac#add('hrsh7th/vim-vsnip-integ',    {'type': 'opt'})
 
 " vim: set et ts=2 sts=2 sw=2 fdm=marker :
