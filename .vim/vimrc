@@ -235,6 +235,8 @@ function! s:on_lsp_buffer_enabled() abort
   nmap <buffer> K   <Plug>(lsp-hover)
   nmap <buffer> gd  <Plug>(lsp-definition)
 
+  imap <buffer><C-space>  <Plug>(asyncomplete_force_refresh)
+
   "nnoremap <silent><buffer> [e  :<C-u>LspPreviousDiagnostic<CR>
   "nnoremap <silent><buffer> ]e  :<C-u>LspNextDiagnostic<CR>
 endfunction
