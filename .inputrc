@@ -1,0 +1,14 @@
+# inputrc
+
+$include /etc/inputrc
+
+$if Bash
+	#set completion-ignore-case on
+	#set expand-tilde on
+
+	"\C-p": history-search-backward
+	"\C-n": history-search-forward
+
+	set bind-tty-special-chars off
+	"\C-w": backward-kill-word
+$endif
