@@ -1,0 +1,12 @@
+#!/bin/sh
+case "$(tmux show-options -gv mouse)" in
+	off)
+		tmux set-option -g mouse on && echo "mouse ON"
+		;;
+	on)
+		tmux set-option -g mouse off && echo "mouse OFF"
+		;;
+	*)
+		exit 1
+		;;
+esac
