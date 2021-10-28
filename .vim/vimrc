@@ -220,7 +220,19 @@ if has('vim_starting') && !has('gui_running')
   if s:is_windows
     colorscheme industry
   else
-    colorscheme ron
+    if has('termguicolors')
+      let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
+      let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
+      "let &t_8f = tr(&t_8f, ';', ':')
+      "let &t_8b = tr(&t_8b, ';', ':')
+      set termguicolors
+      let g:tokyonight_disable_italic_comment = 1
+      let g:tokyonight_transparent_background = 1
+      let g:tokyonight_menu_selection_background = 'blue'
+      silent! colorscheme tokyonight
+    else
+      colorscheme ron
+    endif
   endif
 endif
 
