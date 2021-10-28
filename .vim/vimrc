@@ -72,6 +72,7 @@ set cscopetag tags& tags-=tags tags+=./tags;
 set pumheight=10
 set cryptmethod=blowfish2
 set noequalalways
+set shortmess-=S
 silent! set nrformats= nrformats+=unsigned
 
 "set pythonthreedll=C:/Python37/python37.dll
