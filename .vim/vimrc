@@ -73,6 +73,7 @@ set pumheight=10
 set cryptmethod=blowfish2
 set noequalalways
 set shortmess-=S
+set t_fd= t_fe=  " :h xterm-focus-event
 silent! set nrformats= nrformats+=unsigned
 
 "set pythonthreedll=C:/Python37/python37.dll
