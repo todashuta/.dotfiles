@@ -2,6 +2,7 @@
 
 alias f=fg
 alias j='jobs -l'
+alias h=history
 
 alias ..='cd ..'
 
