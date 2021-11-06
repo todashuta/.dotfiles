@@ -4,6 +4,13 @@
 #     path = ~/path/to/gitconfig
 # [url "git@github.com:"]
 #     insteadOf = "https://github.com/"
+# [ghq]
+#     # root が複数設定されている場合、
+#     # 最後のものが ghq get の取得先になる
+#     root = ~/go/src
+#     root = D:/path/to/primary/dir
+# [push]
+#     default = simple
 
 [color]
 	status = auto
@@ -42,9 +49,5 @@
 	vertical-split = no
 	line-graphics = ascii
 	main-view = id date author commit-title:graph=yes,refs=yes
-
-#[push]
-##	For Git Version 1.8
-#	default = simple
 
 # end of gitconfig
