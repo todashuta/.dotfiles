@@ -13,6 +13,8 @@
 [alias]
 	s = status
 	d = diff
+	l = log
+	ll = log --patch
 	summary = status -s -u -b
 	contributors = shortlog -s -n
 	#wdiff = diff --word-diff
