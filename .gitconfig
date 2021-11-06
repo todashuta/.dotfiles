@@ -35,6 +35,9 @@
 	#pager = lv -c
 [merge]
 	tool = vimdiff
+[diff]
+	algorithm = histogram
+	colorMoved = dimmed_zebra
 [tig]
 	vertical-split = no
 	line-graphics = ascii
