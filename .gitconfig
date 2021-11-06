@@ -8,6 +8,8 @@
 	branch = auto
 	interactive = auto
 	grep = auto
+[commit]
+	verbose = true
 [alias]
 	s = status
 	d = diff
