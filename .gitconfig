@@ -1,8 +1,11 @@
-# .gitconfig
-# https://github.com/todashuta/profiles
+# gitconfig
+
+# [include]
+#     path = ~/path/to/gitconfig
+# [url "git@github.com:"]
+#     insteadOf = "https://github.com/"
 
 [color]
-	# colorの設定(自動で色付け)
 	status = auto
 	diff = auto
 	branch = auto
@@ -37,4 +40,4 @@
 ##	For Git Version 1.8
 #	default = simple
 
-# __END__
+# end of gitconfig
