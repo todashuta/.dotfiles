@@ -35,6 +35,10 @@
 	#pager = lv -c
 [merge]
 	tool = vimdiff
+[tig]
+	vertical-split = no
+	line-graphics = ascii
+	main-view = id date author commit-title:graph=yes,refs=yes
 
 #[push]
 ##	For Git Version 1.8
