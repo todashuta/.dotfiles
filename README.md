@@ -1,5 +1,6 @@
 # dotfiles
 
+- `vimrc` -> `.vim/vimrc`
 
 <!--
 ## Usage
