@@ -1,18 +1,22 @@
-.netrwhist
+# gitignore
+
 .DS_Store
 
-.zsh/.zsh_history
-.zsh/.zcompdump
-.zsh/.zcalc_history
-.zsh/.zcompcache/*
-.zsh/.chpwd-recent-dirs
+/.zsh/.zsh_history
+/.zsh/.zcompdump
+/.zsh/.zcalc_history
+/.zsh/.zcompcache/*
+/.zsh/.chpwd-recent-dirs
 
-.emacs.d/games/*
-.emacs.d/auto-save-list/*
-.emacs.d/el-get/*
+/.emacs.d/games/*
+/.emacs.d/auto-save-list/*
+/.emacs.d/el-get/*
 
-.vim/vimrc_local
-.vim/gvimrc_local
-.vim/bundle/*
-.vim/pack/*
-!.vim/bundle/neobundle.vim
+/.vim/.netrwhist
+/.vim/vimrc_local
+/.vim/gvimrc_local
+/.vim/bundle/*
+!/.vim/bundle/neobundle.vim
+/.vim/pack/*
+
+# end of gitignore
