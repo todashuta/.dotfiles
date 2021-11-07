@@ -4,6 +4,8 @@
 #     path = ~/path/to/gitconfig
 # [url "git@github.com:"]
 #     insteadOf = "https://github.com/"
+# [core]
+#     autocrlf = false
 # [ghq]
 #     # root が複数設定されている場合、
 #     # 最後のものが ghq get の取得先になる
@@ -21,7 +23,10 @@
 [commit]
 	verbose = true
 [alias]
-	s = status
+	s = status -sb --show-stash
+	ss = status -uno --show-stash
+	ap = add --patch
+	b = branch
 	d = diff
 	l = log
 	ll = log --patch
