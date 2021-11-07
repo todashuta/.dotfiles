@@ -34,6 +34,8 @@
 	la = log --graph --stat --decorate --date=format-local:'%Y-%m-%d (%a) %H:%M:%S' --all
 	ll  = log --graph --patch --decorate --date=format-local:'%Y-%m-%d (%a) %H:%M:%S'
 	lla = log --graph --patch --decorate --date=format-local:'%Y-%m-%d (%a) %H:%M:%S' --all
+	lg = log --graph --pretty=format:'%C(yellow)%h%C(reset) -%C(auto)%d%C(reset) %s %C(green)(%cr) %C(bold blue)<%an>%C(reset)' --abbrev-commit --date=relative
+	lga = log --graph --all --pretty=format:'%C(yellow)%h%C(reset) -%C(auto)%d%C(reset) %s %C(green)(%cr) %C(bold blue)<%an>%C(reset)' --abbrev-commit --date=relative
 	summary = status -s -u -b
 	contributors = shortlog -s -n
 	#wdiff = diff --word-diff
