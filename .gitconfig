@@ -6,6 +6,7 @@
 #     insteadOf = "https://github.com/"
 # [core]
 #     autocrlf = false
+#     attributesfile = ~/dotfiles/.gitattributes_global
 # [ghq]
 #     # root が複数設定されている場合、
 #     # 最後のものが ghq get の取得先になる
@@ -27,9 +28,12 @@
 	ss = status -uno --show-stash
 	ap = add --patch
 	b = branch
-	d = diff
-	l = log
-	ll = log --patch
+	d  = diff
+	dw = diff --color-words
+	l  = log --graph --stat --decorate --date=format-local:'%Y-%m-%d (%a) %H:%M:%S'
+	la = log --graph --stat --decorate --date=format-local:'%Y-%m-%d (%a) %H:%M:%S' --all
+	ll  = log --graph --patch --decorate --date=format-local:'%Y-%m-%d (%a) %H:%M:%S'
+	lla = log --graph --patch --decorate --date=format-local:'%Y-%m-%d (%a) %H:%M:%S' --all
 	summary = status -s -u -b
 	contributors = shortlog -s -n
 	#wdiff = diff --word-diff
