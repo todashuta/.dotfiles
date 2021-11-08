@@ -28,10 +28,17 @@ set guifont=VL_Gothic:h9 guifontwide=VL_Gothic:h9 "rop=type:directx,renmode:4
 set renderoptions=type:directx,renmode:5
 
 set guioptions-=T guioptions-=m guioptions-=r guioptions-=L guioptions-=e
+
 let g:lucius_style = 'light'
 let g:lucius_contrast = 'low'
 let g:lucius_contrast_bg = 'normal'
 colorscheme lucius
+
+let g:tokyonight_style = 'storm'
+let g:tokyonight_disable_italic_comment = 1
+let g:tokyonight_menu_selection_background = 'blue'
+let g:tokyonight_cursor = 'red'
+"colorscheme tokyonight
 
 set visualbell& errorbells&
 if 0
