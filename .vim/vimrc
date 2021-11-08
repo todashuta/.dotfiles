@@ -88,6 +88,7 @@ inoremap          <C-@>       <Nop>
 nnoremap          <C-h>       :<C-u>h<Space>
 nnoremap          Q           <Nop>
 nnoremap          s           <Nop>
+nnoremap          S           <Nop>
 nnoremap          s/          :<C-u>silent grep!<Space>
 nnoremap          sa          :<C-u>silent grepadd!<Space>
 nnoremap          s?          :<C-u>/j **/* <Bar> cwindow<Home>noautocmd vimgrep /<C-f>
@@ -104,6 +105,8 @@ nnoremap  sr  :<C-u>CtrlPMRUFiles<CR>
 nnoremap  sb  :<C-u>CtrlPBuffer<CR>
 nnoremap  sf  :<C-u>CtrlPCurWD<CR>
 nnoremap  sF  :<C-u>CtrlPCurFile<CR>
+
+nnoremap  SG  :<C-u>Git<CR>
 
 augroup vimrc
   autocmd!
