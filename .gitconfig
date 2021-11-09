@@ -53,6 +53,10 @@
 	#pager = lv -c
 [merge]
 	tool = vimdiff
+	conflictstyle = diff3
+[mergetool]
+	prompt = false
+	keepBackup = false
 [diff]
 	algorithm = histogram
 	colorMoved = dimmed_zebra
