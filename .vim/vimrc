@@ -65,7 +65,8 @@ set wildignore& wildignore+=*.exe,*.dll,*.zip,*.mp3,Thumbs.db,*.xls,*.xlsx,*.eml
 set suffixes+=.rd,.exe,.dll,.pdf,.jpg,.jpeg,.gif,.zip,.png,.rs
 set hidden
 set clipboard+=unnamed
-set diffopt+=vertical diffexpr=diff#histogramdiffexpr()  " https://github.com/ynkdir/vim-diff
+"set diffexpr=diff#histogramdiffexpr()  " https://github.com/ynkdir/vim-diff
+set diffopt& diffopt+=vertical diffopt+=algorithm:histogram
 set timeoutlen=2000
 set matchpairs+=<:>,「:」,【:】,『:』,（:）,＜:＞
 set cscopetag tags& tags-=tags tags+=./tags;
@@ -94,6 +95,7 @@ nnoremap          sa          :<C-u>silent grepadd!<Space>
 nnoremap          s?          :<C-u>/j **/* <Bar> cwindow<Home>noautocmd vimgrep /<C-f>
 nnoremap          sA          :<C-u>/j **/* <Bar> cwindow<Home>noautocmd vimgrepadd /<C-f>
 nnoremap <silent> <Esc><Esc>  :<C-u>let v:hlsearch = !v:hlsearch<CR>
+nnoremap          <C-l>       :<C-u>SignifyRefresh<CR>:diffupdate<CR><C-l>
 
 if s:is_windows
   nnoremap  se      :<C-u>Explorer<Space>
