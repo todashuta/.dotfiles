@@ -65,8 +65,12 @@ set wildignore& wildignore+=*.exe,*.dll,*.zip,*.mp3,Thumbs.db,*.xls,*.xlsx,*.eml
 set suffixes+=.rd,.exe,.dll,.pdf,.jpg,.jpeg,.gif,.zip,.png,.rs
 set hidden
 set clipboard+=unnamed
-"set diffexpr=diff#histogramdiffexpr()  " https://github.com/ynkdir/vim-diff
-set diffopt& diffopt+=vertical diffopt+=algorithm:histogram
+set diffopt& diffopt+=vertical
+if &diffopt =~# 'internal'
+  set diffopt+=algorithm:histogram
+else
+  set diffexpr=diff#histogramdiffexpr()  " https://github.com/ynkdir/vim-diff
+endif
 set timeoutlen=2000
 set matchpairs+=<:>,「:」,【:】,『:』,（:）,＜:＞
 set cscopetag tags& tags-=tags tags+=./tags;
