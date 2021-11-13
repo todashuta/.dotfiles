@@ -8,7 +8,7 @@ if has('vim_starting')
   filetype off
   filetype plugin indent off
   if s:is_windows
-    "let $HOME = $HOME
+    "let $HOME = $HOME  " See :h $HOME-windows
     "let $PATH .= ';'.expand('~/bin')
     "let $PATH .= ';'.'C:\Windows\Microsoft.NET\Framework64\v4.0.30319'
   endif
@@ -66,8 +66,8 @@ set suffixes+=.rd,.exe,.dll,.pdf,.jpg,.jpeg,.gif,.zip,.png,.rs
 set hidden
 set clipboard+=unnamed
 set diffopt& diffopt+=vertical
-if &diffopt =~# 'internal'
-  set diffopt+=algorithm:histogram
+if &diffopt =~# 'internal' && has("patch-8.1.0502")
+  set diffopt+=algorithm:histogram,indent-heuristic
 else
   set diffexpr=diff#histogramdiffexpr()  " https://github.com/ynkdir/vim-diff
 endif
