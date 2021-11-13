@@ -24,8 +24,8 @@
 [commit]
 	verbose = true
 [alias]
-	s = status -sb --show-stash
-	ss = status -uno --show-stash
+	s = status -uno --show-stash
+	ss = status -sb --show-stash
 	ap = add --patch
 	b = branch
 	d  = diff
