@@ -210,8 +210,11 @@ packadd! vim-lsp-settings
 packadd! vim-lsp-icons
 packadd! vim-gitbranch
 packadd! vim-toml
-packadd! vim-vsnip
-packadd! vim-vsnip-integ
+
+if exists('##TextChangedP')
+  packadd! vim-vsnip
+  packadd! vim-vsnip-integ
+endif
 
 let g:ctrlp_map = ''
 let g:ctrlp_mruf_max = 512
