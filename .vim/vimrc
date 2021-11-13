@@ -58,7 +58,7 @@ set title
 set backspace=indent,eol,start
 set scrolloff=5 sidescrolloff=16
 let g:FFTable = { 'dos': 'CR+LF(dos)', 'unix': 'LF(unix)', 'mac': 'CR(mac)' }
-let &statusline = '%#WarningMsg#%{&paste?"*PASTE*":""}%*%{exists("*fugitive#head")&&fugitive#head(5)!=""?("[git:".fugitive#head(5)."] "):""}#%n %{&modified?"*":""}%<%t%h%r [%{toupper(&fenc==""?(&enc."*"):&fenc).(&bomb?"(BOM)":"")};%{g:FFTable[&ff].(&eol?"":"-NoEOL")}] 0x%{FencB()}%= %y %l/%LL %2c%VC %3p%%'
+let &statusline = '%#WarningMsg#%{&paste?"*PASTE*":""}%*#%n%{gitbranch#name()!=""?(" [Git:".gitbranch#name()."]"):""} %{&modified?"*":""}%<%t%h%r [%{toupper(&fenc==""?(&enc."*"):&fenc).(&bomb?"(BOM)":"")};%{g:FFTable[&ff].(&eol?"":"-NoEOL")}] 0x%{FencB()}%= %y %l/%LL %2c%VC %3p%%'
 let &grepprg = s:is_windows ? 'jvgrep.exe -I -C' : 'grep -rnIH --exclude-dir=.git --exclude-dir=.hg --exclude-dir=.svn --exclude=tags'
 set grepformat& grepformat^=%f:%l:%c:%m
 set wildignore& wildignore+=*.exe,*.dll,*.zip,*.mp3,Thumbs.db,*.xls,*.xlsx,*.eml,*.fol,*.rd,*.rm,*.rs,*.3dm,*.3dmbak,*.ods,*.odp,*.psd,*.pdf,*.bmp,*.jpg,*.jpeg,*.gif,*.png
