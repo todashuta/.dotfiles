@@ -1,5 +1,7 @@
 # gdbinit
 
+# source ~/path/to/gdbinit
+
 layout split
 focus src
 
