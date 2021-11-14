@@ -5,6 +5,7 @@ alias j='jobs -l'
 alias h=history
 
 alias ..='cd ..'
+alias -- -='cd -'
 
 alias lt='ls -AFlrt'
 
