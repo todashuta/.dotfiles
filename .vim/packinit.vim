@@ -72,5 +72,6 @@ call minpac#add('cespare/vim-toml',           {'type': 'opt'})
 call minpac#add('hrsh7th/vim-vsnip',          {'type': 'opt'})
 call minpac#add('hrsh7th/vim-vsnip-integ',    {'type': 'opt'})
 call minpac#add('mattn/vim-lsp-icons',        {'type': 'opt'})
+call minpac#add('mattn/vim-findroot',         {'type': 'opt'})
 
 " vim: set et ts=2 sts=2 sw=2 fdm=marker :
