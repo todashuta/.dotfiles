@@ -50,6 +50,7 @@
 	discard = checkout --
 [core]
 	editor = vim
+	pager = "less -S -# 5"
 	#pager = lv -c
 [merge]
 	tool = vimdiff
