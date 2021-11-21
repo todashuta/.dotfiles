@@ -124,6 +124,7 @@ augroup vimrc
   "autocmd VimEnter,WinEnter,ColorScheme *      if !has('gui_running') | execute 'highlight Normal ctermbg=NONE' | endif
 augroup END
 
+command!       CdCurrent               cd %:p:h
 command!       DiffOrig                vert new | set bt=nofile | let b:is_difforigbuf = 1 | r ++edit # | 0d_ | diffthis | wincmd p | diffthis
 command!       DiffOrigOff             diffoff! | windo if get(b:, 'is_difforigbuf') | bwipeout | endif
 command!       EnableSyntaxcomplete    setlocal omnifunc=syntaxcomplete#Complete
@@ -301,6 +302,13 @@ let g:lsp_settings = {
       \     'disabled': !s:npm_available || 0,
       \   },
       \ }
+
+autocmd vimrc FileType json
+      \ call s:join_block_keymaps()
+function! s:join_block_keymaps()
+  nnoremap <buffer> <F9>    :<C-u>normal! v%J+<CR><Esc>
+  nnoremap <buffer> <S-F9>  :<C-u>call feedkeys("vi[:g/{$/normal! v%J<Bslash><lt>CR>0zz", 'n')<CR>
+endfunction
 
 let s:vimrclocal = $MYVIMRC.'_local'
 if filereadable(s:vimrclocal)
