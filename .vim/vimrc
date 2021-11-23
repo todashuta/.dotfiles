@@ -82,6 +82,7 @@ set t_fd= t_fe=  " :h xterm-focus-event
 silent! set nrformats= nrformats+=unsigned
 
 "set pythonthreedll=C:/Python37/python37.dll
+"set pythonthreedll=~/scoop/apps/python/current/python310.dll
 
 "cnoremap          <C-x>       <C-r>=fnamemodify(@%,':h:~:.').(exists('+shellslash')&&!&shellslash?'\':'/')<CR>
 cnoremap          <C-x>       <C-r>=(@%==''?'.':fnamemodify(@%,':~:.:h')).(exists('+shellslash')&&!&shellslash?'\':'/')<CR>
@@ -182,7 +183,7 @@ let g:loaded_getscriptPlugin = 1
 let g:loaded_vimball = 1
 let g:loaded_vimballPlugin = 1
 let g:pascal_delphi = 1  " To highlight //-style comment
-let g:is_bash = 1
+let g:is_bash = 1  " See :h ft-bash-syntax
 
 " Packages
 "packadd! matchit
