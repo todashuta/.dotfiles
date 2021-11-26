@@ -7,7 +7,15 @@ alias h=history
 alias ..='cd ..'
 alias -- -='cd -'
 
-alias lt='ls -AFlrt'
+alias ls='command ls --color=auto'
+alias ll='command ls --color=auto -alF'
+alias la='command ls --color=auto -A'
+alias  l='command ls --color=auto -CF'
+alias lt='command ls --color=auto -AFlrt'
+
+alias  grep='command grep --color=auto'
+alias fgrep='command grep --color=auto -F'
+alias egrep='command grep --color=auto -E'
 
 alias vi='vim -u NONE -i NONE -N'
 alias lang-c='env LC_ALL=C LANG=C'
