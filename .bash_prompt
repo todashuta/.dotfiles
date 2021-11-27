@@ -1,6 +1,6 @@
 # bash prompt
 
-PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\njobs:\j \$ '
+PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h${WSL_DISTRO_NAME:+(WSL)}\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\njobs:\j \$ '
 
 # git prompt
 if [ -f /etc/bash_completion.d/git-prompt ]; then
@@ -10,7 +10,7 @@ if [ -f /etc/bash_completion.d/git-prompt ]; then
 	GIT_PS1_SHOWUNTRACKEDFILES=true
 	GIT_PS1_SHOWSTASHSTATE=true
 	GIT_PS1_SHOWUPSTREAM=auto
-	PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\n$(tput setaf 3)$(__git_ps1 "(%s)")$(tput sgr0)jobs:\j \$ '
+	PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h${WSL_DISTRO_NAME:+(WSL)}\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\n$(tput setaf 3)$(__git_ps1 "(%s)")$(tput sgr0)jobs:\j \$ '
 fi
 
 # vim: set ft=sh:
