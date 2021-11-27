@@ -81,9 +81,6 @@ set shortmess-=S
 set t_fd= t_fe=  " :h xterm-focus-event
 silent! set nrformats= nrformats+=unsigned
 
-"set pythonthreedll=C:/Python37/python37.dll
-"set pythonthreedll=~/scoop/apps/python/current/python310.dll
-
 "cnoremap          <C-x>       <C-r>=fnamemodify(@%,':h:~:.').(exists('+shellslash')&&!&shellslash?'\':'/')<CR>
 cnoremap          <C-x>       <C-r>=(@%==''?'.':fnamemodify(@%,':~:.:h')).(exists('+shellslash')&&!&shellslash?'\':'/')<CR>
 cnoremap          <C-p>       <Up>
@@ -187,7 +184,6 @@ let g:is_bash = 1  " See :h ft-bash-syntax
 
 " Packages
 "packadd! matchit
-"packadd! vimdoc-ja
 packadd! ctrlp.vim
 packadd! html5.vim
 packadd! sonictemplate-vim
@@ -310,6 +306,10 @@ function! s:join_block_keymaps()
   nnoremap <buffer> <F9>    :<C-u>normal! v%J+<CR><Esc>
   nnoremap <buffer> <S-F9>  :<C-u>call feedkeys("vi[:g/{$/normal! v%J<Bslash><lt>CR>0zz", 'n')<CR>
 endfunction
+
+"set pythonthreedll=C:/Python37/python37.dll
+"set pythonthreedll=~/scoop/apps/python/current/python310.dll
+"packadd! vimdoc-ja
 
 let s:vimrclocal = $MYVIMRC.'_local'
 if filereadable(s:vimrclocal)
