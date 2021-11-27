@@ -80,6 +80,7 @@ set noequalalways
 set shortmess-=S
 set t_fd= t_fe=  " :h xterm-focus-event
 silent! set nrformats= nrformats+=unsigned
+set updatetime=500
 
 "cnoremap          <C-x>       <C-r>=fnamemodify(@%,':h:~:.').(exists('+shellslash')&&!&shellslash?'\':'/')<CR>
 cnoremap          <C-x>       <C-r>=(@%==''?'.':fnamemodify(@%,':~:.:h')).(exists('+shellslash')&&!&shellslash?'\':'/')<CR>
@@ -225,7 +226,7 @@ let g:quickrun_config['_'] = {
       \   'outputter/buffer/split': 'botright',
       \   'hook/time/enable': 1,
       \ }
-let g:signify_vcs_list = [ 'git', 'hg' ]
+let g:signify_skip = {'vcs': {'allow': ['git']}}
 
 xnoremap <expr> gr  niceblock#force_blockwise('r')
 
