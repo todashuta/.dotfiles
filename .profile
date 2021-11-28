@@ -19,7 +19,7 @@ export GOROOT
 GOPATH="$HOME/go"
 export GOPATH
 
-if [ -z "$dotprofile_loaded" ] ; then
+if [ -z "$LOADED_DOTPROFILE" ] ; then
     if [ -z "$PATH" ] ; then
         PATH="/usr/sbin:/usr/bin:/sbin:/bin"
     fi
@@ -61,8 +61,8 @@ if [ -z "$dotprofile_loaded" ] ; then
 
     export PATH
 
-    dotprofile_loaded=true
-    export dotprofile_loaded
+    LOADED_DOTPROFILE=true
+    export LOADED_DOTPROFILE
 fi
 
 # vim: set et ts=4 sts=4 sw=4:
