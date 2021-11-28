@@ -4,6 +4,8 @@
 #     path = ~/path/to/gitconfig
 # [url "git@github.com:"]
 #     insteadOf = "https://github.com/"
+# [url "git@github.com:todashuta"]
+#     insteadOf = "https://github.com/todashuta"
 # [core]
 #     autocrlf = false
 #     attributesfile = ~/dotfiles/.gitattributes_global
