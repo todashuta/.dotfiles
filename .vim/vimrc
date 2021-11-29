@@ -113,6 +113,9 @@ nnoremap  sF  :<C-u>CtrlPCurFile<CR>
 
 nnoremap  SG  :<C-u>Git<CR>
 
+xnoremap  p  "0p
+xnoremap  P  p
+
 augroup vimrc
   autocmd!
   autocmd QuickFixCmdPost               [^l]*  botright cwindow | redraw!
