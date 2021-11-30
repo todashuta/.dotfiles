@@ -90,8 +90,7 @@ inoremap <expr>   <C-Space>   (!pumvisible() && &l:omnifunc != '') ? "\<C-x>\<C-
 inoremap <silent> <ESC>       <ESC>:set iminsert=0<CR>
 inoremap          <C-@>       <Nop>
 nnoremap          <C-h>       :<C-u>h<Space>
-nnoremap          q           <Nop>
-nnoremap          Q           q
+nnoremap          Q           <Nop>
 nnoremap          s           <Nop>
 nnoremap          S           <Nop>
 nnoremap          s/          :<C-u>silent grep!<Space>
@@ -234,7 +233,7 @@ let g:signify_skip = {'vcs': {'allow': ['git']}}
 let g:switch_mapping = 'gs'
 
 xnoremap <expr> gr  niceblock#force_blockwise('r')
-map qr  <Plug>(operator-replace)
+map Qr  <Plug>(operator-replace)
 
 if has('vim_starting') && !has('gui_running')
   if s:is_windows
