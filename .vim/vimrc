@@ -314,6 +314,17 @@ function! s:join_block_keymaps()
   nnoremap <buffer> <S-F9>  :<C-u>call feedkeys("vi[:g/{$/normal! v%J<Bslash><lt>CR>0zz", 'n')<CR>
 endfunction
 
+autocmd vimrc FileType json
+      \ call s:set_json_indent()
+function! s:set_json_indent()
+  call cursor(1, 1)
+  if search('\t', 'Wnc', 0, 20) > 0
+    " use tab indentation (global value)
+  else
+    setlocal expandtab softtabstop=2 shiftwidth=2
+  endif
+endfunction
+
 "set pythonthreedll=C:/Python37/python37.dll
 "set pythonthreedll=~/scoop/apps/python/current/python310.dll
 "packadd! vimdoc-ja
