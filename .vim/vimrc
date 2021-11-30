@@ -90,7 +90,8 @@ inoremap <expr>   <C-Space>   (!pumvisible() && &l:omnifunc != '') ? "\<C-x>\<C-
 inoremap <silent> <ESC>       <ESC>:set iminsert=0<CR>
 inoremap          <C-@>       <Nop>
 nnoremap          <C-h>       :<C-u>h<Space>
-nnoremap          Q           <Nop>
+nnoremap          q           <Nop>
+nnoremap          Q           q
 nnoremap          s           <Nop>
 nnoremap          S           <Nop>
 nnoremap          s/          :<C-u>silent grep!<Space>
@@ -112,9 +113,6 @@ nnoremap  sf  :<C-u>CtrlPCurWD<CR>
 nnoremap  sF  :<C-u>CtrlPCurFile<CR>
 
 nnoremap  SG  :<C-u>Git<CR>
-
-xnoremap  p  "0p
-xnoremap  P  p
 
 augroup vimrc
   autocmd!
@@ -214,6 +212,8 @@ packadd! vim-gitbranch
 packadd! vim-toml
 packadd! vim-findroot
 packadd! switch.vim
+packadd! vim-operator-user
+packadd! vim-operator-replace
 
 if exists('##TextChangedP')
   packadd! vim-vsnip
@@ -234,6 +234,7 @@ let g:signify_skip = {'vcs': {'allow': ['git']}}
 let g:switch_mapping = 'gs'
 
 xnoremap <expr> gr  niceblock#force_blockwise('r')
+map qr  <Plug>(operator-replace)
 
 if has('vim_starting') && !has('gui_running')
   if s:is_windows
