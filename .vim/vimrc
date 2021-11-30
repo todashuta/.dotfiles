@@ -213,6 +213,7 @@ packadd! vim-lsp-icons
 packadd! vim-gitbranch
 packadd! vim-toml
 packadd! vim-findroot
+packadd! switch.vim
 
 if exists('##TextChangedP')
   packadd! vim-vsnip
@@ -230,6 +231,7 @@ let g:quickrun_config['_'] = {
       \   'hook/time/enable': 1,
       \ }
 let g:signify_skip = {'vcs': {'allow': ['git']}}
+let g:switch_mapping = 'gs'
 
 xnoremap <expr> gr  niceblock#force_blockwise('r')
 
