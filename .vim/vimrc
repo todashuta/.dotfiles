@@ -90,7 +90,7 @@ inoremap <expr>   <C-Space>   (!pumvisible() && &l:omnifunc != '') ? "\<C-x>\<C-
 inoremap <silent> <ESC>       <ESC>:set iminsert=0<CR>
 inoremap          <C-@>       <Nop>
 nnoremap          <C-h>       :<C-u>h<Space>
-nnoremap          Q           <Nop>
+map               Q           <Nop>
 nnoremap          s           <Nop>
 nnoremap          S           <Nop>
 nnoremap          s/          :<C-u>silent grep!<Space>
@@ -323,6 +323,15 @@ function! s:set_json_indent()
     setlocal expandtab softtabstop=2 shiftwidth=2
   endif
 endfunction
+
+if exists('##OptionSet')
+  autocmd vimrc OptionSet diff
+        \   if [v:option_old, v:option_new] == ['0', '1']
+        \ |   syntax off
+        \ | else
+        \ |   syntax on
+        \ | endif
+endif
 
 "set pythonthreedll=C:/Python37/python37.dll
 "set pythonthreedll=~/scoop/apps/python/current/python310.dll
