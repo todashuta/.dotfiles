@@ -196,6 +196,9 @@ packadd! vim-lucius
 packadd! vim-color-spring-night
 packadd! tokyonight-vim
 packadd! vim-niceblock
+packadd! vim-textobj-user
+packadd! vim-textobj-syntax
+packadd! vim-textobj-python
 packadd! vim-quickrun
 packadd! vim-signify
 packadd! vim-zenspace
