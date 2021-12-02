@@ -199,6 +199,7 @@ packadd! vim-niceblock
 packadd! vim-textobj-user
 packadd! vim-textobj-syntax
 packadd! vim-textobj-python
+packadd! vim-textobj-multiblock
 packadd! vim-quickrun
 packadd! vim-signify
 packadd! vim-zenspace
@@ -237,6 +238,11 @@ let g:switch_mapping = 'gs'
 
 xnoremap <expr> gr  niceblock#force_blockwise('r')
 map Qr  <Plug>(operator-replace)
+
+omap aa  <Plug>(textobj-multiblock-a)
+omap ii  <Plug>(textobj-multiblock-i)
+xmap aa  <Plug>(textobj-multiblock-a)
+xmap ii  <Plug>(textobj-multiblock-i)
 
 if has('vim_starting') && !has('gui_running')
   if s:is_windows
