@@ -217,6 +217,7 @@ packadd! vim-findroot
 packadd! switch.vim
 packadd! vim-operator-user
 packadd! vim-operator-replace
+packadd! vim-operator-surround
 
 if exists('##TextChangedP')
   packadd! vim-vsnip
@@ -243,6 +244,10 @@ omap aa  <Plug>(textobj-multiblock-a)
 omap ii  <Plug>(textobj-multiblock-i)
 xmap aa  <Plug>(textobj-multiblock-a)
 xmap ii  <Plug>(textobj-multiblock-i)
+
+map <silent>Sa  <Plug>(operator-surround-append)
+map <silent>Sd  <Plug>(operator-surround-delete)
+map <silent>Sr  <Plug>(operator-surround-replace)
 
 if has('vim_starting') && !has('gui_running')
   if s:is_windows
