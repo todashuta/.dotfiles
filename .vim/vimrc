@@ -345,6 +345,7 @@ if exists('##OptionSet')
         \ | else
         \ |   syntax on
         \ | endif
+        \ | silent! call parenmatch#highlight()
 endif
 
 "set pythonthreedll=C:/Python37/python37.dll
