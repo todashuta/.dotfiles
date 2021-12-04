@@ -66,7 +66,7 @@ set suffixes+=.rd,.exe,.dll,.pdf,.jpg,.jpeg,.gif,.zip,.png,.rs
 set hidden
 set clipboard+=unnamed
 set diffopt& diffopt+=vertical
-if &diffopt =~# 'internal' && has("patch-8.1.0502")
+if &diffopt =~# 'internal' && has('patch-8.1.0502')
   set diffopt+=algorithm:histogram,indent-heuristic
 else
   set diffexpr=diff#histogramdiffexpr()  " https://github.com/ynkdir/vim-diff
@@ -359,10 +359,9 @@ if exists('##OptionSet')
         \   if [v:option_old, v:option_new] == ['0', '1']
         \ |   syntax off
         \ | else
-        \ |   syntax on
+        \ |   syntax enable
         \ | endif
-        \ | silent! call parenmatch#highlight()
-        \ | silent! call cursorword#highlight()
+        \ | doautoall ColorScheme
 endif
 
 "set pythonthreedll=C:/Python37/python37.dll
