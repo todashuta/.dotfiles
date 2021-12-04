@@ -220,6 +220,7 @@ packadd! vim-signify
 packadd! vim-zenspace
 packadd! vim-fugitive
 packadd! vim-parenmatch
+packadd! vim-cursorword
 packadd! async.vim
 packadd! asyncomplete.vim
 packadd! asyncomplete-lsp.vim
@@ -361,6 +362,7 @@ if exists('##OptionSet')
         \ |   syntax on
         \ | endif
         \ | silent! call parenmatch#highlight()
+        \ | silent! call cursorword#highlight()
 endif
 
 "set pythonthreedll=C:/Python37/python37.dll
