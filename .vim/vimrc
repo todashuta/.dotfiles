@@ -111,7 +111,13 @@ nnoremap  sb  :<C-u>CtrlPBuffer<CR>
 nnoremap  sf  :<C-u>CtrlPCurWD<CR>
 nnoremap  sF  :<C-u>CtrlPCurFile<CR>
 
-nnoremap  SG  :<C-u>CtrlPLauncher! git<CR>
+"nnoremap  SG  :<C-u>CtrlPLauncher! git<CR>
+"nnoremap  SD  :<C-u>CtrlPLauncher! diff<CR>
+
+nnoremap <Space>   <Nop>
+nnoremap <Space>g  :<C-u>CtrlPLauncher! git<CR>
+nnoremap <Space>d  :<C-u>CtrlPLauncher! diff<CR>
+nnoremap <Space>t  :<C-u>CtrlPLauncher! toggle<CR>
 
 augroup vimrc
   autocmd!

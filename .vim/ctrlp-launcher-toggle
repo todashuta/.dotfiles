@@ -1,0 +1,4 @@
+Line Number	:LineNumberToggle
+#Nrformats Alpha	:NrformatsAlphaToggle
+paste	:set paste! paste?
+wrap	:setlocal wrap! wrap?
