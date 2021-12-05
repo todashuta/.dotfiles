@@ -178,13 +178,13 @@ endfunction
 function! MyGitStauts()
   let l:name = gitbranch#name()
   let l:type = getbufvar('', 'fugitive_type')
-  if l:name ==# '' && l:type ==# ''
+  if l:name == '' && l:type == ''
     return ''
   endif
-  if l:type !=# ''
+  if l:type != ''
     let l:type = '(' . l:type . ')'
   endif
-  if l:name !=# ''
+  if l:name != ''
     let l:name = ':' . l:name
   endif
   return ' [Git' . l:type . l:name . ']'
