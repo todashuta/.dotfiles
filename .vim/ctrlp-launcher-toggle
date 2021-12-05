@@ -1,4 +1,5 @@
 Line Number	:LineNumberToggle
 #Nrformats Alpha	:NrformatsAlphaToggle
 paste	:set paste! paste?
+syntax	:if exists('g:syntax_on') | syntax off | else | syntax enable | endif
 wrap	:setlocal wrap! wrap?
