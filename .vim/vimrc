@@ -117,6 +117,8 @@ augroup vimrc
   autocmd!
   autocmd QuickFixCmdPost               [^l]*  botright cwindow | redraw!
   "autocmd VimEnter,WinEnter,ColorScheme *      highlight MatchParen guifg=NONE guibg=NONE ctermfg=NONE ctermbg=NONE term=underline cterm=underline gui=underline
+  autocmd VimEnter,WinEnter,ColorScheme *      highlight lspReference term=underline cterm=underline gui=underline
+  autocmd VimEnter,WinEnter,ColorScheme *      highlight link CursorWord0 CursorColumn | highlight link CursorWord1 CursorColumn
   autocmd VimEnter,WinEnter,ColorScheme *      highlight QuickFixLine guifg=NONE guibg=NONE ctermfg=NONE ctermbg=NONE term=underline cterm=underline gui=underline
   autocmd VimEnter,WinEnter,ColorScheme *      if !has('gui_running') | execute 'highlight Pmenu ctermbg=3' | endif
   autocmd FileType                      *      if &l:omnifunc == '' | setlocal omnifunc=syntaxcomplete#Complete | endif
@@ -252,6 +254,7 @@ let g:quickrun_config['_'] = {
       \ }
 let g:signify_skip = {'vcs': {'allow': ['git']}}
 let g:switch_mapping = 'gs'
+let g:cursorword_highlight = 0
 
 xnoremap <expr> gr  niceblock#force_blockwise('r')
 map Qr  <Plug>(operator-replace)
@@ -359,9 +362,8 @@ if exists('##OptionSet')
         \   if [v:option_old, v:option_new] == ['0', '1']
         \ |   syntax off
         \ | else
-        \ |   syntax enable
+        \ |   syntax enable | doautoall ColorScheme
         \ | endif
-        \ | doautoall ColorScheme
 endif
 
 "set pythonthreedll=C:/Python37/python37.dll
