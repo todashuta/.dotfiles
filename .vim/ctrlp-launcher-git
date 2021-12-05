@@ -1,5 +1,5 @@
-git add -p	:Gdiffsplit
-git blame	:Git blame
-git commit	:Git commit
-git log --follow %	:vert Git -p log --follow %
-git status	:Git
+add -p	:Gdiffsplit
+blame	:Git blame
+commit	:Git commit -v
+log --follow %	:vert Git -p log --follow %
+status	:Git
