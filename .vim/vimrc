@@ -365,14 +365,14 @@ function! s:set_json_indent()
   endif
 endfunction
 
-if exists('##OptionSet')
-  autocmd vimrc OptionSet diff
-        \   if [v:option_old, v:option_new] == ['0', '1']
-        \ |   syntax off
-        \ | else
-        \ |   syntax enable | doautoall ColorScheme
-        \ | endif
-endif
+"if exists('##OptionSet')
+"  autocmd vimrc OptionSet diff
+"        \   if [v:option_old, v:option_new] == ['0', '1']
+"        \ |   syntax off
+"        \ | else
+"        \ |   syntax enable | doautoall ColorScheme
+"        \ | endif
+"endif
 
 "set pythonthreedll=C:/Python37/python37.dll
 "set pythonthreedll=~/scoop/apps/python/current/python310.dll
