@@ -1,0 +1,5 @@
+git add -p	:Gdiffsplit
+git blame	:Git blame
+git commit	:Git commit
+git log --follow %	:vert Git -p log --follow %
+git status	:Git

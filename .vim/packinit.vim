@@ -29,6 +29,7 @@ endfunction
 call s:add('k-takata/minpac')
 
 call s:add('ctrlpvim/ctrlp.vim')
+call s:add('mattn/ctrlp-launcher')
 call s:add('mattn/emmet-vim')
 call s:add('previm/previm')
 call s:add('mattn/sonictemplate-vim')

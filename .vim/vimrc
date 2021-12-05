@@ -111,7 +111,7 @@ nnoremap  sb  :<C-u>CtrlPBuffer<CR>
 nnoremap  sf  :<C-u>CtrlPCurWD<CR>
 nnoremap  sF  :<C-u>CtrlPCurFile<CR>
 
-nnoremap  SG  :<C-u>Git<CR>
+nnoremap  SG  :<C-u>CtrlPLauncher! git<CR>
 
 augroup vimrc
   autocmd!
@@ -203,6 +203,7 @@ let g:is_bash = 1  " See :h ft-bash-syntax
 " Packages
 "packadd! matchit
 packadd! ctrlp.vim
+packadd! ctrlp-launcher
 packadd! html5.vim
 packadd! sonictemplate-vim
 packadd! vim-jsx-pretty
@@ -255,6 +256,7 @@ let g:quickrun_config['_'] = {
 let g:signify_skip = {'vcs': {'allow': ['git']}}
 let g:switch_mapping = 'gs'
 let g:cursorword_highlight = 0
+let g:ctrlp_launcher_file = $VIMDIR . '/ctrlp-launcher'
 
 xnoremap <expr> gr  niceblock#force_blockwise('r')
 map Qr  <Plug>(operator-replace)
