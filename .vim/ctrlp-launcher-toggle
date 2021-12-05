@@ -1,3 +1,4 @@
+CtrlP Show Hidden	let g:ctrlp_show_hidden = !get(g:, 'ctrlp_show_hidden', 0) | echo (g:ctrlp_show_hidden ? 'show' : 'hidden') | CtrlPClearCache
 Line Number	:LineNumberToggle
 #Nrformats Alpha	:NrformatsAlphaToggle
 paste	:set paste! paste?

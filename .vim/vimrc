@@ -251,6 +251,7 @@ endif
 
 let g:ctrlp_map = ''
 let g:ctrlp_mruf_max = 512
+"let g:ctrlp_show_hidden = 1
 let g:gruvbox_italic = 0
 let g:sonictemplate_vim_template_dir = expand($VIMDIR.'/template')
 let g:quickrun_config = {}
