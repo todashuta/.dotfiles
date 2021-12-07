@@ -163,7 +163,7 @@ if s:is_windows
   command! -bang -complete=dir -nargs=? PowerShell   call s:start('powershell.exe -Command "Start-Process powershell.exe"', <q-args>, <bang>0)
   command! -bang -complete=dir -nargs=? LTerminalPS  call s:term('powershell.exe', <q-args>, <bang>0, 1)
   command! -bang -complete=dir -nargs=? TTerminalPS  call s:term('powershell.exe', <q-args>, <bang>0, 0)
-  command!                              Code         !start code.cmd %
+  command!                              Code         execute '!start code.cmd' shellescape(expand('%'))
 endif
 
 function! FencB()
