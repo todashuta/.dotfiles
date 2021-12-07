@@ -118,6 +118,8 @@ nnoremap <Space>   <Nop>
 nnoremap <Space>g  :<C-u>CtrlPLauncher! git<CR>
 nnoremap <Space>d  :<C-u>CtrlPLauncher! diff<CR>
 nnoremap <Space>t  :<C-u>CtrlPLauncher! toggle<CR>
+nnoremap <Space>l  :<C-u>CtrlPLauncher! lsp<CR>
+nnoremap <Space>q  :<C-u>CtrlPLauncher quickrun<CR>
 
 augroup vimrc
   autocmd!
