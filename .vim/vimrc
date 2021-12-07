@@ -226,6 +226,7 @@ packadd! vim-textobj-syntax
 packadd! vim-textobj-python
 packadd! vim-textobj-multiblock
 packadd! vim-quickrun
+packadd! vim-prettyprint
 packadd! vim-signify
 packadd! vim-zenspace
 packadd! vim-fugitive
