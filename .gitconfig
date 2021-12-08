@@ -16,6 +16,8 @@
 #     root = D:/path/to/primary/dir
 # [push]
 #     default = simple
+# [init]
+#     defaultBranch = main
 # [pager]
 #     diff = perl /usr/share/doc/git/contrib/diff-highlight/diff-highlight | less -FRX -S --shift 5
 #     log  = perl /usr/share/doc/git/contrib/diff-highlight/diff-highlight | less -FRX -S --shift 5
@@ -67,6 +69,8 @@
 [diff]
 	algorithm = histogram
 	colorMoved = dimmed_zebra
+[pull]
+	rebase = true
 [tig]
 	vertical-split = no
 	line-graphics = ascii
