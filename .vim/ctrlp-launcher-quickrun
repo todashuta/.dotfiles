@@ -1,2 +1,3 @@
 00 QuickRun	:QuickRun
-#99 python	:QuickRun python
+99 Stop	:call quickrun#sweep_sessions()
+#99 python	:QuickRun python3
