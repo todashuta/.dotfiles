@@ -184,7 +184,7 @@ function! s:byte2hex(bytes)
   return join(map(copy(a:bytes), 'printf("%02X", v:val)'), '')
 endfunction
 
-function! MyGitStauts()
+function! MyGitStauts() abort
   let l:name = gitbranch#name()
   let l:type = getbufvar('', 'fugitive_type')
   if l:name == '' && l:type == ''
