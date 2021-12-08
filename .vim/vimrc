@@ -261,7 +261,8 @@ let g:sonictemplate_vim_template_dir = expand($VIMDIR.'/template')
 let g:quickrun_config = {}
 let g:quickrun_config['_'] = {
       \   'runner': (exists('*ch_close_in') ? 'job' : 'vimproc'),
-      \   'outputter/buffer/split': 'botright',
+      \   'outputter': (exists('*deletebufline') ? 'buffer' : 'buffer_legacy'),
+      \   'outputter/buffer/opener': 'new',
       \   'hook/time/enable': 1,
       \ }
 let g:signify_skip = {'vcs': {'allow': ['git']}}
