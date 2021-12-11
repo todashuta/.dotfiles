@@ -197,7 +197,8 @@ function! MyGitStatus() abort
   if l:name != ''
     let l:name = ':' . l:name
   endif
-  return ' [Git' . l:type . l:name . ']'
+  "return ' [Git' . l:type . l:name . ']'
+  return 'Git' . l:type . l:name
 endfunction
 
 let g:loaded_matchparen = 1
@@ -248,6 +249,7 @@ packadd! switch.vim
 packadd! vim-operator-user
 packadd! vim-operator-replace
 packadd! vim-operator-surround
+packadd! lightline.vim
 
 if exists('##TextChangedP')
   packadd! vim-vsnip
@@ -270,6 +272,47 @@ let g:signify_skip = {'vcs': {'allow': ['git']}}
 let g:switch_mapping = 'gs'
 let g:cursorword_highlight = 0
 let g:ctrlp_launcher_file = $VIMDIR . '/ctrlp-launcher'
+let g:lightline = {
+      \   'colorscheme': 'tokyonight',
+      \   'component_function': {
+      \     'git': 'MyGitStatus',
+      \   },
+      \   'component': {
+      \     'charvaluehex': '%<0x%B',
+      \     'bufnum': '#%n',
+      \   },
+      \   'active': {
+      \     'left': [
+      \       ['mode', 'paste'],
+      \       ['bufnum'],
+      \       ['git', 'readonly', 'filename', 'modified'],
+      \     ],
+      \     'right': [
+      \       ['lineinfo'],
+      \       ['percent'],
+      \       ['charvaluehex', 'fileformat', 'fileencoding', 'filetype'],
+      \     ],
+      \   },
+      \   'inactive': {
+      \     'left': [
+      \       ['bufnum'],
+      \       ['filename'],
+      \     ],
+      \   },
+      \   'mode_map': {
+      \     'n': 'N',
+      \     'i': 'I',
+      \     'R': 'R',
+      \     'v': 'V',
+      \     'V': 'VL',
+      \     "\<C-v>": 'VB',
+      \     'c': 'C',
+      \     's': 'S',
+      \     'S': 'SL',
+      \     "\<C-s>": 'SB',
+      \     't': 'TERM',
+      \   },
+      \ }
 
 xnoremap <expr> gr  niceblock#force_blockwise('r')
 map Qr  <Plug>(operator-replace)
