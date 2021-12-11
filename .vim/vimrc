@@ -201,6 +201,14 @@ function! MyGitStatus() abort
   return 'Git' . l:type . l:name
 endfunction
 
+function! MyLspErrorCount() abort
+  let l:ret = lsp#get_buffer_diagnostics_counts()['error']
+  if l:ret > 0
+    return l:ret
+  endif
+  return ''
+endfunction
+
 let g:loaded_matchparen = 1
 let g:loaded_netrw = 1
 let g:loaded_netrwPlugin = 1
@@ -281,6 +289,12 @@ let g:lightline = {
       \     'charvaluehex': '%<0x%B',
       \     'bufnum': '#%n',
       \   },
+      \   'component_expand': {
+      \     'lsp': 'MyLspErrorCount',
+      \   },
+      \   'component_type': {
+      \     'lsp': 'error',
+      \   },
       \   'active': {
       \     'left': [
       \       ['mode', 'paste'],
@@ -288,7 +302,7 @@ let g:lightline = {
       \       ['git', 'readonly', 'filename', 'modified'],
       \     ],
       \     'right': [
-      \       ['lineinfo'],
+      \       ['lsp', 'lineinfo'],
       \       ['percent'],
       \       ['charvaluehex', 'fileformat', 'fileencoding', 'filetype'],
       \     ],
@@ -368,6 +382,7 @@ autocmd vimrc User lsp_float_opened call popup_setoptions(
       \ {
       \   'borderchars': ['-', '|', '-', '|', '+', '+', '+', '+'],
       \ })
+autocmd vimrc User lsp_diagnostics_updated call lightline#update()
 let s:npm_available = executable('npm')
 let g:lsp_settings = {
       \   'efm-langserver': {
