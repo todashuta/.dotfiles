@@ -287,8 +287,8 @@ let g:lightline = {
       \     'ctrlpmark': 'CtrlPMark',
       \   },
       \   'component': {
-      \     'charvaluehex': '%<0x%B',
-      \     'bufnum': '#%n',
+      \     'mycharvaluehex': '%<0x%B',
+      \     'mybufnum': '#%n',
       \     'myfileformat': '%{g:FFTable[&ff].(&eol?"":"-NoEOL")}',
       \     'myfileencoding': '%{toupper(&fenc==""?(&enc."*"):&fenc).(&bomb?"(BOM)":"")}',
       \   },
@@ -300,19 +300,19 @@ let g:lightline = {
       \   },
       \   'active': {
       \     'left': [
-      \       ['paste', 'bufnum'],
+      \       ['paste', 'mybufnum'],
       \       ['git', 'ctrlpmark'],
       \       ['readonly', 'filename', 'modified'],
       \     ],
       \     'right': [
       \       ['lsp', 'lineinfo'],
       \       ['percent'],
-      \       ['charvaluehex', 'myfileformat', 'myfileencoding', 'filetype'],
+      \       ['mycharvaluehex', 'myfileformat', 'myfileencoding', 'filetype'],
       \     ],
       \   },
       \   'inactive': {
       \     'left': [
-      \       ['bufnum'],
+      \       ['mybufnum'],
       \       ['filename'],
       \     ],
       \   },
@@ -333,7 +333,7 @@ let g:lightline = {
 
 let g:ctrlp_status_func = {
       \   'main': 'CtrlPStatusFunc_main',
-      \   'prog': 'CtrlPStatusFunc_prog',
+      \   'prog': 'CtrlPStatusFunc_progress',
       \ }
 function! CtrlPStatusFunc_main(focus, byfname, regex, prev, item, next, marked)
   let g:lightline.ctrlp_prev = a:prev
@@ -341,8 +341,8 @@ function! CtrlPStatusFunc_main(focus, byfname, regex, prev, item, next, marked)
   let g:lightline.ctrlp_next = a:next
   return lightline#statusline(0)
 endfunction
-function! CtrlPStatusFunc_prog(str)
-  return '[ControlP] ' . a:str . ' files...'
+function! CtrlPStatusFunc_progress(numscanned)
+  return '[ControlP] ' . a:numscanned . ' files...'
 endfunction
 function! CtrlPMark()
   if &filetype ==# 'ctrlp' && has_key(g:lightline, 'ctrlp_item')
