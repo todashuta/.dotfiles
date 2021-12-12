@@ -98,7 +98,7 @@ nnoremap          sa          :<C-u>silent grepadd!<Space>
 nnoremap          s?          :<C-u>/j **/* <Bar> cwindow<Home>noautocmd vimgrep /<C-f>
 nnoremap          sA          :<C-u>/j **/* <Bar> cwindow<Home>noautocmd vimgrepadd /<C-f>
 nnoremap <silent> <Esc><Esc>  :<C-u>let v:hlsearch = !v:hlsearch<CR>
-nnoremap          <C-l>       :<C-u>SignifyRefresh<CR>:diffupdate<CR><C-l>
+nnoremap          <C-l>       :<C-u>call lightline#update()<CR>:<C-u>SignifyRefresh<CR>:diffupdate<CR><C-l>
 
 if s:is_windows
   nnoremap  se      :<C-u>Explorer<Space>
@@ -299,9 +299,9 @@ let g:lightline = {
       \   },
       \   'active': {
       \     'left': [
-      \       ['mode', 'paste'],
-      \       ['bufnum'],
-      \       ['git', 'readonly', 'filename', 'modified'],
+      \       ['paste', 'bufnum'],
+      \       ['git'],
+      \       ['readonly', 'filename', 'modified'],
       \     ],
       \     'right': [
       \       ['lsp', 'lineinfo'],
@@ -318,12 +318,12 @@ let g:lightline = {
       \   'mode_map': {
       \     'n': 'Vim',
       \     'i': 'Ins',
-      \     'R': ' R ',
-      \     'v': ' V ',
+      \     'R': 'Rep',
+      \     'v': 'V-C',
       \     'V': 'V-L',
       \     "\<C-v>": 'V-B',
-      \     'c': ' C ',
-      \     's': ' S ',
+      \     'c': 'Cmd',
+      \     's': 'S-C',
       \     'S': 'S-L',
       \     "\<C-s>": 'S-B',
       \     't': 'Terminal',
