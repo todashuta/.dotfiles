@@ -336,7 +336,6 @@ let g:ctrlp_status_func = {
       \   'prog': 'CtrlPStatusFunc_prog',
       \ }
 function! CtrlPStatusFunc_main(focus, byfname, regex, prev, item, next, marked)
-  let g:lightline.ctrlp_regex = a:regex
   let g:lightline.ctrlp_prev = a:prev
   let g:lightline.ctrlp_item = a:item
   let g:lightline.ctrlp_next = a:next
@@ -347,11 +346,11 @@ function! CtrlPStatusFunc_prog(str)
 endfunction
 function! CtrlPMark()
   if &filetype ==# 'ctrlp' && has_key(g:lightline, 'ctrlp_item')
-    return (g:lightline.ctrlp_regex ? '[regex] ' : '') . join([
-          \   g:lightline.ctrlp_prev,
-          \   ('<' . g:lightline.ctrlp_item . '>'),
-          \   g:lightline.ctrlp_next,
-          \ ], ' ')
+    return join([
+          \   ('<' . g:lightline.ctrlp_prev . '>'),
+          \   ('{' . g:lightline.ctrlp_item . '}'),
+          \   ('<' . g:lightline.ctrlp_next . '>'),
+          \ ], '=')
   endif
   return ''
 endfunction
