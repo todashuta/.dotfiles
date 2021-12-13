@@ -293,7 +293,7 @@ let g:lightline = {
       \     'ctrlpmark': 'CtrlPMark',
       \   },
       \   'component': {
-      \     'mycharvaluehex': '%<0x%B',
+      \     'mycharvaluehex': '%<0x%{FencB()}',
       \     'mybufnum': '#%n',
       \     'myfileformat': '%{g:FFTable[&ff].(&eol?"":"-NoEOL")}',
       \     'myfileencoding': '%{toupper(&fenc==""?(&enc."*"):&fenc).(&bomb?"(BOM)":"")}',
