@@ -337,6 +337,7 @@ let g:lightline = {
       \     "\<C-s>": 'S-B',
       \     't': 'Terminal',
       \   },
+      \   'subseparator': {'left': '', 'right': ''},
       \ }
 
 let g:ctrlp_status_func = {
