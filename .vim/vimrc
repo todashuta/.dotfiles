@@ -218,15 +218,13 @@ function! MyLspErrorCount() abort
 endfunction
 
 function! s:cmd_ToggleLayout()
-  if winnr('$') != 2
-    return
-  endif
-
   let nr = winnr()
+  let pos = getpos('.')
   wincmd t
-  exe 'wincmd' (&columns == winwidth(0) ? 'H' : 'K')
+  exe 'windo wincmd' (&columns == winwidth(0) ? 'L' : 'J')
   wincmd =
   exe nr . 'wincmd w'
+  call setpos('.', pos)
   normal! zz
 endfunction
 
