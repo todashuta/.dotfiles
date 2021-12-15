@@ -152,7 +152,7 @@ command!       PackEdit                tabedit $VIMDIR/packinit.vim
 command!       Swapfiles               echo iconv(vimproc#system('vim -r'), &tenc, &enc)
 command!       LineNumberToggle        let [&l:rnu, &l:nu] = (&l:rnu || &l:nu) ? [0, 0] : [1, 1]
 command! -bang RemoveInvalidQfixItems  call setqflist(filter(copy(getqflist()), 'v:val.valid'), (<bang>0 ? 'r' : ' '))
-command!       ToggleLayout            if winnr('$') == 2 | exe 'wincmd' (&columns == winwidth(0) ? 'H' : 'K') | wincmd = | endif
+command!       ToggleLayout            call s:cmd_ToggleLayout()
 
 function! s:term(cmd, dir, bang, vertical)
   let cwd = (a:dir != '' ? a:dir : (a:bang ? expand('%:p:h') : getcwd()))
@@ -215,6 +215,19 @@ function! MyLspErrorCount() abort
     return l:ret
   endif
   return ''
+endfunction
+
+function! s:cmd_ToggleLayout()
+  if winnr('$') != 2
+    return
+  endif
+
+  let nr = winnr()
+  wincmd t
+  exe 'wincmd' (&columns == winwidth(0) ? 'H' : 'K')
+  wincmd =
+  exe nr . 'wincmd w'
+  normal! zz
 endfunction
 
 let g:loaded_matchparen = 1
