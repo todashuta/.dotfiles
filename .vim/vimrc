@@ -121,7 +121,7 @@ nnoremap  sF  :<C-u>CtrlPCurFile<CR>
 "nnoremap  SD  :<C-u>CtrlPLauncher! diff<CR>
 
 nnoremap <Space>   <Nop>
-nnoremap <Space>s  :<C-u>ToggleLayout<CR>
+nmap     <Space>s  <Plug>(toggle-split-orientation)
 nnoremap <Space>g  :<C-u>CtrlPLauncher! git<CR>
 nnoremap <Space>d  :<C-u>CtrlPLauncher! diff<CR>
 nnoremap <Space>t  :<C-u>CtrlPLauncher! toggle<CR>
@@ -152,7 +152,6 @@ command!       PackEdit                tabedit $VIMDIR/packinit.vim
 command!       Swapfiles               echo iconv(vimproc#system('vim -r'), &tenc, &enc)
 command!       LineNumberToggle        let [&l:rnu, &l:nu] = (&l:rnu || &l:nu) ? [0, 0] : [1, 1]
 command! -bang RemoveInvalidQfixItems  call setqflist(filter(copy(getqflist()), 'v:val.valid'), (<bang>0 ? 'r' : ' '))
-command!       ToggleLayout            call s:cmd_ToggleLayout()
 
 function! s:term(cmd, dir, bang, vertical)
   let cwd = (a:dir != '' ? a:dir : (a:bang ? expand('%:p:h') : getcwd()))
@@ -217,17 +216,6 @@ function! MyLspErrorCount() abort
   return ''
 endfunction
 
-function! s:cmd_ToggleLayout()
-  let nr = winnr()
-  let pos = getpos('.')
-  wincmd t
-  exe 'windo wincmd' (&columns == winwidth(0) ? 'L' : 'J')
-  wincmd =
-  exe nr . 'wincmd w'
-  call setpos('.', pos)
-  normal! zz
-endfunction
-
 let g:loaded_matchparen = 1
 let g:loaded_netrw = 1
 let g:loaded_netrwPlugin = 1
@@ -277,6 +265,7 @@ packadd! vim-operator-user
 packadd! vim-operator-replace
 packadd! vim-operator-surround
 packadd! lightline.vim
+packadd! vim-toggle-split-orientation
 
 if exists('##TextChangedP')
   packadd! vim-vsnip
