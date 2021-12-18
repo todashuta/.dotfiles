@@ -49,8 +49,8 @@ endif
 "set guicursor& guicursor+=a:blinkon0
 set guicursor& guicursor+=a:blinkwait550-blinkon550-blinkoff550
 
-command! Diff2  browse tabedit | browse vsplit | windo diffthis
-command! Diff3  browse tabedit | browse vsplit | browse vsplit | windo diffthis
+"command! Diff2  browse tabedit | browse vsplit | windo diffthis
+"command! Diff3  browse tabedit | browse vsplit | browse vsplit | windo diffthis
 
 let s:gvimrclocal = $MYGVIMRC.'_local'
 if filereadable(s:gvimrclocal)
