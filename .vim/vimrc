@@ -1,7 +1,8 @@
 " vimrc
 
 let s:is_windows = has('win32')
-let $VIMDIR = expand(s:is_windows ? '~/vimfiles' : '~/.vim')
+let $VIMDIR = resolve(expand(s:is_windows ? '~/vimfiles' : '~/.vim'))
+let $MYVIMRC = resolve($MYVIMRC)
 
 if has('vim_starting')
   silent! autocmd! vimrcEx

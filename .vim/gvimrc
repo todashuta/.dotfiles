@@ -2,6 +2,8 @@
 
 scriptencoding utf-8
 
+let $MYGVIMRC = resolve($MYGVIMRC)
+
 augroup gvimrc
   autocmd!
   autocmd GUIEnter * call OnGuiEnter()
