@@ -135,7 +135,7 @@ augroup vimrc
   autocmd VimEnter,WinEnter,ColorScheme *      highlight clear ZenSpace | highlight link ZenSpace CursorColumn
   autocmd VimEnter,WinEnter,ColorScheme *      highlight lspReference term=underline cterm=underline gui=underline
   autocmd VimEnter,WinEnter,ColorScheme *      highlight link CursorWord0 CursorColumn | highlight link CursorWord1 CursorColumn
-  autocmd VimEnter,WinEnter,ColorScheme *      highlight QuickFixLine guifg=NONE guibg=NONE ctermfg=NONE ctermbg=NONE term=underline cterm=underline gui=underline
+  "autocmd VimEnter,WinEnter,ColorScheme *      highlight QuickFixLine guifg=NONE guibg=NONE ctermfg=NONE ctermbg=NONE term=underline cterm=underline gui=underline
   autocmd VimEnter,WinEnter,ColorScheme *      if !has('gui_running') | execute 'highlight Pmenu ctermbg=3' | endif
   autocmd FileType                      *      if &l:omnifunc == '' | setlocal omnifunc=syntaxcomplete#Complete | endif
   "autocmd VimEnter,WinEnter,ColorScheme *      if !has('gui_running') | execute 'highlight Normal ctermbg=NONE' | endif
@@ -266,6 +266,7 @@ packadd! vim-operator-replace
 packadd! vim-operator-surround
 packadd! lightline.vim
 packadd! vim-toggle-split-orientation
+packadd! iceberg.vim
 
 if exists('##TextChangedP')
   packadd! vim-vsnip

@@ -87,5 +87,6 @@ call s:add('hrsh7th/vim-vsnip-integ')
 call s:add('mattn/vim-lsp-icons')
 call s:add('mattn/vim-findroot')
 call s:add('todashuta/vim-toggle-split-orientation')
+call s:add('cocopon/iceberg.vim')
 
 " vim: set et ts=2 sts=2 sw=2 fdm=marker :
