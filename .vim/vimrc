@@ -150,7 +150,7 @@ command!       NrformatsAlphaToggle    exe 'setlocal nf'.(&nf =~# 'alpha' ? '-='
 command!       PackUpdate              source $VIMDIR/packinit.vim | call minpac#update('', {'do': 'call minpac#status()'})
 command!       PackClean               source $VIMDIR/packinit.vim | call minpac#clean()
 command!       PackEdit                tabedit $VIMDIR/packinit.vim
-command!       Swapfiles               echo iconv(vimproc#system('vim -r'), &tenc, &enc)
+command!       Swapfiles               echo iconv(system(v:progpath . ' -r'), &tenc, &enc)
 command!       LineNumberToggle        let [&l:rnu, &l:nu] = (&l:rnu || &l:nu) ? [0, 0] : [1, 1]
 command! -bang RemoveInvalidQfixItems  call setqflist(filter(copy(getqflist()), 'v:val.valid'), (<bang>0 ? 'r' : ' '))
 
