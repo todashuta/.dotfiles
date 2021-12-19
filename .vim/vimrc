@@ -379,6 +379,15 @@ map <silent>Sa  <Plug>(operator-surround-append)
 map <silent>Sd  <Plug>(operator-surround-delete)
 map <silent>Sr  <Plug>(operator-surround-replace)
 
+autocmd vimrc User SignifyHunk call s:show_current_hunk()
+function! s:show_current_hunk() abort
+  let h = sy#util#get_hunk_stats()
+  if !empty(h)
+    redraw
+    echo printf('[Hunk %d/%d]', h.current_hunk, h.total_hunks)
+  endif
+endfunction
+
 if has('vim_starting') && !has('gui_running')
   if s:is_windows
     colorscheme industry
