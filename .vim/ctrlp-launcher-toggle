@@ -5,3 +5,4 @@ paste	:set paste! paste?
 syntax	:if exists('g:syntax_on') | syntax off | else | syntax enable | endif
 wrap	:setlocal wrap! wrap?
 scrolloff 999 <=> 5	:exe 'set scrolloff='.(&scrolloff == 999 ? '5' : '999').' scrolloff?'
+SignifyToggleHighlight	:SignifyToggleHighlight
