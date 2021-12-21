@@ -54,6 +54,9 @@ set guicursor& guicursor+=a:blinkwait550-blinkon550-blinkoff550
 "command! Diff2  browse tabedit | browse vsplit | windo diffthis
 "command! Diff3  browse tabedit | browse vsplit | browse vsplit | windo diffthis
 
+nnoremap <C-Tab>    gt
+nnoremap <C-S-Tab>  gT
+
 let s:gvimrclocal = $MYGVIMRC.'_local'
 if filereadable(s:gvimrclocal)
   execute 'source' s:gvimrclocal
