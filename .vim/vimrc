@@ -406,6 +406,7 @@ let g:tokyonight_menu_selection_background = 'blue'
 let g:gruvbox_italic = 0
 
 if has('vim_starting') && !has('gui_running')
+  set background=dark
   if s:is_windows
     colorscheme industry
   else
