@@ -277,7 +277,6 @@ endif
 let g:ctrlp_map = ''
 let g:ctrlp_mruf_max = 512
 "let g:ctrlp_show_hidden = 1
-let g:gruvbox_italic = 0
 let g:sonictemplate_vim_template_dir = expand($VIMDIR.'/template')
 let g:quickrun_config = {}
 let g:quickrun_config['_'] = {
@@ -378,6 +377,7 @@ map <silent>Sa  <Plug>(operator-surround-append)
 map <silent>Sd  <Plug>(operator-surround-delete)
 map <silent>Sr  <Plug>(operator-surround-replace)
 
+
 " vim-signify
 let g:signify_skip = {'vcs': {'allow': ['git']}}
 autocmd vimrc User SignifyHunk call s:show_current_hunk()
@@ -389,6 +389,14 @@ function! s:show_current_hunk() abort
   endif
 endfunction
 
+
+" colorscheme
+let g:tokyonight_disable_italic_comment = 1
+let g:tokyonight_transparent_background = 1
+let g:tokyonight_menu_selection_background = 'blue'
+
+let g:gruvbox_italic = 0
+
 if has('vim_starting') && !has('gui_running')
   if s:is_windows
     colorscheme industry
@@ -399,15 +407,13 @@ if has('vim_starting') && !has('gui_running')
       "let &t_8f = tr(&t_8f, ';', ':')
       "let &t_8b = tr(&t_8b, ';', ':')
       set termguicolors
-      let g:tokyonight_disable_italic_comment = 1
-      let g:tokyonight_transparent_background = 1
-      let g:tokyonight_menu_selection_background = 'blue'
       silent! colorscheme tokyonight
     else
       colorscheme ron
     endif
   endif
 endif
+
 
 let g:lsp_log_file = expand('~/var/vim/vim-lsp.log')
 let g:asyncomplete_log_file = expand('~/var/vim/asyncomplete.log')
