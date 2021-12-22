@@ -286,7 +286,6 @@ let g:quickrun_config['_'] = {
       \   'outputter/buffer/opener': 'new',
       \   'hook/time/enable': 1,
       \ }
-let g:signify_skip = {'vcs': {'allow': ['git']}}
 let g:switch_mapping = 'gs'
 let g:cursorword_highlight = 0
 let g:cursorword = 0
@@ -379,6 +378,8 @@ map <silent>Sa  <Plug>(operator-surround-append)
 map <silent>Sd  <Plug>(operator-surround-delete)
 map <silent>Sr  <Plug>(operator-surround-replace)
 
+" vim-signify
+let g:signify_skip = {'vcs': {'allow': ['git']}}
 autocmd vimrc User SignifyHunk call s:show_current_hunk()
 function! s:show_current_hunk() abort
   let h = sy#util#get_hunk_stats()
