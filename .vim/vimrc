@@ -88,7 +88,7 @@ cnoremap          <C-x>       <C-r>=(@%==''?'.':fnamemodify(@%,':~:.:h')).(exist
 cnoremap          <C-p>       <Up>
 cnoremap          <C-n>       <Down>
 inoremap <expr>   <C-Space>   (!pumvisible() && &l:omnifunc != '') ? "\<C-x>\<C-o>" : "\<C-n>"
-inoremap <silent> <ESC>       <ESC>:set iminsert=0<CR>
+"inoremap <silent> <ESC>       <ESC>:set iminsert=0<CR>
 inoremap          <C-@>       <Nop>
 nnoremap          <C-h>       :<C-u>h<Space>
 map               Q           <Nop>

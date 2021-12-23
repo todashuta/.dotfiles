@@ -7,6 +7,7 @@ let $MYGVIMRC = resolve($MYGVIMRC)
 augroup gvimrc
   autocmd!
   autocmd GUIEnter * call OnGuiEnter()
+  autocmd InsertLeave * :set iminsert=0
 augroup END
 
 function! OnGuiEnter()
