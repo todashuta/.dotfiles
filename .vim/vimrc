@@ -37,6 +37,10 @@ else
   language messages C
 endif
 
+augroup vimrc
+  autocmd!
+augroup END
+
 set viminfo+=n~/var/vim/.viminfo
 set swapfile directory=~/var/vim/swap
 set undofile undodir=~/var/vim/undo
@@ -130,7 +134,6 @@ nnoremap <Space>l  :<C-u>CtrlPLauncher! lsp<CR>
 nnoremap <Space>q  :<C-u>CtrlPLauncher quickrun<CR>
 
 augroup vimrc
-  autocmd!
   autocmd QuickFixCmdPost               [^l]*  botright cwindow | redraw!
   "autocmd VimEnter,WinEnter,ColorScheme *      highlight MatchParen guifg=NONE guibg=NONE ctermfg=NONE ctermbg=NONE term=underline cterm=underline gui=underline
   autocmd VimEnter,WinEnter,ColorScheme *      highlight clear ZenSpace | highlight link ZenSpace CursorColumn
