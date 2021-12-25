@@ -41,12 +41,13 @@ augroup vimrc
   autocmd!
 augroup END
 
-set viminfo+=n~/var/vim/.viminfo
+set viminfo+=c viminfo+=n~/var/vim/.viminfo
 set swapfile directory=~/var/vim/swap
 set undofile undodir=~/var/vim/undo
 set nobackup writebackup backupdir=~/var/vim/backup
 
 set helplang=ja,en
+set fileformats=unix,dos,mac
 set nofixendofline
 set history=800
 set noexpandtab tabstop=4 shiftwidth=4 softtabstop=0 shiftround
