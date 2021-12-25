@@ -281,9 +281,37 @@ if exists('##TextChangedP')
   packadd! vim-vsnip-integ
 endif
 
+
+" ctrlp.vim
 let g:ctrlp_map = ''
 let g:ctrlp_mruf_max = 512
 "let g:ctrlp_show_hidden = 1
+let g:ctrlp_launcher_file = $VIMDIR . '/ctrlp-launcher'
+let g:ctrlp_status_func = {
+      \   'main': 'CtrlPStatusFunc_main',
+      \   'prog': 'CtrlPStatusFunc_progress',
+      \ }
+function! CtrlPStatusFunc_main(focus, byfname, regex, prev, item, next, marked)
+  let g:lightline.ctrlp_prev = a:prev
+  let g:lightline.ctrlp_item = a:item
+  let g:lightline.ctrlp_next = a:next
+  return lightline#statusline(0)
+endfunction
+function! CtrlPStatusFunc_progress(numscanned)
+  return '[ControlP] ' . a:numscanned . ' files...'
+endfunction
+function! CtrlPMark()
+  if &filetype ==# 'ctrlp' && has_key(g:lightline, 'ctrlp_item')
+    return join([
+          \   ('<' . g:lightline.ctrlp_prev . '>'),
+          \   ('{' . g:lightline.ctrlp_item . '}'),
+          \   ('<' . g:lightline.ctrlp_next . '>'),
+          \ ], '=')
+  endif
+  return ''
+endfunction
+
+
 let g:sonictemplate_vim_template_dir = expand($VIMDIR.'/template')
 let g:quickrun_config = {}
 let g:quickrun_config['_'] = {
@@ -295,7 +323,6 @@ let g:quickrun_config['_'] = {
 let g:switch_mapping = 'gs'
 let g:cursorword_highlight = 0
 let g:cursorword = 0
-let g:ctrlp_launcher_file = $VIMDIR . '/ctrlp-launcher'
 let g:lightline = {
       \   'colorscheme': 'iceberg',
       \   'component_function': {
@@ -348,29 +375,6 @@ let g:lightline = {
       \   'subseparator': {'left': '', 'right': ''},
       \ }
 
-let g:ctrlp_status_func = {
-      \   'main': 'CtrlPStatusFunc_main',
-      \   'prog': 'CtrlPStatusFunc_progress',
-      \ }
-function! CtrlPStatusFunc_main(focus, byfname, regex, prev, item, next, marked)
-  let g:lightline.ctrlp_prev = a:prev
-  let g:lightline.ctrlp_item = a:item
-  let g:lightline.ctrlp_next = a:next
-  return lightline#statusline(0)
-endfunction
-function! CtrlPStatusFunc_progress(numscanned)
-  return '[ControlP] ' . a:numscanned . ' files...'
-endfunction
-function! CtrlPMark()
-  if &filetype ==# 'ctrlp' && has_key(g:lightline, 'ctrlp_item')
-    return join([
-          \   ('<' . g:lightline.ctrlp_prev . '>'),
-          \   ('{' . g:lightline.ctrlp_item . '}'),
-          \   ('<' . g:lightline.ctrlp_next . '>'),
-          \ ], '=')
-  endif
-  return ''
-endfunction
 
 xnoremap <expr> gr  niceblock#force_blockwise('r')
 map Qr  <Plug>(operator-replace)
@@ -424,6 +428,7 @@ if has('vim_starting') && !has('gui_running')
 endif
 
 
+" vim-lsp
 let g:lsp_log_file = expand('~/var/vim/vim-lsp.log')
 let g:asyncomplete_log_file = expand('~/var/vim/asyncomplete.log')
 let g:lsp_diagnostics_echo_cursor = 1
@@ -475,6 +480,7 @@ let g:lsp_settings = {
       \     'disabled': !s:npm_available || 0,
       \   },
       \ }
+
 
 autocmd vimrc FileType json
       \ call s:join_block_keymaps()
