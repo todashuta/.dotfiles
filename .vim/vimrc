@@ -217,14 +217,6 @@ function! MyGitStatus() abort
   return 'Git' . l:type . l:name
 endfunction
 
-function! MyLspErrorCount() abort
-  let l:ret = lsp#get_buffer_diagnostics_counts()['error']
-  if l:ret > 0
-    return l:ret
-  endif
-  return ''
-endfunction
-
 let g:loaded_matchparen = 1
 let g:loaded_netrw = 1
 let g:loaded_netrwPlugin = 1
@@ -274,6 +266,7 @@ packadd! vim-operator-user
 packadd! vim-operator-replace
 packadd! vim-operator-surround
 packadd! lightline.vim
+packadd! lightline-lsp
 packadd! vim-toggle-split-orientation
 packadd! iceberg.vim
 
@@ -337,10 +330,12 @@ let g:lightline = {
       \     'myfileencoding': '%{toupper(&fenc==""?(&enc."*"):&fenc).(&bomb?"(BOM)":"")}',
       \   },
       \   'component_expand': {
-      \     'lsp': 'MyLspErrorCount',
+      \     'lsp_warnings': 'lightline_lsp#warnings',
+      \     'lsp_errors':   'lightline_lsp#errors',
       \   },
       \   'component_type': {
-      \     'lsp': 'error',
+      \     'lsp_warnings': 'warning',
+      \     'lsp_errors':   'error',
       \   },
       \   'active': {
       \     'left': [
@@ -349,7 +344,7 @@ let g:lightline = {
       \       ['readonly', 'filename', 'modified'],
       \     ],
       \     'right': [
-      \       ['lsp', 'lineinfo'],
+      \       ['lsp_errors', 'lsp_warnings', 'lineinfo'],
       \       ['percent'],
       \       ['mycharvaluehex', 'myfileformat', 'myfileencoding', 'filetype'],
       \     ],
@@ -434,6 +429,9 @@ let g:lsp_log_file = expand('~/var/vim/vim-lsp.log')
 let g:asyncomplete_log_file = expand('~/var/vim/asyncomplete.log')
 let g:lsp_diagnostics_echo_cursor = 1
 function! s:on_lsp_buffer_enabled() abort
+  let g:lsp_diagnostics_signs_error['text']   = 'E'
+  let g:lsp_diagnostics_signs_warning['text'] = 'W'
+
   setlocal omnifunc=lsp#complete
   setlocal signcolumn=yes
   setlocal tagfunc=lsp#tagfunc
@@ -452,7 +450,6 @@ autocmd vimrc User lsp_float_opened call popup_setoptions(
       \ {
       \   'borderchars': ['-', '|', '-', '|', '+', '+', '+', '+'],
       \ })
-autocmd vimrc User lsp_diagnostics_updated call lightline#update()
 let s:npm_available = executable('npm')
 let g:lsp_settings = {
       \   'efm-langserver': {
