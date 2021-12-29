@@ -107,7 +107,7 @@ nnoremap <silent> <Esc><Esc>  :<C-u>let v:hlsearch = !v:hlsearch<CR>
 nnoremap          <C-l>       :<C-u>call MyRedraw()<CR><C-l>
 
 function! MyRedraw() abort
-  "call lightline#update()
+  call lightline#update()
   SignifyRefresh
   diffupdate
 endfunction
@@ -282,10 +282,10 @@ let g:ctrlp_map = ''
 let g:ctrlp_mruf_max = 512
 "let g:ctrlp_show_hidden = 1
 let g:ctrlp_launcher_file = $VIMDIR . '/ctrlp-launcher'
-"let g:ctrlp_status_func = {
-"      \   'main': 'CtrlPStatusFunc_main',
-"      \   'prog': 'CtrlPStatusFunc_progress',
-"      \ }
+let g:ctrlp_status_func = {
+      \   'main': 'CtrlPStatusFunc_main',
+      \   'prog': 'CtrlPStatusFunc_progress',
+      \ }
 function! CtrlPStatusFunc_main(focus, byfname, regex, prev, item, next, marked)
   let g:lightline.ctrlp_prev = a:prev
   let g:lightline.ctrlp_item = a:item
@@ -375,17 +375,20 @@ let g:lightline = {
       \   'subseparator': {'left': '', 'right': ''},
       \ }
 
-function! MyLightlineStatusline()
-  if g:statusline_winid == win_getid()
-    return lightline#statusline(0)  " active window
-  else
-    return lightline#statusline(1)  " inactive window
-  endif
-endfunction
+if has('patch-8.1.1372')
+  function! MyLightlineStatusline() abort
+    if g:statusline_winid == win_getid()
+      return lightline#statusline(0)  " active window
+    else
+      return lightline#statusline(1)  " inactive window
+    endif
+  endfunction
 
-set statusline=%!MyLightlineStatusline()
-set tabline=%!lightline#tabline()
-autocmd vimrc VimEnter * call lightline#disable()
+  unlet! g:ctrlp_status_func
+  set statusline=%!MyLightlineStatusline()
+  set tabline=%!lightline#tabline()
+  autocmd vimrc VimEnter * call lightline#disable()
+endif
 
 
 xnoremap <expr> gr  niceblock#force_blockwise('r')
