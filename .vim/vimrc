@@ -213,8 +213,12 @@ function! MyGitStatus() abort
   if l:name != ''
     let l:name = ':' . l:name
   endif
+  let l:signifystatus = sy#repo#get_stats_decorated()
+  if l:signifystatus != ''
+    let l:signifystatus = ' ' . l:signifystatus
+  endif
   "return ' [Git' . l:type . l:name . ']'
-  return 'Git' . l:type . l:name
+  return 'Git' . l:type . l:name . l:signifystatus
 endfunction
 
 let g:loaded_matchparen = 1
