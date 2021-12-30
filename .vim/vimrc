@@ -388,6 +388,15 @@ if has('patch-8.1.1372')
   set statusline=%!MyLightlineStatusline()
   set tabline=%!lightline#tabline()
   autocmd vimrc VimEnter * call lightline#disable()
+else
+  autocmd vimrc CursorMoved * call s:update_lightline()
+  function! s:update_lightline() abort
+    let numwin = winnr('$')
+    if numwin != get(s:, 'prev_numwin', numwin)
+      call lightline#update()
+    endif
+    let s:prev_numwin = numwin
+  endfunction
 endif
 
 
