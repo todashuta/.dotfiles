@@ -290,6 +290,7 @@ function! CtrlPStatusFunc_main(focus, byfname, regex, prev, item, next, marked)
   let g:lightline.ctrlp_prev = a:prev
   let g:lightline.ctrlp_item = a:item
   let g:lightline.ctrlp_next = a:next
+  let g:lightline.ctrlp_marked = a:marked
   return lightline#statusline(0)
 endfunction
 function! CtrlPStatusFunc_progress(numscanned)
@@ -371,7 +372,7 @@ function! MyFilename() abort
           \   ('<' . g:lightline.ctrlp_prev . '>'),
           \   ('{' . g:lightline.ctrlp_item . '}'),
           \   ('<' . g:lightline.ctrlp_next . '>'),
-          \ ], '=')
+          \ ], '=') . g:lightline.ctrlp_marked
   endif
   let name = expand('%:t')
   return name != '' ? name : '[No Name]'
