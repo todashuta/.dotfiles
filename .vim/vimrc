@@ -282,28 +282,15 @@ let g:ctrlp_map = ''
 let g:ctrlp_mruf_max = 512
 "let g:ctrlp_show_hidden = 1
 let g:ctrlp_launcher_file = $VIMDIR . '/ctrlp-launcher'
-let g:ctrlp_status_func = {
-      \   'main': 'CtrlPStatusFunc_main',
-      \   'prog': 'CtrlPStatusFunc_progress',
+let g:ctrlp_buffer_func = {
+      \   'enter': 'CtrlPEnter',
+      \   'exit':  'CtrlPExit',
       \ }
-function! CtrlPStatusFunc_main(focus, byfname, regex, prev, item, next, marked)
-  let g:lightline.ctrlp_prev = a:prev
-  let g:lightline.ctrlp_item = a:item
-  let g:lightline.ctrlp_next = a:next
-  return lightline#statusline(0)
+function! CtrlPEnter() abort
+  call lightline#disable()
 endfunction
-function! CtrlPStatusFunc_progress(numscanned)
-  return '[ControlP] ' . a:numscanned . ' files...'
-endfunction
-function! CtrlPMark()
-  if &filetype ==# 'ctrlp' && has_key(g:lightline, 'ctrlp_item')
-    return join([
-          \   ('<' . g:lightline.ctrlp_prev . '>'),
-          \   ('{' . g:lightline.ctrlp_item . '}'),
-          \   ('<' . g:lightline.ctrlp_next . '>'),
-          \ ], '=')
-  endif
-  return ''
+function! CtrlPExit() abort
+  call lightline#enable()
 endfunction
 
 
@@ -325,7 +312,6 @@ let g:lightline = {
       \   'colorscheme': 'iceberg',
       \   'component_function': {
       \     'git': 'MyGitStatus',
-      \     'ctrlpmark': 'CtrlPMark',
       \   },
       \   'component': {
       \     'mycharvaluehex': '%<0x%{FencB()}',
@@ -344,7 +330,7 @@ let g:lightline = {
       \   'active': {
       \     'left': [
       \       ['paste', 'mybufnum'],
-      \       ['git', 'ctrlpmark'],
+      \       ['git'],
       \       ['readonly', 'filename', 'modified'],
       \     ],
       \     'right': [
@@ -384,7 +370,7 @@ if has('patch-8.1.1372')
     endif
   endfunction
 
-  unlet! g:ctrlp_status_func
+  unlet! g:ctrlp_buffer_func
   set statusline=%!MyLightlineStatusline()
   set tabline=%!lightline#tabline()
   autocmd vimrc VimEnter * call lightline#disable()
