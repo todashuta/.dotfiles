@@ -347,6 +347,7 @@ let g:lightline = {
       \   'inactive': {
       \     'left': [
       \       ['mybufnum'],
+      \       ['git'],
       \       ['myfilename'],
       \     ],
       \   },
