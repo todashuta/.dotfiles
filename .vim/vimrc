@@ -282,15 +282,18 @@ let g:ctrlp_map = ''
 let g:ctrlp_mruf_max = 512
 "let g:ctrlp_show_hidden = 1
 let g:ctrlp_launcher_file = $VIMDIR . '/ctrlp-launcher'
-let g:ctrlp_buffer_func = {
-      \   'enter': 'CtrlPEnter',
-      \   'exit':  'CtrlPExit',
+let g:ctrlp_status_func = {
+      \   'main': 'CtrlPStatusFunc_main',
+      \   'prog': 'CtrlPStatusFunc_progress',
       \ }
-function! CtrlPEnter() abort
-  call lightline#disable()
+function! CtrlPStatusFunc_main(focus, byfname, regex, prev, item, next, marked)
+  let g:lightline.ctrlp_prev = a:prev
+  let g:lightline.ctrlp_item = a:item
+  let g:lightline.ctrlp_next = a:next
+  return lightline#statusline(0)
 endfunction
-function! CtrlPExit() abort
-  call lightline#enable()
+function! CtrlPStatusFunc_progress(numscanned)
+  return '[CtrlP] ' . a:numscanned . ' files...'
 endfunction
 
 
@@ -312,6 +315,7 @@ let g:lightline = {
       \   'colorscheme': 'iceberg',
       \   'component_function': {
       \     'git': 'MyGitStatus',
+      \     'myfilename': 'MyFilename',
       \   },
       \   'component': {
       \     'mycharvaluehex': '%<0x%{FencB()}',
@@ -331,7 +335,7 @@ let g:lightline = {
       \     'left': [
       \       ['paste', 'mybufnum'],
       \       ['git'],
-      \       ['readonly', 'filename', 'modified'],
+      \       ['readonly', 'myfilename', 'modified'],
       \     ],
       \     'right': [
       \       ['lsp_errors', 'lsp_warnings', 'lineinfo'],
@@ -342,7 +346,7 @@ let g:lightline = {
       \   'inactive': {
       \     'left': [
       \       ['mybufnum'],
-      \       ['filename'],
+      \       ['myfilename'],
       \     ],
       \   },
       \   'mode_map': {
@@ -361,29 +365,26 @@ let g:lightline = {
       \   'subseparator': {'left': '', 'right': ''},
       \ }
 
-if has('patch-8.1.1372')
-  function! MyLightlineStatusline() abort
-    if g:statusline_winid == win_getid()
-      return lightline#statusline(0)  " active window
-    else
-      return lightline#statusline(1)  " inactive window
-    endif
-  endfunction
+function! MyFilename() abort
+  if &filetype ==# 'ctrlp' && has_key(g:lightline, 'ctrlp_item')
+    return '[CtrlP] ' . join([
+          \   ('<' . g:lightline.ctrlp_prev . '>'),
+          \   ('{' . g:lightline.ctrlp_item . '}'),
+          \   ('<' . g:lightline.ctrlp_next . '>'),
+          \ ], '=')
+  endif
+  let name = expand('%:t')
+  return name != '' ? name : '[No Name]'
+endfunction
 
-  unlet! g:ctrlp_buffer_func
-  set statusline=%!MyLightlineStatusline()
-  set tabline=%!lightline#tabline()
-  autocmd vimrc VimEnter * call lightline#disable()
-else
-  autocmd vimrc CursorMoved * call s:update_lightline()
-  function! s:update_lightline() abort
-    let numwin = winnr('$')
-    if numwin != get(s:, 'prev_numwin', numwin)
-      call lightline#update()
-    endif
-    let s:prev_numwin = numwin
-  endfunction
-endif
+autocmd vimrc CursorMoved * call s:update_lightline()
+function! s:update_lightline() abort
+  let numwin = winnr('$')
+  if numwin != get(s:, 'prev_numwin', numwin)
+    call lightline#update()
+  endif
+  let s:prev_numwin = numwin
+endfunction
 
 
 xnoremap <expr> gr  niceblock#force_blockwise('r')
