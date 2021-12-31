@@ -213,9 +213,9 @@ function! MyGitStatus() abort
   if l:branch_name != ''
     let l:xs += [l:branch_name]
   endif
-  let l:signify_status = sy#repo#get_stats_decorated()
-  if l:signify_status != ''
-    let l:xs += [l:signify_status]
+  let l:signify_stats = sy#repo#get_stats_decorated()
+  if l:signify_stats != ''
+    let l:xs += [l:signify_stats]
   endif
   return join(l:xs, ' ')
 endfunction
