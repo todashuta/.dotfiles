@@ -204,23 +204,20 @@ function! s:byte2hex(bytes)
 endfunction
 
 function! MyGitStatus() abort
-  let l:name = gitbranch#name()
-  let l:type = getbufvar('', 'fugitive_type')
-  if l:name == '' && l:type == ''
-    return ''
+  let l:xs = []
+  let l:fugitive_type = getbufvar('', 'fugitive_type', '')
+  if l:fugitive_type != ''
+    let l:xs += ['['.l:fugitive_type.']']
   endif
-  if l:type != ''
-    let l:type = '(' . l:type . ')'
+  let l:branch_name = gitbranch#name()
+  if l:branch_name != ''
+    let l:xs += [l:branch_name]
   endif
-  if l:name != ''
-    let l:name = ':' . l:name
+  let l:signify_status = sy#repo#get_stats_decorated()
+  if l:signify_status != ''
+    let l:xs += [l:signify_status]
   endif
-  let l:signifystatus = sy#repo#get_stats_decorated()
-  if l:signifystatus != ''
-    let l:signifystatus = ' ' . l:signifystatus
-  endif
-  "return ' [Git' . l:type . l:name . ']'
-  return 'Git' . l:type . l:name . l:signifystatus
+  return join(l:xs, ' ')
 endfunction
 
 
