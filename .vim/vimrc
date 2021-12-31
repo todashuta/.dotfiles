@@ -297,10 +297,12 @@ function! CtrlPStatusFunc_main(focus, byfname, regex, prev, item, next, marked)
   let g:lightline.ctrlp_next = a:next
   let g:lightline.ctrlp_marked = a:marked
   let g:lightline.ctrlp_regex = a:regex
+  let g:lightline.ctrlp_numscanned = 0
   return lightline#statusline(0)
 endfunction
 function! CtrlPStatusFunc_progress(numscanned)
-  return '[CtrlP] ' . a:numscanned . ' files...'
+  let g:lightline.ctrlp_numscanned = a:numscanned
+  return lightline#statusline(0)
 endfunction
 
 
@@ -374,6 +376,9 @@ let g:lightline = {
       \ }
 
 function! MyFilename() abort
+  if &filetype ==# 'ctrlp' && get(g:lightline, 'ctrlp_numscanned', 0) > 0
+    return g:lightline.ctrlp_numscanned . ' files... (press ctrl-c to abort)'
+  endif
   if &filetype ==# 'ctrlp' && has_key(g:lightline, 'ctrlp_item')
     call lightline#link('iR'[g:lightline.ctrlp_regex])
     return join([
