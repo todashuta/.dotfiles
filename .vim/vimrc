@@ -323,10 +323,10 @@ let g:lightline = {
       \   'component_function': {
       \     'git': 'MyGitStatus',
       \     'myfilename': 'MyFilename',
+      \     'mybufnum': 'MyBufnum',
       \   },
       \   'component': {
       \     'mycharvaluehex': '%<0x%{FencB()}',
-      \     'mybufnum': '#%n',
       \     'myfileformat': '%{g:FFTable[&ff].(&eol?"":"-NoEOL")}',
       \     'myfileencoding': '%{toupper(&fenc==""?(&enc."*"):&fenc).(&bomb?"(BOM)":"")}',
       \   },
@@ -376,7 +376,7 @@ let g:lightline = {
 function! MyFilename() abort
   if &filetype ==# 'ctrlp' && has_key(g:lightline, 'ctrlp_item')
     call lightline#link('iR'[g:lightline.ctrlp_regex])
-    return '[CtrlP] ' . join([
+    return join([
           \   ('<' . g:lightline.ctrlp_prev . '>'),
           \   ('{' . g:lightline.ctrlp_item . '}'),
           \   ('<' . g:lightline.ctrlp_next . '>'),
@@ -384,6 +384,13 @@ function! MyFilename() abort
   endif
   let name = expand('%:t')
   return name != '' ? name : '[No Name]'
+endfunction
+
+function! MyBufnum() abort
+  if &filetype ==# 'ctrlp' && has_key(g:lightline, 'ctrlp_item')
+    return 'CtrlP'
+  endif
+  return '#'.bufnr()
 endfunction
 
 autocmd vimrc CursorMoved * call s:update_lightline()
