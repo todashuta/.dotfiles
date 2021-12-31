@@ -194,9 +194,11 @@ function! FencB()
     return '0'
   endif
 endfunction
+
 function! s:str2byte(str)
   return map(range(len(a:str)), 'char2nr(a:str[v:val])')
 endfunction
+
 function! s:byte2hex(bytes)
   return join(map(copy(a:bytes), 'printf("%02X", v:val)'), '')
 endfunction
@@ -220,6 +222,7 @@ function! MyGitStatus() abort
   "return ' [Git' . l:type . l:name . ']'
   return 'Git' . l:type . l:name . l:signifystatus
 endfunction
+
 
 let g:loaded_matchparen = 1
 let g:loaded_netrw = 1
