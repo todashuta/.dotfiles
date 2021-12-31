@@ -390,7 +390,7 @@ function! MyBufnum() abort
   if &filetype ==# 'ctrlp' && has_key(g:lightline, 'ctrlp_item')
     return 'CtrlP'
   endif
-  return '#'.bufnr()
+  return '#'.bufnr('')
 endfunction
 
 autocmd vimrc CursorMoved * call s:update_lightline()
