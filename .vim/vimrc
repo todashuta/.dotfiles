@@ -208,7 +208,7 @@ function! MyGitStatus() abort
   let l:xs = []
   let l:fugitive_type = getbufvar('', 'fugitive_type', '')
   if l:fugitive_type != ''
-    let l:xs += ['['.l:fugitive_type.']']
+    let l:xs += ['['.(&modifiable && !&readonly ? 'index|' : '').l:fugitive_type.']']
   endif
   let l:branch_name = gitbranch#name()
   if l:branch_name != ''
