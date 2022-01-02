@@ -561,8 +561,8 @@ function! s:cmd_ToggleBackground()
   call lightline#init() | call lightline#colorscheme() | call lightline#update()
 endfunction
 
-command! ResizeHeight  call feedkeys(':exe "resize" winheight(0)', 'n')
-command! ResizeWidth   call feedkeys(':exe "vert resize" winwidth(0)', 'n')
+command! ResizeHeight  call feedkeys(":exe 'resize' string(\<C-r>=winheight(0)\<CR>)\<Left>", 'n')
+command! ResizeWidth   call feedkeys(":exe 'vert resize' string(\<C-r>=winwidth(0)\<CR>)\<Left>", 'n')
 
 let s:vimrclocal = $MYVIMRC.'_local'
 if filereadable(s:vimrclocal)
