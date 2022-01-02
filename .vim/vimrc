@@ -206,20 +206,11 @@ endfunction
 
 function! MyGitStatus() abort
   let l:xs = []
-  let l:fugitive_type = getbufvar('', 'fugitive_type', '')
-  if l:fugitive_type != ''
-    "let l:xs += ['['.(&modifiable && !&readonly ? 'index|' : '').l:fugitive_type.']']
-    if l:fugitive_type ==# 'index'
-      let l:xs += ['[summary]']
-    elseif l:fugitive_type ==# 'blob' && &modifiable && !&readonly
-      let l:xs += ['[index]']
-    else
-      let l:xs += ['['.l:fugitive_type.']']
-    endif
-  endif
-  let l:branch_name = gitbranch#name()
-  if l:branch_name != ''
-    let l:xs += [l:branch_name]
+  let l:fugitive_status = FugitiveStatusline()
+  if l:fugitive_status != ''
+    let l:fugitive_status = substitute(l:fugitive_status, '^[Git:\?', '', '')
+    let l:fugitive_status = substitute(l:fugitive_status, ']$', '', '')
+    let l:xs += [l:fugitive_status]
   endif
   let l:signify_stats = sy#repo#get_stats_decorated()
   if l:signify_stats != ''
