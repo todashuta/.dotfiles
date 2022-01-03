@@ -568,7 +568,19 @@ command! -bang WinIgnore  let w:winignore = <bang>1
 nnoremap <silent> <C-w><C-w>  :<C-u>call <SID>winignore_wincmd_w()<CR>
 function! s:winignore_wincmd_w() abort
   let l:curwin = winnr()
-  let l:targets = filter(range(1, winnr('$')), '!getwinvar(v:val, "winignore", 0)')
+  let l:targets = []
+  for l:w in range(1, winnr('$'))
+    if getwinvar(l:w, 'winignore', 0)
+      continue
+    endif
+    if getwinvar(l:w, '&filetype', '') =~# '^\%(fugitive\|git\|qf\|help\)$'
+      continue
+    endif
+    if getwinvar(l:w, '&buftype', '') =~# '^\%(terminal\)$'
+      continue
+    endif
+    call add(l:targets, l:w)
+  endfor
   if empty(l:targets)
     return
   endif
@@ -579,10 +591,10 @@ function! s:winignore_wincmd_w() abort
     exe l:targets[0] . 'wincmd w'
   endif
 endfunction
-autocmd vimrc FileType fugitive,git,qf,help
-      \ let w:winignore = get(w:, 'winignore', 1)
-autocmd vimrc TerminalWinOpen *
-      \ let w:winignore = get(w:, 'winignore', 1)
+"autocmd vimrc FileType fugitive,git,qf,help
+"      \ let w:winignore = get(w:, 'winignore', 1)
+"autocmd vimrc TerminalWinOpen *
+"      \ let w:winignore = get(w:, 'winignore', 1)
 
 let s:vimrclocal = $MYVIMRC.'_local'
 if filereadable(s:vimrclocal)
