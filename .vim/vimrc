@@ -570,16 +570,20 @@ function! s:winignore_wincmd_w() abort
   let l:curwin = winnr()
   let l:targets = []
   for l:w in range(1, winnr('$'))
-    if getwinvar(l:w, 'winignore', 0)
-      continue
-    endif
+    let l:ignore = 0
     if getwinvar(l:w, '&filetype', '') =~# '^\%(fugitive\|git\|qf\|help\)$'
-      continue
+      let l:ignore = 1
     endif
     if getwinvar(l:w, '&buftype', '') =~# '^\%(terminal\)$'
-      continue
+      let l:ignore = 1
     endif
-    call add(l:targets, l:w)
+    let l:override = getwinvar(l:w, 'winignore', -1)
+    if l:override >= 0
+      let l:ignore = l:override
+    endif
+    if !l:ignore
+      call add(l:targets, l:w)
+    endif
   endfor
   if empty(l:targets)
     return
