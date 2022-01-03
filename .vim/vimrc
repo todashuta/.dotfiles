@@ -127,7 +127,7 @@ nnoremap  sF  :<C-u>CtrlPCurFile<CR>
 "nnoremap  SD  :<C-u>CtrlPLauncher! diff<CR>
 
 nnoremap <Space>   <Nop>
-nnoremap <Space>w  <C-w>p
+"nnoremap <Space>w  <C-w>p
 nmap     <Space>s  <Plug>(toggle-split-orientation)
 nnoremap <Space>g  :<C-u>CtrlPLauncher! git<CR>
 nnoremap <Space>d  :<C-u>CtrlPLauncher! diff<CR>
