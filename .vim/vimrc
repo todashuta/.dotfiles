@@ -564,6 +564,26 @@ endfunction
 command! WinfixHeight  call feedkeys("\<C-w>:set wfh | exe 'resize' string(\<C-r>=winheight(0)\<CR>)\<Left>", 'n')
 command! WinfixWidth   call feedkeys("\<C-w>:set wfw | exe 'vert resize' string(\<C-r>=winwidth(0)\<CR>)\<Left>", 'n')
 
+command! -bang WinIgnore  let w:winignore = <bang>1
+nnoremap <silent> <C-w><C-w>  :<C-u>call <SID>winignore_wincmd_w()<CR>
+function! s:winignore_wincmd_w() abort
+  let l:curwin = winnr()
+  let l:targets = filter(range(1, winnr('$')), '!getwinvar(v:val, "winignore", 0)')
+  if empty(l:targets)
+    return
+  endif
+  if index(l:targets, l:curwin) >= 0
+    let l:i = (index(l:targets, l:curwin) + 1) % len(l:targets)
+    exe l:targets[l:i] . 'wincmd w'
+  else
+    exe l:targets[0] . 'wincmd w'
+  endif
+endfunction
+autocmd vimrc FileType fugitive,git,qf,help
+      \ let w:winignore = get(w:, 'winignore', 1)
+autocmd vimrc TerminalWinOpen *
+      \ let w:winignore = get(w:, 'winignore', 1)
+
 let s:vimrclocal = $MYVIMRC.'_local'
 if filereadable(s:vimrclocal)
   execute 'source' s:vimrclocal
