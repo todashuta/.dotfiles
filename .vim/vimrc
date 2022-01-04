@@ -597,10 +597,6 @@ function! s:winignore_wincmd_w() abort
     exe l:targets[0] . 'wincmd w'
   endif
 endfunction
-"autocmd vimrc FileType fugitive,git,qf,help
-"      \ let w:winignore = get(w:, 'winignore', 1)
-"autocmd vimrc TerminalWinOpen *
-"      \ let w:winignore = get(w:, 'winignore', 1)
 
 let s:vimrclocal = $MYVIMRC.'_local'
 if filereadable(s:vimrclocal)
