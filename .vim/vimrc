@@ -393,12 +393,13 @@ function! MyBufnum() abort
   if &filetype ==# 'ctrlp' "&& has_key(g:lightline, 'ctrlp_item')
     return 'CtrlP'
   endif
-  if &filetype =~# '^\%(fugitive\|git\|qf\|help\)$'
+  if &filetype =~# '^\%(fugitive\|fugitiveblame\|git\|qf\|help\)$'
     if mode() ==# 'n'
       call lightline#link('R')
     endif
     return get({
           \   'fugitive': 'Git',
+          \   'fugitiveblame': 'Git',
           \   'git': 'Git',
           \   'qf': 'QuickFix',
           \   'help': 'Help',
