@@ -31,6 +31,7 @@ set guifont=VL_Gothic:h9 guifontwide=VL_Gothic:h9 "rop=type:directx,renmode:4
 set renderoptions=type:directx,renmode:5
 
 set guioptions-=T guioptions-=m guioptions-=r guioptions-=L guioptions-=e
+set guioptions+=c
 
 let g:lucius_style = 'light'
 let g:lucius_contrast = 'low'
