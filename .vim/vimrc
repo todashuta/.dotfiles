@@ -408,8 +408,9 @@ function! MyBufnum() abort
   if &buftype ==# 'terminal'
     return 'Terminal'
   endif
-  let w = winnr()
-  return bufnr('').'|'.w.(w==winnr('#')?'#':'')
+  return &ft != '' ? &ft : '--'
+  "let w = winnr()
+  "return bufnr('').'|'.w.(w==winnr('#')?'#':'')
 endfunction
 
 autocmd vimrc CursorMoved * call s:update_lightline()
