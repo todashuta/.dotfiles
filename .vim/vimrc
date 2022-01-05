@@ -234,6 +234,7 @@ packadd! ctrlp.vim
 packadd! ctrlp-launcher
 packadd! html5.vim
 packadd! sonictemplate-vim
+packadd! vim-molder
 packadd! vim-jsx-pretty
 packadd! syntax-vim-ex
 packadd! vim-css3-syntax
@@ -303,6 +304,7 @@ endfunction
 
 
 let g:sonictemplate_vim_template_dir = expand($VIMDIR.'/template')
+let g:molder_show_hidden = 1
 let g:quickrun_config = {}
 let g:quickrun_config['_'] = {
       \   'runner': (exists('*ch_close_in') ? 'job' : 'vimproc'),
