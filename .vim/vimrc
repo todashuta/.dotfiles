@@ -99,10 +99,8 @@ nnoremap          <C-h>       :<C-u>h<Space>
 map               Q           <Nop>
 nnoremap          s           <Nop>
 nnoremap          S           <Nop>
-nnoremap          s/          :<C-u>silent grep!<Space>
-nnoremap          sa          :<C-u>silent grepadd!<Space>
-nnoremap          s?          :<C-u>/j **/* <Bar> cwindow<Home>noautocmd vimgrep /<C-f>
-nnoremap          sA          :<C-u>/j **/* <Bar> cwindow<Home>noautocmd vimgrepadd /<C-f>
+nnoremap          <Space>/    :<C-u>silent grep!<Space>
+nnoremap          <Space>?    :<C-u>/j **/* <Bar> cwindow<Home>noautocmd vimgrep /<C-f>
 nnoremap <silent> <Esc><Esc>  :<C-u>let v:hlsearch = !v:hlsearch<CR>
 nnoremap          <C-l>       :<C-u>call MyRedraw()<CR><C-l>
 
@@ -113,15 +111,15 @@ function! MyRedraw() abort
 endfunction
 
 if s:is_windows
-  nnoremap  se      :<C-u>Explorer<Space>
-  nnoremap  sE      :<C-u>Explorer!<CR>
+  "nnoremap  se      :<C-u>Explorer<Space>
+  "nnoremap  sE      :<C-u>Explorer!<CR>
   nnoremap  <C-w>N  :<C-u>!start gvim.exe<CR>
 endif
 
-nnoremap  sr  :<C-u>CtrlPMRUFiles<CR>
-nnoremap  sb  :<C-u>CtrlPBuffer<CR>
-nnoremap  sf  :<C-u>CtrlPCurWD<CR>
-nnoremap  sF  :<C-u>CtrlPCurFile<CR>
+nnoremap <Space>r  :<C-u>CtrlPMRUFiles<CR>
+nnoremap <Space>b  :<C-u>CtrlPBuffer<CR>
+nnoremap <Space>f  :<C-u>CtrlPCurWD<CR>
+nnoremap <Space>F  :<C-u>CtrlPCurFile<CR>
 
 "nnoremap  SG  :<C-u>CtrlPLauncher! git<CR>
 "nnoremap  SD  :<C-u>CtrlPLauncher! diff<CR>
