@@ -128,7 +128,7 @@ nnoremap <Space>   <Nop>
 "nnoremap <Space>w  <C-w>p
 nmap     <Space>s  <Plug>(toggle-split-orientation)
 nnoremap <Space>g  :<C-u>CtrlPLauncher! git<CR>
-nnoremap <Space>d  :<C-u>CtrlPLauncher! diff<CR>
+nnoremap <Space>d  :<C-u>call <SID>DiffOrigToggle()<CR>
 nnoremap <Space>t  :<C-u>CtrlPLauncher! toggle<CR>
 nnoremap <Space>l  :<C-u>CtrlPLauncher! lsp<CR>
 nnoremap <Space>q  :<C-u>CtrlPLauncher quickrun<CR>
@@ -393,6 +393,9 @@ function! MyBufnum() abort
   if &filetype ==# 'ctrlp' "&& has_key(g:lightline, 'ctrlp_item')
     return 'CtrlP'
   endif
+  if get(b:, 'is_difforigbuf', 0)
+    return 'DiffOrig'
+  endif
   if &filetype =~# '^\%(fugitive\|fugitiveblame\|git\|qf\|help\)$'
     if mode() ==# 'n'
       call lightline#link('R')
@@ -564,6 +567,14 @@ endfunction
 "set pythonthreedll=C:/Python37/python37.dll
 "set pythonthreedll=~/scoop/apps/python/current/python310.dll
 "packadd! vimdoc-ja
+
+function! s:DiffOrigToggle()
+  if len(filter(range(1, winnr('$')), 'getbufvar(winbufnr(v:val), "is_difforigbuf", 0)')) > 0
+    DiffOrigOff
+  else
+    DiffOrig
+  endif
+endfunction
 
 command! ToggleBackground  call s:cmd_ToggleBackground()
 function! s:cmd_ToggleBackground()
