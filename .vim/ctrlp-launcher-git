@@ -2,4 +2,4 @@ add -p	:Gdiffsplit
 blame	:Git blame
 commit	:tab Git commit -v
 log --follow %	:vert Git -p log --follow %
-status	:Git
+status	:vert Git | vert resize 60

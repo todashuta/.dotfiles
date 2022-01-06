@@ -128,7 +128,6 @@ nnoremap <Space>   <Nop>
 "nnoremap <Space>w  <C-w>p
 nmap     <Space>s  <Plug>(toggle-split-orientation)
 nnoremap <Space>g  :<C-u>CtrlPLauncher! git<CR>
-nnoremap <Space>d  :<C-u>call <SID>DiffOrigToggle()<CR>
 nnoremap <Space>t  :<C-u>CtrlPLauncher! toggle<CR>
 nnoremap <Space>l  :<C-u>CtrlPLauncher! lsp<CR>
 nnoremap <Space>q  :<C-u>CtrlPLauncher quickrun<CR>
@@ -150,8 +149,6 @@ augroup vimrc
 augroup END
 
 command!       CdCurrent               cd %:p:h
-command!       DiffOrig                vert new | set bt=nofile | let b:is_difforigbuf = 1 | r ++edit # | 0d_ | diffthis | wincmd p | diffthis
-command!       DiffOrigOff             diffoff! | windo if get(b:, 'is_difforigbuf') | bwipeout | endif
 command!       EnableSyntaxcomplete    setlocal omnifunc=syntaxcomplete#Complete
 command!       NrformatsAlphaToggle    exe 'setlocal nf'.(&nf =~# 'alpha' ? '-=' : '+=').'alpha nf?'
 command!       PackUpdate              source $VIMDIR/packinit.vim | call minpac#update('', {'do': 'call minpac#status()'})
@@ -393,7 +390,7 @@ function! MyBufnum() abort
   if &filetype ==# 'ctrlp' "&& has_key(g:lightline, 'ctrlp_item')
     return 'CtrlP'
   endif
-  if get(b:, 'is_difforigbuf', 0)
+  if get(b:, 'mydifforigbuf', 0)
     return 'DiffOrig'
   endif
   if &filetype =~# '^\%(fugitive\|fugitiveblame\|git\|qf\|help\)$'
@@ -568,11 +565,12 @@ endfunction
 "set pythonthreedll=~/scoop/apps/python/current/python310.dll
 "packadd! vimdoc-ja
 
-function! s:DiffOrigToggle()
-  if len(filter(range(1, winnr('$')), 'getbufvar(winbufnr(v:val), "is_difforigbuf", 0)')) > 0
-    DiffOrigOff
+nnoremap <silent> <Space>d  :<C-u>call <SID>MyDiffOrigToggle()<CR>
+function! s:MyDiffOrigToggle()
+  if len(filter(range(1, winnr('$')), 'getbufvar(winbufnr(v:val), "mydifforigbuf", 0)')) > 0
+    diffoff! | windo if get(b:, 'mydifforigbuf') | bwipeout | endif
   else
-    DiffOrig
+    vert new | set bt=nofile | let b:mydifforigbuf = 1 | r ++edit # | 0d_ | diffthis | wincmd p | diffthis
   endif
 endfunction
 
