@@ -409,8 +409,8 @@ function! MyBufnum() abort
   "return bufnr('').'|'.w.(w==winnr('#')?'#':'')
 endfunction
 
-autocmd vimrc CursorMoved * call s:update_lightline()
-function! s:update_lightline() abort
+autocmd vimrc CursorMoved * call s:update_lightline_if_numwin_changed()
+function! s:update_lightline_if_numwin_changed() abort
   let numwin = winnr('$')
   if numwin != get(s:, 'prev_numwin', numwin)
     call lightline#update()
