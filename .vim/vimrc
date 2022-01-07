@@ -121,11 +121,7 @@ nnoremap <Space>b  :<C-u>CtrlPBuffer<CR>
 nnoremap <Space>f  :<C-u>CtrlPCurWD<CR>
 nnoremap <Space>F  :<C-u>CtrlPCurFile<CR>
 
-"nnoremap  SG  :<C-u>CtrlPLauncher! git<CR>
-"nnoremap  SD  :<C-u>CtrlPLauncher! diff<CR>
-
 nnoremap <Space>   <Nop>
-"nnoremap <Space>w  <C-w>p
 nmap     <Space>s  <Plug>(toggle-split-orientation)
 nnoremap <Space>g  :<C-u>CtrlPLauncher! git<CR>
 nnoremap <Space>t  :<C-u>CtrlPLauncher! toggle<CR>
@@ -551,15 +547,6 @@ function! s:set_json_indent()
     setlocal expandtab softtabstop=2 shiftwidth=2
   endif
 endfunction
-
-"if exists('##OptionSet')
-"  autocmd vimrc OptionSet diff
-"        \   if [v:option_old, v:option_new] == ['0', '1']
-"        \ |   syntax off
-"        \ | else
-"        \ |   syntax enable | doautoall ColorScheme
-"        \ | endif
-"endif
 
 "set pythonthreedll=C:/Python37/python37.dll
 "set pythonthreedll=~/scoop/apps/python/current/python310.dll
