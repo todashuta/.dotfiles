@@ -323,7 +323,7 @@ let g:lightline = {
       \   'component_function': {
       \     'git': 'MyGitStatus',
       \     'myfilename': 'MyFilename',
-      \     'mybufnum': 'MyBufnum',
+      \     'mywintype': 'MyWinType',
       \   },
       \   'component': {
       \     'mycharvaluehex': '%<0x%{FencB()}',
@@ -340,7 +340,7 @@ let g:lightline = {
       \   },
       \   'active': {
       \     'left': [
-      \       ['paste', 'mybufnum'],
+      \       ['paste', 'mywintype'],
       \       ['git'],
       \       ['readonly', 'myfilename', 'modified'],
       \     ],
@@ -352,7 +352,7 @@ let g:lightline = {
       \   },
       \   'inactive': {
       \     'left': [
-      \       ['mybufnum'],
+      \       ['mywintype'],
       \       ['git'],
       \       ['myfilename'],
       \     ],
@@ -388,7 +388,7 @@ function! MyFilename() abort
   return name != '' ? name : '[No Name]'
 endfunction
 
-function! MyBufnum() abort
+function! MyWinType() abort
   "if &filetype ==# 'ctrlp' && has_key(g:lightline, 'ctrlp_numscanned')
   "  "if g:lightline.ctrlp_numscanned == 0
   "  "  call lightline#link('iR'[get(g:lightline, 'ctrlp_regex', 0)])
