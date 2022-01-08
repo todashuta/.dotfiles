@@ -404,6 +404,10 @@ function! MyWinType() abort
   "if !&modifiable && mode() ==# 'n'
   "  call lightline#link('R')
   "endif
+  let l:cmdwintype = getcmdwintype()
+  if l:cmdwintype != ''
+    return l:cmdwintype
+  endif
   let l:ret = get({
         \   'ctrlp': 'CtrlP',
         \   'fugitive': 'Git',
