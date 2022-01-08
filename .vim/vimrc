@@ -294,6 +294,12 @@ function! CtrlPStatusFunc_progress(numscanned)
   let g:lightline.ctrlp_numscanned = a:numscanned
   return lightline#statusline(0)
 endfunction
+let g:ctrlp_buffer_func = {
+      \   'exit': 'CtrlPBufferFunc_exit',
+      \ }
+function! CtrlPBufferFunc_exit()
+  call timer_start(0, {_ -> execute('call lightline#update()', '')})
+endfunction
 
 
 let g:sonictemplate_vim_template_dir = expand($VIMDIR.'/template')
@@ -411,14 +417,14 @@ function! MyBufnum() abort
   "return bufnr('').'|'.w.(w==winnr('#')?'#':'')
 endfunction
 
-autocmd vimrc CursorMoved * call s:update_lightline_if_numwin_changed()
-function! s:update_lightline_if_numwin_changed() abort
-  let numwin = winnr('$')
-  if numwin != get(s:, 'prev_numwin', numwin)
-    call lightline#update()
-  endif
-  let s:prev_numwin = numwin
-endfunction
+"autocmd vimrc CursorMoved * call s:update_lightline_if_numwin_changed()
+"function! s:update_lightline_if_numwin_changed() abort
+"  let numwin = winnr('$')
+"  if numwin != get(s:, 'prev_numwin', numwin)
+"    call lightline#update()
+"  endif
+"  let s:prev_numwin = numwin
+"endfunction
 
 
 xnoremap <expr> gr  niceblock#force_blockwise('r')
