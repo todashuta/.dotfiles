@@ -3,3 +3,4 @@ blame	:Git blame
 commit	:tab Git commit -v
 log --follow %	:vert Git -p log --follow %
 status	:vert Git | vert resize 50
+diff staged	:Gtabedit @:% | :Gdiffsplit :% | :wincmd x
