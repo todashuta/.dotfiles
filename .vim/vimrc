@@ -590,7 +590,7 @@ function! s:winignore_wincmd_w() abort
   let l:targets = []
   for l:w in range(1, winnr('$'))
     let l:ignore = 0
-    if getwinvar(l:w, '&filetype', '') =~# '^\%(fugitive\|git\|qf\|help\)$'
+    if getwinvar(l:w, '&filetype', '') =~# '^\%(fugitive\|qf\|help\)$'
       let l:ignore = 1
     endif
     if getwinvar(l:w, '&buftype', '') =~# '^\%(terminal\)$'
