@@ -371,7 +371,6 @@ function! MyFilename() abort
     return g:lightline.ctrlp_numscanned . ' files... (press ctrl-c to abort)'
   endif
   if &filetype ==# 'ctrlp' && has_key(g:lightline, 'ctrlp_item')
-    call lightline#link('iR'[g:lightline.ctrlp_regex])
     return join([
           \   ('<' . g:lightline.ctrlp_prev . '>'),
           \   ('{' . g:lightline.ctrlp_item . '}'),
@@ -383,7 +382,10 @@ function! MyFilename() abort
 endfunction
 
 function! MyBufnum() abort
-  if &filetype ==# 'ctrlp' "&& has_key(g:lightline, 'ctrlp_item')
+  if &filetype ==# 'ctrlp' && has_key(g:lightline, 'ctrlp_numscanned')
+    if g:lightline.ctrlp_numscanned == 0
+      call lightline#link('iR'[get(g:lightline, 'ctrlp_regex', 0)])
+    endif
     return 'CtrlP'
   endif
   if get(b:, 'mydifforigbuf', 0)
