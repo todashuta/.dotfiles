@@ -314,6 +314,7 @@ let g:quickrun_config['_'] = {
 let g:switch_mapping = 'gs'
 let g:cursorword_highlight = 0
 let g:cursorword = 0
+let g:fugitive_dynamic_colors = 0
 
 
 " lightline
@@ -397,22 +398,18 @@ function! MyBufnum() abort
   if get(b:, 'mydifforigbuf', 0)
     return 'DiffOrig'
   endif
-  if &filetype =~# '^\%(fugitive\|fugitiveblame\|git\|qf\|help\)$'
-    if mode() ==# 'n'
-      call lightline#link('R')
-    endif
-    return get({
-          \   'fugitive': 'Git',
-          \   'fugitiveblame': 'Git',
-          \   'git': 'Git',
-          \   'qf': 'QuickFix',
-          \   'help': 'Help',
-          \ }, &filetype, '??')
-  endif
   if &buftype ==# 'terminal'
     return 'Terminal'
   endif
-  return &ft != '' ? &ft : '--'
+  if !&modifiable && mode() ==# 'n'
+    call lightline#link('R')
+  endif
+  return get({
+        \   'fugitive': 'Git',
+        \   'fugitiveblame': 'Git',
+        \   'qf': 'QuickFix',
+        \   'help': 'Help',
+        \ }, &filetype, (&filetype != '' ? &filetype : '--'))
   "let w = winnr()
   "return bufnr('').'|'.w.(w==winnr('#')?'#':'')
 endfunction
