@@ -602,6 +602,9 @@ function! s:winignore_wincmd_w() abort
     if getwinvar(l:w, '&buftype', '') =~# '^\%(terminal\)$'
       let l:ignore = 1
     endif
+    if getwinvar(l:w, '&previewwindow', 0)
+      let l:ignore = 1
+    endif
     let l:override = getbufvar(winbufnr(l:w), 'winignore', -1)
     if l:override >= 0
       let l:ignore = l:override
