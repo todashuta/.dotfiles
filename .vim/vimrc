@@ -415,7 +415,7 @@ endfunction
 
 
 xnoremap <expr> gr  niceblock#force_blockwise('r')
-map Qr  <Plug>(operator-replace)
+map sR  <Plug>(operator-replace)
 
 omap aa  <Plug>(textobj-sandwich-auto-a)
 omap ii  <Plug>(textobj-sandwich-auto-i)
