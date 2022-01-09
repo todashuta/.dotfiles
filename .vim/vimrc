@@ -98,6 +98,7 @@ inoremap          <C-@>       <Nop>
 nnoremap          <C-h>       :<C-u>h<Space>
 map               Q           <Nop>
 nnoremap          s           <Nop>
+xnoremap          s           <Nop>
 nnoremap          S           <Nop>
 nnoremap          <Space>/    :<C-u>silent grep!<Space>
 nnoremap          <Space>?    :<C-u>/j **/* <Bar> cwindow<Home>noautocmd vimgrep /<C-f>
@@ -236,10 +237,10 @@ packadd! vim-lucius
 packadd! vim-color-spring-night
 packadd! tokyonight-vim
 packadd! vim-niceblock
+packadd! vim-sandwich
 packadd! vim-textobj-user
 packadd! vim-textobj-syntax
 packadd! vim-textobj-python
-packadd! vim-textobj-multiblock
 packadd! vim-quickrun
 packadd! vim-qfreplace
 packadd! vim-prettyprint
@@ -260,7 +261,6 @@ packadd! vim-findroot
 packadd! switch.vim
 packadd! vim-operator-user
 packadd! vim-operator-replace
-packadd! vim-operator-surround
 packadd! lightline.vim
 packadd! lightline-lsp
 packadd! vim-toggle-split-orientation
@@ -417,14 +417,10 @@ endfunction
 xnoremap <expr> gr  niceblock#force_blockwise('r')
 map Qr  <Plug>(operator-replace)
 
-omap aa  <Plug>(textobj-multiblock-a)
-omap ii  <Plug>(textobj-multiblock-i)
-xmap aa  <Plug>(textobj-multiblock-a)
-xmap ii  <Plug>(textobj-multiblock-i)
-
-map <silent>Sa  <Plug>(operator-surround-append)
-map <silent>Sd  <Plug>(operator-surround-delete)
-map <silent>Sr  <Plug>(operator-surround-replace)
+omap aa  <Plug>(textobj-sandwich-auto-a)
+omap ii  <Plug>(textobj-sandwich-auto-i)
+xmap aa  <Plug>(textobj-sandwich-auto-a)
+xmap ii  <Plug>(textobj-sandwich-auto-i)
 
 
 " vim-signify
