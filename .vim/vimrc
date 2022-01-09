@@ -378,7 +378,8 @@ function! MyFilename() abort
     return g:lightline.ctrlp_numscanned . ' files... (press ctrl-c to abort)'
   endif
   if &filetype ==# 'ctrlp' && has_key(g:lightline, 'ctrlp_item')
-    return join([
+    let l:regmark = g:lightline.ctrlp_regex ? '[.*] ' : '[  ] '
+    return l:regmark . join([
           \   ('<' . g:lightline.ctrlp_prev . '>'),
           \   ('{' . g:lightline.ctrlp_item . '}'),
           \   ('<' . g:lightline.ctrlp_next . '>'),
