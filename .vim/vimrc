@@ -413,8 +413,8 @@ function! MyWinType() abort
         \   'ctrlp': 'CtrlP',
         \   'fugitive': 'Git',
         \   'fugitiveblame': 'Git',
-        \   'qf': 'QuickFix',
         \   'help': 'Help',
+        \   'qf': 'QuickFix',
         \ }, &filetype, (&filetype != '' ? &filetype : '--'))
   return &modifiable ? l:ret : ('*'.l:ret.'*')
   "let w = winnr()
