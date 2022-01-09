@@ -298,7 +298,7 @@ let g:ctrlp_buffer_func = {
       \   'exit': 'CtrlPBufferFunc_exit',
       \ }
 function! CtrlPBufferFunc_exit()
-  call timer_start(0, {_ -> execute('call lightline#update()', '')})
+  call timer_start(0, { -> lightline#update() })
 endfunction
 
 
