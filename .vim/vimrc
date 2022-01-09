@@ -410,12 +410,13 @@ function! MyWinType() abort
     return l:cmdwintype
   endif
   let l:ret = get({
+        \   '': '--',
         \   'ctrlp': 'CtrlP',
         \   'fugitive': 'Git',
         \   'fugitiveblame': 'Git',
         \   'help': 'Help',
         \   'qf': 'QuickFix',
-        \ }, &filetype, (&filetype != '' ? &filetype : '--'))
+        \ }, &filetype, &filetype)
   return &modifiable ? l:ret : ('*'.l:ret.'*')
   "let w = winnr()
   "return bufnr('').'|'.w.(w==winnr('#')?'#':'')
