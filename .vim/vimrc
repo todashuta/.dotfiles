@@ -390,21 +390,12 @@ function! MyFilename() abort
 endfunction
 
 function! MyWinType() abort
-  "if &filetype ==# 'ctrlp' && has_key(g:lightline, 'ctrlp_numscanned')
-  "  "if g:lightline.ctrlp_numscanned == 0
-  "  "  call lightline#link('iR'[get(g:lightline, 'ctrlp_regex', 0)])
-  "  "endif
-  "  return '*CtrlP*'
-  "endif
   if get(b:, 'mydifforigbuf', 0)
     return 'DiffOrig'
   endif
   if &buftype ==# 'terminal'
     return 'Terminal'
   endif
-  "if !&modifiable && mode() ==# 'n'
-  "  call lightline#link('R')
-  "endif
   let l:cmdwintype = getcmdwintype()
   if l:cmdwintype != ''
     return l:cmdwintype
@@ -421,15 +412,6 @@ function! MyWinType() abort
   "let w = winnr()
   "return bufnr('').'|'.w.(w==winnr('#')?'#':'')
 endfunction
-
-"autocmd vimrc CursorMoved * call s:update_lightline_if_numwin_changed()
-"function! s:update_lightline_if_numwin_changed() abort
-"  let numwin = winnr('$')
-"  if numwin != get(s:, 'prev_numwin', numwin)
-"    call lightline#update()
-"  endif
-"  let s:prev_numwin = numwin
-"endfunction
 
 
 xnoremap <expr> gr  niceblock#force_blockwise('r')
