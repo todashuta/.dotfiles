@@ -87,6 +87,8 @@ set shortmess-=S
 set t_fd= t_fe=  " :h xterm-focus-event
 silent! set nrformats= nrformats+=unsigned
 set updatetime=500
+set previewheight=24
+let &ambiwidth = has('kaoriya') ? 'auto' : 'double'
 
 "cnoremap          <C-x>       <C-r>=fnamemodify(@%,':h:~:.').(exists('+shellslash')&&!&shellslash?'\':'/')<CR>
 cnoremap          <C-x>       <C-r>=(@%==''?'.':fnamemodify(@%,':~:.:h')).(exists('+shellslash')&&!&shellslash?'\':'/')<CR>
@@ -123,6 +125,8 @@ nnoremap <Space>f  :<C-u>CtrlPCurWD<CR>
 nnoremap <Space>F  :<C-u>CtrlPCurFile<CR>
 
 nnoremap <Space>   <Nop>
+xnoremap <Space>   <Nop>
+
 nmap     <Space>s  <Plug>(toggle-split-orientation)
 nnoremap <Space>g  :<C-u>CtrlPLauncher! git<CR>
 nnoremap <Space>t  :<C-u>CtrlPLauncher! toggle<CR>
