@@ -389,6 +389,9 @@ function! MyFilename() abort
           \   ('<' . g:lightline.ctrlp_next . '>'),
           \ ], '=') . g:lightline.ctrlp_marked
   endif
+  if &buftype ==# 'quickfix' && get(w:, 'quickfix_title', '') != ''
+    return w:quickfix_title
+  endif
   let name = expand('%:t')
   return name != '' ? name : '[No Name]'
 endfunction
