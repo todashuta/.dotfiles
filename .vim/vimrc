@@ -133,6 +133,8 @@ nnoremap <Space>t  :<C-u>CtrlPLauncher! toggle<CR>
 nnoremap <Space>l  :<C-u>CtrlPLauncher! lsp<CR>
 nnoremap <Space>q  :<C-u>CtrlPLauncher quickrun<CR>
 
+nnoremap <expr> gc  '`[' . getregtype()[0] . '`]'
+
 augroup vimrc
   autocmd QuickFixCmdPost [^l]*  botright cwindow | redraw!
 
