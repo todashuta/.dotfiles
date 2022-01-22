@@ -565,8 +565,12 @@ endfunction
 
 nnoremap <silent> <Space>d  :<C-u>call <SID>MyDiffOrigToggle()<CR>
 function! s:MyDiffOrigToggle()
-  if len(filter(range(1, winnr('$')), 'getbufvar(winbufnr(v:val), "mydifforigbuf", 0)')) > 0
-    diffoff! | windo if get(b:, 'mydifforigbuf') | bwipeout | endif
+  let l:mydifforig_wins = filter(range(1, winnr('$')), 'getbufvar(winbufnr(v:val), "mydifforigbuf", 0)')
+  if len(l:mydifforig_wins) > 0
+    diffoff!
+    for l:w in l:mydifforig_wins
+      exe 'bwipeout' winbufnr(l:w)
+    endfor
   else
     vert new | set bt=nofile | let b:mydifforigbuf = 1 | r ++edit # | 0d_ | diffthis | wincmd p | diffthis
   endif
