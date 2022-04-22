@@ -271,6 +271,7 @@ packadd! lightline.vim
 packadd! lightline-lsp
 packadd! vim-toggle-split-orientation
 packadd! iceberg.vim
+packadd! vim-notification
 
 if exists('##TextChangedP')
   packadd! vim-vsnip
