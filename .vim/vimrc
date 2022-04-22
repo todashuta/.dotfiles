@@ -288,6 +288,12 @@ if exists('##TextChangedP')
   packadd! vim-vsnip-integ
 endif
 
+if executable('deno') && has('patch-8.2.3081')
+  packadd! denops.vim
+  packadd! denops-helloworld.vim
+  packadd! skkeleton
+endif
+
 
 " ctrlp.vim
 let g:ctrlp_map = ''
