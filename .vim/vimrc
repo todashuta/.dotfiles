@@ -276,6 +276,7 @@ packadd! lightline-lsp
 packadd! vim-toggle-split-orientation
 packadd! iceberg.vim
 packadd! vim-notification
+packadd! vimwiki
 
 if exists('##TextChangedP')
   packadd! vim-vsnip
@@ -633,6 +634,11 @@ function! s:winignore_wincmd_w() abort
     exe l:targets[0] . 'wincmd w'
   endif
 endfunction
+
+" Vimwiki
+"let g:vimwiki_list = [{'path': '~/vimwiki/'}]
+let g:vimwiki_diary_months = {}
+call map(range(1, 12), 'extend(g:vimwiki_diary_months, {v:val: v:val."月"})')
 
 let s:vimrclocal = $MYVIMRC.'_local'
 if filereadable(s:vimrclocal)

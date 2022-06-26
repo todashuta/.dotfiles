@@ -91,5 +91,6 @@ call s:add('mattn/vim-findroot')
 call s:add('todashuta/vim-toggle-split-orientation')
 call s:add('cocopon/iceberg.vim')
 call s:add('mattn/vim-notification')
+call s:add('vimwiki/vimwiki')
 
 " vim: set et ts=2 sts=2 sw=2 fdm=marker :
