@@ -132,6 +132,7 @@ nnoremap <Space>g  :<C-u>CtrlPLauncher! git<CR>
 nnoremap <Space>t  :<C-u>CtrlPLauncher! toggle<CR>
 nnoremap <Space>l  :<C-u>CtrlPLauncher! lsp<CR>
 nnoremap <Space>q  :<C-u>CtrlPLauncher quickrun<CR>
+nnoremap <Space>w  :<C-u>CtrlPLauncher vimwiki<CR>
 nnoremap <Space>e  :<C-u>call <SID>edit_buffer_directory()<CR>
 function s:edit_buffer_directory()
   :e `=(@%==''?'.':fnamemodify(@%,':~:.:h')).(exists('+shellslash')&&!&shellslash?'\':'/')`
