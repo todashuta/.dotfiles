@@ -278,6 +278,7 @@ packadd! vim-toggle-split-orientation
 packadd! iceberg.vim
 packadd! vim-notification
 packadd! vimwiki
+packadd! zig.vim
 
 if exists('##TextChangedP')
   packadd! vim-vsnip
