@@ -411,7 +411,7 @@ function! MyWinType() abort
     return 'DiffOrig'
   endif
   if &buftype ==# 'terminal'
-    return 'Terminal'
+    return 'Terminal' . (term_getstatus(bufnr('')) =~# 'finished' ? '-finished' : '')
   endif
   let l:cmdwintype = getcmdwintype()
   if l:cmdwintype != ''
