@@ -93,5 +93,6 @@ call s:add('cocopon/iceberg.vim')
 call s:add('mattn/vim-notification')
 call s:add('vimwiki/vimwiki')
 call s:add('ziglang/zig.vim')
+call s:add('t9md/vim-quickhl')
 
 " vim: set et ts=2 sts=2 sw=2 fdm=marker :

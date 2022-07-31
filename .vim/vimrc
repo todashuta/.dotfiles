@@ -279,6 +279,7 @@ packadd! iceberg.vim
 packadd! vim-notification
 packadd! vimwiki
 packadd! zig.vim
+packadd! vim-quickhl
 
 if exists('##TextChangedP')
   packadd! vim-vsnip
@@ -642,6 +643,11 @@ function! s:winignore_wincmd_w() abort
     exe l:targets[0] . 'wincmd w'
   endif
 endfunction
+
+" vim-quickhl
+nmap <Space>m  <Plug>(quickhl-manual-this-whole-word)
+xmap <Space>m  <Plug>(quickhl-manual-this)
+nmap <Space>M  <Plug>(quickhl-manual-reset)
 
 " Vimwiki
 "let g:vimwiki_list = [{'path': '~/vimwiki/'}]
