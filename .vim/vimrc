@@ -655,6 +655,8 @@ nmap <Space>M  <Plug>(quickhl-manual-reset)
 "let g:vimwiki_list = [{'path': '~/vimwiki/'}]
 let g:vimwiki_diary_months = {}
 call map(range(1, 12), 'extend(g:vimwiki_diary_months, {v:val: v:val."月"})')
+let g:vimwiki_autowriteall = 0
+let g:vimwiki_ext2syntax = {}
 
 let s:vimrclocal = $MYVIMRC.'_local'
 if filereadable(s:vimrclocal)
