@@ -18,6 +18,8 @@ return {
 	initial_cols = 150,
 	initial_rows = 40,
 
+	window_background_opacity = 0.9,
+
 	font = wezterm.font_with_fallback {
 		'M PLUS 1 Code',
 		'VL Gothic',
