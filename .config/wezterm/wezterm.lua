@@ -25,6 +25,15 @@ return {
 	font = wezterm.font_with_fallback {
 		'M PLUS 1 Code',
 		'VL Gothic',
+
+		{
+			family = 'JetBrains Mono',
+			harfbuzz_features = { 'calt=0', 'clig=0', 'liga=0' },
+		},
+
+		{ family = 'Shorai Sans StdN Var', weight = 1000 },
+
+		'BIZ UDGothic', 'Meiryo', 'MS Gothic',
 	},
 	font_size = 12.0,
 
