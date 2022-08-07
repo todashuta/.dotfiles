@@ -1,7 +1,8 @@
 local wezterm = require 'wezterm'
+local utils = require 'utils'
 
 local launch_menu
-if wezterm.target_triple == 'x86_64-pc-windows-msvc' then
+if utils.is_windows() then
 	launch_menu = {}
 	table.insert(launch_menu, {
 		label = 'cmd.exe',
@@ -24,6 +25,7 @@ return {
 	font_size = 12.0,
 
 	--color_scheme = 'Builtin Tango Dark',
+	--color_scheme = 'tokyonight-storm',
 	color_scheme = 'iceberg-dark',
 
 	launch_menu = launch_menu,
