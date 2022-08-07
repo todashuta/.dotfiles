@@ -15,6 +15,8 @@ if utils.is_windows() then
 end
 
 return {
+	use_ime = true,
+
 	initial_cols = 150,
 	initial_rows = 40,
 
