@@ -1,4 +1,5 @@
 local wezterm = require 'wezterm'
+local act = wezterm.action
 local utils = require 'utils'
 
 local launch_menu
@@ -42,4 +43,21 @@ return {
 	color_scheme = 'iceberg-dark',
 
 	launch_menu = launch_menu,
+
+	keys = {
+		{
+			key = 'Space',
+			mods = 'CTRL|SHIFT',
+			action = act.ShowLauncher,
+		},
+	},
+
+	mouse_bindings = {
+		-- Disable middle click paste
+		{
+			event = { Down = { streak = 1, button = 'Middle' } },
+			mods = 'NONE',
+			action = act.Nop,
+		},
+	},
 }
