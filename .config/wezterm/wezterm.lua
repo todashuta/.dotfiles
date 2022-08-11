@@ -37,6 +37,7 @@ return {
 		'BIZ UDGothic', 'Meiryo', 'MS Gothic',
 	},
 	font_size = 12.0,
+	warn_about_missing_glyphs = false,
 
 	--color_scheme = 'Builtin Tango Dark',
 	--color_scheme = 'tokyonight-storm',
