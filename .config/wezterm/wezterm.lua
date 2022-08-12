@@ -21,6 +21,8 @@ return {
 	initial_cols = 150,
 	initial_rows = 40,
 
+	hide_tab_bar_if_only_one_tab = true,
+
 	window_background_opacity = 0.9,
 
 	font = wezterm.font_with_fallback {
