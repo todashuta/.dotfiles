@@ -1,0 +1,10 @@
+#!/bin/sh
+width=80
+cols="$(tput cols)"
+if [ "$cols" -gt "$width" ]; then
+	MANWIDTH="$width"
+else
+	MANWIDTH=
+fi
+export MANWIDTH
+exec man "$@"
