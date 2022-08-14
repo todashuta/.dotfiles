@@ -43,10 +43,7 @@ fpath=(  # {{{
     # My functions.
     ${ZDOTDIR}/functions(N-/^W)
 
-    # Homebrew installed zsh-completions.
-    /usr/local/share/zsh-completions(N-/^W)
-    # git-cloned zsh-completions.
-    ${HOME}/.repos/zsh-completions/src(N-/^W)
+    ${ZDOTDIR}/zsh-completions/src(N-/^W)
 
     ${fpath}  # デフォルトの fpath
 )  # }}}

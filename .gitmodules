@@ -6,3 +6,6 @@
 	path = .zsh/zaw
 	url = https://github.com/zsh-users/zaw
 	ignore = untracked
+[submodule ".zsh/zsh-completions"]
+	path = .zsh/zsh-completions
+	url = https://github.com/zsh-users/zsh-completions
