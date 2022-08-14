@@ -155,8 +155,8 @@ function _update_prompt() {  # {{{
         # %h or %!: ヒストリ数
         # %*: 時刻(hh:mm:ss)
         #
-        # 仕上げ: 改行で繋いで '> ' を付け加える。
-        PROMPT="${upper_prompt}"$'\n'"${lower_prompt}> "
+        # 仕上げ: 改行で繋いで '% ' を付け加える。(rootの場合は'# ')
+        PROMPT="${upper_prompt}"$'\n'"${lower_prompt}%# "
 
         # MEMO: パス短縮の例
         # %(5~,%-2~/.../%2~,%~)
