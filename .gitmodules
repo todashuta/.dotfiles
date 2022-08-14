@@ -4,9 +4,9 @@
 	ignore = untracked
 [submodule ".zsh/zsh-syntax-highlighting"]
 	path = .zsh/zsh-syntax-highlighting
-	url = git://github.com/zsh-users/zsh-syntax-highlighting.git
+	url = https://github.com/zsh-users/zsh-syntax-highlighting.git
 	ignore = untracked
 [submodule ".zsh/zaw"]
 	path = .zsh/zaw
-	url = git://github.com/zsh-users/zaw
+	url = https://github.com/zsh-users/zaw
 	ignore = untracked
