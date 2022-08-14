@@ -1,0 +1,2 @@
+#!/bin/sh
+tmux if -F '#{==:#{prefix},None}' 'set-option -g prefix C-b' 'set-option -g prefix None' && tmux show-options -g prefix || exit 1
