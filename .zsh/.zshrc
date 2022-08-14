@@ -702,7 +702,7 @@ add-zsh-hook chpwd ls_abbrev
 ## Incremental completion on zsh {{{
 
 # See: http://mimosa-pudica.net/zsh-incremental.html
-source "${ZDOTDIR}/plugin/incr-0.2.zsh"
+#source "${ZDOTDIR}/plugin/incr-0.2.zsh"
 
 # }}}
 
@@ -716,6 +716,14 @@ source "${ZDOTDIR}/plugin/incr-0.2.zsh"
 #zle -N zle-line-init
 #zstyle ':completion:*' completer _oldlist _complete
 #fi
+
+# }}}
+
+## zsh-autosuggestions {{{
+
+if [[ -f "${ZDOTDIR}/zsh-autosuggestions/zsh-autosuggestions.zsh" ]]; then
+    source "${ZDOTDIR}/zsh-autosuggestions/zsh-autosuggestions.zsh"
+fi
 
 # }}}
 
@@ -734,6 +742,17 @@ fi
 if [[ -f "${ZDOTDIR}/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" ]]
 then
     source "${ZDOTDIR}/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
+fi
+
+# }}}
+
+## zsh-history-substring-search {{{
+
+if [[ -f "${ZDOTDIR}/zsh-history-substring-search/zsh-history-substring-search.zsh" ]]
+then
+    source "${ZDOTDIR}/zsh-history-substring-search/zsh-history-substring-search.zsh"
+    bindkey -M emacs "^P" history-substring-search-up
+    bindkey -M emacs "^N" history-substring-search-down
 fi
 
 # }}}
