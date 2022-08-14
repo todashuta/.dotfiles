@@ -33,4 +33,6 @@ export ZLS_COLORS="$LS_COLORS"
 (( $+commands[rbenv] )) && eval "$(rbenv init - zsh)" || :
 #(( $+commands[plenv] )) && eval "$(plenv init - zsh)" || :
 
+# Skip Ubuntu system-wide compinit
+# See: `/etc/zsh/zshrc' on Ubuntu
 skip_global_compinit=1
