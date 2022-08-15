@@ -86,7 +86,7 @@ set noequalalways
 set shortmess-=S
 set t_fd= t_fe=  " :h xterm-focus-event
 silent! set nrformats= nrformats+=unsigned
-set updatetime=500
+"set updatetime=500
 set previewheight=24
 let &ambiwidth = has('kaoriya') ? 'auto' : 'double'
 
