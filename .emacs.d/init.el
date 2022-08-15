@@ -1,4 +1,4 @@
-;;; init.el
+;;; init.el --- My init.el  -*- lexical-binding: t; -*-
 
 (eval-and-compile
   (customize-set-variable
@@ -19,6 +19,35 @@
 
     :config
     (leaf-keywords-init)))
+
+(leaf cus-edit
+  :doc "tools for customizing Emacs and Lisp packages"
+  :tag "builtin" "faces" "help"
+  :custom `((custom-file . ,(locate-user-emacs-file "custom.el"))))
+
+(leaf leaf
+  :config
+  (leaf leaf-convert :ensure t)
+  (leaf leaf-tree
+    :ensure t
+    :custom ((imenu-list-size . 30)
+	     (imenu-list-position . 'left))))
+
+(leaf go-mode
+  :ensure t)
+
+(leaf company
+  :ensure t
+  :config
+  (add-hook 'after-init-hook 'global-company-mode))
+
+(leaf lsp-mode
+  :ensure t
+  :require t
+  :custom ((lsp-keymap-prefix . "C-c l"))
+  :config
+  (add-hook 'go-mode-hook #'lsp)
+  )
 
 (leaf afternoon-theme
  :ensure t
@@ -54,13 +83,17 @@
   ;(global-git-gutter-mode t)
   )
 
+(leaf macrostep
+  :ensure t
+  :bind (("C-c e" . macrostep-expand)))
+
 (setq backup-directory-alist
       '((".*" . "~/var/emacs/backup")))
 (setq auto-save-file-name-transforms
       '((".*" "~/var/emacs/autosave/" t)))  ;; 末尾のスラッシュ必要
 (setq create-lockfiles nil)
 
-(setq custom-file "~/.emacs.d/custom.el")
+;(setq custom-file "~/.emacs.d/custom.el")
 ;(load custom-file t)
 
 (setq inhibit-startup-message t)
