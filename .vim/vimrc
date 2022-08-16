@@ -472,12 +472,19 @@ let g:sandwich#recipes += [
 
 
 " colorscheme
-if has('termguicolors')
+if has('termguicolors') && v:version > 800
   let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
   let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
   "let &t_8f = tr(&t_8f, ';', ':')
   "let &t_8b = tr(&t_8b, ';', ':')
   set termguicolors
+endif
+
+if !has('gui_running')
+  autocmd vimrc ColorScheme
+        \ * if &background ==# 'dark'
+        \ |   execute 'highlight Normal ctermbg=NONE guibg=NONE'
+        \ | endif
 endif
 
 let g:tokyonight_disable_italic_comment = 1
