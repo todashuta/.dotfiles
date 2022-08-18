@@ -27,8 +27,11 @@ augroup END
 "set renderoptions=type:directx,renmode:0
 
 "set guifont=BDF_UM+:h9 guifontwide=BDF_UM+:h9 renderoptions=
-set guifont=VL_Gothic:h9 guifontwide=VL_Gothic:h9 "rop=type:directx,renmode:4
-set renderoptions=type:directx,renmode:5
+
+"set guifont=VL_Gothic:h9 guifontwide=VL_Gothic:h9 "rop=type:directx,renmode:4
+"set renderoptions=type:directx,renmode:5
+
+set guifont=Go_Mono:h10 guifontwide=BIZ_UD明朝_Medium:h11 linespace=4 rop=type:directx,renmode:5
 
 set guioptions-=T guioptions-=m guioptions-=r guioptions-=L guioptions-=e
 set guioptions+=c
