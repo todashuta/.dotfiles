@@ -9,9 +9,8 @@
 /.zsh/.zcompcache/*
 /.zsh/.chpwd-recent-dirs
 
-/.emacs.d/games/*
-/.emacs.d/auto-save-list/*
-/.emacs.d/el-get/*
+/.emacs.d/*
+!/.emacs.d/init.el
 
 /.vim/.netrwhist
 /.vim/vimrc_local
