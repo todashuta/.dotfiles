@@ -2,6 +2,7 @@
 
 .DS_Store
 
+/.zsh/.zshrc_local
 /.zsh/.zsh_history
 /.zsh/.zcompdump
 /.zsh/.zcalc_history

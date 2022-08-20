@@ -827,8 +827,8 @@ function toggle-rprompt() {
 
 ## Load local and temporary config file {{{
 
-if [[ -f "${HOME}/.zshrc.local" ]]; then
-    source "${HOME}/.zshrc.local"
+if [[ -f "${ZDOTDIR}/.zshrc_local" ]]; then
+    source "${ZDOTDIR}/.zshrc_local"
 fi
 
 # }}}
