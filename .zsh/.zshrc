@@ -751,8 +751,8 @@ fi
 if [[ -f "${ZDOTDIR}/zsh-history-substring-search/zsh-history-substring-search.zsh" ]]
 then
     source "${ZDOTDIR}/zsh-history-substring-search/zsh-history-substring-search.zsh"
-    bindkey -M emacs "^P" history-substring-search-up
-    bindkey -M emacs "^N" history-substring-search-down
+    #bindkey -M emacs "^P" history-substring-search-up
+    #bindkey -M emacs "^N" history-substring-search-down
 fi
 
 # }}}
