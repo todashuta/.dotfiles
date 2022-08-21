@@ -94,6 +94,8 @@ call s:add('mattn/vim-notification')
 call s:add('vimwiki/vimwiki')
 call s:add('ziglang/zig.vim')
 call s:add('t9md/vim-quickhl')
+
+"" denops
 call s:add('vim-denops/denops.vim')
 call s:add('vim-denops/denops-helloworld.vim')
 call s:add('vim-skk/skkeleton')
