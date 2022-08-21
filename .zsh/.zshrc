@@ -1,5 +1,4 @@
-# .zshrc
-# https://github.com/todashuta/profiles
+### .zshrc
 
 DOTFILES_DIR=
 if [[ -d "$HOME/dotfiles" ]]; then
@@ -836,5 +835,5 @@ fi
 
 # }}}
 
-# __END__
-# vim: fdm=marker ts=4 sw=4 sts=4 et:
+### vim: fdm=marker ts=4 sw=4 sts=4 et:
+### .zshrc ends here
