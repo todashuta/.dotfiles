@@ -106,4 +106,5 @@
 
 (provide 'init)
 
+;;; vim: set ts=8:
 ;;; init.el ends here

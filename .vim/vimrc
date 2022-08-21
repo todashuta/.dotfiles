@@ -1,4 +1,4 @@
-" vimrc
+""" vimrc
 
 let s:is_windows = has('win32')
 let $VIMDIR = resolve(expand(s:is_windows ? '~/vimfiles' : '~/.vim'))
@@ -674,4 +674,5 @@ filetype plugin indent on
 syntax enable
 set secure
 
-" vim: set et ts=2 sts=2 sw=2 :
+""" vim: set et ts=2 sts=2 sw=2:
+""" vimrc ends here

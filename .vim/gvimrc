@@ -1,4 +1,4 @@
-" gvimrc
+""" gvimrc
 
 scriptencoding utf-8
 
@@ -72,4 +72,5 @@ if filereadable(s:gvimrclocal)
   execute 'source' s:gvimrclocal
 endif
 
-" vim: set et ts=2 sts=2 sw=2 :
+""" vim: set et ts=2 sts=2 sw=2:
+""" gvimrc ends here
