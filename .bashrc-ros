@@ -1,13 +1,15 @@
 ### .bashrc for ROS 1
 
-ros-init() {
-	source /opt/ros/melodic/setup.bash
+ros1-init() {
+	#source /opt/ros/melodic/setup.bash
+	source /opt/ros/noetic/setup.bash
+
 	source ~/catkin_ws/devel/setup.bash
 
 	alias cw='cd ~/catkin_ws/'
 	alias cs='cd ~/catkin_ws/src/'
 	alias cm='( cd ~/catkin_ws/ && catkin_make )'
 }
-ros-init
+ros1-init
 
 ### .bashrc ends here
