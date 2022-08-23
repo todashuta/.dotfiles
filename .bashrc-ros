@@ -1,10 +1,12 @@
 ### .bashrc for ROS 1
 
 ros1-init() {
-	#source /opt/ros/melodic/setup.bash
-	source /opt/ros/noetic/setup.bash
+	#source /opt/ros/melodic/setup.bash || return 1
+	source /opt/ros/noetic/setup.bash || return 1
 
-	source ~/catkin_ws/devel/setup.bash
+	source ~/catkin_ws/devel/setup.bash || return 1
+
+	#printenv | grep -i ROS
 
 	alias cw='cd ~/catkin_ws/'
 	alias cs='cd ~/catkin_ws/src/'
