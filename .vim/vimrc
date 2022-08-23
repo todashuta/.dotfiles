@@ -568,6 +568,16 @@ let g:lsp_settings = {
       \   },
       \   'json-languageserver': {
       \     'disabled': !s:npm_available || 0,
+      \     'workspace_config': {
+      \       'json': {
+      \         'schemas': [
+      \           {
+      \             'fileMatch': [ '*.gltf' ],
+      \             'url': 'https://raw.githubusercontent.com/KhronosGroup/glTF/main/specification/2.0/schema/glTF.schema.json'
+      \           }
+      \         ]
+      \       }
+      \     }
       \   },
       \ }
 
