@@ -33,6 +33,9 @@ augroup END
 
 set guifont=Go_Mono:h10 guifontwide=BIZ_UD明朝_Medium:h11 linespace=4 rop=type:directx,renmode:5
 
+command! FontSizeNormal :set gfn=Go_Mono:h9  gfw=BIZ_UD明朝_Medium:h10
+command! FontSizeLarge  :set gfn=Go_Mono:h10 gfw=BIZ_UD明朝_Medium:h11
+
 set guioptions-=T guioptions-=m guioptions-=r guioptions-=L guioptions-=e
 set guioptions+=c
 
