@@ -417,6 +417,9 @@ function! MyFilename() abort
 endfunction
 
 function! MyWinType() abort
+  if get(b:, 'mybufnameoverride', '') !=# ''
+    return '{' . b:mybufnameoverride . '}'
+  endif
   if get(b:, 'mydifforigbuf', 0)
     return 'DiffOrig'
   endif
@@ -616,6 +619,8 @@ function! s:MyDiffOrigToggle()
     vert new | set bt=nofile | let b:mydifforigbuf = 1 | r ++edit # | 0d_ | diffthis | wincmd p | diffthis
   endif
 endfunction
+
+command! Bufname :let b:mybufnameoverride = input('name: ')
 
 command! ToggleBackground  call s:cmd_ToggleBackground()
 function! s:cmd_ToggleBackground()
