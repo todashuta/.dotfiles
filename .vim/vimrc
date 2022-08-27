@@ -620,7 +620,7 @@ function! s:MyDiffOrigToggle()
   endif
 endfunction
 
-command! Bufname :let b:mybufnameoverride = input('name: ')
+command! -nargs=? Name :let b:mybufnameoverride = <q-args>
 
 command! ToggleBackground  call s:cmd_ToggleBackground()
 function! s:cmd_ToggleBackground()
