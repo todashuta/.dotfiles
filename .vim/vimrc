@@ -603,6 +603,37 @@ function! s:set_json_indent()
   endif
 endfunction
 
+nnoremap <silent> <C-p>  :<C-u>call <SID>QFPrevious()<CR>
+nnoremap <silent> <C-n>  :<C-u>call <SID>QFNext()<CR>
+function! s:QFPrevious()
+  if getwininfo(win_getid())[0].quickfix
+    echo 'QFPrevious NOOP'
+    return
+  endif
+  let xs = filter(copy(getwininfo()), 'v:val.tabnr == tabpagenr()')
+  if len(filter(copy(xs), 'v:val.loclist')) > 0
+    lprevious | normal! zz
+  elseif len(filter(copy(xs), 'v:val.quickfix')) > 0
+    cprevious | normal! zz
+  else
+    echo 'QFPrevious NOOP'
+  endif
+endfunction
+function! s:QFNext()
+  if getwininfo(win_getid())[0].quickfix
+    echo 'QFNext NOOP'
+    return
+  endif
+  let xs = filter(copy(getwininfo()), 'v:val.tabnr == tabpagenr()')
+  if len(filter(copy(xs), 'v:val.loclist')) > 0
+    lnext | normal! zz
+  elseif len(filter(copy(xs), 'v:val.quickfix')) > 0
+    cnext | normal! zz
+  else
+    echo 'QFNext NOOP'
+  endif
+endfunction
+
 "set pythonthreedll=C:/Python37/python37.dll
 "set pythonthreedll=~/scoop/apps/python/current/python310.dll
 "packadd! vimdoc-ja
