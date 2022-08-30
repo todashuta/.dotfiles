@@ -12,6 +12,13 @@ ros1-init() {
 	alias cs='cd ~/catkin_ws/src/'
 	alias cm='( cd ~/catkin_ws/ && catkin_make )'
 }
-ros1-init
+#ros1-init
+
+ros2-init() {
+	source /opt/ros/humble/setup.bash || return 1
+	#cd ~/ros2_ws || return 1
+	#. install/local_setup.bash
+}
+#ros2-init
 
 ### .bashrc ends here
