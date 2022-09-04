@@ -1,2 +1,2 @@
 import json
-print(json.dumps({{_cursor_}}, indent="    "))
+print(json.dumps({{_cursor_}}, indent="  ", ensure_ascii=False))

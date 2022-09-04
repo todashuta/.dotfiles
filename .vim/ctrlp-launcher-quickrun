@@ -1,4 +1,4 @@
-QuickRun python	exe &ft!='quickrun'?':QuickRun python -hook/time/enable 0':'echo "Noop"'
+QuickRun python	exe &ft!='quickrun'?':QuickRun python -cmdopt -Xutf8 -hook/time/enable 0':'echo "Noop"'
 #QuickRun python	exe &ft!='quickrun'?':QuickRun python -hook/time/format "# *** time: %g ***"':'echo "Noop"'
 QuickRun	:QuickRun
 Stop	:call quickrun#sweep_sessions()
