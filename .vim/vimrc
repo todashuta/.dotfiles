@@ -418,7 +418,7 @@ function! MyFilename() abort
 endfunction
 
 function! MyFiletype() abort
-  let ft = &ft !=# '' ? &ft : 'no ft'
+  let ft = &ft !=# '' ? &ft : 'no-ft'
   if get(w:, 'current_syntax', '') !=# ''
     let ft = w:current_syntax . '/' . ft
   endif
