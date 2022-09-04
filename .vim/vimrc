@@ -348,6 +348,7 @@ let g:lightline = {
       \     'git': 'MyGitStatus',
       \     'myfilename': 'MyFilename',
       \     'mywintype': 'MyWinType',
+      \     'myfiletype': 'MyFiletype',
       \   },
       \   'component': {
       \     'mycharvaluehex': '%<0x%{FencB()}',
@@ -371,7 +372,7 @@ let g:lightline = {
       \     'right': [
       \       ['lsp_errors', 'lsp_warnings', 'lineinfo'],
       \       ['percent'],
-      \       ['mycharvaluehex', 'myfileformat', 'myfileencoding', 'filetype'],
+      \       ['mycharvaluehex', 'myfileformat', 'myfileencoding', 'myfiletype'],
       \     ],
       \   },
       \   'inactive': {
@@ -414,6 +415,14 @@ function! MyFilename() abort
   endif
   let name = expand('%:t')
   return name != '' ? name : '[No Name]'
+endfunction
+
+function! MyFiletype() abort
+  let ft = &ft !=# '' ? &ft : 'no ft'
+  if get(w:, 'current_syntax', '') !=# ''
+    let ft = w:current_syntax . '/' . ft
+  endif
+  return ft
 endfunction
 
 function! MyWinType() abort
