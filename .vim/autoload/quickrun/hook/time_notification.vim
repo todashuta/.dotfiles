@@ -8,6 +8,12 @@ let s:hook = {
 function s:hook.init(session) abort
 endfunction
 
+function s:hook.validate() abort
+  if len(globpath(&rtp, 'autoload/notification.vim', 0, 1)) == 0
+    throw 'Needs mattn/vim-notification plugin.'
+  endif
+endfunction
+
 function s:hook.on_ready(session, context) abort
   let self._start = reltime()
 endfunction
