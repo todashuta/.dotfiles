@@ -1,7 +1,7 @@
 let s:hook = {
 \   'config': {
 \     'enable': 0,
-\     'format': "QuickRun\ntime: %g",
+\     'format': "QuickRun %s\ntime: %g",
 \   },
 \ }
 
@@ -21,7 +21,7 @@ endfunction
 function s:hook.on_finish(session, context) abort
   let self._end = reltime()
   let time = str2float(reltimestr(reltime(self._start, self._end)))
-  let text = printf(self.config.format, time)
+  let text = printf(self.config.format, a:session.config.type, time)
   call notification#show(text)
 endfunction
 
