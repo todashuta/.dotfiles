@@ -335,7 +335,10 @@ let g:quickrun_config['_'] = {
       \   'runner': (exists('*ch_close_in') ? 'job' : 'vimproc'),
       \   'outputter': (exists('*deletebufline') ? 'buffer' : 'buffer_legacy'),
       \   'outputter/buffer/opener': 'new',
-      \   'hook/time_notification/enable': 1,
+      \   'time/enable': 1,
+      \   'time/format': '[QuickRun] *** time: %g ***',
+      \   'time/dest': 'message',
+      \   'message/log': 1,
       \   'running_mark': "(*'_')> じっこうちゅう...",
       \ }
 let g:switch_mapping = 'gs'
