@@ -89,6 +89,7 @@ silent! set nrformats= nrformats+=unsigned
 "set updatetime=500
 set previewheight=24
 let &ambiwidth = has('kaoriya') ? 'auto' : 'double'
+set winminwidth=16
 
 "cnoremap          <C-x>       <C-r>=fnamemodify(@%,':h:~:.').(exists('+shellslash')&&!&shellslash?'\':'/')<CR>
 cnoremap          <C-x>       <C-r>=(@%==''?'.':fnamemodify(@%,':~:.:h')).(exists('+shellslash')&&!&shellslash?'\':'/')<CR>
@@ -340,6 +341,15 @@ let g:quickrun_config['_'] = {
       \   'time/dest': 'message',
       \   'message/log': 1,
       \   'running_mark': "(*'_')> じっこうちゅう...",
+      \ }
+let g:quickrun_config['py'] = {
+      \   'type': 'python',
+      \   'command': 'py',
+      \ }
+let g:quickrun_config['py/3.10'] = {
+      \   'type': 'python',
+      \   'command': 'py',
+      \   'cmdopt': '-3.1',
       \ }
 let g:switch_mapping = 'gs'
 let g:cursorword_highlight = 0
