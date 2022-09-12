@@ -677,7 +677,7 @@ function! s:MyDiffOrigToggle()
 endfunction
 
 command! -nargs=? Name :let b:mybufnameoverride = <q-args>
-command! IPython :terminal ++close python -m IPython
+command! IPython :terminal python -m IPython
 
 command! ToggleBackground  call s:cmd_ToggleBackground()
 function! s:cmd_ToggleBackground()
