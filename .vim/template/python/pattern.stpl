@@ -1,0 +1,9 @@
+\(\S\+\)\.type$
+	type({{$1}})
+
+\(\S\+\)\.enum$
+	enumerate({{$1}}, 0)
+
+\(\S\+\)\.fore$
+	for i,v in enumerate({{$1}}, 0):
+		{{_cursor_}}

@@ -1,0 +1,2 @@
+= Diary {{_expr_:strftime('%Y-%m-%d')}} =
+{{_cursor_}}
