@@ -39,7 +39,7 @@
 	s = status -uno --show-stash
 	ss = status -sb --show-stash
 	ap = add --patch
-	b = branch
+	b = branch -vv
 	d  = diff
 	df = diff HEAD..FETCH_HEAD
 	dfs = diff HEAD..FETCH_HEAD --stat
@@ -58,7 +58,7 @@
 	#hdiff = diff --diff-algorithm=histogram
 	unstage = reset HEAD --
 	precommit = diff --staged --diff-algorithm=histogram
-	branches = branch -a
+	branches = branch -a -vv
 	tags = tag
 	stashes = stash list
 	remotes = remote -v
