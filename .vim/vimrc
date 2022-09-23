@@ -152,6 +152,7 @@ augroup vimrc
 
   autocmd VimEnter,WinEnter,ColorScheme *  highlight clear ZenSpace | highlight link ZenSpace CursorColumn
   autocmd VimEnter,WinEnter,ColorScheme *  highlight lspReference term=underline cterm=underline gui=underline
+  autocmd VimEnter,WinEnter,ColorScheme *  highlight link LspErrorHighlight SpellBad | highlight link LspWarningHighlight SpellLocal
   autocmd VimEnter,WinEnter,ColorScheme *  highlight link CursorWord0 CursorColumn | highlight link CursorWord1 CursorColumn
 
   autocmd FileType *  if &l:omnifunc == '' | setlocal omnifunc=syntaxcomplete#Complete | endif
@@ -543,6 +544,7 @@ endif
 " vim-lsp
 let g:lsp_log_file = expand('~/var/vim/vim-lsp.log')
 let g:asyncomplete_log_file = expand('~/var/vim/asyncomplete.log')
+let g:lsp_diagnostics_signs_priority = 11  " To precedence over signify's sign
 let g:lsp_diagnostics_echo_cursor = 1
 
 autocmd vimrc User lsp_buffer_enabled call s:on_lsp_buffer_enabled()
