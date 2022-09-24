@@ -5,6 +5,8 @@ export LANG
 
 EDITOR="vim"
 export EDITOR
+VISUAL="$EDITOR"
+export VISUAL
 
 PAGER="less"
 export PAGER
@@ -14,7 +16,7 @@ if [ -n "$WSL_DISTRO_NAME" ] ; then
     export SCREENDIR
 fi
 
-GOROOT="$HOME/local/go/current"
+GOROOT="$HOME/opt/go"
 export GOROOT
 GOPATH="$HOME/go"
 export GOPATH
