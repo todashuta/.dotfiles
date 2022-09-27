@@ -350,7 +350,7 @@ let g:quickrun_config['py'] = {
 let g:quickrun_config['py/3.10'] = {
       \   'type': 'python',
       \   'command': 'py',
-      \   'cmdopt': '-3.1',
+      \   'cmdopt': '-3.10',
       \ }
 let g:switch_mapping = 'gs'
 let g:cursorword_highlight = 0
