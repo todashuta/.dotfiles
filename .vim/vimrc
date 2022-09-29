@@ -751,6 +751,16 @@ call map(range(1, 12), 'extend(g:vimwiki_diary_months, {v:val: v:val."月"})')
 let g:vimwiki_autowriteall = 0
 let g:vimwiki_ext2syntax = {}
 
+function! Deg2rad(deg)
+  let pi = acos(-1.0)
+  return a:deg * pi / 180.0
+endfunction
+
+function! Rad2deg(rad)
+  let pi = acos(-1.0)
+  return a:rad * 180.0 / pi
+endfunction
+
 let s:vimrclocal = $MYVIMRC.'_local'
 if filereadable(s:vimrclocal)
   execute 'source' s:vimrclocal
