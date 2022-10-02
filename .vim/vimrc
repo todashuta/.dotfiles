@@ -755,11 +755,31 @@ function! Deg2rad(deg)
   let pi = acos(-1.0)
   return a:deg * pi / 180.0
 endfunction
+function! OperatorDeg2rad(motion_wise)
+  let save_reg_0 = [@0, getregtype('0')]
+  let v = operator#user#visual_command_from_wise_name(a:motion_wise)
+  execute 'normal!' '`[' . v . '`]"0y'
+  let @0 = string(Deg2rad(str2float(@0)))
+  execute 'normal!' '`[' . v . '`]"0P`['
+  call setreg('0', save_reg_0[0], save_reg_0[1])
+endfunction
+call operator#user#define('deg2rad', 'OperatorDeg2rad')
+"map <F11> <Plug>(operator-deg2rad)
 
 function! Rad2deg(rad)
   let pi = acos(-1.0)
   return a:rad * 180.0 / pi
 endfunction
+function! OperatorRad2deg(motion_wise)
+  let save_reg_0 = [@0, getregtype('0')]
+  let v = operator#user#visual_command_from_wise_name(a:motion_wise)
+  execute 'normal!' '`[' . v . '`]"0y'
+  let @0 = string(Rad2deg(str2float(@0)))
+  execute 'normal!' '`[' . v . '`]"0P`['
+  call setreg('0', save_reg_0[0], save_reg_0[1])
+endfunction
+call operator#user#define('rad2deg', 'OperatorRad2deg')
+"map <F12> <Plug>(operator-rad2deg)
 
 let s:vimrclocal = $MYVIMRC.'_local'
 if filereadable(s:vimrclocal)
