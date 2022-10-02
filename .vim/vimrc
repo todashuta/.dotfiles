@@ -759,7 +759,7 @@ function! OperatorDeg2rad(motion_wise)
   let save_reg_0 = [@0, getregtype('0')]
   let v = operator#user#visual_command_from_wise_name(a:motion_wise)
   execute 'normal!' '`[' . v . '`]"0y'
-  let @0 = string(Deg2rad(str2float(@0)))
+  let @0 = printf('%f', Deg2rad(str2float(@0)))
   execute 'normal!' '`[' . v . '`]"0P`['
   call setreg('0', save_reg_0[0], save_reg_0[1])
 endfunction
@@ -774,7 +774,7 @@ function! OperatorRad2deg(motion_wise)
   let save_reg_0 = [@0, getregtype('0')]
   let v = operator#user#visual_command_from_wise_name(a:motion_wise)
   execute 'normal!' '`[' . v . '`]"0y'
-  let @0 = string(Rad2deg(str2float(@0)))
+  let @0 = printf('%f', Rad2deg(str2float(@0)))
   execute 'normal!' '`[' . v . '`]"0P`['
   call setreg('0', save_reg_0[0], save_reg_0[1])
 endfunction
