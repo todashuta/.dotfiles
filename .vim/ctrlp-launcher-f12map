@@ -1,0 +1,3 @@
+QuickRun	:call feedkeys(":nnoremap <buffer> <F12> :<C-u>QuickRun <CR>\<Left>\<Left>\<Left>\<Left>", "")
+operator-deg2rad	:map <buffer> <F12> <Plug>(operator-deg2rad)
+operator-rad2deg	:map <buffer> <F12> <Plug>(operator-rad2deg)
