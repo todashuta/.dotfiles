@@ -38,7 +38,8 @@ command! FontSizeNormal :set gfn=Go_Mono:h9  gfw=BIZ_UD明朝_Medium:h10
 command! -nargs=? FontSizeLarge
       \ :exe printf('set gfn=Go_Mono:h%d gfw=BIZ_UD明朝_Medium:h%d', 10+abs(<q-args>), 11+abs(<q-args>))
 
-let &titlestring = "%t%(\ %M%) \u2329%{fnamemodify(expand('%:p:~:.:h'), ':gs?\\?/?')}/\u232A %<| %{fnamemodify(getcwd(), ':~:gs?\\?/?')}/ - Vim"
+"let &titlestring = "%t%(\ %M%) \u2329%{fnamemodify(expand('%:p:~:.:h'), ':gs?\\?/?')}/\u232A %<| %{fnamemodify(getcwd(), ':~:gs?\\?/?')}/ - Vim"
+let &titlestring = "%t%(\ %M%) \u2329%{fnamemodify(@%, ':p:~:.:h:gs?\\?/?')}/\u232A %<| %{fnamemodify(getcwd(), ':~:gs?\\?/?')}/ - Vim"
 
 set guioptions-=T guioptions-=m guioptions-=r guioptions-=L guioptions-=e
 set guioptions+=c

@@ -436,7 +436,7 @@ function! MyFilename() abort
   if &buftype ==# 'quickfix' && get(w:, 'quickfix_title', '') != ''
     return w:quickfix_title
   endif
-  let name = expand('%:t')
+  let name = fnamemodify(@%, ':t') " expand('%:t')
   return name != '' ? name : '[No Name]'
 endfunction
 
