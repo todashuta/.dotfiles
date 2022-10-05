@@ -212,12 +212,17 @@ endfunction
 
 function! MyGitStatus() abort
   let l:xs = []
-  let l:fugitive_status = FugitiveStatusline()
-  if l:fugitive_status != ''
-    let l:fugitive_status = substitute(l:fugitive_status, '^[Git:\?', '', '')
-    let l:fugitive_status = substitute(l:fugitive_status, ']$', '', '')
-    let l:xs += [l:fugitive_status]
+  "let l:fugitive_status = FugitiveStatusline()
+  "if l:fugitive_status != ''
+  "  let l:fugitive_status = substitute(l:fugitive_status, '^[Git:\?', '', '')
+  "  let l:fugitive_status = substitute(l:fugitive_status, ']$', '', '')
+  "  let l:xs += [l:fugitive_status]
+  "endif
+  let l:gitbranchname = gitbranch#name()
+  if l:gitbranchname == ''
+    return ''
   endif
+  let l:xs += ['(' . l:gitbranchname . ')']
   let l:signify_stats = sy#repo#get_stats_decorated()
   if l:signify_stats != ''
     let l:xs += [l:signify_stats]
