@@ -222,7 +222,8 @@ function! MyGitStatus() abort
   if l:gitbranchname == ''
     return ''
   endif
-  let l:xs += ['(' . l:gitbranchname . ')']
+  let l:is_index = get(b:, 'fugitive_type', '') ==# 'blob' && &modifiable
+  let l:xs += [(l:is_index ? '*' : '') . '(' . l:gitbranchname . ')']
   let l:signify_stats = sy#repo#get_stats_decorated()
   if l:signify_stats != ''
     let l:xs += [l:signify_stats]
