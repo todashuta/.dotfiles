@@ -766,7 +766,7 @@ let g:vimwiki_autowriteall = 0
 let g:vimwiki_ext2syntax = {}
 
 command! -bang          Add     :exe <bang>0 ? 'Gwrite' : 'Gdiffsplit'
-command!                Commit  :exe 'silent Git commit' | wincmd L
+command! -bang          Commit  :exe printf('silent Git -c "commit.verbose=%s" commit', <bang>0 ? 'true' : 'false') | wincmd L
 command! -bang -nargs=+ Log     :exe 'Git ' . (<bang>0 ? '' : '-p') . ' log --follow <args>'
 command!                Blame   :exe 'Git blame'
 command! -nargs=*       Fetch   :exe 'Git fetch -p <args>'
