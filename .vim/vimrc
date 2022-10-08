@@ -767,7 +767,7 @@ let g:vimwiki_ext2syntax = {}
 
 command! -bang    Add     :exe <bang>0 ? 'Gwrite' : 'Gdiffsplit'
 command!          Commit  :exe 'silent Git commit' | wincmd L
-command! -nargs=* Log     :exe 'Git log <args>'
+command! -bang -nargs=+ Log  :exe 'Git ' . (<bang>0 ? '' : '-p') . ' log --follow <args>'
 command!          Blame   :exe 'Git blame'
 command! -nargs=* Fetch   :exe 'Git fetch -p <args>'
 
