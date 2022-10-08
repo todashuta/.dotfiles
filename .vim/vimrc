@@ -760,8 +760,9 @@ let g:vimwiki_ext2syntax = {}
 
 command! -bang Add     :exe <bang>0 ? 'Gwrite' : 'Gdiffsplit'
 command!       Commit  :exe 'Git commit' | wincmd L
-command!       Log     :exe 'Git log .'
+command! -nargs=* Log  :exe 'Git log <args>'
 command!       Blame   :exe 'Git blame'
+command! -nargs=* Fetch  :exe 'Git fetch -p <args>'
 
 function! Deg2rad(deg)
   let pi = acos(-1.0)
