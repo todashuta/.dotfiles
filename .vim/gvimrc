@@ -38,8 +38,14 @@ command! FontSizeNormal :set gfn=Go_Mono:h9  gfw=BIZ_UD明朝_Medium:h10
 command! -nargs=? FontSizeLarge
       \ :exe printf('set gfn=Go_Mono:h%d gfw=BIZ_UD明朝_Medium:h%d', 10+abs(<q-args>), 11+abs(<q-args>))
 
+let s:python_env = ''
+if $VIRTUAL_ENV != ''
+  let s:venv = fnamemodify($VIRTUAL_ENV, ':t')
+  let s:python_version = trim(system("python -c \"import sys; v=sys.version_info; print(f'{v.major}.{v.minor}.{v.micro}')\""))
+  let s:python_env = '(' . s:venv . '/' . s:python_version . ') '
+endif
 "let &titlestring = "%t%(\ %M%) \u2329%{fnamemodify(expand('%:p:~:.:h'), ':gs?\\?/?')}/\u232A %<| %{fnamemodify(getcwd(), ':~:gs?\\?/?')}/ - Vim"
-let &titlestring = "%((%{fnamemodify($VIRTUAL_ENV, ':t')})\ %)%t%(\ %M%) \u2329%{fnamemodify(@%, ':p:~:.:h:gs?\\?/?')}/\u232A %<| %{fnamemodify(getcwd(), ':~:gs?\\?/?')}/ - Vim"
+let &titlestring = s:python_env . "%t%(\ %M%) \u2329%{fnamemodify(@%, ':p:~:.:h:gs?\\?/?')}/\u232A %<| %{fnamemodify(getcwd(), ':~:gs?\\?/?')}/ - Vim"
 
 set guioptions-=T guioptions-=m guioptions-=r guioptions-=L guioptions-=e
 set guioptions+=c
