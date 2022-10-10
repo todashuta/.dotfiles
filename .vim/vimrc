@@ -771,6 +771,8 @@ command! -bang -nargs=+ Log     :exe 'Git ' . (<bang>0 ? '' : '-p') . ' log --fo
 command!                Blame   :exe 'Git blame'
 command! -nargs=*       Fetch   :exe 'Git fetch -p <args>'
 
+command! -nargs=* QR  :exe &modified ? 'echo "modified!"' : 'QuickRun <args>'
+
 function! Deg2rad(deg)
   let pi = acos(-1.0)
   return a:deg * pi / 180.0
