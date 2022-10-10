@@ -1,3 +1,4 @@
 Wiki Index	:VimwikiTabIndex
 #diary index	:VimwikiDiaryIndex
 Diary	:VimwikiTabMakeDiaryNote
+Diary Generate Links	:tabnew | :exe 'VimwikiDiaryIndex' | :exe 'VimwikiDiaryGenerateLinks'
