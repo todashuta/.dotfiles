@@ -129,9 +129,16 @@ nnoremap <Space>   <Nop>
 xnoremap <Space>   <Nop>
 
 nmap     <Space>s  <Plug>(toggle-split-orientation)
+
 "nnoremap <Space>g  :<C-u>CtrlPLauncher! git<CR>
-nnoremap <Space>g  :<C-u>Git<Space>
-nnoremap <Space>G  :<C-u>Git<CR>
+nnoremap <Space>g   <Nop>
+nnoremap <Space>gg  :<C-u>Git<Space>
+nnoremap <Space>gc  :<C-u>silent vert below Git commit<CR>
+nnoremap <Space>ga  :<C-u>Gdiffsplit<CR>
+nnoremap <Space>gf  :<C-u>Git fetch -p<Space>
+nnoremap <Space>gb  :<C-u>Git blame<CR>
+nnoremap <Space>gl  :<C-u>Git log --follow<Space>
+
 nnoremap <Space>t  :<C-u>CtrlPLauncher! toggle<CR>
 nnoremap <Space>l  :<C-u>CtrlPLauncher! lsp<CR>
 nnoremap <Space>q  :<C-u>CtrlPLauncher quickrun<CR>
