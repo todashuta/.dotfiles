@@ -27,6 +27,15 @@
 #     log  = perl /usr/share/doc/git/contrib/diff-highlight/diff-highlight | less -FRX -S --shift 5
 #     show = perl /usr/share/doc/git/contrib/diff-highlight/diff-highlight | less -FRX -S --shift 5
 
+# [safe]
+#     # safe.directory
+#     #   .git/ が入っているディレクトリを設定する。
+#     #     より上位のディレクトリを設定してまとめて... というのはできず、リポジトリ毎に設定が必要。
+#     #   追加する場合は directory = ... の行を増やしていく。
+#     #   %(prefix) はそのままそのように書く。
+#     #   値の「"」はなくても構わないが「'」にするのはダメ。
+#     directory = "%(prefix)///other-pc-name/c$/Work/Projects/foobar"
+
 [color]
 	status = auto
 	diff = auto
