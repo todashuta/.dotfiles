@@ -129,7 +129,9 @@ nnoremap <Space>   <Nop>
 xnoremap <Space>   <Nop>
 
 nmap     <Space>s  <Plug>(toggle-split-orientation)
-nnoremap <Space>g  :<C-u>CtrlPLauncher! git<CR>
+"nnoremap <Space>g  :<C-u>CtrlPLauncher! git<CR>
+nnoremap <Space>g  :<C-u>Git<Space>
+nnoremap <Space>G  :<C-u>Git<CR>
 nnoremap <Space>t  :<C-u>CtrlPLauncher! toggle<CR>
 nnoremap <Space>l  :<C-u>CtrlPLauncher! lsp<CR>
 nnoremap <Space>q  :<C-u>CtrlPLauncher quickrun<CR>
@@ -766,7 +768,7 @@ let g:vimwiki_autowriteall = 0
 let g:vimwiki_ext2syntax = {}
 
 command! -bang          Add     :exe <bang>0 ? 'Gwrite' : 'Gdiffsplit'
-command! -bang          Commit  :exe printf('silent Git -c "commit.verbose=%s" commit', <bang>0 ? 'true' : 'false') | wincmd L
+command! -bang -nargs=* Commit  :exe 'silent Git ' . (<bang>0 ? '-c "commit.verbose=false"' : '') . ' commit <args>' | wincmd L
 command! -bang -nargs=+ Log     :exe 'Git ' . (<bang>0 ? '' : '-p') . ' log --follow <args>'
 command!                Blame   :exe 'Git blame'
 command! -nargs=*       Fetch   :exe 'Git fetch -p <args>'
