@@ -140,7 +140,14 @@ nnoremap <Space>gb  :<C-u>Git blame<CR>
 nnoremap <Space>gl  :<C-u>Git -p log --follow<Space>
 nnoremap <Space>gd  :<C-u>CtrlPLauncher! gdiffsplit<CR>
 
-nnoremap <Space>t  :<C-u>CtrlPLauncher! toggle<CR>
+nnoremap <Space>t   <Nop>
+nnoremap <Space>tt  :<C-u>CtrlPLauncher! toggle<CR>
+nnoremap <Space>tn  :<C-u>LineNumberToggle<CR>
+nnoremap <Space>tw  :<C-u>setlocal wrap! wrap?<CR>
+nnoremap <Space>t/  :<C-u>set wrapscan! wrapscan?<CR>
+nnoremap <Space>ts  :<C-u>SignifyToggleHighlight<CR>
+nnoremap <Space>tp  :<C-u>set paste! paste?<CR>
+
 nnoremap <Space>l  :<C-u>CtrlPLauncher! lsp<CR>
 nnoremap <Space>q  :<C-u>CtrlPLauncher quickrun<CR>
 nnoremap <Space>w  :<C-u>CtrlPLauncher vimwiki<CR>
