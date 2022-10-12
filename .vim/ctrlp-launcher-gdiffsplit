@@ -1,0 +1,3 @@
+# ctrlp-launcher-gdiffsplit
+diff HEAD Index (diff --staged)	:Gtabedit @:% | :vert below Gdiffsplit :% | :wincmd =
+diff HEAD FETCH_HEAD	:Gtabedit @:% | :vert below Gdiffsplit FETCH_HEAD:% | :wincmd =

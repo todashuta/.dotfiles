@@ -138,7 +138,7 @@ nnoremap <Space>ga  :<C-u>Gdiffsplit<CR>
 nnoremap <Space>gf  :<C-u>Git fetch -p<Space>
 nnoremap <Space>gb  :<C-u>Git blame<CR>
 nnoremap <Space>gl  :<C-u>Git -p log --follow<Space>
-nnoremap <Space>gd  :<C-u>Gtabedit @:%<CR>:vert below Gdiffsplit :%<CR>
+nnoremap <Space>gd  :<C-u>CtrlPLauncher! gdiffsplit<CR>
 
 nnoremap <Space>t  :<C-u>CtrlPLauncher! toggle<CR>
 nnoremap <Space>l  :<C-u>CtrlPLauncher! lsp<CR>
