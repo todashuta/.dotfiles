@@ -782,11 +782,11 @@ call map(range(1, 12), 'extend(g:vimwiki_diary_months, {v:val: v:val."月"})')
 let g:vimwiki_autowriteall = 0
 let g:vimwiki_ext2syntax = {}
 
-command! -bang          Add     :exe <bang>0 ? 'Gwrite' : 'Gdiffsplit'
-command! -bang -nargs=* Commit  :exe 'silent Git ' . (<bang>0 ? '-c "commit.verbose=false"' : '') . ' commit <args>' | wincmd L
-command! -bang -nargs=+ Log     :exe 'Git ' . (<bang>0 ? '' : '-p') . ' log --follow <args>'
-command!                Blame   :exe 'Git blame'
-command! -nargs=*       Fetch   :exe 'Git fetch -p <args>'
+"command! -bang          Add     :exe <bang>0 ? 'Gwrite' : 'Gdiffsplit'
+"command! -bang -nargs=* Commit  :exe 'silent Git ' . (<bang>0 ? '-c "commit.verbose=false"' : '') . ' commit <args>' | wincmd L
+"command! -bang -nargs=+ Log     :exe 'Git ' . (<bang>0 ? '' : '-p') . ' log --follow <args>'
+"command!                Blame   :exe 'Git blame'
+"command! -nargs=*       Fetch   :exe 'Git fetch -p <args>'
 
 command! -nargs=* QR  :exe &modified ? 'echo "modified!"' : 'QuickRun <args>'
 
