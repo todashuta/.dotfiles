@@ -790,6 +790,26 @@ let g:vimwiki_ext2syntax = {}
 
 command! -nargs=* QR  :exe &modified ? 'echo "modified!"' : 'QuickRun <args>'
 
+command! ResizeInteractive  :call s:ResizeInteractive()
+function! s:ResizeInteractive()
+  while 1
+    let c = getchar()
+    if c == "\<Up>"
+      wincmd +
+    elseif c == "\<Down>"
+      wincmd -
+    elseif c == "\<Left>"
+      wincmd <
+    elseif c == "\<Right>"
+      wincmd >
+    else
+      break
+    endif
+    redraw
+  endwhile
+  redraw
+endfunction
+
 function! Deg2rad(deg)
   let pi = acos(-1.0)
   return a:deg * pi / 180.0
