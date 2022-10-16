@@ -811,6 +811,28 @@ function! s:ResizeInteractive()
   redraw
 endfunction
 
+function! OperatorSlashToBackslash(motion_wise)
+  let save_reg_0 = [@0, getregtype('0')]
+  let v = operator#user#visual_command_from_wise_name(a:motion_wise)
+  execute 'normal!' '`[' . v . '`]"0y'
+  let @0 = substitute(@0, '/', '\', 'g')
+  execute 'normal!' '`[' . v . '`]"0P`['
+  call setreg('0', save_reg_0[0], save_reg_0[1])
+endfunction
+call operator#user#define('slash2backslash', 'OperatorSlashToBackslash')
+map s\  <Plug>(operator-slash2backslash)
+
+function! OperatorBackslashToSlash(motion_wise)
+  let save_reg_0 = [@0, getregtype('0')]
+  let v = operator#user#visual_command_from_wise_name(a:motion_wise)
+  execute 'normal!' '`[' . v . '`]"0y'
+  let @0 = substitute(@0, '\', '/', 'g')
+  execute 'normal!' '`[' . v . '`]"0P`['
+  call setreg('0', save_reg_0[0], save_reg_0[1])
+endfunction
+call operator#user#define('backslash2slash', 'OperatorBackslashToSlash')
+map s/  <Plug>(operator-backslash2slash)
+
 function! Deg2rad(deg)
   let pi = acos(-1.0)
   return a:deg * pi / 180.0
