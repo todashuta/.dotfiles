@@ -733,11 +733,11 @@ endfunction
 command! WinfixHeight  call feedkeys("\<C-Bslash>\<C-n>:set wfh | exe 'resize' string(\<C-r>=winheight(0)\<CR>)\<Left>", 'n')
 command! WinfixWidth   call feedkeys("\<C-Bslash>\<C-n>:set wfw | exe 'vert resize' string(\<C-r>=winwidth(0)\<CR>)\<Left>", 'n')
 
-command! WinIgnoreToggle
-      \ : let b:winignore = !get(b:, 'winignore', 1)
-      \ | echo (b:winignore ? 'This window will be ignored.' : 'This window will NOT be ignored.')
-nnoremap <silent> <C-w><C-w>  :<C-u>call <SID>winignore_wincmd_w()<CR>
-tnoremap <silent> <C-w><C-w>  <C-\><C-n>:<C-u>call <SID>winignore_wincmd_w()<CR>
+"command! WinIgnoreToggle
+"      \ : let b:winignore = !get(b:, 'winignore', 1)
+"      \ | echo (b:winignore ? 'This window will be ignored.' : 'This window will NOT be ignored.')
+"nnoremap <silent> <C-w><C-w>  :<C-u>call <SID>winignore_wincmd_w()<CR>
+"tnoremap <silent> <C-w><C-w>  <C-\><C-n>:<C-u>call <SID>winignore_wincmd_w()<CR>
 function! s:winignore_wincmd_w() abort
   let l:curwin = winnr()
   let l:targets = []
