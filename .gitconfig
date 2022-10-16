@@ -9,6 +9,10 @@
 # [core]
 #     autocrlf = false
 #     attributesfile = ~/dotfiles/.gitattributes_global
+#     preloadindex = true
+#     fscache = true
+# [gc]
+#     auto = 256
 # [merge]
 #     tool = myvimdiff
 # [mergetool "myvimdiff"]
