@@ -309,6 +309,7 @@ packadd! vim-notification
 packadd! vimwiki
 packadd! zig.vim
 packadd! vim-quickhl
+packadd! requirements.txt.vim
 
 if exists('##TextChangedP')
   packadd! vim-vsnip

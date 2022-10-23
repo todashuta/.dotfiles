@@ -94,6 +94,7 @@ call s:add('mattn/vim-notification')
 call s:add('vimwiki/vimwiki')
 call s:add('ziglang/zig.vim')
 call s:add('t9md/vim-quickhl')
+call s:add('raimon49/requirements.txt.vim')
 
 "" denops
 call s:add('vim-denops/denops.vim')
