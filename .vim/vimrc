@@ -121,7 +121,8 @@ if s:is_windows
 endif
 
 nnoremap <Space>r  :<C-u>CtrlPMRUFiles<CR>
-nnoremap <Space>b  :<C-u>CtrlPBuffer<CR>
+"nnoremap <Space>b  :<C-u>CtrlPBuffer<CR>
+nnoremap <Space>b  :<C-u>BuffergatorOpen<CR>
 nnoremap <Space>f  :<C-u>CtrlPCurWD<CR>
 nnoremap <Space>F  :<C-u>CtrlPCurFile<CR>
 
@@ -315,6 +316,7 @@ packadd! vimwiki
 packadd! zig.vim
 packadd! vim-quickhl
 packadd! requirements.txt.vim
+packadd! vim-buffergator
 
 if exists('##TextChangedP')
   packadd! vim-vsnip
@@ -793,6 +795,12 @@ let g:vimwiki_diary_months = {}
 call map(range(1, 12), 'extend(g:vimwiki_diary_months, {v:val: v:val."月"})')
 let g:vimwiki_autowriteall = 0
 let g:vimwiki_ext2syntax = {}
+
+" vim-buffergator
+let g:buffergator_autoexpand_on_split = 0
+let g:buffergator_viewport_split_policy = 'B'  " 'n'
+let g:buffergator_suppress_keymaps = 1
+let g:buffergator_split_size = 6
 
 "command! -bang          Add     :exe <bang>0 ? 'Gwrite' : 'Gdiffsplit'
 "command! -bang -nargs=* Commit  :exe 'silent Git ' . (<bang>0 ? '-c "commit.verbose=false"' : '') . ' commit <args>' | wincmd L
