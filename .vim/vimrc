@@ -154,10 +154,11 @@ nnoremap <Space>l  :<C-u>CtrlPLauncher! lsp<CR>
 nnoremap <Space>q  :<C-u>CtrlPLauncher quickrun<CR>
 nnoremap <Space>w  :<C-u>CtrlPLauncher vimwiki<CR>
 nnoremap <Space><F12>  :<C-u>CtrlPLauncher f12map<CR>
-nnoremap <Space>e  :<C-u>call <SID>edit_buffer_directory()<CR>
-function s:edit_buffer_directory()
-  :e `=(@%==''?'.':fnamemodify(@%,':~:.:h')).(exists('+shellslash')&&!&shellslash?'\':'/')`
-endfunction
+nnoremap <Space>e  :<C-u>FileBeagleBufferDir<CR>
+"nnoremap <Space>e  :<C-u>call <SID>edit_buffer_directory()<CR>
+"function s:edit_buffer_directory()
+"  :e `=(@%==''?'.':fnamemodify(@%,':~:.:h')).(exists('+shellslash')&&!&shellslash?'\':'/')`
+"endfunction
 
 nnoremap <expr> gc  '`[' . getregtype()[0] . '`]'
 
@@ -317,6 +318,7 @@ packadd! zig.vim
 packadd! vim-quickhl
 packadd! requirements.txt.vim
 packadd! vim-buffergator
+packadd! vim-filebeagle
 
 if exists('##TextChangedP')
   packadd! vim-vsnip
@@ -807,6 +809,10 @@ autocmd vimrc FileType buffergator
 function! s:buffergator_keymaps()
   nnoremap <silent><buffer> <C-g>  :<C-u>call b:buffergator_catalog_viewer.close(1)<CR>
 endfunction
+
+" vim-filebeagle
+let g:filebeagle_suppress_keymaps = 1
+let g:filebeagle_show_hidden = 1
 
 "command! -bang          Add     :exe <bang>0 ? 'Gwrite' : 'Gdiffsplit'
 "command! -bang -nargs=* Commit  :exe 'silent Git ' . (<bang>0 ? '-c "commit.verbose=false"' : '') . ' commit <args>' | wincmd L

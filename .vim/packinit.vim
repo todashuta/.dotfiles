@@ -96,6 +96,7 @@ call s:add('ziglang/zig.vim')
 call s:add('t9md/vim-quickhl')
 call s:add('raimon49/requirements.txt.vim')
 call s:add('jeetsukumaran/vim-buffergator')
+call s:add('jeetsukumaran/vim-filebeagle')
 
 "" denops
 call s:add('vim-denops/denops.vim')
