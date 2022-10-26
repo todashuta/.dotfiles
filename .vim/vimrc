@@ -801,6 +801,12 @@ let g:buffergator_autoexpand_on_split = 0
 let g:buffergator_viewport_split_policy = 'B'  " 'n'
 let g:buffergator_suppress_keymaps = 1
 let g:buffergator_split_size = 6
+let g:buffergator_sort_regime = 'mru'
+autocmd vimrc FileType buffergator
+      \ call s:buffergator_keymaps()
+function! s:buffergator_keymaps()
+  nnoremap <silent><buffer> <C-g>  :<C-u>call b:buffergator_catalog_viewer.close(1)<CR>
+endfunction
 
 "command! -bang          Add     :exe <bang>0 ? 'Gwrite' : 'Gdiffsplit'
 "command! -bang -nargs=* Commit  :exe 'silent Git ' . (<bang>0 ? '-c "commit.verbose=false"' : '') . ' commit <args>' | wincmd L
