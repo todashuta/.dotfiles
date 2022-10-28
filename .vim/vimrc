@@ -122,7 +122,7 @@ endif
 
 nnoremap <Space>r  :<C-u>CtrlPMRUFiles<CR>
 "nnoremap <Space>b  :<C-u>CtrlPBuffer<CR>
-"nnoremap <Space>b  :<C-u>BuffergatorOpen<CR>
+nnoremap <Space>b  :<C-u>BuffergatorOpen<CR>
 nnoremap <Space>f  :<C-u>CtrlPCurWD<CR>
 nnoremap <Space>F  :<C-u>CtrlPCurFile<CR>
 
@@ -809,8 +809,9 @@ autocmd vimrc FileType buffergator
 function! s:buffergator_keymaps()
   nnoremap <silent><buffer> <C-g>  :<C-u>call b:buffergator_catalog_viewer.close(1)<CR>
 endfunction
-nnoremap <silent><expr> <C-^>  (&filetype ==# 'buffergator') ?
-      \ ":\<C-u>call b:buffergator_catalog_viewer.close(1)\<CR>\<C-^>" : ":\<C-u>BuffergatorOpen\<CR>"
+"nnoremap <silent><expr> <C-^>  (&filetype ==# 'buffergator') ?
+"      \ ":\<C-u>call b:buffergator_catalog_viewer.close(1)\<CR>\<C-^>" : ":\<C-u>BuffergatorOpen\<CR>"
+nnoremap <M-b>  :<C-u>BuffergatorToggle<CR>
 
 " vim-filebeagle
 let g:filebeagle_suppress_keymaps = 1
