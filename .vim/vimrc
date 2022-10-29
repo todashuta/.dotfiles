@@ -837,16 +837,11 @@ command! ResizeInteractive  :call s:ResizeInteractive()
 function! s:ResizeInteractive()
   while 1
     let c = getchar()
-    if c == "\<Up>"
-      wincmd +
-    elseif c == "\<Down>"
-      wincmd -
-    elseif c == "\<Left>"
-      wincmd <
-    elseif c == "\<Right>"
-      wincmd >
-    else
-      break
+    if     c == "\<Up>"    | wincmd +
+    elseif c == "\<Down>"  | wincmd -
+    elseif c == "\<Left>"  | wincmd <
+    elseif c == "\<Right>" | wincmd >
+    else                   | break
     endif
     redraw
   endwhile
