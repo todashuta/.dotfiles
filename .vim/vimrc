@@ -162,6 +162,9 @@ nnoremap <Space>e  :<C-u>FileBeagleBufferDir<CR>
 
 nnoremap <expr> gc  '`[' . getregtype()[0] . '`]'
 
+autocmd vimrc FileType help
+      \ nnoremap <buffer> Q  :<C-u>helpclose<CR>
+
 augroup vimrc
   autocmd QuickFixCmdPost [^l]*  botright cwindow | redraw!
 
@@ -407,6 +410,11 @@ endif
 let g:switch_mapping = 'gs'
 let g:cursorword_highlight = 0
 let g:cursorword = 0
+
+autocmd vimrc User FugitivePager
+      \   if get(b:, 'fugitive_type', '') ==# 'temp'
+      \ |   exe 'nnoremap <buffer> Q  :<C-u>close<CR>'
+      \ | endif
 "let g:fugitive_dynamic_colors = 0
 
 
