@@ -149,6 +149,7 @@ nnoremap <Space>tw  :<C-u>setlocal wrap! wrap?<CR>
 nnoremap <Space>t/  :<C-u>set wrapscan! wrapscan?<CR>
 nnoremap <Space>ts  :<C-u>SignifyToggleHighlight<CR>
 nnoremap <Space>tp  :<C-u>set paste! paste?<CR>
+nnoremap <Space>tl  :<C-u>call <SID>windo_toggle_list()<CR>
 
 nnoremap <Space>l  :<C-u>CtrlPLauncher! lsp<CR>
 nnoremap <Space>q  :<C-u>CtrlPLauncher quickrun<CR>
@@ -164,6 +165,8 @@ nnoremap <expr> gc  '`[' . getregtype()[0] . '`]'
 
 autocmd vimrc FileType help
       \ nnoremap <buffer> Q  :<C-u>helpclose<CR>
+
+nnoremap <C-w>C  :<C-u>tabclose<CR>
 
 augroup vimrc
   autocmd QuickFixCmdPost [^l]*  botright cwindow | redraw!
@@ -738,6 +741,12 @@ function! s:MyDiffOrigToggle()
   else
     vert new | set bt=nofile | let b:mydifforigbuf = 1 | r ++edit # | 0d_ | diffthis | wincmd p | diffthis
   endif
+endfunction
+
+function! s:windo_toggle_list()
+  let l:wnr = winnr()
+  exe 'windo setlocal' (&l:list ? 'nolist' : 'list')
+  exe l:wnr . 'wincmd w'
 endfunction
 
 command! -nargs=? Name :let b:mybufnameoverride = <q-args>
