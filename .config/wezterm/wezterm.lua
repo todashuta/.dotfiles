@@ -6,6 +6,14 @@ local launch_menu
 if utils.is_windows() then
 	launch_menu = {}
 	table.insert(launch_menu, {
+		label = 'pwsh.exe -ExecutionPolicy RemoteSigned',
+		args = { 'pwsh.exe', '-ExecutionPolicy', 'RemoteSigned' },
+	})
+	table.insert(launch_menu, {
+		label = 'powershell.exe -ExecutionPolicy RemoteSigned',
+		args = { 'powershell.exe', '-ExecutionPolicy', 'RemoteSigned' },
+	})
+	table.insert(launch_menu, {
 		label = 'cmd.exe',
 		args = { 'cmd.exe' },
 	})
