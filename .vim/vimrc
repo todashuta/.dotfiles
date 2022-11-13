@@ -134,6 +134,7 @@ nmap     <Space>s  <Plug>(toggle-split-orientation)
 "nnoremap <Space>g  :<C-u>CtrlPLauncher! git<CR>
 nnoremap <Space>g   <Nop>
 nnoremap <Space>g<Space>  :<C-u>Git<Space>
+nnoremap g<Space>   :<C-u>Git<Space>
 nnoremap <Space>gs  :<C-u>Git<CR>
 nnoremap <Space>gc  :<C-u>silent vert below Git commit<CR>
 nnoremap <Space>ga  :<C-u>Gdiffsplit<CR>
