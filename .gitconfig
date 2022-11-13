@@ -40,6 +40,14 @@
 #     #   値の「"」はなくても構わないが「'」にするのはダメ。
 #     directory = "%(prefix)///other-pc-name/c$/Work/Projects/foobar"
 
+# # SSH鍵でコミットの署名を行う
+# [commit]
+#     gpgsign = true
+# [gpg]
+#     format = ssh
+# [user]
+#     signingkey = "公開鍵(.pub)の中身"
+
 [color]
 	status = auto
 	diff = auto
