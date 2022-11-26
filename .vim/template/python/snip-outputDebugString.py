@@ -4,4 +4,5 @@ def outputDebugString(obj):
     from pprint import pformat, pprint
     #pprint(obj)
     return W32OutputDebugString(pformat(obj))
-{{_cursor_}}
+
+outputDebugString({{_cursor_}}
