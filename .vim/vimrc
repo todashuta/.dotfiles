@@ -388,6 +388,18 @@ let g:quickrun_config['_'] = {
       \   'message/log': 1,
       \   'running_mark': "(*'_')> じっこうちゅう...",
       \ }
+if executable('zig')
+  let g:quickrun_config['c/zig_cc'] = {
+        \   'type': 'c/clang',
+        \   'command': 'zig',
+        \   'cmdopt': 'cc',
+        \ }
+  let g:quickrun_config['cpp/zig_c++'] = {
+        \   'type': 'cpp/clang++',
+        \   'command': 'zig',
+        \   'cmdopt': 'c++',
+        \ }
+endif
 if s:is_windows && executable('py')
   let g:quickrun_config['py'] = {
         \   'type': 'python',
