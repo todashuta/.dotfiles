@@ -69,6 +69,7 @@ let &grepprg = s:is_windows ? 'jvgrep.exe -I -C' : 'grep -rnIH --exclude-dir=.gi
 set grepformat& grepformat^=%f:%l:%c:%m
 "set wildignore& wildignore+=*.exe,*.dll,*.zip,*.mp3,Thumbs.db,*.xls,*.xlsx,*.eml,*.fol,*.3dm,*.3dmbak,*.ods,*.odp,*.psd,*.pdf,*.bmp,*.jpg,*.jpeg,*.gif,*.png
 "set suffixes+=.exe,.dll,.pdf,.jpg,.jpeg,.gif,.zip,.png
+set wildignore& wildignore+=*/__pycache__/*,*.pyc
 set hidden
 set clipboard+=unnamed
 set diffopt& diffopt+=vertical
@@ -104,7 +105,8 @@ nnoremap          s           <Nop>
 xnoremap          s           <Nop>
 nnoremap          S           <Nop>
 nnoremap          <Space>/    :<C-u>silent grep!<Space>
-nnoremap          <Space>?    :<C-u>/j **/* <Bar> cwindow<Home>noautocmd vimgrep /<C-f>
+"nnoremap          <Space>?    :<C-u>/j **/* <Bar> cwindow<Home>noautocmd vimgrep /<C-f>
+nnoremap          <Space>?    :<C-u>/j ## <Bar> cwindow<Home>noautocmd vimgrep /<C-f>
 nnoremap <silent> <Esc><Esc>  :<C-u>let v:hlsearch = !v:hlsearch<CR>
 nnoremap          <C-l>       :<C-u>call MyRedraw()<CR><C-l>
 
@@ -857,6 +859,7 @@ let g:filebeagle_show_hidden = 1
 "command! -nargs=*       Fetch   :exe 'Git fetch -p <args>'
 
 command! -nargs=* QR  :exe &modified ? 'echo "modified!"' : 'QuickRun <args>'
+command! -nargs=+ -complete=file ArgSet  :%argdelete | :exe 'argadd <args>' | :args
 
 command! ResizeInteractive  :call s:ResizeInteractive()
 function! s:ResizeInteractive()
