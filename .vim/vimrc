@@ -172,6 +172,12 @@ autocmd vimrc FileType help
 
 nnoremap <C-w>C  :<C-u>tabclose<CR>
 
+cnoremap <expr> <M-/>  getcmdtype() ==# '/' && getcmdline() ==# '' ? '\V' : ''
+cnoremap <expr> /      getcmdtype() ==# '/' && getcmdline()[0:1] ==# '\V' ? '\/' : '/'
+cnoremap <expr> \      getcmdtype() ==# '/' && getcmdline()[0:1] ==# '\V' ? '\\' : '\'
+"nnoremap <Leader>/  /\V
+nnoremap <M-/>      /\V
+
 augroup vimrc
   autocmd QuickFixCmdPost [^l]*  botright cwindow | redraw!
 
