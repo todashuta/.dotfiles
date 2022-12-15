@@ -937,7 +937,7 @@ call operator#user#define('rad2deg', 'OperatorRad2deg')
 if s:is_windows
   function! Uptime()
     " uptime for windows
-    let up = libcallnr('kernel32', 'GetTickCount', '') / 1000
+    let up = libcallnr('kernel32', 'GetTickCount64', '') / 1000
     let parts = []
     let [days, up] = [up / 86400, up % 86400]
     if days > 0
