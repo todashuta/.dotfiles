@@ -935,9 +935,11 @@ call operator#user#define('rad2deg', 'OperatorRad2deg')
 "map <F12> <Plug>(operator-rad2deg)
 
 if s:is_windows
-  function! Uptime()
+  let s:vim_starttime = get(s:, 'vim_starttime', libcallnr('kernel32', 'GetTickCount64', '') / 1000)
+  function! s:cmd_Uptime(system)
     " uptime for windows
     let up = libcallnr('kernel32', 'GetTickCount64', '') / 1000
+    let up = up - (a:system ? 0 : s:vim_starttime)
     let parts = []
     let [days, up] = [up / 86400, up % 86400]
     if days > 0
@@ -954,9 +956,9 @@ if s:is_windows
     if up > 0 || empty(parts)
       call add(parts, printf('%d seconds', up))
     endif
-    return printf('Uptime: %s.', join(parts, ', '))
+    echo printf('%s Uptime: %s.', (a:system ? 'System' : 'Vim'), join(parts, ', '))
   endfunction
-  command! Uptime :echo Uptime()
+  command! -bang -bar Uptime :call s:cmd_Uptime(<bang>0)
 endif
 
 let s:vimrclocal = $MYVIMRC.'_local'
