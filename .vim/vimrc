@@ -291,7 +291,7 @@ packadd! ctrlp.vim
 packadd! ctrlp-launcher
 packadd! html5.vim
 packadd! sonictemplate-vim
-packadd! vim-molder
+"packadd! vim-molder
 packadd! vim-jsx-pretty
 packadd! syntax-vim-ex
 packadd! vim-css3-syntax
