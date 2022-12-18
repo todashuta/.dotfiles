@@ -2,15 +2,23 @@
 
 # [include]
 #     path = ~/path/to/gitconfig
+
+# # github.comでgitプロトコルの代わりにhttpsを使用する
+# [url "https://github.com/"]
+#     insteadOf = "git://github.com/"
+# # httpsの代わりにsshを使用する
 # [url "git@github.com:"]
 #     insteadOf = "https://github.com/"
-# [url "git@github.com:todashuta"]
-#     insteadOf = "https://github.com/todashuta"
+# # httpsの代わりにsshを使用する(ユーザー名も限定)
+# [url "git@github.com:todashuta/"]
+#     insteadOf = "https://github.com/todashuta/"
+
 # [core]
 #     autocrlf = false
 #     attributesfile = ~/dotfiles/.gitattributes_global
 #     preloadindex = true
 #     fscache = true
+#     #precomposeunicode = true  # for macOS
 # [gc]
 #     auto = 256
 # [merge]
