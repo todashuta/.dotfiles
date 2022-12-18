@@ -56,6 +56,10 @@
 # [user]
 #     signingkey = "公開鍵(.pub)の中身"
 
+# [credential]
+#     helper =  # HOMEのgitconfigでグローバル設定を上書きする場合はこの空白エントリが必要。参考: https://aka.ms/gcm/rename
+#     helper = P:/scoop/apps/git/current/mingw64/bin/git-credential-manager.exe  # パスは適宜変更する
+
 [color]
 	status = auto
 	diff = auto
