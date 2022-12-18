@@ -337,6 +337,8 @@ packadd! vim-buffergator
 packadd! vim-filebeagle
 packadd! vim-pythonsense
 packadd! vim-argwrap
+packadd! mr.vim
+packadd! ctrlp-mr.vim
 
 if exists('##TextChangedP')
   packadd! vim-vsnip
