@@ -35,9 +35,12 @@
 # [init]
 #     defaultBranch = main
 # [pager]
-#     diff = perl /usr/share/doc/git/contrib/diff-highlight/diff-highlight | less -FRX -S --shift 5
-#     log  = perl /usr/share/doc/git/contrib/diff-highlight/diff-highlight | less -FRX -S --shift 5
-#     show = perl /usr/share/doc/git/contrib/diff-highlight/diff-highlight | less -FRX -S --shift 5
+#     #diff = perl /usr/share/doc/git/contrib/diff-highlight/diff-highlight | less -FRX -S --shift 5
+#     #log  = perl /usr/share/doc/git/contrib/diff-highlight/diff-highlight | less -FRX -S --shift 5
+#     #show = perl /usr/share/doc/git/contrib/diff-highlight/diff-highlight | less -FRX -S --shift 5
+#     diff = delta --diff-highlight -s #--wrap-max-lines 0
+#     log  = delta --diff-highlight -s #--wrap-max-lines 0
+#     show = delta --diff-highlight -s #--wrap-max-lines 0
 
 # [safe]
 #     # safe.directory
@@ -70,6 +73,8 @@
 	grep = auto
 [commit]
 	verbose = true
+[log]
+	showSignature = true
 [alias]
 	s = status -uno --show-stash
 	ss = status -sb --show-stash
