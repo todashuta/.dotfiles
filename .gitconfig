@@ -38,9 +38,14 @@
 #     #diff = perl /usr/share/doc/git/contrib/diff-highlight/diff-highlight | less -FRX -S --shift 5
 #     #log  = perl /usr/share/doc/git/contrib/diff-highlight/diff-highlight | less -FRX -S --shift 5
 #     #show = perl /usr/share/doc/git/contrib/diff-highlight/diff-highlight | less -FRX -S --shift 5
-#     diff = delta --diff-highlight -s --zero-style=dim #--wrap-max-lines 0
-#     log  = delta --diff-highlight -s --zero-style=dim #--wrap-max-lines 0
-#     show = delta --diff-highlight -s --zero-style=dim #--wrap-max-lines 0
+#
+#     #diff = delta --diff-highlight -s --zero-style=dim #--wrap-max-lines 0
+#     #log  = delta --diff-highlight -s --zero-style=dim #--wrap-max-lines 0
+#     #show = delta --diff-highlight -s --zero-style=dim #--wrap-max-lines 0
+#
+#     diff = delta --diff-highlight -n --zero-style=dim | less -FRX -S --shift 5
+#     log  = delta --diff-highlight -n --zero-style=dim | less -FRX -S --shift 5
+#     show = delta --diff-highlight -n --zero-style=dim | less -FRX -S --shift 5
 
 # [safe]
 #     # safe.directory
