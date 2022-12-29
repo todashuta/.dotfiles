@@ -30,10 +30,6 @@
 #     # 最後のものが ghq get の取得先になる
 #     root = ~/go/src
 #     root = D:/path/to/primary/dir
-# [push]
-#     default = simple
-# [init]
-#     defaultBranch = main
 
 # [safe]
 #     # safe.directory
@@ -54,18 +50,10 @@
 # [user]
 #     signingkey = "公開鍵(.pub)の中身"
 
-# [credential]
-#     helper =  # HOMEのgitconfigでグローバル設定を上書きする場合はこの空白エントリが必要。参考: https://aka.ms/gcm/rename
-#     helper = P:/scoop/apps/git/current/mingw64/bin/git-credential-manager.exe  # パスは適宜変更する
-
 [color]
-	status = auto
-	diff = auto
-	branch = auto
-	interactive = auto
-	grep = auto
+	ui = true
 [commit]
-	verbose = true
+	verbose = true  # always `git commit -v'
 [log]
 	showSignature = true
 [alias]
@@ -99,7 +87,7 @@
 	discard = checkout --
 [core]
 	editor = vim
-	#pager = less -R -S --shift 5 -M -W -X
+	#pager = less -R -S --shift 5 -M -X # -W
 	pager = delta --features=my_delta_unified
 	#pager = delta --features=my_delta_side_by_side
 [merge]
@@ -111,11 +99,18 @@
 [diff]
 	algorithm = histogram
 	colorMoved = dimmed_zebra
+
+[init]
+	#defaultBranch = main
+[push]
+	#default = simple
 [pull]
 	rebase = true
+[fetch]
+	#prune = true  # always `git fetch --prune'
 
 [delta]
-	pager = less -R -S --shift 5 -M -W -X
+	pager = less -R -S --shift 5 -M -X # -W
 	diff-highlight = true
 	zero-style = dim
 	#navigate = true
@@ -128,5 +123,18 @@
 	#line-numbers-left-format  = "|{nm:^4}|"
 	#line-numbers-right-format = "|{np:^4}|"
 	#wrap-max-lines = 0
+
+[credential]
+	# ユーザーのgitconfigでグローバル設定を上書きする場合は1つ目に空白エントリ `helper =` が必須
+	# 参考: https://aka.ms/gcm/rename
+	#helper =
+	#helper = manager
+	#helper = P:/scoop/apps/git/current/mingw64/bin/git-credential-manager.exe
+[credential "https://github.com"]
+	#helper =
+	#helper = !/path/to/gh auth git-credential  # gh: GitHub CLI
+[credential "https://gist.github.com"]
+	#helper =
+	#helper = !/path/to/gh auth git-credential
 
 # end of gitconfig
