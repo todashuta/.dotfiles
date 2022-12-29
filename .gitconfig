@@ -87,7 +87,7 @@
 	discard = checkout --
 [core]
 	editor = vim
-	#pager = less -R -S --shift 5 -M -X # -W
+	#pager = less -R -S --shift 5 -M -X -g -j10 # -W
 	pager = delta --features=my_delta_unified
 	#pager = delta --features=my_delta_side_by_side
 [merge]
@@ -110,7 +110,7 @@
 	#prune = true  # always `git fetch --prune'
 
 [delta]
-	pager = less -R -S --shift 5 -M -X # -W
+	pager = less -R -S --shift 5 -M -X -g -j10 # -W
 	diff-highlight = true
 	zero-style = dim
 	#navigate = true
