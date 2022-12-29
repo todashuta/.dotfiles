@@ -113,10 +113,6 @@
 	colorMoved = dimmed_zebra
 [pull]
 	rebase = true
-[tig]
-	vertical-split = no
-	line-graphics = ascii
-	main-view = id date author commit-title:graph=yes,refs=yes
 
 [delta]
 	pager = less -R -S --shift 5 -M -W -X
