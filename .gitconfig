@@ -76,9 +76,8 @@
 	summary = status -s -u -b
 	contributors = shortlog -s -n
 	#wdiff = diff --word-diff
-	#hdiff = diff --diff-algorithm=histogram
 	unstage = reset HEAD --
-	precommit = diff --staged --diff-algorithm=histogram
+	precommit = diff --staged
 	branches = branch -a -vv
 	tags = tag
 	stashes = stash list
