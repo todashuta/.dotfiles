@@ -55,6 +55,8 @@
 [commit]
 	verbose = true  # always `git commit -v'
 [log]
+	date = format-local:%Y-%m-%d (%a) %H:%M:%S %z
+	#date = relative-local
 	showSignature = true
 [alias]
 	s = status -uno --show-stash
@@ -63,15 +65,15 @@
 	b = branch -vv
 	d  = diff
 	df = diff HEAD..FETCH_HEAD
-	dfs = diff HEAD..FETCH_HEAD --stat
+	dfs = df --stat
 	dw = diff --color-words
 	fp = fetch -p
-	l  = log --graph --stat --decorate --date=format-local:'%Y-%m-%d (%a) %H:%M:%S'
-	la = log --graph --stat --decorate --date=format-local:'%Y-%m-%d (%a) %H:%M:%S' --all
-	ll  = log --graph --patch --decorate --date=format-local:'%Y-%m-%d (%a) %H:%M:%S'
-	lla = log --graph --patch --decorate --date=format-local:'%Y-%m-%d (%a) %H:%M:%S' --all
-	lg = log --graph --pretty=format:'%C(yellow)%h%C(reset) -%C(auto)%d%C(reset) %s %C(green)(%cr) %C(bold blue)<%an>%C(reset)' --abbrev-commit --date=relative
-	lga = log --graph --all --pretty=format:'%C(yellow)%h%C(reset) -%C(auto)%d%C(reset) %s %C(green)(%cr) %C(bold blue)<%an>%C(reset)' --abbrev-commit --date=relative
+	l = log --graph --stat
+	la = l --all
+	ll = log --no-graph --patch
+	lla = ll --all
+	lg = log --graph --no-show-signature --pretty=format:'%C(yellow)%h%C(reset) -%C(auto)%d%C(reset) %s %C(green)(%cr) %C(bold blue)<%an>%C(reset)' --abbrev-commit --date=relative-local
+	lga = lg --all
 	lf = log HEAD..FETCH_HEAD
 	summary = status -s -u -b
 	contributors = shortlog -s -n
