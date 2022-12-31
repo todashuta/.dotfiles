@@ -24,7 +24,7 @@
 # [merge]
 #     tool = myvimdiff
 # [mergetool "myvimdiff"]
-#     cmd = "c:/vim/vim.exe -d -c \"4wincmd w | wincmd J\" \"$LOCAL\" \"$BASE\" \"$REMOTE\" \"$MERGED\""
+#     cmd = "c:/vim/gvim.exe -d -c \"4wincmd w | wincmd J | wincmd =\" \"$LOCAL\" \"$BASE\" \"$REMOTE\" \"$MERGED\""
 # [ghq]
 #     # root が複数設定されている場合、
 #     # 最後のものが ghq get の取得先になる
