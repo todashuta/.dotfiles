@@ -67,10 +67,10 @@
 	df = diff HEAD..FETCH_HEAD
 	dfs = df --stat
 	dw = diff --color-words
-	fp = fetch -p
+	fp = fetch --prune
 	l = log --graph --stat
 	la = l --all
-	ll = log --no-graph --patch
+	ll = log --no-graph --patch  # deltaでgraphを扱えないので --no-graph にしている
 	lla = ll --all
 	lg = log --graph --no-show-signature --pretty=format:'%C(yellow)%h%C(reset) -%C(auto)%d%C(reset) %s %C(green)(%cr) %C(bold blue)<%an>%C(reset)' --abbrev-commit --date=relative-local
 	lga = lg --all
@@ -88,9 +88,8 @@
 	discard = checkout --
 [core]
 	editor = vim
-	#pager = less -R -S --shift 5 -M -X -g -j10 # -W
-	pager = delta --features=my_delta_unified
-	#pager = delta --features=my_delta_side_by_side
+	#pager = less -R -S --shift 5 -M -X -g -j3 # -W
+	pager = delta
 [merge]
 	tool = vimdiff
 	conflictstyle = diff3
@@ -114,19 +113,28 @@
 	#prune = true  # always `git fetch --prune'
 
 [delta]
-	pager = less -R -S --shift 5 -M -X -g -j10 # -W
-	diff-highlight = true
-	zero-style = dim
-	#navigate = true
-[delta "my_delta_unified"]
+	pager = less -R -S --shift 5 -M -X -g -j3 # -W
+	navigate = true
+	#syntax-theme = Nord
+	#features = mypreset0
+	features = mypreset0 side-by-side
+	#features = diff_highlight_with_syntax line-numbers
+	#features = diff_highlight_with_syntax side-by-side
+[delta "mypreset0"]
+	hunk-header-style = raw
+	file-modified-label = modified:
 	line-numbers = true
-	#line-numbers-left-format  = "{nm:^4}|"
-	#line-numbers-right-format = "{np:^4}|"
-[delta "my_delta_side_by_side"]
-	side-by-side = true
-	#line-numbers-left-format  = "|{nm:^4}|"
-	#line-numbers-right-format = "|{np:^4}|"
-	#wrap-max-lines = 0
+[delta "diff_highlight_with_syntax"]
+	diff-highlight = true
+	minus-style                   = normal "#3f0001"
+	minus-non-emph-style          = normal "#3f0001"
+	minus-emph-style              = normal "#901011"
+	minus-empty-line-marker-style = normal "#3f0001"
+	zero-style                    = syntax
+	plus-style                    = syntax "#002800"
+	plus-non-emph-style           = syntax "#002800"
+	plus-emph-style               = syntax "#006000"
+	plus-empty-line-marker-style  = normal "#002800"
 
 [credential]
 	# ユーザーのgitconfigでグローバル設定を上書きする場合は1つ目に空白エントリ `helper =` が必須
