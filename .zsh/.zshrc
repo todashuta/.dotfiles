@@ -647,6 +647,9 @@ alias date-iso8601='LANG=C date +%Y%m%dT%H%M%S%z'
 alias lang-c.utf-8='env LC_ALL=C.UTF-8 LANG=C.UTF-8'
 alias update-SSH_AUTH_SOCK="eval \$(tmux show-environment -s SSH_AUTH_SOCK 2>/dev/null); ssh-add -l"
 
+alias Man='MANWIDTH=$((${COLUMNS:-80}>80?80:0)) man'; compdef Man=man
+alias Journalctl='journalctl -o short-full'; compdef Journalctl=journalctl
+
 # }}}
 
 ## chpwd {{{
