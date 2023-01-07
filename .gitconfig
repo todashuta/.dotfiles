@@ -47,6 +47,7 @@
 #     format = ssh
 # [gpg "ssh"]
 #     allowedSignersFile = ~/.ssh/allowed_signers
+#     program = "C:/Windows/System32/OpenSSH/ssh-keygen.exe"
 # [user]
 #     signingkey = "公開鍵(.pub)の中身"
 
@@ -57,7 +58,7 @@
 [log]
 	date = format-local:%Y-%m-%d (%a) %H:%M:%S %z
 	#date = relative-local
-	showSignature = true
+	#showSignature = true
 [alias]
 	s = status -uno --show-stash
 	ss = status -sb --show-stash
