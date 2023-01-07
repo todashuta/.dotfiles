@@ -101,6 +101,7 @@ call s:add('jeetsukumaran/vim-pythonsense')
 call s:add('jeetsukumaran/vim-argwrap')
 call s:add('lambdalisue/mr.vim')
 call s:add('tsuyoshicho/ctrlp-mr.vim')
+call s:add('sainnhe/edge')
 
 "" denops
 call s:add('vim-denops/denops.vim')

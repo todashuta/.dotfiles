@@ -63,7 +63,7 @@ let g:tokyonight_cursor = 'red'
 
 set background=light
 colorscheme iceberg
-silent! let g:lightline.colorscheme = 'iceberg'
+silent! let g:lightline.colorscheme = 'iceberg' . '_' . &background
 silent! exe 'call lightline#init() | call lightline#colorscheme() | call lightline#update()'
 
 set visualbell& errorbells&

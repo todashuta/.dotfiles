@@ -337,6 +337,7 @@ packadd! vim-buffergator
 packadd! vim-filebeagle
 packadd! vim-pythonsense
 packadd! vim-argwrap
+packadd! edge
 packadd! mr.vim
 packadd! ctrlp-mr.vim
 
@@ -778,13 +779,12 @@ command! IPython :terminal python -m IPython
 
 command! ToggleBackground  call s:cmd_ToggleBackground()
 function! s:cmd_ToggleBackground()
-  let supported_colorschemes = ['iceberg']
+  let supported_colorschemes = ['edge', 'iceberg']
   if index(supported_colorschemes, g:colors_name) < 0
     return
   endif
   let &background = &background ==# 'dark' ? 'light' : 'dark'
-  let g:lightline.colorscheme = g:colors_name
-  exe 'runtime autoload/lightline/colorscheme/'.g:colors_name.'.vim'
+  let g:lightline.colorscheme = g:colors_name . '_' . &background
   call lightline#init() | call lightline#colorscheme() | call lightline#update()
 endfunction
 
