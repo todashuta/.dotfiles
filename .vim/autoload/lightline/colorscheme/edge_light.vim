@@ -2,7 +2,7 @@ let s:save_cpo = &cpo
 set cpo&vim
 
 if &background ==# 'light'
-  exe 'runtime autoload/lightline/colorscheme/edge.vim'
+  runtime autoload/lightline/colorscheme/edge.vim
   let g:lightline#colorscheme#edge_light#palette = deepcopy(g:lightline#colorscheme#edge#palette)
 endif
 
