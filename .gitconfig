@@ -65,7 +65,7 @@
 	ap = add --patch
 	b = branch -vv
 	d  = diff
-	df = diff HEAD..FETCH_HEAD
+	df = diff HEAD HEAD@{upstream}
 	dfs = df --stat
 	dw = diff --color-words
 	fp = fetch --prune
@@ -75,7 +75,7 @@
 	lla = ll --all
 	lg = log --graph --no-show-signature --pretty=format:'%C(yellow)%h%C(reset) -%C(auto)%d%C(reset) %s %C(green)(%cr) %C(bold blue)<%an>%C(reset)' --abbrev-commit --date=relative-local
 	lga = lg --all
-	lf = log HEAD..FETCH_HEAD
+	lf = log HEAD..HEAD@{upstream}
 	summary = status -s -u -b
 	contributors = shortlog -s -n
 	#wdiff = diff --word-diff
