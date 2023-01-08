@@ -27,6 +27,6 @@ alias date-iso8601='LANG=C date +%Y%m%dT%H%M%S%z'
 alias update-SSH_AUTH_SOCK="eval \$(tmux show-environment -s SSH_AUTH_SOCK 2>/dev/null); ssh-add -l"
 alias update-DISPLAY="export DISPLAY=\$(awk '/^nameserver/ {print \$2}' /etc/resolv.conf):0.0; echo \$DISPLAY"
 
-alias Man='MANWIDTH=$((${COLUMNS:-80}>80?80:0)) man'
+alias Man='env MANWIDTH=$(( COLUMNS < ${maxmanwidth:-80} ? COLUMNS : ${maxmanwidth:-80} )) man'
 
 alias Journalctl='journalctl -o short-full'
