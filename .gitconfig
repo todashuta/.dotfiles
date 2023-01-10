@@ -87,7 +87,7 @@
 	remotes = remote -v
 	amend = commit --amend
 	discard = checkout --
-	mc = merge --no-ff
+	mc = merge --no-ff --edit
 	mu = merge --ff HEAD@{upstream}
 [core]
 	editor = vim
