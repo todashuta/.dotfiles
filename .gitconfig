@@ -87,6 +87,8 @@
 	remotes = remote -v
 	amend = commit --amend
 	discard = checkout --
+	mc = merge --no-ff
+	mu = merge --ff HEAD@{upstream}
 [core]
 	editor = vim
 	#pager = less -R -S --shift 5 -M -X -g -j3 # -W
