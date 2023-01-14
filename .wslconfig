@@ -1,0 +1,8 @@
+# %USERPROFILE%\.wslconfig
+
+[wsl2]
+memory=16GB
+processors=4
+swapfile=N:\\WSL\\swap\\wsl-swap.vhdx
+
+# vim: set syntax=dosini:
