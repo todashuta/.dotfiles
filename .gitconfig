@@ -71,12 +71,12 @@
 	difff = -c core.pager='delta --features=difff' diff
 	fp = fetch --prune
 	l = log --graph --stat
-	la = l --all
+	la = l --all --source --abbrev-commit
 	ll = log --no-graph --patch  # deltaでgraphを扱えないので --no-graph にしている
-	lla = ll --all
+	lla = ll --all --source
 	lg = log --graph --no-show-signature --pretty=format:'%C(yellow)%h%C(reset) -%C(auto)%d%C(reset) %s %C(green)(%cr) %C(bold blue)<%an>%C(reset)' --abbrev-commit --date=relative-local
 	lga = lg --all
-	lf = log HEAD..HEAD@{upstream}
+	lf = log HEAD..HEAD@{upstream} --source
 	summary = status -s -u -b
 	contributors = shortlog -s -n
 	#wdiff = diff --word-diff
