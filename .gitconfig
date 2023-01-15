@@ -68,6 +68,7 @@
 	df = diff HEAD HEAD@{upstream}
 	dfs = df --stat
 	dw = diff --color-words
+	difff = -c core.pager='delta --features=difff' diff
 	fp = fetch --prune
 	l = log --graph --stat
 	la = l --all
@@ -89,6 +90,7 @@
 	discard = checkout --
 	mc = merge --no-ff --edit
 	mu = merge --ff HEAD@{upstream}
+	meld = difftool -t meld --dir-diff
 [core]
 	editor = vim
 	#pager = less -R -S --shift 5 -M -X -g -j3 # -W
@@ -138,6 +140,14 @@
 	plus-non-emph-style           = syntax "#002800"
 	plus-emph-style               = syntax "#006000"
 	plus-empty-line-marker-style  = normal "#002800"
+[delta "difff"]
+	hunk-header-style = raw
+	file-modified-label = modified:
+	side-by-side = true
+	wrap-max-lines = unlimited
+	line-numbers = false
+	#word-diff-regex = "\\w+|[^[:space:]]"
+	word-diff-regex = "[[:alnum:]]+"  # any better pattern?
 
 [credential]
 	# ユーザーのgitconfigでグローバル設定を上書きする場合は1つ目に空白エントリ `helper =` が必須
