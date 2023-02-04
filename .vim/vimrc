@@ -340,6 +340,7 @@ packadd! vim-argwrap
 packadd! edge
 packadd! mr.vim
 packadd! ctrlp-mr.vim
+packadd! vim-jsonpath
 
 if exists('##TextChangedP')
   packadd! vim-vsnip
@@ -719,6 +720,8 @@ function! s:set_json_indent()
     setlocal expandtab softtabstop=2 shiftwidth=2
   endif
 endfunction
+
+"autocmd vimrc CursorHold *.json :JsonPath
 
 nnoremap <silent> <C-p>  :<C-u>call <SID>QFPrevious()<CR>
 nnoremap <silent> <C-n>  :<C-u>call <SID>QFNext()<CR>

@@ -102,6 +102,7 @@ call s:add('jeetsukumaran/vim-argwrap')
 call s:add('lambdalisue/mr.vim')
 call s:add('tsuyoshicho/ctrlp-mr.vim')
 call s:add('sainnhe/edge')
+call s:add('mogelbrod/vim-jsonpath')
 
 "" denops
 call s:add('vim-denops/denops.vim')
