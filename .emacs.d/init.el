@@ -25,6 +25,22 @@
   :tag "builtin" "faces" "help"
   :custom `((custom-file . ,(locate-user-emacs-file "custom.el"))))
 
+(leaf cus-start
+  :custom (
+	   (truncate-lines . t)
+	   (tool-bar-mode . nil)
+	   (scroll-bar-mode . nil)
+	   (inhibit-startup-message . t)
+	   ;(menu-bar-mode . nil)
+	   )
+  :config
+  (custom-set-faces '(default ((t (:family "UDEV Gothic JPDOC" :foundry "outline" :slant normal :weight normal :height 113 :width normal)))))
+  (custom-set-faces '(mode-line ((t (:family "UDEV Gothic JPDOC" :foundry "outline" :slant normal :weight bold :height 113 :width normal)))))
+  ;(set-fontset-font t 'japanese-jisx0208 (font-spec :family "BIZ UD明朝"))
+
+  (when window-system (set-frame-size (selected-frame) 120 35))
+  )
+
 (leaf leaf
   :config
   (leaf leaf-convert :ensure t)
@@ -35,6 +51,14 @@
 
 (leaf go-mode
   :ensure t)
+
+(leaf web-mode
+  :ensure t
+  :mode "\\.json\\'"
+  :config
+  ;(add-to-list 'auto-mode-alist '("\\.json\\'" . web-mode))
+  ;(add-hook 'web-mode-hook 'lsp)
+  )
 
 (leaf company
   :ensure t
@@ -96,7 +120,6 @@
 ;(setq custom-file "~/.emacs.d/custom.el")
 ;(load custom-file t)
 
-(setq inhibit-startup-message t)
 (unless window-system
   (menu-bar-mode -1))
 
