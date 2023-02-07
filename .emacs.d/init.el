@@ -39,6 +39,8 @@
   ;(set-fontset-font t 'japanese-jisx0208 (font-spec :family "BIZ UD明朝"))
 
   (when window-system (set-frame-size (selected-frame) 120 35))
+  (add-to-list 'default-frame-alist '(cursor-type . bar))
+  (setq-default line-spacing 2)
   )
 
 (leaf leaf
@@ -86,11 +88,21 @@
 ;;    '(highlight-indent-guides-responsive (quote top)))
 ;;   (add-hook 'prog-mode-hook 'highlight-indent-guides-mode))
 
+(leaf mwim
+  :ensure t
+  :bind (("C-a" . mwim-beginning-of-code-or-line)
+	 ("C-e" . mwim-end-of-code-or-line)))
+
 (leaf paren
   :custom
   ((show-paren-style . 'mixed))
   :hook
   (emacs-startup-hook . show-paren-mode))
+
+(leaf rainbow-delimiters
+  :ensure t
+  :hook
+  ((prog-mode-hook . rainbow-delimiters-mode)))
 
 (leaf line-number-mode
   :custom
