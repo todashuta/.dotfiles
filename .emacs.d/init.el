@@ -78,7 +78,18 @@
 (leaf afternoon-theme
  :ensure t
  :config
- (load-theme 'afternoon t))
+ ;(load-theme 'afternoon t)
+ )
+
+(leaf nyan-mode
+  :ensure t
+  :custom (
+	   (nyan-animate-nyancat . t)
+	   ;(nyan-wavy-trail . t)
+	   )
+  :config
+  (nyan-mode t)
+  )
 
 ;; (leaf highlight-indent-guides
 ;;   :ensure t
@@ -103,6 +114,11 @@
   :ensure t
   :hook
   ((prog-mode-hook . rainbow-delimiters-mode)))
+
+(leaf expand-region
+  :ensure t
+  :bind (("C-=" . er/expand-region)
+	 ("C--" . er/contract-region)))
 
 (leaf line-number-mode
   :custom
@@ -138,6 +154,7 @@
 ;(global-set-key "\C-h" 'delete-backward-char)
 
 ;(load-theme 'wombat t)
+(load-theme 'leuven t)
 
 (provide 'init)
 
