@@ -26,13 +26,11 @@
   :custom `((custom-file . ,(locate-user-emacs-file "custom.el"))))
 
 (leaf cus-start
-  :custom (
-	   (truncate-lines . t)
+  :custom ((truncate-lines . t)
 	   (tool-bar-mode . nil)
 	   (scroll-bar-mode . nil)
 	   (inhibit-startup-message . t)
-	   ;(menu-bar-mode . nil)
-	   )
+	   (menu-bar-mode . t))
   :config
   (custom-set-faces '(default ((t (:family "UDEV Gothic JPDOC" :foundry "outline" :slant normal :weight normal :height 113 :width normal)))))
   (custom-set-faces '(mode-line ((t (:family "UDEV Gothic JPDOC" :foundry "outline" :slant normal :weight bold :height 113 :width normal)))))
@@ -76,20 +74,17 @@
   )
 
 (leaf afternoon-theme
- :ensure t
- :config
- ;(load-theme 'afternoon t)
- )
+  :disabled t
+  :ensure t
+  :config
+  (load-theme 'afternoon t))
 
 (leaf nyan-mode
   :ensure t
-  :custom (
-	   (nyan-animate-nyancat . t)
-	   ;(nyan-wavy-trail . t)
-	   )
+  :custom ((nyan-animate-nyancat . nil)
+	   (nyan-wavy-trail . nil))
   :config
-  (nyan-mode t)
-  )
+  (nyan-mode t))
 
 ;; (leaf highlight-indent-guides
 ;;   :ensure t
@@ -132,8 +127,7 @@
   :ensure t
   :require t
   :config
-  ;(global-git-gutter-mode t)
-  )
+  (global-git-gutter-mode 0))
 
 (leaf macrostep
   :ensure t
