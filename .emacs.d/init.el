@@ -66,13 +66,16 @@
 (leaf company
   :ensure t
   :hook (after-init-hook . global-company-mode)
+  :custom ((company-minimum-prefix-length . 1)
+	   (company-selection-wrap-around . t)
+	   (company-dabbrev-downcase . nil))
   :config
   )
 
 (leaf lsp-mode
   :ensure t
   :require t
-  :hook go-mode-hook
+  :hook (go-mode-hook json-mode-hook)
   :custom ((lsp-keymap-prefix . "C-c l"))
   :config
   )
@@ -156,6 +159,15 @@
 (leaf macrostep
   :ensure t
   :bind (("C-c e" . macrostep-expand)))
+
+(leaf recentf
+  :ensure t
+  :hook (after-init-hook . recentf-mode)
+  :config
+  (setq recentf-auto-cleanup 'never)
+  (setq recentf-max-saved-items 2000)
+  (setq recentf-auto-save-timer (run-with-idle-timer 30 t 'recentf-save-list))
+  (setq recentf-save-file (expand-file-name "~/var/emacs/recentf")))
 
 (setq backup-directory-alist
       '((".*" . "~/var/emacs/backup")))
