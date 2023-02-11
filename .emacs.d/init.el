@@ -90,6 +90,10 @@
   :config
   (nyan-mode t))
 
+(leaf whitespace
+  ;:hook (after-init-hook . global-whitespace-mode)
+  :custom ((whitespace-style . '(face tabs tab-mark newline newline-mark))))
+
 (leaf highlight-indent-guides
   :disabled t
   :ensure t
@@ -104,11 +108,16 @@
   :bind (("C-a" . mwim-beginning-of-code-or-line)
 	 ("C-e" . mwim-end-of-code-or-line)))
 
+(leaf delsel
+  :doc "delete selection if you insert"
+  :tag "builtin"
+  :global-minor-mode delete-selection-mode)
+
 (leaf paren
-  :custom
-  ((show-paren-style . 'mixed))
-  :hook
-  (emacs-startup-hook . show-paren-mode))
+  :doc "highlight matching paren"
+  :tag "builtin"
+  :custom ((show-paren-style . 'mixed))
+  :global-minor-mode show-paren-mode)
 
 (leaf rainbow-delimiters
   :ensure t
@@ -161,8 +170,10 @@
 (unless window-system
   (menu-bar-mode -1))
 
-;(global-set-key (kbd "C-h") 'delete-backward-char)
-(global-set-key (kbd "C-x C-b") 'electric-buffer-list)
+(leaf-keys (
+	    ;("C-h" . delete-backward-char)
+	    ("C-x C-b" . electric-buffer-list)
+	    ))
 
 ;(load-theme 'wombat t)
 (load-theme 'leuven t)
