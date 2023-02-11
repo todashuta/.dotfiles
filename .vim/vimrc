@@ -154,6 +154,7 @@ nnoremap <Space>t/  :<C-u>set wrapscan! wrapscan?<CR>
 nnoremap <Space>ts  :<C-u>SignifyToggleHighlight<CR>
 nnoremap <Space>tp  :<C-u>set paste! paste?<CR>
 nnoremap <Space>tl  :<C-u>call <SID>windo_toggle_list()<CR>
+nnoremap <Space>tr  :<C-u>RainbowToggle<CR>
 
 nnoremap <Space>l  :<C-u>CtrlPLauncher! lsp<CR>
 nnoremap <Space>q  :<C-u>CtrlPLauncher quickrun<CR>
@@ -341,6 +342,7 @@ packadd! edge
 packadd! mr.vim
 packadd! ctrlp-mr.vim
 packadd! vim-jsonpath
+packadd! rainbow
 
 if exists('##TextChangedP')
   packadd! vim-vsnip
@@ -862,6 +864,9 @@ nnoremap <M-b>  :<C-u>BuffergatorToggle<CR>
 " vim-filebeagle
 let g:filebeagle_suppress_keymaps = 1
 let g:filebeagle_show_hidden = 1
+
+" rainbow
+let g:rainbow_active = 0  " set to 0 if you want to enable it later via :RainbowToggle
 
 "command! -bang          Add     :exe <bang>0 ? 'Gwrite' : 'Gdiffsplit'
 "command! -bang -nargs=* Commit  :exe 'silent Git ' . (<bang>0 ? '-c "commit.verbose=false"' : '') . ' commit <args>' | wincmd L
