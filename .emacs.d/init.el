@@ -52,25 +52,29 @@
 (leaf go-mode
   :ensure t)
 
+(leaf json-mode
+  :ensure t)
+
 (leaf web-mode
   :ensure t
-  :mode "\\.json\\'"
+  ;:mode "\\.json\\'"
+  ;:hook ((web-mode-hook . lsp))
   :config
   ;(add-to-list 'auto-mode-alist '("\\.json\\'" . web-mode))
-  ;(add-hook 'web-mode-hook 'lsp)
   )
 
 (leaf company
   :ensure t
+  :hook (after-init-hook . global-company-mode)
   :config
-  (add-hook 'after-init-hook 'global-company-mode))
+  )
 
 (leaf lsp-mode
   :ensure t
   :require t
+  :hook go-mode-hook
   :custom ((lsp-keymap-prefix . "C-c l"))
   :config
-  (add-hook 'go-mode-hook #'lsp)
   )
 
 (leaf afternoon-theme
@@ -86,13 +90,14 @@
   :config
   (nyan-mode t))
 
-;; (leaf highlight-indent-guides
-;;   :ensure t
-;;   :config
-;;   (custom-set-variables
-;;    '(highlight-indent-guides-method (quote fill))
-;;    '(highlight-indent-guides-responsive (quote top)))
-;;   (add-hook 'prog-mode-hook 'highlight-indent-guides-mode))
+(leaf highlight-indent-guides
+  :disabled t
+  :ensure t
+  :hook ((prog-mode-hook . highlight-indent-guides-mode))
+  :config
+  (custom-set-variables
+   '(highlight-indent-guides-method (quote fill))
+   '(highlight-indent-guides-responsive (quote top))))
 
 (leaf mwim
   :ensure t
@@ -107,8 +112,18 @@
 
 (leaf rainbow-delimiters
   :ensure t
-  :hook
-  ((prog-mode-hook . rainbow-delimiters-mode)))
+  :hook prog-mode-hook
+  :config
+  (add-hook 'emacs-startup-hook
+	    (lambda ()
+	      (progn
+		(require 'cl-lib)
+		(require 'color)
+		(cl-loop
+		 for index from 1 to rainbow-delimiters-max-face-count
+		 do
+		 (let ((face (intern (format "rainbow-delimiters-depth-%d-face" index))))
+		   (cl-callf color-saturate-name (face-foreground face) 20)))))))
 
 (leaf expand-region
   :ensure t
@@ -138,6 +153,7 @@
 (setq auto-save-file-name-transforms
       '((".*" "~/var/emacs/autosave/" t)))  ;; 末尾のスラッシュ必要
 (setq create-lockfiles nil)
+(setq kill-whole-line t)
 
 ;(setq custom-file "~/.emacs.d/custom.el")
 ;(load custom-file t)
@@ -145,7 +161,8 @@
 (unless window-system
   (menu-bar-mode -1))
 
-;(global-set-key "\C-h" 'delete-backward-char)
+;(global-set-key (kbd "C-h") 'delete-backward-char)
+(global-set-key (kbd "C-x C-b") 'electric-buffer-list)
 
 ;(load-theme 'wombat t)
 (load-theme 'leuven t)
