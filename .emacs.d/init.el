@@ -27,9 +27,9 @@
 
 (leaf cus-start
   :custom ((truncate-lines . t)
-	   (tool-bar-mode . nil)
-	   (scroll-bar-mode . nil)
-	   (inhibit-startup-message . t)
+	   ;(tool-bar-mode . nil)
+	   ;(scroll-bar-mode . nil)
+	   ;(inhibit-startup-message . t)
 	   (menu-bar-mode . t))
   :config
   (custom-set-faces '(default ((t (:family "UDEV Gothic JPDOC" :foundry "outline" :slant normal :weight normal :height 113 :width normal)))))
@@ -48,6 +48,12 @@
     :ensure t
     :custom ((imenu-list-size . 30)
 	     (imenu-list-position . 'left))))
+
+;(eval-and-compile
+;  (leaf bytecomp
+;    :doc "compilation of Lisp code into byte code"
+;    :tag "builtin" "lisp"
+;    :custom (byte-compile-warnings . '(cl-functions))))
 
 (leaf go-mode
   :ensure t)
@@ -80,11 +86,27 @@
   :config
   )
 
+;(leaf eglot
+;  :ensure t
+;  :hook ((js-mode-hook . eglot-ensure)
+;	 (typescript-mode-hook . eglot-ensure))
+;  :config
+;  (add-to-list 'eglot-server-programs
+;	       '((js-mode typescript-mode) . ("deno" "lsp" :initializationOptions (:enable t :lint t))))
+;  )
+
 (leaf afternoon-theme
   :disabled t
   :ensure t
   :config
   (load-theme 'afternoon t))
+
+;(leaf lambda-themes
+;  :ensure t
+;  :url "https://github.com/Lambda-Emacs/lambda-themes"
+;  ;:config
+;  ;(load-theme 'lambda-light)
+;  )
 
 (leaf nyan-mode
   :ensure t
@@ -175,12 +197,14 @@
       '((".*" "~/var/emacs/autosave/" t)))  ;; 末尾のスラッシュ必要
 (setq create-lockfiles nil)
 (setq kill-whole-line t)
+;(fset 'yes-or-no-p 'y-or-n-p)
 
 ;(setq custom-file "~/.emacs.d/custom.el")
 ;(load custom-file t)
 
 (unless window-system
   (menu-bar-mode -1))
+;(setq line-spacing 2.0)
 
 (leaf-keys (
 	    ;("C-h" . delete-backward-char)
