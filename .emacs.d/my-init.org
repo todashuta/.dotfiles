@@ -5,6 +5,13 @@
   ;; -*- lexical-binding: t; -*-
 #+end_src
 
+** 言語設定
+#+begin_src emacs-lisp
+  (set-language-environment "Japanese")
+  (prefer-coding-system 'utf-8)
+  (set-default 'buffer-file-coding-system 'utf-8-unix)
+#+end_src
+
 ** leaf
 #+begin_src emacs-lisp
   (eval-and-compile
@@ -201,6 +208,14 @@
     (setq recentf-auto-save-timer (run-with-idle-timer 30 t 'recentf-save-list))
     (setq recentf-save-file (expand-file-name "~/var/emacs/recentf")))
 
+  (leaf ido-vertical-mode
+    :ensure t
+    :config
+    (ido-mode 1)
+    (ido-vertical-mode 1)
+    (setq ido-enable-flex-matching t)
+    (setq ido-vertical-define-keys 'C-n-and-C-p-only))
+
   (setq backup-directory-alist
 	'((".*" . "~/var/emacs/backup")))
   (setq auto-save-file-name-transforms
@@ -215,6 +230,8 @@
   (unless window-system
     (menu-bar-mode -1))
   ;(setq line-spacing 2.0)
+
+  (global-hl-line-mode 1)
 
   (leaf-keys (
 	      ;("C-h" . delete-backward-char)
