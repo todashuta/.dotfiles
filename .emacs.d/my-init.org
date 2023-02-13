@@ -140,10 +140,8 @@
     :disabled t
     :ensure t
     :hook ((prog-mode-hook . highlight-indent-guides-mode))
-    :config
-    (custom-set-variables
-     '(highlight-indent-guides-method (quote fill))
-     '(highlight-indent-guides-responsive (quote top))))
+    :custom ((highlight-indent-guides-method . 'fill)
+	     (highlight-indent-guides-responsive . 'top)))
 
   (leaf mwim
     :ensure t
@@ -216,6 +214,15 @@
     (setq ido-enable-flex-matching t)
     (setq ido-vertical-define-keys 'C-n-and-C-p-only))
 
+  (leaf org-mode
+    :custom ((org-use-speed-commands . t)))
+
+  (leaf slime
+    :ensure t
+    :custom ((inferior-lisp-program . "sbcl"))
+    :config
+    (slime-setup '(slime-repl slime-fancy slime-banner)))
+
   (setq backup-directory-alist
 	'((".*" . "~/var/emacs/backup")))
   (setq auto-save-file-name-transforms
@@ -231,7 +238,7 @@
     (menu-bar-mode -1))
   ;(setq line-spacing 2.0)
 
-  (global-hl-line-mode 1)
+  ;(global-hl-line-mode 1)
 
   (leaf-keys (
 	      ;("C-h" . delete-backward-char)
