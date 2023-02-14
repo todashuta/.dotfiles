@@ -126,11 +126,16 @@
   ;  )
 
   (leaf nyan-mode
+    :disabled t
     :ensure t
     :custom ((nyan-animate-nyancat . nil)
 	     (nyan-wavy-trail . nil))
     :config
     (nyan-mode t))
+
+  (leaf mlscroll
+    :ensure t
+    :config (mlscroll-mode 1))
 
   (leaf whitespace
     ;:hook (after-init-hook . global-whitespace-mode)
@@ -215,7 +220,8 @@
     (setq ido-vertical-define-keys 'C-n-and-C-p-only))
 
   (leaf org-mode
-    :custom ((org-use-speed-commands . t)))
+    :custom ((org-use-speed-commands . t)
+	     (org-hide-leading-stars . nil)))
 
   (leaf slime
     :ensure t
@@ -258,6 +264,17 @@
   (defun edit-my-early-init ()
     (interactive)
     (find-file (expand-file-name (concat user-emacs-directory "my-early-init.org"))))
+
+  (defun reload-init-file ()
+    (interactive)
+    (load-file user-init-file))
+#+end_src
+
+** ローカル設定を読み込み
+#+begin_src emacs-lisp
+  (let* ((local-init-file (expand-file-name (concat user-emacs-directory "my-init-local.org"))))
+    (when (file-exists-p local-init-file)
+      (org-babel-load-file local-init-file)))
 #+end_src
 
 ** 最後に
