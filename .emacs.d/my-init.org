@@ -213,11 +213,11 @@
 
   (leaf ido-vertical-mode
     :ensure t
+    :custom ((ido-enable-flex-matching . t)
+	     (ido-vertical-define-keys . 'C-n-and-C-p-only))
     :config
     (ido-mode 1)
-    (ido-vertical-mode 1)
-    (setq ido-enable-flex-matching t)
-    (setq ido-vertical-define-keys 'C-n-and-C-p-only))
+    (ido-vertical-mode 1))
 
   (leaf org-mode
     :custom ((org-use-speed-commands . t)
