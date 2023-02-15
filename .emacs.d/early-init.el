@@ -14,10 +14,10 @@
 (setq inhibit-redisplay t)
 (setq inhibit-message t)
 (add-hook 'emacs-startup-hook
-	  (lambda ()
-	    (setq inhibit-redisplay nil)
-	    (setq inhibit-message nil)
-	    (redisplay)))
+          (lambda ()
+            (setq inhibit-redisplay nil)
+            (setq inhibit-message nil)
+            (redisplay)))
 
 (setq inhibit-splash-screen t)
 (setq inhibit-startup-message t)

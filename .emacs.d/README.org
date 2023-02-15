@@ -17,8 +17,8 @@
   (eval-and-compile
     (customize-set-variable
      'package-archives '(("org" . "https://orgmode.org/elpa/")
-			 ("melpa" . "https://melpa.org/packages/")
-			 ("gnu" . "https://elpa.gnu.org/packages/")))
+                         ("melpa" . "https://melpa.org/packages/")
+                         ("gnu" . "https://elpa.gnu.org/packages/")))
     (package-initialize)
     (unless (package-installed-p 'leaf)
       (package-refresh-contents)
@@ -41,10 +41,10 @@
 
   (leaf cus-start
     :custom ((truncate-lines . t)
-	     ;(tool-bar-mode . nil)
-	     ;(scroll-bar-mode . nil)
-	     ;(inhibit-startup-message . t)
-	     (menu-bar-mode . t))
+             ;(tool-bar-mode . nil)
+             ;(scroll-bar-mode . nil)
+             ;(inhibit-startup-message . t)
+             (menu-bar-mode . t))
     :config
     (custom-set-faces '(default ((t (:family "UDEV Gothic JPDOC" :foundry "outline" :slant normal :weight normal :height 113 :width normal)))))
     (custom-set-faces '(mode-line ((t (:family "UDEV Gothic JPDOC" :foundry "outline" :slant normal :weight bold :height 113 :width normal)))))
@@ -61,7 +61,7 @@
     (leaf leaf-tree
       :ensure t
       :custom ((imenu-list-size . 30)
-	       (imenu-list-position . 'left))))
+               (imenu-list-position . 'left))))
 #+end_src
 
 ** init
@@ -90,8 +90,8 @@
     :ensure t
     :hook (after-init-hook . global-company-mode)
     :custom ((company-minimum-prefix-length . 1)
-	     (company-selection-wrap-around . t)
-	     (company-dabbrev-downcase . nil))
+             (company-selection-wrap-around . t)
+             (company-dabbrev-downcase . nil))
     :config
     )
 
@@ -129,7 +129,7 @@
     :disabled t
     :ensure t
     :custom ((nyan-animate-nyancat . nil)
-	     (nyan-wavy-trail . nil))
+             (nyan-wavy-trail . nil))
     :config
     (nyan-mode t))
 
@@ -146,12 +146,12 @@
     :ensure t
     :hook ((prog-mode-hook . highlight-indent-guides-mode))
     :custom ((highlight-indent-guides-method . 'fill)
-	     (highlight-indent-guides-responsive . 'top)))
+             (highlight-indent-guides-responsive . 'top)))
 
   (leaf mwim
     :ensure t
     :bind (("C-a" . mwim-beginning-of-code-or-line)
-	   ("C-e" . mwim-end-of-code-or-line)))
+           ("C-e" . mwim-end-of-code-or-line)))
 
   (leaf delsel
     :doc "delete selection if you insert"
@@ -169,20 +169,20 @@
     :hook prog-mode-hook
     :config
     (add-hook 'emacs-startup-hook
-	      (lambda ()
-		(progn
-		  (require 'cl-lib)
-		  (require 'color)
-		  (cl-loop
-		   for index from 1 to rainbow-delimiters-max-face-count
-		   do
-		   (let ((face (intern (format "rainbow-delimiters-depth-%d-face" index))))
-		     (cl-callf color-saturate-name (face-foreground face) 20)))))))
+              (lambda ()
+                (progn
+                  (require 'cl-lib)
+                  (require 'color)
+                  (cl-loop
+                   for index from 1 to rainbow-delimiters-max-face-count
+                   do
+                   (let ((face (intern (format "rainbow-delimiters-depth-%d-face" index))))
+                     (cl-callf color-saturate-name (face-foreground face) 20)))))))
 
   (leaf expand-region
     :ensure t
     :bind (("C-=" . er/expand-region)
-	   ("C--" . er/contract-region)))
+           ("C--" . er/contract-region)))
 
   (leaf line-number-mode
     :custom
@@ -214,14 +214,14 @@
   (leaf ido-vertical-mode
     :ensure t
     :custom ((ido-enable-flex-matching . t)
-	     (ido-vertical-define-keys . 'C-n-and-C-p-only))
+             (ido-vertical-define-keys . 'C-n-and-C-p-only))
     :config
     (ido-mode 1)
     (ido-vertical-mode 1))
 
   (leaf org-mode
     :custom ((org-use-speed-commands . t)
-	     (org-hide-leading-stars . nil)))
+             (org-hide-leading-stars . nil)))
 
   (leaf slime
     :ensure t
@@ -230,9 +230,9 @@
     (slime-setup '(slime-repl slime-fancy slime-banner)))
 
   (setq backup-directory-alist
-	'((".*" . "~/var/emacs/backup")))
+        '((".*" . "~/var/emacs/backup")))
   (setq auto-save-file-name-transforms
-	'((".*" "~/var/emacs/autosave/" t)))  ;; 末尾のスラッシュ必要
+        '((".*" "~/var/emacs/autosave/" t)))  ;; 末尾のスラッシュ必要
   (setq create-lockfiles nil)
   (setq kill-whole-line t)
   ;(fset 'yes-or-no-p 'y-or-n-p)
@@ -247,9 +247,10 @@
   ;(global-hl-line-mode 1)
 
   (leaf-keys (
-	      ;("C-h" . delete-backward-char)
-	      ("C-x C-b" . electric-buffer-list)
-	      ))
+              ;("C-h" . delete-backward-char)
+              ("C-x C-b" . electric-buffer-list)
+              ))
+#+end_src
 
   ;(load-theme 'wombat t)
   (load-theme 'leuven t)
