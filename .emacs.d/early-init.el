@@ -1,10 +1,10 @@
 ;; -*- lexical-binding: t; -*-
 
-(defconst my:saved-file-name-handler-alist file-name-handler-alist)
-(setq file-name-handler-alist nil)
-(add-hook 'emacs-startup-hook
-	  (lambda ()
-	    (setq file-name-handler-alist my:saved-file-name-handler-alist)))
+(let* ((handlers file-name-handler-alist))
+  (setq file-name-handler-alist nil)
+  (add-hook 'emacs-startup-hook
+            (lambda ()
+              (setq file-name-handler-alist handlers))))
 
 (setq frame-inhibit-implied-resize t)
 
