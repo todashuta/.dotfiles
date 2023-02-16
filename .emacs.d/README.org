@@ -228,7 +228,13 @@
 
   (leaf org-mode
     :custom ((org-use-speed-commands . t)
-             (org-hide-leading-stars . nil)))
+             (org-hide-leading-stars . nil))
+    :config
+    (advice-add
+     'org-edit-special
+     :after
+     (lambda (&rest r) (maximize-window))
+     '((name . "my-org-edit-special-with-maximize-window"))))
 
   (leaf slime
     :ensure t
