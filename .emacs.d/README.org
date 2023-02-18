@@ -45,7 +45,6 @@
            ;; (tool-bar-mode . nil)
            ;; (scroll-bar-mode . nil)
            ;; (inhibit-startup-message . t)
-           (menu-bar-mode . t)
            (line-number-mode . t)
            (column-number-mode . t))
   :config
@@ -60,6 +59,7 @@
      ((t (:family "UDEV Gothic JPDOC" :foundry "outline" :slant normal :weight normal :height 95 :width normal)))))
   ;; (set-fontset-font t 'japanese-jisx0208 (font-spec :family "BIZ UD明朝"))
 
+  (menu-bar-mode (if window-system 1 -1))
   (when window-system (set-frame-size (selected-frame) 120 35))
   (add-to-list 'default-frame-alist '(cursor-type . bar))
   (setq-default line-spacing 2)
@@ -202,7 +202,8 @@
 
 (leaf display-line-numbers
   :custom ((display-line-numbers-minor-tick . 0)
-           (display-line-numbers-major-tick . 0))
+           (display-line-numbers-major-tick . 0)
+           (display-line-numbers-grow-only . t))
   :config
   (global-display-line-numbers-mode 0))
 
@@ -244,6 +245,7 @@
            (org-startup-folded . 'content)
            ;; (org-src-preserve-indentation . t)
            ;; (org-edit-src-content-indentation . 0)
+           (org-src-tab-acts-natively . nil)
            )
   :config
   ;; (advice-add
@@ -289,8 +291,6 @@
 ;; (setq custom-file "~/.emacs.d/custom.el")
 ;; (load custom-file t)
 
-(unless window-system
-  (menu-bar-mode -1))
 ;; (setq line-spacing 2.0)
 
 ;; (global-hl-line-mode 1)
@@ -298,6 +298,12 @@
 (leaf-keys (
             ;; ("C-h" . delete-backward-char)
             ("C-x C-b" . electric-buffer-list)
+            ("C-l" . (lambda ()
+                       (interactive)
+                       (when (fboundp 'git-gutter) (git-gutter))
+                       (recenter)))
+            ("<next>" . scroll-up-line)
+            ("<prior>" . scroll-down-line)
             ))
 #+end_src
 
@@ -316,6 +322,15 @@
                       :weight 'bold
                       :foreground "black"
                       :background (face-attribute 'highlight :background)))
+#+end_src
+
+** ビープ音の代わりにモードラインを点滅させる
+#+begin_src emacs-lisp
+(setq visible-bell nil
+      ring-bell-function 'my-flash-mode-line)
+(defun my-flash-mode-line ()
+  (invert-face 'mode-line)
+  (run-with-timer 0.1 nil #'invert-face 'mode-line))
 #+end_src
 
 ** コマンド
