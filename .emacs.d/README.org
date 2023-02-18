@@ -12,8 +12,9 @@
 (set-default 'buffer-file-coding-system 'utf-8-unix)
 #+end_src
 
-** leaf
+** leaf.el
 #+begin_src emacs-lisp
+;; <leaf-install-code>
 (eval-and-compile
   (customize-set-variable
    'package-archives '(("org" . "https://orgmode.org/elpa/")
@@ -34,6 +35,24 @@
 
     :config
     (leaf-keywords-init)))
+;; </leaf-install-code>
+
+(leaf leaf
+  :config
+  (leaf leaf-convert :ensure t)
+  (leaf leaf-tree
+    :ensure t
+    :custom ((imenu-list-size . 30)
+             (imenu-list-position . 'left))))
+#+end_src
+
+** init
+#+begin_src emacs-lisp
+;; (eval-and-compile
+;;   (leaf bytecomp
+;;     :doc "compilation of Lisp code into byte code"
+;;     :tag "builtin" "lisp"
+;;     :custom (byte-compile-warnings . '(cl-functions))))
 
 (leaf cus-edit
   :doc "tools for customizing Emacs and Lisp packages"
@@ -64,23 +83,6 @@
   (add-to-list 'default-frame-alist '(cursor-type . bar))
   (setq-default line-spacing 2)
   )
-
-(leaf leaf
-  :config
-  (leaf leaf-convert :ensure t)
-  (leaf leaf-tree
-    :ensure t
-    :custom ((imenu-list-size . 30)
-             (imenu-list-position . 'left))))
-#+end_src
-
-** init
-#+begin_src emacs-lisp
-;; (eval-and-compile
-;;   (leaf bytecomp
-;;     :doc "compilation of Lisp code into byte code"
-;;     :tag "builtin" "lisp"
-;;     :custom (byte-compile-warnings . '(cl-functions))))
 
 (leaf generic-x
   :require t)
@@ -122,19 +124,6 @@
 ;;   :config
 ;;   (add-to-list 'eglot-server-programs
 ;;                '((js-mode typescript-mode) . ("deno" "lsp" :initializationOptions (:enable t :lint t))))
-;;   )
-
-(leaf afternoon-theme
-  :disabled t
-  :ensure t
-  :config
-  (load-theme 'afternoon t))
-
-;; (leaf lambda-themes
-;;   :ensure t
-;;   :url "https://github.com/Lambda-Emacs/lambda-themes"
-;;   ;:config
-;;   ;(load-theme 'lambda-light)
 ;;   )
 
 (leaf nyan-mode
@@ -310,6 +299,27 @@
 ** カラーテーマ
 #+begin_src emacs-lisp
 ;; (load-theme 'wombat t)
+
+(leaf afternoon-theme
+  :disabled t
+  :ensure t
+  :config
+  (load-theme 'afternoon t))
+
+(leaf lambda-themes
+  :disabled t
+  :init
+  (unless (locate-library "lambda-themes")
+    (el-get-bundle lambda-emacs/lambda-themes))
+  :custom ((lambda-themes-set-variable-pitch . nil))
+  :config
+  (require 'lambda-themes)
+  (load-theme 'lambda-light-faded t)
+
+  (set-face-attribute 'outline-1 nil :height 1.1)
+  (set-face-attribute 'outline-2 nil :height 1.1)
+  (set-face-attribute 'outline-3 nil :height 1.1)
+  (set-face-attribute 'outline-4 nil :height 1.1))
 
 (leaf *theme-leuven
   :config
