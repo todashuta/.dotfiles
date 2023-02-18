@@ -26,9 +26,10 @@
 
     (leaf leaf-keywords
       :ensure t
-      :init
+      :config
       (leaf hydra :ensure t)
-      (leaf el-get :ensure t)
+      (leaf el-get :ensure t
+        :custom ((el-get-git-shallow-clone . t)))
       (leaf blackout :ensure t)
 
       :config
@@ -41,10 +42,12 @@
 
   (leaf cus-start
     :custom ((truncate-lines . t)
-             ;(tool-bar-mode . nil)
-             ;(scroll-bar-mode . nil)
-             ;(inhibit-startup-message . t)
-             (menu-bar-mode . t))
+             ;; (tool-bar-mode . nil)
+             ;; (scroll-bar-mode . nil)
+             ;; (inhibit-startup-message . t)
+             (menu-bar-mode . t)
+             (line-number-mode . t)
+             (column-number-mode . t))
     :config
     (custom-set-faces
      '(default
@@ -55,7 +58,7 @@
     (custom-set-faces
      '(org-block
        ((t (:family "UDEV Gothic JPDOC" :foundry "outline" :slant normal :weight normal :height 95 :width normal)))))
-    ;(set-fontset-font t 'japanese-jisx0208 (font-spec :family "BIZ UD明朝"))
+    ;; (set-fontset-font t 'japanese-jisx0208 (font-spec :family "BIZ UD明朝"))
 
     (when window-system (set-frame-size (selected-frame) 120 35))
     (add-to-list 'default-frame-alist '(cursor-type . bar))
@@ -73,11 +76,14 @@
 
 ** init
 #+begin_src emacs-lisp
-  ;(eval-and-compile
-  ;  (leaf bytecomp
-  ;    :doc "compilation of Lisp code into byte code"
-  ;    :tag "builtin" "lisp"
-  ;    :custom (byte-compile-warnings . '(cl-functions))))
+  ;; (eval-and-compile
+  ;;   (leaf bytecomp
+  ;;     :doc "compilation of Lisp code into byte code"
+  ;;     :tag "builtin" "lisp"
+  ;;     :custom (byte-compile-warnings . '(cl-functions))))
+
+  (leaf generic-x
+    :require t)
 
   (leaf go-mode
     :ensure t)
@@ -104,7 +110,6 @@
 
   (leaf lsp-mode
     :ensure t
-    :require t
     :hook (go-mode-hook json-mode-hook)
     :custom ((lsp-keymap-prefix . "C-c l"))
     :config
@@ -195,13 +200,17 @@
     :custom
     ((linum-format . "%5d ")))
 
+  (leaf display-line-numbers
+    :custom ((display-line-numbers-minor-tick . 0)
+	     (display-line-numbers-major-tick . 0))
+    :config
+    (global-display-line-numbers-mode 0))
+
   (leaf magit
-    :ensure t
-    :require t)
+    :ensure t)
 
   (leaf git-gutter
     :ensure t
-    :require t
     :config
     (global-git-gutter-mode 0))
 
@@ -228,13 +237,24 @@
 
   (leaf org-mode
     :custom ((org-use-speed-commands . t)
-             (org-hide-leading-stars . nil))
+	     (org-hide-leading-stars . nil)
+	     (org-src-fontify-natively . t)
+	     (org-fontify-whole-heading-line . t)
+	     (org-fontify-whole-block-delimiter-line . nil)
+	     (org-startup-folded . 'content)
+	     ;; (org-src-preserve-indentation . t)
+             ;; (org-edit-src-content-indentation . 0)
+)
     :config
-    (advice-add
-     'org-edit-special
-     :after
-     (lambda (&rest r) (maximize-window))
-     '((name . "my-org-edit-special-with-maximize-window"))))
+    ;; (advice-add
+    ;;  'org-edit-special
+    ;;  :after
+    ;;  (lambda (&rest r) (maximize-window) (linum-mode))
+    ;;  '((name . "my-org-edit-special-with-maximize-window")))
+    (add-hook 'org-src-mode-hook
+	      (lambda ()
+		(maximize-window)
+		(display-line-numbers-mode 1))))
 
   (leaf slime
     :ensure t
@@ -288,7 +308,14 @@
   (leaf *theme-leuven
     :config
     (load-theme 'leuven t)
-    (set-face-background 'secondary-selection "#FFFFBC"))
+
+    (set-face-background 'secondary-selection "#FFFFBC")
+
+    (set-face-background 'line-number "gray97")
+    (set-face-attribute 'line-number-current-line nil
+			:weight 'bold
+			:foreground "black"
+			:background (face-attribute 'highlight :background)))
 #+end_src
 
 ** コマンド
@@ -299,7 +326,9 @@
 
   (defun reload-init-file ()
     (interactive)
-    (load-file user-init-file))
+    (load-file user-init-file)
+    (when (fboundp 'org-mode-restart)
+      (org-mode-restart)))
 #+end_src
 
 ** 最後に
@@ -308,9 +337,13 @@
   ;;; init.el ends here
 #+end_src
 
-** ローカル設定を読み込み
+** ローカルの設定があれば読み込む
 #+begin_src emacs-lisp
   (let* ((local-init-file (expand-file-name (concat user-emacs-directory "init-local.el"))))
     (when (file-exists-p local-init-file)
       (load-file local-init-file)))
 #+end_src
+
+# Local Variables:
+# org-src-preserve-indentation: t
+# End:
