@@ -9,9 +9,6 @@
 /.zsh/.zcompcache/*
 /.zsh/.chpwd-recent-dirs
 
-/.emacs.d/*
-!/.emacs.d/init.el
-
 /.vim/.netrwhist
 /.vim/vimrc_local
 /.vim/gvimrc_local
