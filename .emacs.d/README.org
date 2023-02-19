@@ -291,6 +291,13 @@
                (setq beacon-color (face-attribute 'highlight :background))))
   (beacon-mode 1))
 
+(leaf doom-modeline
+  :ensure t
+  :custom ((doom-modeline-icon        . nil)
+           (doom-modeline-indent-info . t))
+  :config
+  (doom-modeline-mode 1))
+
 ;; (fset 'yes-or-no-p 'y-or-n-p)
 
 ;; (setq custom-file "~/.emacs.d/custom.el")
