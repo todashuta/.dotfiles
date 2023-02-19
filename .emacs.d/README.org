@@ -61,12 +61,19 @@
   :custom `((custom-file . ,(locate-user-emacs-file "custom.el"))))
 
 (leaf cus-start
-  :custom ((truncate-lines          . t)
+  :custom (
            ;; (tool-bar-mode           . nil)
            ;; (scroll-bar-mode         . nil)
            ;; (inhibit-startup-message . t)
-           (line-number-mode        . t)
-           (column-number-mode      . t))
+           (truncate-lines                 . t)
+           (line-number-mode               . t)
+           (column-number-mode             . t)
+           (scroll-margin                  . 5)
+           (kill-whole-line                . t)
+           (create-lockfiles               . nil)
+           (backup-directory-alist         . '((".*" . "~/var/emacs/backup")))
+           (auto-save-file-name-transforms . '((".*" "~/var/emacs/autosave/" t)))  ; 末尾のスラッシュ必要
+  )
   :config
   (custom-set-faces
    '(default
@@ -275,12 +282,6 @@
   :config
   (volatile-highlights-mode t))
 
-(setq backup-directory-alist
-      '((".*" . "~/var/emacs/backup")))
-(setq auto-save-file-name-transforms
-      '((".*" "~/var/emacs/autosave/" t)))  ;; 末尾のスラッシュ必要
-(setq create-lockfiles nil)
-(setq kill-whole-line t)
 ;; (fset 'yes-or-no-p 'y-or-n-p)
 
 ;; (setq custom-file "~/.emacs.d/custom.el")
@@ -296,7 +297,10 @@
             ("C-l"     . (lambda ()
                            (interactive)
                            (when (fboundp 'git-gutter) (git-gutter))
-                           (recenter)))
+                           (recenter-top-bottom)
+                           ;; (my-blink-hl-line)
+                           (when (fboundp 'vhl/add) (vhl/add (point) (1+ (point))))
+                           ))
             ("<next>"  . scroll-up-line)
             ("<prior>" . scroll-down-line)
             ))
@@ -314,7 +318,7 @@
   :ensure t
   :require t
   :custom (
-           (default-input-method           . "japanese-skk") ;; C-\ で使えるようにする
+           (default-input-method           . "japanese-skk")  ; C-\ で使えるようにする
            ;; (skk-status-indicator           . 'minor-mode)
            (skk-indicator-use-cursor-color . nil)
            )
@@ -401,6 +405,36 @@
     (org-mode-restart)))
 #+end_src
 
+** その他関数
+
+#+begin_src emacs-lisp
+(defun my-blink-hl-line ()
+  ;; (unless (fboundp 'hl-line-mode) (require 'hl-line-mode))
+  (unless (boundp 'hl-line-mode)
+    (setq hl-line-mode nil))
+  (unless hl-line-mode
+    (run-with-timer
+     0.1 nil
+     #'(lambda ()
+         (hl-line-mode 1)
+         (run-with-timer
+          0.1 nil
+          #'(lambda ()
+              (hl-line-mode 0)
+              (run-with-timer
+               0.1 nil
+               #'(lambda ()
+                   (hl-line-mode 1)
+                   (run-with-timer
+                    0.1 nil
+                    #'(lambda ()
+                        (hl-line-mode 0)))
+                   ))
+              ))
+         ))
+    ))
+#+end_src
+
 ** 最後に
 #+begin_src emacs-lisp
 (provide 'init)
@@ -409,9 +443,7 @@
 
 ** ローカルの設定があれば読み込む
 #+begin_src emacs-lisp
-(let* ((local-init-file (expand-file-name (concat user-emacs-directory "init-local.el"))))
-  (when (file-exists-p local-init-file)
-    (load-file local-init-file)))
+(load (expand-file-name(concat user-emacs-directory "init-local.el")) t)
 #+end_src
 
 # Local Variables:
