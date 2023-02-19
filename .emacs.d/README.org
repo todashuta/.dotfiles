@@ -47,6 +47,7 @@
 #+end_src
 
 ** init
+
 #+begin_src emacs-lisp
 ;; (eval-and-compile
 ;;   (leaf bytecomp
@@ -269,6 +270,11 @@
         '(("." . "~/var/emacs/undo-tree")))
   (global-undo-tree-mode 1))
 
+(leaf volatile-highlights
+  :ensure t
+  :config
+  (volatile-highlights-mode t))
+
 (setq backup-directory-alist
       '((".*" . "~/var/emacs/backup")))
 (setq auto-save-file-name-transforms
@@ -294,6 +300,44 @@
             ("<next>" . scroll-up-line)
             ("<prior>" . scroll-down-line)
             ))
+#+end_src
+
+*** 日本語入力
+
+**** ddskk
+
+=M-x skk-get= で辞書ファイルを一括ダウンロードできる。
+
+#+begin_src emacs-lisp
+(leaf ddskk
+  :disabled t
+  :ensure t
+  :require t
+  :custom (
+           (default-input-method . "japanese-skk") ;; C-\ で使えるようにする
+           ;; (skk-status-indicator . 'minor-mode)
+           (skk-indicator-use-cursor-color . nil)
+           )
+  ;; :bind (("C-c C-j" . skk-mode))
+  :config
+  (let* ((jisyo-dir (file-name-as-directory skk-get-jisyo-directory))
+         (jisyo-path (concat jisyo-dir "SKK-JISYO.L")))
+    (when (file-exists-p jisyo-path)
+      (setq skk-large-jisyo jisyo-path))))
+#+end_src
+
+**** tr-ime (Windows)
+
+#+begin_src emacs-lisp
+(leaf tr-ime
+  :ensure t
+  :custom ((w32-ime-mode-line-state-indicator . "[--]")
+           (w32-ime-mode-line-state-indicator-list . '("[--]" "[あ]" "[--]")))
+  :config
+  (tr-ime-advanced-install) ;; (tr-ime-standard-install)
+  (setq default-input-method "W32-IME")
+  (w32-ime-initialize)
+  (modify-all-frames-parameters '((ime-font . "UDEV Gothic JPDOC-11"))))
 #+end_src
 
 ** カラーテーマ
@@ -322,6 +366,7 @@
   (set-face-attribute 'outline-4 nil :height 1.1))
 
 (leaf *theme-leuven
+  :custom ((leuven-scale-outline-headlines . nil))
   :config
   (load-theme 'leuven t)
 
