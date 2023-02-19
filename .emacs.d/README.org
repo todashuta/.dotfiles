@@ -17,9 +17,9 @@
 ;; <leaf-install-code>
 (eval-and-compile
   (customize-set-variable
-   'package-archives '(("org" . "https://orgmode.org/elpa/")
+   'package-archives '(("org"   . "https://orgmode.org/elpa/")
                        ("melpa" . "https://melpa.org/packages/")
-                       ("gnu" . "https://elpa.gnu.org/packages/")))
+                       ("gnu"   . "https://elpa.gnu.org/packages/")))
   (package-initialize)
   (unless (package-installed-p 'leaf)
     (package-refresh-contents)
@@ -61,12 +61,12 @@
   :custom `((custom-file . ,(locate-user-emacs-file "custom.el"))))
 
 (leaf cus-start
-  :custom ((truncate-lines . t)
-           ;; (tool-bar-mode . nil)
-           ;; (scroll-bar-mode . nil)
+  :custom ((truncate-lines          . t)
+           ;; (tool-bar-mode           . nil)
+           ;; (scroll-bar-mode         . nil)
            ;; (inhibit-startup-message . t)
-           (line-number-mode . t)
-           (column-number-mode . t))
+           (line-number-mode        . t)
+           (column-number-mode      . t))
   :config
   (custom-set-faces
    '(default
@@ -107,7 +107,7 @@
   :hook (after-init-hook . global-company-mode)
   :custom ((company-minimum-prefix-length . 1)
            (company-selection-wrap-around . t)
-           (company-dabbrev-downcase . nil))
+           (company-dabbrev-downcase      . nil))
   :config
   )
 
@@ -131,7 +131,7 @@
   :disabled t
   :ensure t
   :custom ((nyan-animate-nyancat . nil)
-           (nyan-wavy-trail . nil))
+           (nyan-wavy-trail      . nil))
   :config
   (nyan-mode t))
 
@@ -147,7 +147,7 @@
   :disabled t
   :ensure t
   :hook ((prog-mode-hook . highlight-indent-guides-mode))
-  :custom ((highlight-indent-guides-method . 'fill)
+  :custom ((highlight-indent-guides-method     . 'fill)
            (highlight-indent-guides-responsive . 'top)))
 
 (leaf mwim
@@ -193,7 +193,7 @@
 (leaf display-line-numbers
   :custom ((display-line-numbers-minor-tick . 0)
            (display-line-numbers-major-tick . 0)
-           (display-line-numbers-grow-only . t))
+           (display-line-numbers-grow-only  . t))
   :config
   (global-display-line-numbers-mode 0))
 
@@ -227,15 +227,15 @@
   (ido-vertical-mode 1))
 
 (leaf org-mode
-  :custom ((org-use-speed-commands . t)
-           (org-hide-leading-stars . nil)
-           (org-src-fontify-natively . t)
-           (org-fontify-whole-heading-line . t)
+  :custom ((org-use-speed-commands                 . t)
+           (org-hide-leading-stars                 . nil)
+           (org-src-fontify-natively               . t)
+           (org-fontify-whole-heading-line         . t)
            (org-fontify-whole-block-delimiter-line . nil)
-           (org-startup-folded . 'content)
-           ;; (org-src-preserve-indentation . t)
-           ;; (org-edit-src-content-indentation . 0)
-           (org-src-tab-acts-natively . nil)
+           (org-startup-folded                     . 'content)
+           (org-src-tab-acts-natively              . nil)
+           ;; (org-src-preserve-indentation           . t)
+           ;; (org-edit-src-content-indentation       . 0)
            )
   :config
   ;; (advice-add
@@ -291,13 +291,13 @@
 ;; (global-hl-line-mode 1)
 
 (leaf-keys (
-            ;; ("C-h" . delete-backward-char)
+            ;; ("C-h"     . delete-backward-char)
             ("C-x C-b" . electric-buffer-list)
-            ("C-l" . (lambda ()
-                       (interactive)
-                       (when (fboundp 'git-gutter) (git-gutter))
-                       (recenter)))
-            ("<next>" . scroll-up-line)
+            ("C-l"     . (lambda ()
+                           (interactive)
+                           (when (fboundp 'git-gutter) (git-gutter))
+                           (recenter)))
+            ("<next>"  . scroll-up-line)
             ("<prior>" . scroll-down-line)
             ))
 #+end_src
@@ -314,8 +314,8 @@
   :ensure t
   :require t
   :custom (
-           (default-input-method . "japanese-skk") ;; C-\ で使えるようにする
-           ;; (skk-status-indicator . 'minor-mode)
+           (default-input-method           . "japanese-skk") ;; C-\ で使えるようにする
+           ;; (skk-status-indicator           . 'minor-mode)
            (skk-indicator-use-cursor-color . nil)
            )
   ;; :bind (("C-c C-j" . skk-mode))
@@ -331,7 +331,7 @@
 #+begin_src emacs-lisp
 (leaf tr-ime
   :ensure t
-  :custom ((w32-ime-mode-line-state-indicator . "[--]")
+  :custom ((w32-ime-mode-line-state-indicator      . "[--]")
            (w32-ime-mode-line-state-indicator-list . '("[--]" "[あ]" "[--]")))
   :config
   (tr-ime-advanced-install) ;; (tr-ime-standard-install)
