@@ -717,7 +717,8 @@ autocmd vimrc FileType json
 function! s:set_json_indent()
   call cursor(1, 1)
   if search('\t', 'Wnc', 0, 20) > 0
-    " use tab indentation (global value)
+    " use global value.  See :h global-local
+    setlocal expandtab< softtabstop< shiftwidth<
   else
     setlocal expandtab softtabstop=2 shiftwidth=2
   endif
