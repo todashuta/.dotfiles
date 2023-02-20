@@ -356,6 +356,7 @@
 
 #+begin_src emacs-lisp
 (leaf tr-ime
+  :when (eq window-system 'w32)
   :ensure t
   :custom ((w32-ime-mode-line-state-indicator      . "[--]")
            (w32-ime-mode-line-state-indicator-list . '("[--]" "[あ]" "[--]")))
@@ -392,6 +393,7 @@
   (set-face-attribute 'outline-4 nil :height 1.1))
 
 (leaf *theme-leuven
+  :disabled t
   :custom ((leuven-scale-outline-headlines . nil))
   :config
   (load-theme 'leuven t)
@@ -403,6 +405,11 @@
                       :weight 'bold
                       :foreground "black"
                       :background (face-attribute 'highlight :background)))
+
+(leaf apropospriate-theme
+  :ensure t
+  :config
+  (load-theme 'apropospriate-light t))
 #+end_src
 
 ** ビープ音の代わりにモードラインを点滅させる
