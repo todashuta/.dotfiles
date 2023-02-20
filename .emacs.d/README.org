@@ -143,6 +143,7 @@
   (nyan-mode t))
 
 (leaf mlscroll
+  :disabled t
   :ensure t
   :config (mlscroll-mode 1))
 
@@ -294,9 +295,14 @@
 (leaf doom-modeline
   :ensure t
   :custom ((doom-modeline-icon        . nil)
-           (doom-modeline-indent-info . t))
+           (doom-modeline-indent-info . t)
+           (doom-modeline-height      . 20)
+           (doom-modeline-hud         . t))
   :config
   (doom-modeline-mode 1))
+
+(leaf paredit
+  :ensure t)
 
 ;; (fset 'yes-or-no-p 'y-or-n-p)
 
