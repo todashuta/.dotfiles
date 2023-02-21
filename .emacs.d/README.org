@@ -253,7 +253,7 @@
   ;;  '((name . "my-org-edit-special-with-maximize-window")))
   (add-hook 'org-src-mode-hook
             (lambda ()
-              (maximize-window)
+              ;; (maximize-window)
               (display-line-numbers-mode 1))))
 
 (leaf slime
@@ -417,7 +417,8 @@
 (leaf *theme-modus
   :custom ((modus-themes-region            . 'bg-only)
            (modus-themes-org-blocks        . 'gray-background)
-           (modus-themes-italic-constructs . t))
+           (modus-themes-italic-constructs . t)
+           (modus-themes-no-mixed-fonts    . t))
   :config
   (load-theme 'modus-operandi t))
 #+end_src
