@@ -171,7 +171,7 @@
 (leaf paren
   :doc "highlight matching paren"
   :tag "builtin"
-  :custom ((show-paren-style . 'mixed))
+  :custom ((show-paren-style . 'parenthesis))
   :global-minor-mode show-paren-mode)
 
 (leaf rainbow-delimiters
@@ -323,8 +323,11 @@
                            ;; (my-blink-hl-line)
                            (when (fboundp 'vhl/add) (vhl/add (point) (1+ (point))))
                            ))
+
             ("<next>"  . scroll-up-line)
             ("<prior>" . scroll-down-line)
+
+            ("C-c C-r" . recentf-open-files)
             ))
 #+end_src
 
@@ -406,10 +409,17 @@
                       :foreground "black"
                       :background (face-attribute 'highlight :background)))
 
-(leaf apropospriate-theme
-  :ensure t
+;; (leaf apropospriate-theme
+;;   :ensure t
+;;   :config
+;;   (load-theme 'apropospriate-light t))
+
+(leaf *theme-modus
+  :custom ((modus-themes-region            . 'bg-only)
+           (modus-themes-org-blocks        . 'gray-background)
+           (modus-themes-italic-constructs . t))
   :config
-  (load-theme 'apropospriate-light t))
+  (load-theme 'modus-operandi t))
 #+end_src
 
 ** ビープ音の代わりにモードラインを点滅させる
