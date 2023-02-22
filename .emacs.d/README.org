@@ -65,6 +65,7 @@
            ;; (tool-bar-mode           . nil)
            ;; (scroll-bar-mode         . nil)
            ;; (inhibit-startup-message . t)
+           (use-short-answers              . t)
            (truncate-lines                 . t)
            (line-number-mode               . t)
            (column-number-mode             . t)
@@ -303,8 +304,6 @@
 
 (leaf paredit
   :ensure t)
-
-;; (fset 'yes-or-no-p 'y-or-n-p)
 
 ;; (setq custom-file "~/.emacs.d/custom.el")
 ;; (load custom-file t)
