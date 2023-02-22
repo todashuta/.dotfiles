@@ -74,14 +74,15 @@
            (create-lockfiles               . nil)
            (backup-directory-alist         . '((".*" . "~/var/emacs/backup")))
            (auto-save-file-name-transforms . '((".*" "~/var/emacs/autosave/" t)))  ; 末尾のスラッシュ必要
+           (frame-title-format             . '("%b - Emacs " emacs-version))
   )
   :config
   (custom-set-faces
    '(default
-      ((t (:family "UDEV Gothic JPDOC" :foundry "outline" :slant normal :weight normal :height 113 :width normal)))))
+      ((t (:family "UDEV Gothic JPDOC" :foundry "outline" :slant normal :weight normal :height 105 :width normal)))))
   (custom-set-faces
    '(mode-line
-     ((t (:family "UDEV Gothic JPDOC" :foundry "outline" :slant normal :weight bold :height 113 :width normal)))))
+     ((t (:family "UDEV Gothic JPDOC" :foundry "outline" :slant normal :weight bold :height 105 :width normal)))))
   (custom-set-faces
    '(org-block
      ((t (:family "UDEV Gothic JPDOC" :foundry "outline" :slant normal :weight normal :height 100 :width normal)))))
@@ -282,7 +283,7 @@
 (leaf volatile-highlights
   :ensure t
   :config
-  (volatile-highlights-mode t))
+  (volatile-highlights-mode +1))
 
 (leaf beacon
   :disabled t
@@ -293,17 +294,32 @@
                (setq beacon-color (face-attribute 'highlight :background))))
   (beacon-mode 1))
 
+(leaf pulsar
+  :ensure t)
+
 (leaf doom-modeline
   :ensure t
   :custom ((doom-modeline-icon        . nil)
            (doom-modeline-indent-info . t)
-           (doom-modeline-height      . 20)
+           (doom-modeline-height      . 22)
            (doom-modeline-hud         . t))
   :config
-  (doom-modeline-mode 1))
+  (doom-modeline-mode +1))
 
 (leaf paredit
   :ensure t)
+
+(leaf dashboard
+  :ensure t
+  :custom ((dashboard-banner-logo-title . "お疲れ様です。")
+           (dashboard-footer-messages . '("以上、よろしくお願い致します。"))
+           (dashboard-footer-icon . "")
+           (dashboard-startup-banner . 'logo)
+           (dashboard-items . '((agenda    . 10)
+                                (recents   . 20)
+                                (bookmarks . 10))))
+  :config
+  (dashboard-setup-startup-hook))
 
 ;; (setq custom-file "~/.emacs.d/custom.el")
 ;; (load custom-file t)
@@ -317,7 +333,7 @@
             ("C-x C-b" . electric-buffer-list)
             ("C-l"     . (lambda ()
                            (interactive)
-                           (when (fboundp 'git-gutter) (git-gutter))
+                           ;; (when (fboundp 'git-gutter) (git-gutter))
                            (recenter-top-bottom)
                            ;; (my-blink-hl-line)
                            (when (fboundp 'vhl/add) (vhl/add (point) (1+ (point))))
@@ -419,16 +435,34 @@
            (modus-themes-italic-constructs . t)
            (modus-themes-no-mixed-fonts    . t))
   :config
-  (load-theme 'modus-operandi t))
+  ;; (setq modus-themes-common-palette-overrides
+  ;;       '((border-mode-line-active unspecified)
+  ;;         (border-mode-line-inactive unspecified)))
+  (load-theme 'modus-operandi t)
+  (set-face-attribute 'show-paren-match nil
+                      :underline '(:color "red")
+                      :background nil)
+  (set-face-attribute 'vhl/default-face nil :background "#d0d6ff" :foreground nil)
+  ;; (set-face-attribute 'mode-line nil :box nil) ;; :weight 'normal
+  ;; (set-face-attribute 'mode-line-inactive nil :box nil)
+  )
 #+end_src
 
 ** ビープ音の代わりにモードラインを点滅させる
 #+begin_src emacs-lisp
-(setq visible-bell nil
-      ring-bell-function 'my-flash-mode-line)
-(defun my-flash-mode-line ()
-  (invert-face 'mode-line)
-  (run-with-timer 0.1 nil #'invert-face 'mode-line))
+;; (setq visible-bell nil
+;;       ring-bell-function 'my-flash-mode-line)
+;; (defun my-flash-mode-line ()
+;;   (invert-face 'mode-line)
+;;   (run-with-timer 0.1 nil #'invert-face 'mode-line))
+
+(setq
+ visible-bell nil
+ ring-bell-function
+ #'(lambda ()
+     (set-face-attribute 'mode-line nil :background "#efefef")
+     (run-with-timer
+      0.1 nil #'set-face-attribute 'mode-line nil :background "#d7d7d7")))
 #+end_src
 
 ** コマンド
