@@ -75,7 +75,8 @@
            (backup-directory-alist         . '((".*" . "~/var/emacs/backup")))
            (auto-save-file-name-transforms . '((".*" "~/var/emacs/autosave/" t)))  ; 末尾のスラッシュ必要
            (frame-title-format             . '("%b - Emacs " emacs-version))
-  )
+           (initial-scratch-message        . ";; *scratch*\n\n")
+           )
   :config
   (custom-set-faces
    '(default
@@ -88,7 +89,8 @@
      ((t (:family "UDEV Gothic JPDOC" :foundry "outline" :slant normal :weight normal :height 100 :width normal)))))
   ;; (set-fontset-font t 'japanese-jisx0208 (font-spec :family "BIZ UD明朝"))
 
-  (menu-bar-mode (if window-system 1 -1))
+  (tab-bar-mode +1)
+  (menu-bar-mode (if window-system +1 -1))
   (when window-system (set-frame-size (selected-frame) 120 35))
   (add-to-list 'default-frame-alist '(cursor-type . bar))
   (setq-default line-spacing 2)
@@ -315,7 +317,7 @@
            (dashboard-footer-messages . '("以上、よろしくお願い致します。"))
            (dashboard-footer-icon . "")
            (dashboard-startup-banner . 'logo)
-           (dashboard-items . '((agenda    . 10)
+           (dashboard-items . '(;; (agenda    . 10)
                                 (recents   . 20)
                                 (bookmarks . 10))))
   :config
@@ -445,6 +447,7 @@
   (set-face-attribute 'vhl/default-face nil :background "#d0d6ff" :foreground nil)
   ;; (set-face-attribute 'mode-line nil :box nil) ;; :weight 'normal
   ;; (set-face-attribute 'mode-line-inactive nil :box nil)
+  (set-face-attribute 'font-lock-comment-face nil :foreground "#707070")
   )
 #+end_src
 
