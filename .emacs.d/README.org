@@ -139,17 +139,18 @@
 ;;   )
 
 (leaf nyan-mode
-  :disabled t
   :ensure t
   :custom ((nyan-animate-nyancat . nil)
            (nyan-wavy-trail      . nil))
   :config
-  (nyan-mode t))
+  ;; (nyan-mode +1)
+  )
 
 (leaf mlscroll
-  :disabled t
   :ensure t
-  :config (mlscroll-mode 1))
+  :config
+  ;; (mlscroll-mode +1)
+  )
 
 (leaf whitespace
   ;; :hook (after-init-hook . global-whitespace-mode)
@@ -206,14 +207,17 @@
   :custom ((display-line-numbers-minor-tick . 0)
            (display-line-numbers-major-tick . 0)
            (display-line-numbers-grow-only  . t))
+  :bind (("C-c n" . display-line-numbers-mode))
   :config
-  (global-display-line-numbers-mode 0))
+  )
 
 (leaf magit
   :ensure t)
 
 (leaf git-gutter
   :ensure t
+  :bind (("M-N" . git-gutter:next-hunk)
+         ("M-P" . git-gutter:previous-hunk))
   :config
   (global-git-gutter-mode 0))
 
@@ -229,6 +233,11 @@
   (setq recentf-max-saved-items 2000)
   (setq recentf-auto-save-timer (run-with-idle-timer 30 t 'recentf-save-list))
   (setq recentf-save-file (expand-file-name "~/var/emacs/recentf")))
+
+(leaf savehist-mode
+  :config
+  (setq savehist-file (expand-file-name "~/var/emacs/history"))
+  (savehist-mode +1))
 
 (leaf ido-vertical-mode
   :ensure t
@@ -249,16 +258,20 @@
            ;; (org-src-preserve-indentation           . t)
            ;; (org-edit-src-content-indentation       . 0)
            )
+  :bind (("C-c c" . org-capture)
+         ("C-c t" . org-todo-list)
+         ("C-c a" . org-agenda))
   :config
   ;; (advice-add
   ;;  'org-edit-special
   ;;  :after
   ;;  (lambda (&rest r) (maximize-window) (linum-mode))
   ;;  '((name . "my-org-edit-special-with-maximize-window")))
-  (add-hook 'org-src-mode-hook
-            (lambda ()
-              ;; (maximize-window)
-              (display-line-numbers-mode 1))))
+  ;; (add-hook 'org-src-mode-hook
+  ;;           (lambda ()
+  ;;             ;; (maximize-window)
+  ;;             (display-line-numbers-mode 1)))
+  )
 
 (leaf slime
   :ensure t
@@ -277,24 +290,25 @@
 
 (leaf undo-tree
   :ensure t
+  :bind (("C-c C-/" . undo-tree-redo))
   :config
   (setq undo-tree-history-directory-alist
         '(("." . "~/var/emacs/undo-tree")))
-  (global-undo-tree-mode 1))
+  (global-undo-tree-mode +1))
 
 (leaf volatile-highlights
   :ensure t
   :config
   (volatile-highlights-mode +1))
 
-(leaf beacon
-  :disabled t
-  :ensure t
-  :config
-  (add-hook 'after-init-hook
-            '(lambda ()
-               (setq beacon-color (face-attribute 'highlight :background))))
-  (beacon-mode 1))
+;; (leaf beacon
+;;   :ensure t
+;;   :config
+;;   (add-hook 'after-init-hook
+;;             '(lambda ()
+;;                (setq beacon-color (face-attribute 'highlight :background))))
+;;   ;; (beacon-mode +1)
+;;   )
 
 (leaf pulsar
   :ensure t)
@@ -320,6 +334,7 @@
            (dashboard-items . '(;; (agenda    . 10)
                                 (recents   . 20)
                                 (bookmarks . 10))))
+  :bind (("C-c r" . dashboard-open))
   :config
   (dashboard-setup-startup-hook))
 
@@ -344,7 +359,9 @@
             ("<next>"  . scroll-up-line)
             ("<prior>" . scroll-down-line)
 
-            ("C-c C-r" . recentf-open-files)
+            ;; ("C-c C-r" . recentf-open-files)
+
+            ("C-c w" . toggle-truncate-lines)
             ))
 #+end_src
 
