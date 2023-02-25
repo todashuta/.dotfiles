@@ -111,6 +111,11 @@
            (org-src-tab-acts-natively              . nil)
            ;; (org-src-preserve-indentation           . t)
            ;; (org-edit-src-content-indentation       . 0)
+
+           (org-directory          . "~/org-docs/")
+           (org-default-notes-file . "~/org-docs/note.org")
+           (org-agenda-files       . '("~/org-docs/note.org"
+                                       "~/org-docs/projects/"))
            )
   :bind (("C-c c" . org-capture)
          ("C-c t" . org-todo-list)
@@ -307,7 +312,8 @@
       :url "https://github.com/tarao/elisp.git"
       :features end-mark))
   :config
-  (global-end-mark-mode))
+  ;; (global-end-mark-mode)
+  )
 
 (leaf undo-tree
   :ensure t
