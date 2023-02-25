@@ -290,7 +290,6 @@
 
 (leaf undo-tree
   :ensure t
-  :bind (("C-c C-/" . undo-tree-redo))
   :config
   (setq undo-tree-history-directory-alist
         '(("." . "~/var/emacs/undo-tree")))
