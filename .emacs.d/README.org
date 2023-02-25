@@ -46,7 +46,7 @@
              (imenu-list-position . 'left))))
 #+end_src
 
-** init
+** 一般的な設定
 
 #+begin_src emacs-lisp
 ;; (eval-and-compile
@@ -61,7 +61,7 @@
   :custom `((custom-file . ,(locate-user-emacs-file "custom.el"))))
 
 (leaf cus-start
-  :custom (
+  :custom `(
            ;; (tool-bar-mode           . nil)
            ;; (scroll-bar-mode         . nil)
            ;; (inhibit-startup-message . t)
@@ -75,7 +75,7 @@
            (backup-directory-alist         . '((".*" . "~/var/emacs/backup")))
            (auto-save-file-name-transforms . '((".*" "~/var/emacs/autosave/" t)))  ; 末尾のスラッシュ必要
            (frame-title-format             . '("%b - Emacs " emacs-version))
-           (initial-scratch-message        . ";; *scratch*\n\n")
+           (initial-scratch-message        . ,(concat ";; *scratch* - Emacs " emacs-version "\n\n"))
            )
   :config
   (custom-set-faces
@@ -94,8 +94,43 @@
   (when window-system (set-frame-size (selected-frame) 120 35))
   (add-to-list 'default-frame-alist '(cursor-type . bar))
   (setq-default line-spacing 2)
+  ;; (set-frame-parameter nil 'alpha 95)
   )
+#+end_src
 
+** Org Mode
+
+#+begin_src emacs-lisp
+(leaf org-mode
+  :custom ((org-use-speed-commands                 . t)
+           (org-hide-leading-stars                 . nil)
+           (org-src-fontify-natively               . t)
+           (org-fontify-whole-heading-line         . t)
+           (org-fontify-whole-block-delimiter-line . nil)
+           (org-startup-folded                     . 'content)
+           (org-src-tab-acts-natively              . nil)
+           ;; (org-src-preserve-indentation           . t)
+           ;; (org-edit-src-content-indentation       . 0)
+           )
+  :bind (("C-c c" . org-capture)
+         ("C-c t" . org-todo-list)
+         ("C-c a" . org-agenda))
+  :config
+  ;; (advice-add
+  ;;  'org-edit-special
+  ;;  :after
+  ;;  (lambda (&rest r) (maximize-window) (linum-mode))
+  ;;  '((name . "my-org-edit-special-with-maximize-window")))
+  ;; (add-hook 'org-src-mode-hook
+  ;;           (lambda ()
+  ;;             ;; (maximize-window)
+  ;;             (display-line-numbers-mode 1)))
+  )
+#+end_src
+
+** 雑多
+
+#+begin_src emacs-lisp
 (leaf generic-x
   :require t)
 
@@ -239,39 +274,25 @@
   (setq savehist-file (expand-file-name "~/var/emacs/history"))
   (savehist-mode +1))
 
-(leaf ido-vertical-mode
-  :ensure t
-  :custom ((ido-enable-flex-matching . t)
-           (ido-vertical-define-keys . 'C-n-and-C-p-only))
-  :config
-  (ido-mode 1)
-  (ido-vertical-mode 1))
+;; (leaf ido-vertical-mode
+;;   :ensure t
+;;   :custom ((ido-enable-flex-matching . t)
+;;            (ido-vertical-define-keys . 'C-n-and-C-p-only))
+;;   :config
+;;   (ido-mode 1)
+;;   (ido-vertical-mode 1))
 
-(leaf org-mode
-  :custom ((org-use-speed-commands                 . t)
-           (org-hide-leading-stars                 . nil)
-           (org-src-fontify-natively               . t)
-           (org-fontify-whole-heading-line         . t)
-           (org-fontify-whole-block-delimiter-line . nil)
-           (org-startup-folded                     . 'content)
-           (org-src-tab-acts-natively              . nil)
-           ;; (org-src-preserve-indentation           . t)
-           ;; (org-edit-src-content-indentation       . 0)
-           )
-  :bind (("C-c c" . org-capture)
-         ("C-c t" . org-todo-list)
-         ("C-c a" . org-agenda))
+(leaf vertico
+  :ensure t
+  :custom ((read-file-name-completion-ignore-case . t)
+           (read-buffer-completion-ignore-case    . t)
+           (completion-ignore-case                . t))
   :config
-  ;; (advice-add
-  ;;  'org-edit-special
-  ;;  :after
-  ;;  (lambda (&rest r) (maximize-window) (linum-mode))
-  ;;  '((name . "my-org-edit-special-with-maximize-window")))
-  ;; (add-hook 'org-src-mode-hook
-  ;;           (lambda ()
-  ;;             ;; (maximize-window)
-  ;;             (display-line-numbers-mode 1)))
-  )
+  (vertico-mode +1))
+
+(leaf orderless
+  :ensure t
+  :custom ((completion-styles . '(orderless basic))))
 
 (leaf slime
   :ensure t
@@ -346,7 +367,7 @@
 
 (leaf-keys (
             ;; ("C-h"     . delete-backward-char)
-            ("C-x C-b" . electric-buffer-list)
+            ;; ("C-x C-b" . electric-buffer-list)
             ("C-l"     . (lambda ()
                            (interactive)
                            ;; (when (fboundp 'git-gutter) (git-gutter))
