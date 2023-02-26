@@ -393,13 +393,7 @@
 (leaf-keys (
             ;; ("C-h"     . delete-backward-char)
             ;; ("C-x C-b" . electric-buffer-list)
-            ("C-l"     . (lambda ()
-                           (interactive)
-                           ;; (when (fboundp 'git-gutter) (git-gutter))
-                           (recenter-top-bottom)
-                           ;; (my-blink-hl-line)
-                           (when (fboundp 'vhl/add) (vhl/add (point) (1+ (point))))
-                           ))
+            ("C-l"     . my-recenter)
 
             ("<next>"  . scroll-up-line)
             ("<prior>" . scroll-down-line)
@@ -529,19 +523,12 @@
 
 ** ビープ音の代わりにモードラインを点滅させる
 #+begin_src emacs-lisp
-;; (setq visible-bell nil
-;;       ring-bell-function 'my-flash-mode-line)
-;; (defun my-flash-mode-line ()
-;;   (invert-face 'mode-line)
-;;   (run-with-timer 0.1 nil #'invert-face 'mode-line))
-
-(setq
- visible-bell nil
- ring-bell-function
- #'(lambda ()
-     (set-face-attribute 'mode-line nil :background "#efefef")
-     (run-with-timer
-      0.1 nil #'set-face-attribute 'mode-line nil :background "#d7d7d7")))
+(setq visible-bell nil
+      ring-bell-function 'my-blink-mode-line)
+(defun my-blink-mode-line ()
+  (set-face-attribute 'mode-line nil :background "#efefef")
+  (run-with-timer
+   0.1 nil #'set-face-attribute 'mode-line nil :background "#d7d7d7"))
 #+end_src
 
 ** コマンド
@@ -561,32 +548,37 @@
 
 ** その他関数
 
-#+begin_src emacs-lisp :tangle no
-(defun my-blink-hl-line ()
-  ;; (unless (fboundp 'hl-line-mode) (require 'hl-line-mode))
-  (unless (boundp 'hl-line-mode)
-    (setq hl-line-mode nil))
-  (unless hl-line-mode
-    (run-with-timer
-     0.1 nil
-     #'(lambda ()
-         (hl-line-mode 1)
-         (run-with-timer
-          0.1 nil
-          #'(lambda ()
-              (hl-line-mode 0)
-              (run-with-timer
-               0.1 nil
-               #'(lambda ()
-                   (hl-line-mode 1)
-                   (run-with-timer
-                    0.1 nil
-                    #'(lambda ()
-                        (hl-line-mode 0)))
-                   ))
-              ))
-         ))
-    ))
+#+begin_src emacs-lisp
+;; (defun my-blink-hl-line ()
+;;   ;; (unless (fboundp 'hl-line-mode) (require 'hl-line-mode))
+;;   (unless (boundp 'hl-line-mode)
+;;     (setq hl-line-mode nil))
+;;   (unless hl-line-mode
+;;     (run-with-timer
+;;      0.1 nil
+;;      #'(lambda ()
+;;          (hl-line-mode 1)
+;;          (run-with-timer
+;;           0.1 nil
+;;           #'(lambda ()
+;;               (hl-line-mode 0)
+;;               (run-with-timer
+;;                0.1 nil
+;;                #'(lambda ()
+;;                    (hl-line-mode 1)
+;;                    (run-with-timer
+;;                     0.1 nil
+;;                     #'(lambda ()
+;;                         (hl-line-mode 0)))))))))))
+
+(defun my-recenter ()
+  (interactive)
+  ;; (when (fboundp 'git-gutter) (git-gutter))
+  (recenter-top-bottom) ;; (recenter)
+  ;; (my-blink-hl-line)
+  (when (fboundp 'vhl/add) (vhl/add (point) (1+ (point))))
+  ;; (when (fboundp 'pulsar-highlight-line) (pulsar-highlight-line))
+  )
 #+end_src
 
 ** 最後に
