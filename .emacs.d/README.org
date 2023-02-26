@@ -518,7 +518,11 @@
                                                       (border-mode-line-active unspecified)
                                                       (border-mode-line-inactive unspecified))))
   :config
-  (load-theme 'modus-operandi t))
+  (load-theme 'modus-operandi t) ; light
+  ;; (load-theme 'modus-vivendi t) ; dark
+  (setq my:mode-line-active-background (face-attribute 'mode-line :background))
+  (setq my:mode-line-inactive-background (face-attribute 'mode-line-inactive :background))
+  )
 #+end_src
 
 ** ビープ音の代わりにモードラインを点滅させる
@@ -526,9 +530,9 @@
 (setq visible-bell nil
       ring-bell-function 'my-blink-mode-line)
 (defun my-blink-mode-line ()
-  (set-face-attribute 'mode-line nil :background "#efefef")
+  (set-face-attribute 'mode-line nil :background my:mode-line-inactive-background)
   (run-with-timer
-   0.1 nil #'set-face-attribute 'mode-line nil :background "#d7d7d7"))
+   0.1 nil #'set-face-attribute 'mode-line nil :background my:mode-line-active-background))
 #+end_src
 
 ** コマンド
