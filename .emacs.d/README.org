@@ -139,6 +139,9 @@
 (leaf generic-x
   :require t)
 
+(leaf python-mode
+  :ensure t)
+
 (leaf go-mode
   :ensure t)
 
@@ -156,27 +159,42 @@
 (leaf company
   :ensure t
   :hook (after-init-hook . global-company-mode)
-  :custom ((company-minimum-prefix-length . 1)
+  :custom ((company-minimum-prefix-length . 2)
            (company-selection-wrap-around . t)
            (company-dabbrev-downcase      . nil))
   :config
-  )
+  (leaf company-box
+    :when window-system
+    :ensure t
+    :hook (company-mode-hook company-box-mode)))
 
 (leaf lsp-mode
   :ensure t
-  :hook (go-mode-hook json-mode-hook)
-  :custom ((lsp-keymap-prefix . "C-c l"))
+  :hook (go-mode-hook json-mode-hook python-mode-hook)
+  ;; :custom ((lsp-keymap-prefix . "C-c l"))
   :config
+  (leaf lsp-ui
+    :ensure t
+    :hook (lsp-mode-hook lsp-ui-mode)
+    :config
+    )
   )
 
-;; (leaf eglot
-;;   :ensure t
-;;   :hook ((js-mode-hook . eglot-ensure)
-;;          (typescript-mode-hook . eglot-ensure))
-;;   :config
-;;   (add-to-list 'eglot-server-programs
-;;                '((js-mode typescript-mode) . ("deno" "lsp" :initializationOptions (:enable t :lint t))))
-;;   )
+(leaf eglot
+  :disabled t
+  :ensure t
+  :hook (
+         ;; (js-mode-hook . eglot-ensure)
+         ;; (typescript-mode-hook . eglot-ensure)
+         (python-mode-hook . eglot-ensure)
+         (go-mode-hook . eglot-ensure)
+         )
+  :config
+  (add-to-list 'eglot-server-programs
+               '((js-mode typescript-mode) . ("deno" "lsp" :initializationOptions (:enable t :lint t))))
+  (add-to-list 'eglot-server-programs '(python-mode "pylsp"))
+  (add-to-list 'eglot-server-programs '(go-mode "gopls"))
+  )
 
 (leaf nyan-mode
   :ensure t
@@ -223,16 +241,17 @@
   :ensure t
   :hook prog-mode-hook
   :config
-  (add-hook 'emacs-startup-hook
-            (lambda ()
-              (progn
-                (require 'cl-lib)
-                (require 'color)
-                (cl-loop
-                 for index from 1 to rainbow-delimiters-max-face-count
-                 do
-                 (let ((face (intern (format "rainbow-delimiters-depth-%d-face" index))))
-                   (cl-callf color-saturate-name (face-foreground face) 20)))))))
+  ;; (add-hook 'emacs-startup-hook
+  ;;           (lambda ()
+  ;;             (progn
+  ;;               (require 'cl-lib)
+  ;;               (require 'color)
+  ;;               (cl-loop
+  ;;                for index from 1 to rainbow-delimiters-max-face-count
+  ;;                do
+  ;;                (let ((face (intern (format "rainbow-delimiters-depth-%d-face" index))))
+  ;;                  (cl-callf color-saturate-name (face-foreground face) 20))))))
+  )
 
 (leaf expand-region
   :ensure t
@@ -474,7 +493,8 @@
 ;;   :config
 ;;   (load-theme 'apropospriate-light t))
 
-(leaf *theme-modus
+(leaf *theme-modus ; for Emacs 28.2 bundled version
+  :disabled t
   :custom ((modus-themes-region            . 'bg-only)
            (modus-themes-org-blocks        . 'gray-background)
            (modus-themes-italic-constructs . t)
@@ -492,6 +512,19 @@
   ;; (set-face-attribute 'mode-line-inactive nil :box nil)
   (set-face-attribute 'font-lock-comment-face nil :foreground "#707070")
   )
+
+(leaf modus-themes
+  :ensure t
+  :custom ((modus-themes-region                   . 'bg-only)
+           (modus-themes-org-blocks               . 'gray-background)
+           (modus-themes-italic-constructs        . t)
+           (modus-themes-no-mixed-fonts           . t)
+           (modus-themes-common-palette-overrides . '((bg-paren-match bg-cyan-intense)
+                                                      (fg-region unspecified)
+                                                      (border-mode-line-active unspecified)
+                                                      (border-mode-line-inactive unspecified))))
+  :config
+  (load-theme 'modus-operandi t))
 #+end_src
 
 ** ビープ音の代わりにモードラインを点滅させる
@@ -515,7 +548,9 @@
 #+begin_src emacs-lisp
 (defun edit-my-init ()
   (interactive)
-  (find-file (expand-file-name (concat user-emacs-directory "README.org"))))
+  (let* ((items '("README.org" "init-local.el" "init.el" "early-init.el"))
+         (file (completing-read "edit-my-init> " items)))
+    (find-file (expand-file-name (concat user-emacs-directory file)))))
 
 (defun reload-init-file ()
   (interactive)
