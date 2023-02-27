@@ -133,6 +133,15 @@
   )
 #+end_src
 
+** Dynamic Macro (dmacro.el)
+
+#+begin_src emacs-lisp
+(leaf dmacro
+  :ensure t
+  :custom `((dmacro-key . ,(kbd "C-S-e")))
+  :global-minor-mode global-dmacro-mode)
+#+end_src
+
 ** 雑多
 
 #+begin_src emacs-lisp
@@ -160,8 +169,11 @@
   :ensure t
   :hook (after-init-hook . global-company-mode)
   :custom ((company-minimum-prefix-length . 2)
-           (company-selection-wrap-around . t)
-           (company-dabbrev-downcase      . nil))
+           (company-require-match         . nil)
+           (company-selection-wrap-around . nil)
+           (company-dabbrev-downcase      . nil)
+           (company-idle-delay            . nil))
+  :bind (("M-n" . company-complete))
   :config
   (leaf company-box
     :when window-system
@@ -315,6 +327,7 @@
   (vertico-mode +1))
 
 (leaf orderless
+  :disabled t ; TODO company で使わない設定ができたら有効に戻そう
   :ensure t
   :custom ((completion-styles . '(orderless basic))))
 
