@@ -304,19 +304,18 @@
 (leaf recentf
   :ensure t
   :hook (after-init-hook . recentf-mode)
+  :custom `((recentf-auto-cleanup . 'never)
+            (recentf-max-saved-items . 2000)
+            (recentf-save-file . ,(expand-file-name "~/var/emacs/recentf"))
+            (recentf-auto-save-timer . ,(run-with-idle-timer 30 t 'my-recentf-save-list-silently)))
   :config
-  (setq recentf-auto-cleanup 'never)
-  (setq recentf-max-saved-items 2000)
   (defun my-recentf-save-list-silently ()
     (let* ((inhibit-message t))
-      (recentf-save-list)))
-  (setq recentf-auto-save-timer
-        (run-with-idle-timer 30 t 'my-recentf-save-list-silently))
-  (setq recentf-save-file (expand-file-name "~/var/emacs/recentf")))
+      (recentf-save-list))))
 
 (leaf savehist-mode
+  :custom `((savehist-file . ,(expand-file-name "~/var/emacs/history")))
   :config
-  (setq savehist-file (expand-file-name "~/var/emacs/history"))
   (savehist-mode +1))
 
 ;; (leaf ido-vertical-mode
@@ -358,9 +357,8 @@
 
 (leaf undo-tree
   :ensure t
+  :custom ((undo-tree-history-directory-alist . '(("." . "~/var/emacs/undo-tree"))))
   :config
-  (setq undo-tree-history-directory-alist
-        '(("." . "~/var/emacs/undo-tree")))
   (global-undo-tree-mode +1))
 
 (leaf volatile-highlights
@@ -469,65 +467,65 @@
 #+begin_src emacs-lisp
 ;; (load-theme 'wombat t)
 
-(leaf afternoon-theme
-  :disabled t
-  :ensure t
-  :config
-  (load-theme 'afternoon t))
+;; (leaf afternoon-theme
+;;   :disabled t
+;;   :ensure t
+;;   :config
+;;   (load-theme 'afternoon t))
 
-(leaf lambda-themes
-  :disabled t
-  :init
-  (unless (locate-library "lambda-themes")
-    (el-get-bundle lambda-emacs/lambda-themes))
-  :custom ((lambda-themes-set-variable-pitch . nil))
-  :config
-  (require 'lambda-themes)
-  (load-theme 'lambda-light-faded t)
+;; (leaf lambda-themes
+;;   :disabled t
+;;   :init
+;;   (unless (locate-library "lambda-themes")
+;;     (el-get-bundle lambda-emacs/lambda-themes))
+;;   :custom ((lambda-themes-set-variable-pitch . nil))
+;;   :config
+;;   (require 'lambda-themes)
+;;   (load-theme 'lambda-light-faded t)
 
-  (set-face-attribute 'outline-1 nil :height 1.1)
-  (set-face-attribute 'outline-2 nil :height 1.1)
-  (set-face-attribute 'outline-3 nil :height 1.1)
-  (set-face-attribute 'outline-4 nil :height 1.1))
+;;   (set-face-attribute 'outline-1 nil :height 1.1)
+;;   (set-face-attribute 'outline-2 nil :height 1.1)
+;;   (set-face-attribute 'outline-3 nil :height 1.1)
+;;   (set-face-attribute 'outline-4 nil :height 1.1))
 
-(leaf *theme-leuven
-  :disabled t
-  :custom ((leuven-scale-outline-headlines . nil))
-  :config
-  (load-theme 'leuven t)
+;; (leaf *theme-leuven
+;;   :disabled t
+;;   :custom ((leuven-scale-outline-headlines . nil))
+;;   :config
+;;   (load-theme 'leuven t)
 
-  (set-face-background 'secondary-selection "#FFFFBC")
+;;   (set-face-background 'secondary-selection "#FFFFBC")
 
-  (set-face-background 'line-number "gray97")
-  (set-face-attribute 'line-number-current-line nil
-                      :weight 'bold
-                      :foreground "black"
-                      :background (face-attribute 'highlight :background)))
+;;   (set-face-background 'line-number "gray97")
+;;   (set-face-attribute 'line-number-current-line nil
+;;                       :weight 'bold
+;;                       :foreground "black"
+;;                       :background (face-attribute 'highlight :background)))
 
 ;; (leaf apropospriate-theme
 ;;   :ensure t
 ;;   :config
 ;;   (load-theme 'apropospriate-light t))
 
-(leaf *theme-modus ; for Emacs 28.2 bundled version
-  :disabled t
-  :custom ((modus-themes-region            . 'bg-only)
-           (modus-themes-org-blocks        . 'gray-background)
-           (modus-themes-italic-constructs . t)
-           (modus-themes-no-mixed-fonts    . t))
-  :config
-  ;; (setq modus-themes-common-palette-overrides
-  ;;       '((border-mode-line-active unspecified)
-  ;;         (border-mode-line-inactive unspecified)))
-  (load-theme 'modus-operandi t)
-  (set-face-attribute 'show-paren-match nil
-                      :underline '(:color "red")
-                      :background nil)
-  (set-face-attribute 'vhl/default-face nil :background "#d0d6ff" :foreground nil)
-  ;; (set-face-attribute 'mode-line nil :box nil) ;; :weight 'normal
-  ;; (set-face-attribute 'mode-line-inactive nil :box nil)
-  (set-face-attribute 'font-lock-comment-face nil :foreground "#707070")
-  )
+;; (leaf *theme-modus ; for Emacs 28.2 bundled version
+;;   :disabled t
+;;   :custom ((modus-themes-region            . 'bg-only)
+;;            (modus-themes-org-blocks        . 'gray-background)
+;;            (modus-themes-italic-constructs . t)
+;;            (modus-themes-no-mixed-fonts    . t))
+;;   :config
+;;   ;; (setq modus-themes-common-palette-overrides
+;;   ;;       '((border-mode-line-active unspecified)
+;;   ;;         (border-mode-line-inactive unspecified)))
+;;   (load-theme 'modus-operandi t)
+;;   (set-face-attribute 'show-paren-match nil
+;;                       :underline '(:color "red")
+;;                       :background nil)
+;;   (set-face-attribute 'vhl/default-face nil :background "#d0d6ff" :foreground nil)
+;;   ;; (set-face-attribute 'mode-line nil :box nil) ;; :weight 'normal
+;;   ;; (set-face-attribute 'mode-line-inactive nil :box nil)
+;;   (set-face-attribute 'font-lock-comment-face nil :foreground "#707070")
+;;   )
 
 (leaf modus-themes
   :ensure t
