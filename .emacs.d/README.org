@@ -113,13 +113,13 @@
            ;; (org-edit-src-content-indentation       . 0)
 
            (org-directory          . "~/org-docs/")
-           (org-default-notes-file . "~/org-docs/note.org")
+           (org-default-notes-file . "~/org-docs/notes.org")
            (org-agenda-files       . '("~/org-docs/tasks.org"
-                                       "~/org-docs/note.org"
+                                       "~/org-docs/notes.org"
                                        "~/org-docs/projects/"))
            (org-capture-templates . '(("t" "タスク" entry (file+headline "~/org-docs/tasks.org" "タスク一覧")
                                        "** TODO %?\n  %^T")
-                                      ("m" "メモ" entry (file+headline "~/org-docs/note.org" "メモ帳")
+                                      ("m" "メモ" entry (file+headline "~/org-docs/notes.org" "メモ帳")
                                        "** %U %?\n  %l")))
            )
   :bind (("C-c c" . org-capture)
