@@ -307,7 +307,11 @@
   :config
   (setq recentf-auto-cleanup 'never)
   (setq recentf-max-saved-items 2000)
-  (setq recentf-auto-save-timer (run-with-idle-timer 30 t 'recentf-save-list))
+  (defun my-recentf-save-list-silently ()
+    (let* ((inhibit-message t))
+      (recentf-save-list)))
+  (setq recentf-auto-save-timer
+        (run-with-idle-timer 30 t 'my-recentf-save-list-silently))
   (setq recentf-save-file (expand-file-name "~/var/emacs/recentf")))
 
 (leaf savehist-mode
@@ -536,10 +540,13 @@
                                                       (border-mode-line-active unspecified)
                                                       (border-mode-line-inactive unspecified))))
   :config
+  (defun my-update-mode-line-face-attribute-vars ()
+    (setq my:mode-line-active-background (face-attribute 'mode-line :background))
+    (setq my:mode-line-inactive-background (face-attribute 'mode-line-inactive :background)))
+  (add-hook 'modus-themes-after-load-theme-hook 'my-update-mode-line-face-attribute-vars)
   (load-theme 'modus-operandi t) ; light
   ;; (load-theme 'modus-vivendi t) ; dark
-  (setq my:mode-line-active-background (face-attribute 'mode-line :background))
-  (setq my:mode-line-inactive-background (face-attribute 'mode-line-inactive :background))
+  (my-update-mode-line-face-attribute-vars)
   )
 #+end_src
 
