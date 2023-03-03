@@ -118,9 +118,14 @@
                                        "~/org-docs/notes.org"
                                        "~/org-docs/projects/"))
            (org-capture-templates . '(("t" "タスク" entry (file+headline "~/org-docs/tasks.org" "タスク一覧")
-                                       "** TODO %?\n  %^T")
+                                       "** TODO %?\n%^T")
                                       ("m" "メモ" entry (file+headline "~/org-docs/notes.org" "メモ帳")
-                                       "** %U %?\n  %l")))
+                                       "** %U %?\n%l")))
+
+           (org-startup-indented                  . t)
+           (org-indent-mode-turns-on-hiding-stars . nil)
+
+           (org-agenda-format-date . "%Y-%m-%d (%a)")
            )
   :bind (("C-c c" . org-capture)
          ("C-c t" . org-todo-list)
@@ -138,6 +143,16 @@
   )
 #+end_src
 
+** カレンダー関連
+#+begin_src emacs-lisp
+(leaf *japanese-calendar-settings
+  :custom ((calendar-month-header . '(propertize
+                                      (format "%d年 %s月" year month)
+                                      'font-lock-face 'calendar-month-header))
+           (calendar-day-header-array . ["日" "月" "火" "水" "木" "金" "土"])
+           (calendar-day-name-array . calendar-day-header-array))
+  :hook ((calendar-today-visible-hook . calendar-mark-today)))
+#+end_src
 ** Dynamic Macro (dmacro.el)
 
 #+begin_src emacs-lisp
@@ -421,6 +436,9 @@
             ;; ("C-c C-r" . recentf-open-files)
 
             ("C-c w" . toggle-truncate-lines)
+
+            ("C-c z" . maximize-window)
+            ("C-c Z" . balance-windows)
             ))
 #+end_src
 
