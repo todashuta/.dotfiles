@@ -1,18 +1,18 @@
-* My init file
+#+TITLE: My init file
 
-** ヘッダ
+* ヘッダ
 #+begin_src emacs-lisp
 ;; -*- lexical-binding: t; -*-
 #+end_src
 
-** 言語設定
+* 言語設定
 #+begin_src emacs-lisp
 (set-language-environment "Japanese")
 (prefer-coding-system 'utf-8)
 (set-default 'buffer-file-coding-system 'utf-8-unix)
 #+end_src
 
-** leaf.el
+* leaf.el
 #+begin_src emacs-lisp
 ;; <leaf-install-code>
 (eval-and-compile
@@ -46,7 +46,7 @@
              (imenu-list-position . 'left))))
 #+end_src
 
-** 一般的な設定
+* 一般的な設定
 
 #+begin_src emacs-lisp
 ;; (eval-and-compile
@@ -98,7 +98,7 @@
   )
 #+end_src
 
-** Org Mode
+* Org Mode
 
 #+begin_src emacs-lisp
 (leaf org-mode
@@ -114,13 +114,18 @@
 
            (org-directory          . "~/org-docs/")
            (org-default-notes-file . "~/org-docs/notes.org")
-           (org-agenda-files       . '("~/org-docs/tasks.org"
-                                       "~/org-docs/notes.org"
-                                       "~/org-docs/projects/"))
-           (org-capture-templates . '(("t" "タスク" entry (file+headline "~/org-docs/tasks.org" "タスク一覧")
-                                       "** TODO %?\n%^T")
-                                      ("m" "メモ" entry (file+headline "~/org-docs/notes.org" "メモ帳")
-                                       "** %U %?\n%l")))
+           (org-agenda-files       . '(
+                                       ;; "~/org-docs/tasks.org"
+                                       ;; "~/org-docs/notes.org"
+                                       "~/org-docs/"
+                                       "~/org-docs/projects/"
+                                       ))
+           (org-capture-templates . '(
+                                      ;; ("t" "タスク" entry (file+headline "~/org-docs/tasks.org" "タスク一覧") "** TODO %?\n%^T")
+                                      ;; ("m" "メモ"   entry (file+headline "~/org-docs/notes.org" "メモ帳")     "** %U %?\n%l")
+                                      ("t" "タスク" entry (file "~/org-docs/tasks.org") "* TODO %?\n%^T")
+                                      ("m" "メモ"   entry (file "~/org-docs/notes.org") "* %U %?\n%l")
+                                      ))
 
            (org-startup-indented                  . t)
            (org-indent-mode-turns-on-hiding-stars . nil)
@@ -143,7 +148,7 @@
   )
 #+end_src
 
-** カレンダー関連
+* カレンダー関連
 #+begin_src emacs-lisp
 (leaf *japanese-calendar-settings
   :custom ((calendar-month-header . '(propertize
@@ -153,7 +158,7 @@
            (calendar-day-name-array . calendar-day-header-array))
   :hook ((calendar-today-visible-hook . calendar-mark-today)))
 #+end_src
-** Dynamic Macro (dmacro.el)
+* Dynamic Macro (dmacro.el)
 
 #+begin_src emacs-lisp
 (leaf dmacro
@@ -162,7 +167,7 @@
   :global-minor-mode global-dmacro-mode)
 #+end_src
 
-** 雑多
+* 雑多
 
 #+begin_src emacs-lisp
 (leaf generic-x
@@ -442,9 +447,9 @@
             ))
 #+end_src
 
-*** 日本語入力
+* 日本語入力
 
-**** ddskk
+** ddskk
 
 =M-x skk-get= で辞書ファイルを一括ダウンロードできる。
 
@@ -466,7 +471,7 @@
       (setq skk-large-jisyo jisyo-path))))
 #+end_src
 
-**** tr-ime (Windows)
+** tr-ime (Windows)
 
 #+begin_src emacs-lisp
 (leaf tr-ime
@@ -481,7 +486,7 @@
   (modify-all-frames-parameters '((ime-font . "UDEV Gothic JPDOC-11"))))
 #+end_src
 
-** カラーテーマ
+* カラーテーマ
 #+begin_src emacs-lisp
 ;; (load-theme 'wombat t)
 
@@ -566,7 +571,7 @@
   )
 #+end_src
 
-** ビープ音の代わりにモードラインを点滅させる
+* ビープ音の代わりにモードラインを点滅させる
 #+begin_src emacs-lisp
 (setq visible-bell nil
       ring-bell-function 'my-blink-mode-line)
@@ -576,7 +581,7 @@
    0.1 nil #'set-face-attribute 'mode-line nil :background my:mode-line-active-background))
 #+end_src
 
-** コマンド
+* コマンド
 #+begin_src emacs-lisp
 (defun edit-my-init ()
   (interactive)
@@ -591,7 +596,7 @@
     (org-mode-restart)))
 #+end_src
 
-** その他関数
+* その他関数
 
 #+begin_src emacs-lisp
 ;; (defun my-blink-hl-line ()
@@ -626,17 +631,18 @@
   )
 #+end_src
 
-** 最後に
+* provideの設定
 #+begin_src emacs-lisp
 (provide 'init)
 ;;; init.el ends here
 #+end_src
 
-** ローカルの設定があれば読み込む
+* ローカルの設定があれば読み込む
 #+begin_src emacs-lisp
 (load (expand-file-name(concat user-emacs-directory "init-local.el")) t)
 #+end_src
 
+* end
 # Local Variables:
 # org-src-preserve-indentation: t
 # End:
