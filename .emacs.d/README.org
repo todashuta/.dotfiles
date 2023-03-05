@@ -442,8 +442,8 @@
 
             ("C-c w" . toggle-truncate-lines)
 
-            ("C-c z" . maximize-window)
-            ("C-c Z" . balance-windows)
+            ("C-c Z" . maximize-window)
+            ("C-c z" . balance-windows)
             ))
 #+end_src
 
