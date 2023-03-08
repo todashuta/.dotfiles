@@ -95,6 +95,7 @@
   )
 #+end_src
 * Org Mode
+便利
 #+begin_src emacs-lisp
 (leaf org-mode
   :custom ((org-use-speed-commands                 . t)
@@ -471,6 +472,7 @@
   (modify-all-frames-parameters '((ime-font . "UDEV Gothic JPDOC-11"))))
 #+end_src
 * カラーテーマ
+** 雑多
 #+begin_src emacs-lisp
 ;; (load-theme 'wombat t)
 
@@ -513,7 +515,9 @@
 ;;   :ensure t
 ;;   :config
 ;;   (load-theme 'apropospriate-light t))
-
+#+end_src
+** modus良い
+#+begin_src emacs-lisp
 ;; (leaf *theme-modus ; for Emacs 28.2 bundled version
 ;;   :disabled t
 ;;   :custom ((modus-themes-region            . 'bg-only)
@@ -564,13 +568,17 @@
    0.1 nil #'set-face-attribute 'mode-line nil :background my:mode-line-active-background))
 #+end_src
 * コマンド
+** init関連ファイルを開く
 #+begin_src emacs-lisp
 (defun edit-my-init ()
   (interactive)
   (let* ((items '("README.org" "init-local.el" "init.el" "early-init.el"))
          (file (completing-read "edit-my-init> " items)))
     (find-file (expand-file-name (concat user-emacs-directory file)))))
-
+#+end_src
+** init.el再読み込み
+これで適切か？
+#+begin_src emacs-lisp
 (defun reload-init-file ()
   (interactive)
   (load-file user-init-file)
