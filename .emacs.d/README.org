@@ -5,14 +5,12 @@
 #+begin_src emacs-lisp
 ;; -*- lexical-binding: t; -*-
 #+end_src
-
 * 言語設定
 #+begin_src emacs-lisp
 (set-language-environment "Japanese")
 (prefer-coding-system 'utf-8)
 (set-default 'buffer-file-coding-system 'utf-8-unix)
 #+end_src
-
 * leaf.el
 #+begin_src emacs-lisp
 ;; <leaf-install-code>
@@ -46,9 +44,7 @@
     :custom ((imenu-list-size . 30)
              (imenu-list-position . 'left))))
 #+end_src
-
 * 一般的な設定
-
 #+begin_src emacs-lisp
 ;; (eval-and-compile
 ;;   (leaf bytecomp
@@ -98,9 +94,7 @@
   ;; (set-frame-parameter nil 'alpha 95)
   )
 #+end_src
-
 * Org Mode
-
 #+begin_src emacs-lisp
 (leaf org-mode
   :custom ((org-use-speed-commands                 . t)
@@ -148,7 +142,6 @@
   ;;             (display-line-numbers-mode 1)))
   )
 #+end_src
-
 * カレンダー関連
 #+begin_src emacs-lisp
 (leaf *japanese-calendar-settings
@@ -160,16 +153,13 @@
   :hook ((calendar-today-visible-hook . calendar-mark-today)))
 #+end_src
 * Dynamic Macro (dmacro.el)
-
 #+begin_src emacs-lisp
 (leaf dmacro
   :ensure t
   :custom `((dmacro-key . ,(kbd "C-S-e")))
   :global-minor-mode global-dmacro-mode)
 #+end_src
-
 * 雑多
-
 #+begin_src emacs-lisp
 (leaf generic-x
   :require t)
@@ -447,13 +437,9 @@
             ("C-c z" . balance-windows)
             ))
 #+end_src
-
 * 日本語入力
-
 ** ddskk
-
 =M-x skk-get= で辞書ファイルを一括ダウンロードできる。
-
 #+begin_src emacs-lisp
 (leaf ddskk
   :disabled t
@@ -471,9 +457,7 @@
     (when (file-exists-p jisyo-path)
       (setq skk-large-jisyo jisyo-path))))
 #+end_src
-
 ** tr-ime (Windows)
-
 #+begin_src emacs-lisp
 (leaf tr-ime
   :when (eq window-system 'w32)
@@ -486,7 +470,6 @@
   (w32-ime-initialize)
   (modify-all-frames-parameters '((ime-font . "UDEV Gothic JPDOC-11"))))
 #+end_src
-
 * カラーテーマ
 #+begin_src emacs-lisp
 ;; (load-theme 'wombat t)
@@ -571,7 +554,6 @@
   (my-update-mode-line-face-attribute-vars)
   )
 #+end_src
-
 * ビープ音の代わりにモードラインを点滅させる
 #+begin_src emacs-lisp
 (setq visible-bell nil
@@ -581,7 +563,6 @@
   (run-with-timer
    0.1 nil #'set-face-attribute 'mode-line nil :background my:mode-line-active-background))
 #+end_src
-
 * コマンド
 #+begin_src emacs-lisp
 (defun edit-my-init ()
@@ -596,9 +577,7 @@
   (when (fboundp 'org-mode-restart)
     (org-mode-restart)))
 #+end_src
-
 * その他関数
-
 #+begin_src emacs-lisp
 ;; (defun my-blink-hl-line ()
 ;;   ;; (unless (fboundp 'hl-line-mode) (require 'hl-line-mode))
@@ -631,13 +610,11 @@
   ;; (when (fboundp 'pulsar-highlight-line) (pulsar-highlight-line))
   )
 #+end_src
-
 * provideの設定
 #+begin_src emacs-lisp
 (provide 'init)
 ;;; init.el ends here
 #+end_src
-
 * ローカルの設定があれば読み込む
 #+begin_src emacs-lisp
 (load (expand-file-name(concat user-emacs-directory "init-local.el")) t)
