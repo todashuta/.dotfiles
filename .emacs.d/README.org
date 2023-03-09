@@ -160,6 +160,13 @@
   :custom `((dmacro-key . ,(kbd "C-S-e")))
   :global-minor-mode global-dmacro-mode)
 #+end_src
+* time-stamp
+#+begin_src emacs-lisp
+(add-hook 'before-save-hook 'my-time-stamp)
+(defun my-time-stamp ()
+  (when (eq major-mode 'org-mode)
+    (time-stamp)))
+#+end_src
 * 雑多
 #+begin_src emacs-lisp
 (leaf generic-x
