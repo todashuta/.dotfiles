@@ -67,7 +67,7 @@
            (line-number-mode               . t)
            (column-number-mode             . t)
            (scroll-margin                  . 5)
-           (kill-whole-line                . t)
+           (kill-whole-line                . nil) ; これ t にせず代わりに C-S-<backspace> 活用しよ
            (create-lockfiles               . nil)
            (backup-directory-alist         . '((".*" . "~/var/emacs/backup")))
            (auto-save-file-name-transforms . '((".*" "~/var/emacs/autosave/" t)))  ; 末尾のスラッシュ必要
