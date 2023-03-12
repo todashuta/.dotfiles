@@ -77,10 +77,10 @@
   :config
   (custom-set-faces
    '(default
-      ((t (:family "UDEV Gothic JPDOC" :foundry "outline" :slant normal :weight normal :height 105 :width normal)))))
+      ((t (:family "UDEV Gothic JPDOC" :foundry "outline" :slant normal :weight normal :height 100 :width normal)))))
   (custom-set-faces
    '(mode-line
-     ((t (:family "UDEV Gothic JPDOC" :foundry "outline" :slant normal :weight bold :height 105 :width normal)))))
+     ((t (:family "UDEV Gothic JPDOC" :foundry "outline" :slant normal :weight bold :height 100 :width normal)))))
   (custom-set-faces
    '(org-block
      ((t (:family "UDEV Gothic JPDOC" :foundry "outline" :slant normal :weight normal :height 100 :width normal)))))
@@ -166,6 +166,12 @@
 (defun my-time-stamp ()
   (when (eq major-mode 'org-mode)
     (time-stamp)))
+;; (add-hook
+;;  'org-mode-hook (lambda ()
+;;                   (setq-local
+;;                    time-stamp-start  "#\\+DATE: "
+;;                    time-stamp-end    "\$"
+;;                    time-stamp-format "%Y-%02m-%02d %02H:%02M:%02S %l")))
 #+end_src
 * 雑多
 #+begin_src emacs-lisp
@@ -329,6 +335,7 @@
             (recentf-auto-save-timer . ,(run-with-idle-timer 30 t 'my-recentf-save-list-silently)))
   :config
   (defun my-recentf-save-list-silently ()
+    "ミニバッファに Wrote ... のメッセージを出さずに (recentf-save-list) を実行します。"
     (let* ((inhibit-message t))
       (recentf-save-list))))
 
