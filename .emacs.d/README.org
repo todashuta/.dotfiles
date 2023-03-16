@@ -183,14 +183,9 @@
 (leaf generic-x
   :require t)
 
-(leaf python-mode
-  :ensure t)
-
-(leaf go-mode
-  :ensure t)
-
-(leaf json-mode
-  :ensure t)
+(leaf python-mode :ensure t)
+(leaf go-mode     :ensure t)
+(leaf json-mode   :ensure t)
 
 (leaf web-mode
   :ensure t
@@ -305,9 +300,9 @@
   :bind (("C-=" . er/expand-region)
          ("C--" . er/contract-region)))
 
-(leaf linum
-  :custom
-  ((linum-format . "%5d ")))
+;; (leaf linum
+;;   :custom
+;;   ((linum-format . "%5d ")))
 
 (leaf display-line-numbers
   :custom ((display-line-numbers-minor-tick . 0)
