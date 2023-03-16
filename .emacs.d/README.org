@@ -70,7 +70,9 @@
             (kill-whole-line                . nil) ; これ t にせず代わりに C-S-<backspace> 活用しよ
             (create-lockfiles               . nil)
             (backup-directory-alist         . '((".*" . "~/var/emacs/backup")))
-            (auto-save-file-name-transforms . '((".*" "~/var/emacs/autosave/" t)))  ; 末尾のスラッシュ必要
+            (auto-save-file-name-transforms . '((".*"
+                                                 "~/var/emacs/autosave/" ; 末尾のスラッシュ必要
+                                                 t)))
             (frame-title-format             . '("%b - Emacs " emacs-version))
             (initial-scratch-message        . ,(concat ";; *scratch* - Emacs " emacs-version "\n\n"))
             )
