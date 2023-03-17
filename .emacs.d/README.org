@@ -134,6 +134,8 @@
            (org-indent-indentation-per-level      . 3)
 
            (org-agenda-format-date . "%Y-%m-%d (%a)")
+
+           (org-html-validation-link . nil)
            )
   :bind (("C-c c" . org-capture)
          ("C-c t" . org-todo-list)
