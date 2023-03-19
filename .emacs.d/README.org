@@ -152,6 +152,15 @@
   ;;             (display-line-numbers-mode 1)))
   )
 #+end_src
+** Modern Org Style (org-modern)
+#+begin_src emacs-lisp
+(leaf org-modern
+  :ensure t
+  :hook (
+         ;; (org-mode-hook . org-modern-mode)
+         (org-agenda-finalize-hook . org-modern-agenda)
+         ))
+#+end_src
 * カレンダー関連
 #+begin_src emacs-lisp
 (leaf *japanese-calendar-settings
