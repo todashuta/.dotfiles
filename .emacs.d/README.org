@@ -625,6 +625,13 @@
   (when (fboundp 'org-mode-restart)
     (org-mode-restart)))
 #+end_src
+** 編集中のファイルが置かれているディレクトリをExplorerで開く
+#+begin_src emacs-lisp
+(defun explorer ()
+  (interactive)
+  (if (and default-directory buffer-file-name)
+      (browse-url (expand-file-name default-directory))))
+#+end_src
 * その他関数
 #+begin_src emacs-lisp
 ;; (defun my-blink-hl-line ()
