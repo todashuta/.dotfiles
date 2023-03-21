@@ -104,7 +104,8 @@
 便利
 #+begin_src emacs-lisp
 (leaf org-mode
-  :custom ((org-use-speed-commands                 . t)
+  :custom (
+           (org-use-speed-commands                 . t)
            (org-hide-leading-stars                 . nil)
            (org-src-fontify-natively               . t)
            (org-fontify-whole-heading-line         . t)
@@ -133,7 +134,17 @@
            (org-indent-mode-turns-on-hiding-stars . nil)
            (org-indent-indentation-per-level      . 3)
 
-           (org-agenda-format-date . "%Y-%m-%d (%a)")
+           (org-agenda-format-date      . "%Y-%m-%d (%a)")
+           ;; (org-agenda-span             . 'day)
+           (org-agenda-start-on-weekday . 0)
+           (org-agenda-custom-commands  . '(
+                                            ("n" "Agenda and all TODOs"
+                                             ((agenda "")
+                                              (alltodo "")))
+                                            ("d" "Today's Agenda and all TODOs"
+                                             ((agenda "" ((org-agenda-span 'day)))
+                                              (alltodo "")))
+                                            ))
 
            (org-html-validation-link . nil)
            )
@@ -448,6 +459,8 @@
 ;; (setq line-spacing 2.0)
 
 ;; (global-hl-line-mode 1)
+
+;; (which-func-mode +1)
 
 (leaf-keys (
             ;; ("C-h"     . delete-backward-char)
