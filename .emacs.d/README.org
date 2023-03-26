@@ -134,6 +134,7 @@
            (org-indent-mode-turns-on-hiding-stars . nil)
            (org-indent-indentation-per-level      . 3)
 
+           ;; (org-agenda-tags-column      . 0)
            (org-agenda-format-date      . "%Y-%m-%d (%a)")
            ;; (org-agenda-span             . 'day)
            (org-agenda-start-on-weekday . 0)
