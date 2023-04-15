@@ -343,6 +343,7 @@ packadd! mr.vim
 packadd! ctrlp-mr.vim
 packadd! vim-jsonpath
 packadd! rainbow
+packadd! vim-aomi-grayscale
 
 if exists('##TextChangedP')
   packadd! vim-vsnip

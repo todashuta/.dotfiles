@@ -104,6 +104,7 @@ call s:add('tsuyoshicho/ctrlp-mr.vim')
 call s:add('sainnhe/edge')
 call s:add('mogelbrod/vim-jsonpath')
 call s:add('luochen1990/rainbow')
+call s:add('eihigh/vim-aomi-grayscale')
 
 "" denops
 call s:add('vim-denops/denops.vim')
