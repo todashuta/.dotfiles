@@ -1,2 +1,1 @@
-from pprint import pprint
-pprint({{_cursor_}}
+from pprint import pprint; pprint({{_cursor_}}
