@@ -5,6 +5,7 @@ if exists('did_load_filetypes')
 endif
 
 augroup filetypedetect
+  autocmd! BufRead,BufNewFile *.rviz setfiletype yaml
   autocmd! BufRead,BufNewFile *.ms setfiletype maxscript
 
   "autocmd! BufRead,BufNewFile *.gltf setfiletype gltf
