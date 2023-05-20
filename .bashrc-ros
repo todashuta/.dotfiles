@@ -15,11 +15,18 @@ ros1-init() {
 #ros1-init
 
 ros2-init() {
+	unset -f ros2-init
+
 	#source /opt/ros/humble/setup.bash || return 1
 	#cd ~/ros2_ws || return 1
 	#. install/local_setup.bash
 
 	source ~/ros2_ws/install/setup.bash || return 1
+
+	source /usr/share/colcon_cd/function/colcon_cd.sh
+	export _colcon_cd_root=/opt/ros/humble/
+	source /usr/share/colcon_argcomplete/hook/colcon-argcomplete.bash
+
 	alias cw='cd ~/ros2_ws/'
 	alias cs='cd ~/ros2_ws/src/'
 	alias cm='( cd ~/ros2_ws/ && colcon build ); source ~/ros2_ws/install/local_setup.bash'
