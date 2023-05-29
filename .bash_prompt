@@ -31,14 +31,15 @@ function __my_prompt_func() {
 	local    blue="\[$(tput setaf 4)\]"
 	local magenta="\[$(tput setaf 5)\]"
 	local    cyan="\[$(tput setaf 6)\]"
+	local    bold="\[$(tput bold)\]"
 	local   reset="\[$(tput sgr0)\]"
 	local host='\h'
 	[[ "$WSL_DISTRO_NAME" != '' ]] && host="WSL/$WSL_DISTRO_NAME" || :
-	local cwd="${blue}\w${reset}"
-	[[ $laststat -ne 0 ]] && cwd="${cwd} exited ${red}${laststat}${reset}" || :
+	local cwd="${bold}${blue}\w${reset}"
+	[[ $laststat -ne 0 ]] && cwd="${cwd} exited ${bold}${red}${laststat}${reset}" || :
 	local jobs=''
 	[[ "$(jobs -p)" != '' ]] && jobs="${magenta}[jobs:\j]${reset}" || :
-	PS1="${env}${green}\u${reset} at ${cyan}${host}${reset} in ${cwd}\n${yellow}$(__my_git_ps1)${reset}${jobs}\$ "
+	PS1="${env}${bold}${green}\u${reset} at ${bold}${cyan}${host}${reset} in ${cwd}\n${yellow}$(__my_git_ps1)${reset}${jobs}\$ "
 }
 PROMPT_COMMAND=__my_prompt_func
 
