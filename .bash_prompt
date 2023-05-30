@@ -16,7 +16,7 @@ fi
 function __my_git_ps1() {
 	case "$PWD/" in
 		/mnt/*)
-			printf '(-)' ;;
+			printf '_' ;;
 		*)
 			__git_ps1 '(%s)' 2>/dev/null || : ;;
 	esac
@@ -36,10 +36,10 @@ function __my_prompt_func() {
 	local host='\h'
 	[[ "$WSL_DISTRO_NAME" != '' ]] && host="WSL/$WSL_DISTRO_NAME" || :
 	local cwd="${bold}${blue}\w${reset}"
-	[[ $laststat -ne 0 ]] && cwd="${cwd} exited ${bold}${red}${laststat}${reset}" || :
+	[[ $laststat -ne 0 ]] && laststat="${bold}${red}${laststat}${reset}" || laststat=''
 	local jobs=''
 	[[ "$(jobs -p)" != '' ]] && jobs="${magenta}[jobs:\j]${reset}" || :
-	PS1="${env}${bold}${green}\u${reset} at ${bold}${cyan}${host}${reset} in ${cwd}\n${yellow}$(__my_git_ps1)${reset}${jobs}\$ "
+	PS1="${env}${bold}${green}\u${reset} at ${bold}${cyan}${host}${reset} in ${cwd}\n${yellow}$(__my_git_ps1)${reset}${jobs}${laststat}\$ "
 }
 PROMPT_COMMAND=__my_prompt_func
 
