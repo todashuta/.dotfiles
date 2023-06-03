@@ -83,7 +83,7 @@
 	unstage = reset HEAD --
 	precommit = diff --staged
 	branches = branch -a -vv
-	tags = tag
+	tags = tag --sort=v:refname
 	stashes = stash list
 	remotes = remote -v
 	amend = commit --amend
