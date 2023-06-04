@@ -7,3 +7,7 @@
 \(\S\+\)\.fore$
 	for i,v in enumerate({{$1}}, 0):
 		{{_cursor_}}
+
+\(\S\+\)\.pp$
+	pprint({{$1}})
+	{{_cursor_}}
