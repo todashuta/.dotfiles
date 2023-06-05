@@ -94,6 +94,7 @@ set winminwidth=16
 
 cnoreabbrev <expr> git  (getcmdtype() ==# ':' && getcmdline() ==# 'git') ? 'Git' : 'git'
 cnoreabbrev <expr> w'  (getcmdtype() ==# ':' && getcmdline() ==# "w'") ? 'w' : "w'"
+cnoreabbrev <expr> w[  (getcmdtype() ==# ':' && getcmdline() ==# 'w[') ? 'w' : 'w['
 cnoreabbrev <expr> w]  (getcmdtype() ==# ':' && getcmdline() ==# 'w]') ? 'w' : 'w]'
 
 "cnoremap          <C-x>       <C-r>=fnamemodify(@%,':h:~:.').(exists('+shellslash')&&!&shellslash?'\':'/')<CR>
