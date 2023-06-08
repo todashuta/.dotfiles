@@ -1,4 +1,4 @@
-### .bashrc for ROS 1
+# .bashrc for ROS
 
 ros1-init() {
 	#source /opt/ros/melodic/setup.bash || return 1
@@ -12,7 +12,6 @@ ros1-init() {
 	alias cs='cd ~/catkin_ws/src/'
 	alias cm='( cd ~/catkin_ws/ && catkin_make )'
 }
-#ros1-init
 
 ros2-init() {
 	unset -f ros2-init
@@ -31,6 +30,6 @@ ros2-init() {
 	alias cs='cd ~/ros2_ws/src/'
 	alias cm='( cd ~/ros2_ws/ && colcon build ); source ~/ros2_ws/install/local_setup.bash'
 }
-#ros2-init
 
-### .bashrc ends here
+# vim: set ft=sh:
+# .bashrc for ROS ends here
