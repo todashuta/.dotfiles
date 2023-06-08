@@ -1,5 +1,7 @@
 # .bashrc for ROS
 
+[ -z "$BASH" ] && return
+
 ros1-init() {
 	#source /opt/ros/melodic/setup.bash || return 1
 	source /opt/ros/noetic/setup.bash || return 1
