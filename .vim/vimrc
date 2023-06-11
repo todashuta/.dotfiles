@@ -852,6 +852,7 @@ let g:vimwiki_diary_months = {}
 call map(range(1, 12), 'extend(g:vimwiki_diary_months, {v:val: v:val."月"})')
 let g:vimwiki_autowriteall = 0
 let g:vimwiki_ext2syntax = {}
+let g:vimwiki_key_mappings = { 'lists_return': 0 }
 
 " vim-buffergator
 let g:buffergator_autoexpand_on_split = 0
