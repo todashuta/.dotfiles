@@ -1,0 +1,11 @@
+local   black="\[$(tput setaf 0)\]"
+local     red="\[$(tput setaf 1)\]"
+local   green="\[$(tput setaf 2)\]"
+local  yellow="\[$(tput setaf 3)\]"
+local    blue="\[$(tput setaf 4)\]"
+local magenta="\[$(tput setaf 5)\]"
+local    cyan="\[$(tput setaf 6)\]"
+local   white="\[$(tput setaf 7)\]"
+local    bold="\[$(tput bold)\]"
+local   reset="\[$(tput sgr0)\]"
+{{_cursor_}}
