@@ -24,8 +24,12 @@ function __my_git_ps1() {
 	esac
 }
 function __my_prompt_func() {
-	local laststat=$?
+	local laststat=$?  # この関数の最初の行から動かさないこと
 
+	# 前後の \[ \] について:
+	#   > ノート: Bash の man ページでは tput の出力を \[ \] で囲うことを推奨しています。
+	#   > Bash が出力不可能な文字列を無視するようになるため正確にプロンプトのサイズを計算できるようになります。
+	#   参照: https://wiki.archlinux.jp/index.php/Bash/プロンプトのカスタマイズ
 	local     red="\[$(tput setaf 1)\]"
 	local   green="\[$(tput setaf 2)\]"
 	local  yellow="\[$(tput setaf 3)\]"
