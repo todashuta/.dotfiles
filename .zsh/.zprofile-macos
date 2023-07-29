@@ -1,0 +1,10 @@
+# .zprofile
+
+# macrpots
+export PATH="/opt/local/bin:/opt/local/sbin:$PATH"
+
+# golang
+export PATH="$PATH:$HOME/go/bin"
+
+# vim: set ft=zsh:
+# .zprofile ends here

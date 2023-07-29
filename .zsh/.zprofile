@@ -1,4 +1,0 @@
-# .zprofile
-
-
-# __END__
