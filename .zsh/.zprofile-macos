@@ -1,4 +1,4 @@
-# .zprofile
+# .zprofile for macOS
 
 # macrpots
 export PATH="/opt/local/bin:/opt/local/sbin:$PATH"
