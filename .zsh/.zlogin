@@ -1,4 +1,0 @@
-# .zlogin
-
-
-# End of .zlogin
