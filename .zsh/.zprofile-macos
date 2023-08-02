@@ -1,10 +1,18 @@
 # .zprofile for macOS
 
+if [ -x /usr/libexec/path_helper ]; then
+	eval `PATH= /usr/libexec/path_helper -s`
+fi
+
 # macrpots
-export PATH="/opt/local/bin:/opt/local/sbin:$PATH"
+PATH="/opt/local/bin:/opt/local/sbin:$PATH"
 
 # golang
-export PATH="$PATH:$HOME/go/bin"
+PATH="$PATH:$HOME/go/bin"
+
+PATH="$PATH:$HOME/bin"
+
+export PATH
 
 # vim: set ft=zsh:
 # .zprofile ends here
