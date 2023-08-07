@@ -10,6 +10,8 @@ augroup filetypedetect
 
   "autocmd! BufRead,BufNewFile *.gltf setfiletype gltf
   autocmd! BufRead,BufNewFile *.gltf setfiletype json
+  autocmd! BufRead,BufNewFile *.usda setfiletype usda
+
   autocmd! BufRead,BufNewFile *.geojson setfiletype json
   autocmd! BufRead,BufNewFile *.uproject setfiletype json
   autocmd! BufRead,BufNewFile *.uefnproject setfiletype json
