@@ -170,12 +170,16 @@
   ;;             ;; (maximize-window)
   ;;             (display-line-numbers-mode 1)))
   )
-
+#+end_src
+** org-modeでは行を折り返す
+#+begin_src emacs-lisp
 (add-hook
  'org-mode-hook
  (lambda ()
    (setq-local truncate-lines nil)))
-
+#+end_src
+** macOSでorg-modeとorg-agendaの曜日に日本語を使う
+#+begin_src emacs-lisp
 (when (eq system-type 'darwin)
   (defun my-time-locale-japanese ()
     (setq-local system-messages-locale "ja_JP.UTF-8")
