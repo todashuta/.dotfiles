@@ -96,8 +96,15 @@
   (menu-bar-mode (if window-system +1 -1))
   (when window-system (set-frame-size (selected-frame) 120 35))
   (add-to-list 'default-frame-alist '(cursor-type . bar))
-  (setq-default line-spacing 2)
+  ;; (setq-default line-spacing 2)
   ;; (set-frame-parameter nil 'alpha 95)
+
+  ;; 行間を広げる
+  (setq default-text-properties '(line-spacing 0.25 line-height 1.25))
+  ;; minibufferでは行間を広げない
+  (defun my-minibuffer-setup ()
+    (setq-local default-text-properties '(line-spacing nil line-height nil)))
+  (add-hook 'minibuffer-setup-hook 'my-minibuffer-setup)
   )
 #+end_src
 * Org Mode
@@ -163,6 +170,18 @@
   ;;             ;; (maximize-window)
   ;;             (display-line-numbers-mode 1)))
   )
+
+(add-hook
+ 'org-mode-hook
+ (lambda ()
+   (setq-local truncate-lines nil)))
+
+(when (eq system-type 'darwin)
+  (defun my-time-locale-japanese ()
+    (setq-local system-messages-locale "ja_JP.UTF-8")
+    (setq-local system-time-locale "ja_JP.UTF-8"))
+  (add-hook 'org-mode-hook 'my-time-locale-japanese)
+  (add-hook 'org-agenda-mode-hook 'my-time-locale-japanese))
 #+end_src
 ** Modern Org Style (org-modern)
 #+begin_src emacs-lisp
