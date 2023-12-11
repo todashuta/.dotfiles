@@ -632,6 +632,11 @@
   (run-with-timer
    0.1 nil #'set-face-attribute 'mode-line nil :background my:mode-line-active-background))
 #+end_src
+* マウスホイール/トラックパッドのスクロールを快適に
+#+begin_src emacs-lisp
+(setq scroll-conservatively 1)
+(setq scroll-preserve-screen-position t)
+#+end_src
 * コマンド
 ** init関連ファイルを開く
 #+begin_src emacs-lisp
@@ -639,7 +644,8 @@
   (interactive)
   (let* ((items '("README.org" "init-local.el" "init.el" "early-init.el"))
          (file (completing-read "edit-my-init> " items)))
-    (find-file (expand-file-name (concat user-emacs-directory file)))))
+    (let* ((safe-local-variable-values '((org-src-preserve-indentation . t))))
+      (find-file (expand-file-name (concat user-emacs-directory file))))))
 #+end_src
 ** init.el再読み込み
 これで適切か？
