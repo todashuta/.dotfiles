@@ -196,6 +196,29 @@
          (org-agenda-finalize-hook . org-modern-agenda)
          ))
 #+end_src
+** org-agendaのバッファにカーソルがあるときに自動更新する
+#+begin_src emacs-lisp
+(defvar my/org-agenda-update-timer nil)
+(defun my-toggle-org-agenda-buffer-auto-update ()
+  (interactive)
+  (if my/org-agenda-update-timer
+      (progn
+        (cancel-timer my/org-agenda-update-timer)
+        (setq my/org-agenda-update-timer nil))
+    (progn
+      (setq my/org-agenda-update-timer
+            (run-with-timer
+             0 2
+             (lambda ()
+               (condition-case nil
+                   (let ((bufname "*Org Agenda*"))
+                     (when (eq (get-buffer bufname) (current-buffer))
+                       (with-current-buffer bufname
+                         (let ((current-position (point)))
+                           (call-interactively 'org-agenda-redo)
+                           (goto-char current-position)))))
+                 (error (message "An error occurred while updating the *Org Agenda* buffer")))))))))
+#+end_src
 * カレンダー関連
 #+begin_src emacs-lisp
 (leaf *japanese-calendar-settings
