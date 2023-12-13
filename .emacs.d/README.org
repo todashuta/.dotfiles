@@ -204,20 +204,23 @@
   (if my/org-agenda-update-timer
       (progn
         (cancel-timer my/org-agenda-update-timer)
-        (setq my/org-agenda-update-timer nil))
+        (setq my/org-agenda-update-timer nil)
+        (message "org-agenda auto update disabled"))
     (progn
       (setq my/org-agenda-update-timer
             (run-with-timer
-             0 2
+             2 2
              (lambda ()
                (condition-case nil
                    (let ((bufname "*Org Agenda*"))
                      (when (eq (get-buffer bufname) (current-buffer))
                        (with-current-buffer bufname
                          (let ((current-position (point)))
-                           (call-interactively 'org-agenda-redo)
+                           (let ((inhibit-message t))
+                             (call-interactively 'org-agenda-redo))
                            (goto-char current-position)))))
-                 (error (message "An error occurred while updating the *Org Agenda* buffer")))))))))
+                 (error (message "An error occurred while updating the *Org Agenda* buffer"))))))
+      (message "org-agenda auto update enabled"))))
 #+end_src
 * カレンダー関連
 #+begin_src emacs-lisp
