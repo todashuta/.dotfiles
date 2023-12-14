@@ -212,12 +212,14 @@
              2 2
              (lambda ()
                (condition-case nil
-                   (let ((bufname "*Org Agenda*"))
+                   (let ((bufname "*Org Agenda*")
+                         (oldmsg (current-message)))
                      (when (eq (get-buffer bufname) (current-buffer))
                        (with-current-buffer bufname
                          (let ((current-position (point)))
                            (let ((inhibit-message t))
                              (call-interactively 'org-agenda-redo))
+                           (message "%s" (if oldmsg oldmsg "")) ; restore message
                            (goto-char current-position)))))
                  (error (message "An error occurred while updating the *Org Agenda* buffer"))))))
       (message "org-agenda auto update enabled"))))
