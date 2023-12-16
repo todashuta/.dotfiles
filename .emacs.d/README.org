@@ -74,6 +74,7 @@
                                                    t)))
               (frame-title-format             . '("%b - Emacs " emacs-version))
               (initial-scratch-message        . ,(concat ";; *scratch* - Emacs " emacs-version "\n\n"))
+              (mouse-highlight                . nil)
               )
     :config
     (dolist (elt '((default   . normal)
@@ -111,6 +112,11 @@
   (add-hook 'emacs-lisp-mode-hook
             (lambda ()
               (setq indent-tabs-mode nil)))
+#+end_src
+** Ctrl-マウスホイール回転の拡大縮小を無効化
+#+begin_src emacs-lisp
+  (global-unset-key (kbd "C-<wheel-up>"))
+  (global-unset-key (kbd "C-<wheel-down>"))
 #+end_src
 * Org Mode
 便利
