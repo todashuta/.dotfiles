@@ -3,738 +3,738 @@
 
 * ヘッダ
 #+begin_src emacs-lisp
-;; -*- lexical-binding: t; -*-
+  ;; -*- lexical-binding: t; -*-
 #+end_src
 * 言語設定
 #+begin_src emacs-lisp
-(set-language-environment "Japanese")
-(prefer-coding-system 'utf-8)
-(set-default 'buffer-file-coding-system 'utf-8-unix)
+  (set-language-environment "Japanese")
+  (prefer-coding-system 'utf-8)
+  (set-default 'buffer-file-coding-system 'utf-8-unix)
 #+end_src
 * leaf.el
 #+begin_src emacs-lisp
-;; <leaf-install-code>
-(eval-and-compile
-  (customize-set-variable
-   'package-archives '(("org"   . "https://orgmode.org/elpa/")
-                       ("melpa" . "https://melpa.org/packages/")
-                       ("gnu"   . "https://elpa.gnu.org/packages/")))
-  (package-initialize)
-  (unless (package-installed-p 'leaf)
-    (package-refresh-contents)
-    (package-install 'leaf))
+  ;; <leaf-install-code>
+  (eval-and-compile
+    (customize-set-variable
+     'package-archives '(("org"   . "https://orgmode.org/elpa/")
+                         ("melpa" . "https://melpa.org/packages/")
+                         ("gnu"   . "https://elpa.gnu.org/packages/")))
+    (package-initialize)
+    (unless (package-installed-p 'leaf)
+      (package-refresh-contents)
+      (package-install 'leaf))
 
-  (leaf leaf-keywords
-    :ensure t
+    (leaf leaf-keywords
+      :ensure t
+      :config
+      (leaf hydra :ensure t)
+      (leaf el-get :ensure t
+        :custom ((el-get-git-shallow-clone . t)))
+      (leaf blackout :ensure t)
+
+      :config
+      (leaf-keywords-init)))
+  ;; </leaf-install-code>
+
+  (leaf leaf
     :config
-    (leaf hydra :ensure t)
-    (leaf el-get :ensure t
-      :custom ((el-get-git-shallow-clone . t)))
-    (leaf blackout :ensure t)
-
-    :config
-    (leaf-keywords-init)))
-;; </leaf-install-code>
-
-(leaf leaf
-  :config
-  (leaf leaf-convert :ensure t)
-  (leaf leaf-tree
-    :ensure t
-    :custom ((imenu-list-size . 30)
-             (imenu-list-position . 'left))))
+    (leaf leaf-convert :ensure t)
+    (leaf leaf-tree
+      :ensure t
+      :custom ((imenu-list-size . 30)
+               (imenu-list-position . 'left))))
 #+end_src
 * 一般的な設定
 #+begin_src emacs-lisp
-;; (eval-and-compile
-;;   (leaf bytecomp
-;;     :doc "compilation of Lisp code into byte code"
-;;     :tag "builtin" "lisp"
-;;     :custom (byte-compile-warnings . '(cl-functions))))
+  ;; (eval-and-compile
+  ;;   (leaf bytecomp
+  ;;     :doc "compilation of Lisp code into byte code"
+  ;;     :tag "builtin" "lisp"
+  ;;     :custom (byte-compile-warnings . '(cl-functions))))
 
-(leaf cus-edit
-  :doc "tools for customizing Emacs and Lisp packages"
-  :tag "builtin" "faces" "help"
-  :custom `((custom-file . ,(locate-user-emacs-file "custom.el"))))
+  (leaf cus-edit
+    :doc "tools for customizing Emacs and Lisp packages"
+    :tag "builtin" "faces" "help"
+    :custom `((custom-file . ,(locate-user-emacs-file "custom.el"))))
 
-(leaf cus-start
-  :custom `(
-            ;; (tool-bar-mode           . nil)
-            ;; (scroll-bar-mode         . nil)
-            ;; (inhibit-startup-message . t)
-            (use-short-answers              . t)
-            (truncate-lines                 . t)
-            (line-number-mode               . t)
-            (column-number-mode             . t)
-            (scroll-margin                  . 5)
-            (kill-whole-line                . nil) ; これ t にせず代わりに C-S-<backspace> 活用しよ
-            (create-lockfiles               . nil)
-            (backup-directory-alist         . '((".*" . "~/var/emacs/backup")))
-            (auto-save-file-name-transforms . '((".*"
-                                                 "~/var/emacs/autosave/" ; 末尾のスラッシュ必要
-                                                 t)))
-            (frame-title-format             . '("%b - Emacs " emacs-version))
-            (initial-scratch-message        . ,(concat ";; *scratch* - Emacs " emacs-version "\n\n"))
-            )
-  :config
-  (dolist (elt '((default   . normal)
-                 (mode-line . bold)
-                 (org-block . normal)))
-    (let* ((face (car elt))
-           (weight (cdr elt)))
-      (custom-set-faces
-       `(,face
-         ((t (:family "UDEV Gothic JPDOC"
-                      :foundry "outline"
-                      :slant normal
-                      :height 100
-                      :width normal
-                      :weight ,weight)))))))
-  ;; (set-fontset-font t 'japanese-jisx0208 (font-spec :family "BIZ UD明朝"))
+  (leaf cus-start
+    :custom `(
+              ;; (tool-bar-mode           . nil)
+              ;; (scroll-bar-mode         . nil)
+              ;; (inhibit-startup-message . t)
+              (use-short-answers              . t)
+              (truncate-lines                 . t)
+              (line-number-mode               . t)
+              (column-number-mode             . t)
+              (scroll-margin                  . 5)
+              (kill-whole-line                . nil) ; これ t にせず代わりに C-S-<backspace> 活用しよ
+              (create-lockfiles               . nil)
+              (backup-directory-alist         . '((".*" . "~/var/emacs/backup")))
+              (auto-save-file-name-transforms . '((".*"
+                                                   "~/var/emacs/autosave/" ; 末尾のスラッシュ必要
+                                                   t)))
+              (frame-title-format             . '("%b - Emacs " emacs-version))
+              (initial-scratch-message        . ,(concat ";; *scratch* - Emacs " emacs-version "\n\n"))
+              )
+    :config
+    (dolist (elt '((default   . normal)
+                   (mode-line . bold)
+                   (org-block . normal)))
+      (let* ((face (car elt))
+             (weight (cdr elt)))
+        (custom-set-faces
+         `(,face
+           ((t (:family "UDEV Gothic JPDOC"
+                        :foundry "outline"
+                        :slant normal
+                        :height 100
+                        :width normal
+                        :weight ,weight)))))))
+    ;; (set-fontset-font t 'japanese-jisx0208 (font-spec :family "BIZ UD明朝"))
 
-  (tab-bar-mode +1)
-  (menu-bar-mode (if window-system +1 -1))
-  (when window-system (set-frame-size (selected-frame) 120 35))
-  (add-to-list 'default-frame-alist '(cursor-type . bar))
-  ;; (setq-default line-spacing 2)
-  ;; (set-frame-parameter nil 'alpha 95)
+    (tab-bar-mode +1)
+    (menu-bar-mode (if window-system +1 -1))
+    (when window-system (set-frame-size (selected-frame) 120 35))
+    (add-to-list 'default-frame-alist '(cursor-type . bar))
+    ;; (setq-default line-spacing 2)
+    ;; (set-frame-parameter nil 'alpha 95)
 
-  ;; 行間を広げる
-  (setq default-text-properties '(line-spacing 0.25 line-height 1.25))
-  ;; minibufferでは行間を広げない
-  (defun my-minibuffer-setup ()
-    (setq-local default-text-properties '(line-spacing nil line-height nil)))
-  (add-hook 'minibuffer-setup-hook 'my-minibuffer-setup)
-  )
+    ;; 行間を広げる
+    (setq default-text-properties '(line-spacing 0.25 line-height 1.25))
+    ;; minibufferでは行間を広げない
+    (defun my-minibuffer-setup ()
+      (setq-local default-text-properties '(line-spacing nil line-height nil)))
+    (add-hook 'minibuffer-setup-hook 'my-minibuffer-setup)
+    )
 #+end_src
 ** インデントとか
 #+begin_src emacs-lisp
-(add-hook 'emacs-lisp-mode-hook
-          (lambda ()
-            (setq indent-tabs-mode nil)))
+  (add-hook 'emacs-lisp-mode-hook
+            (lambda ()
+              (setq indent-tabs-mode nil)))
 #+end_src
 * Org Mode
 便利
 #+begin_src emacs-lisp
-(leaf org-mode
-  :custom (
-           (org-use-speed-commands                 . t)
-           (org-hide-leading-stars                 . nil)
-           (org-src-fontify-natively               . t)
-           (org-fontify-whole-heading-line         . t)
-           (org-fontify-whole-block-delimiter-line . nil)
-           (org-startup-folded                     . 'content)
-           (org-src-tab-acts-natively              . nil)
-           ;; (org-src-preserve-indentation           . t)
-           ;; (org-edit-src-content-indentation       . 0)
+  (leaf org-mode
+    :custom (
+             (org-use-speed-commands                 . t)
+             (org-hide-leading-stars                 . nil)
+             (org-src-fontify-natively               . t)
+             (org-fontify-whole-heading-line         . t)
+             (org-fontify-whole-block-delimiter-line . nil)
+             (org-startup-folded                     . 'content)
+             (org-src-tab-acts-natively              . nil)
+             ;; (org-src-preserve-indentation           . t)
+             ;; (org-edit-src-content-indentation       . 0)
 
-           (org-directory          . "~/org-docs/")
-           (org-default-notes-file . "~/org-docs/notes.org")
-           (org-agenda-files       . '(
-                                       ;; "~/org-docs/tasks.org"
-                                       ;; "~/org-docs/notes.org"
-                                       "~/org-docs/"
-                                       "~/org-docs/projects/"
-                                       ))
-           (org-capture-templates . '(
-                                      ;; ("t" "タスク" entry (file+headline "~/org-docs/tasks.org" "タスク一覧") "** TODO %?\n%^T")
-                                      ;; ("m" "メモ"   entry (file+headline "~/org-docs/notes.org" "メモ帳")     "** %U %?\n%l")
-                                      ("t" "タスク" entry (file "~/org-docs/tasks.org") "* TODO %?\n%^T")
-                                      ("m" "メモ"   entry (file "~/org-docs/notes.org") "* %U %?\n%l")
-                                      ))
+             (org-directory          . "~/org-docs/")
+             (org-default-notes-file . "~/org-docs/notes.org")
+             (org-agenda-files       . '(
+                                         ;; "~/org-docs/tasks.org"
+                                         ;; "~/org-docs/notes.org"
+                                         "~/org-docs/"
+                                         "~/org-docs/projects/"
+                                         ))
+             (org-capture-templates . '(
+                                        ;; ("t" "タスク" entry (file+headline "~/org-docs/tasks.org" "タスク一覧") "** TODO %?\n%^T")
+                                        ;; ("m" "メモ"   entry (file+headline "~/org-docs/notes.org" "メモ帳")     "** %U %?\n%l")
+                                        ("t" "タスク" entry (file "~/org-docs/tasks.org") "* TODO %?\n%^T")
+                                        ("m" "メモ"   entry (file "~/org-docs/notes.org") "* %U %?\n%l")
+                                        ))
 
-           (org-startup-indented                  . t)
-           (org-indent-mode-turns-on-hiding-stars . nil)
-           (org-indent-indentation-per-level      . 3)
+             (org-startup-indented                  . t)
+             (org-indent-mode-turns-on-hiding-stars . nil)
+             (org-indent-indentation-per-level      . 3)
 
-           ;; (org-agenda-tags-column      . 0)
-           (org-agenda-format-date      . "%Y-%m-%d (%a)")
-           ;; (org-agenda-span             . 'day)
-           (org-agenda-start-on-weekday . 0)
-           (org-agenda-custom-commands  . '(
-                                            ("n" "Agenda and all TODOs"
-                                             ((agenda "")
-                                              (alltodo "")))
-                                            ("d" "Today's Agenda and all TODOs"
-                                             ((agenda "" ((org-agenda-span 'day)))
-                                              (alltodo "")))
-                                            ))
+             ;; (org-agenda-tags-column      . 0)
+             (org-agenda-format-date      . "%Y-%m-%d (%a)")
+             ;; (org-agenda-span             . 'day)
+             (org-agenda-start-on-weekday . 0)
+             (org-agenda-custom-commands  . '(
+                                              ("n" "Agenda and all TODOs"
+                                               ((agenda "")
+                                                (alltodo "")))
+                                              ("d" "Today's Agenda and all TODOs"
+                                               ((agenda "" ((org-agenda-span 'day)))
+                                                (alltodo "")))
+                                              ))
 
-           (org-html-validation-link . nil)
-           )
-  :bind (("C-c c" . org-capture)
-         ("C-c t" . org-todo-list)
-         ("C-c a" . org-agenda))
-  :config
-  ;; (advice-add
-  ;;  'org-edit-special
-  ;;  :after
-  ;;  (lambda (&rest r) (maximize-window) (linum-mode))
-  ;;  '((name . "my-org-edit-special-with-maximize-window")))
-  ;; (add-hook 'org-src-mode-hook
-  ;;           (lambda ()
-  ;;             ;; (maximize-window)
-  ;;             (display-line-numbers-mode 1)))
-  )
+             (org-html-validation-link . nil)
+             )
+    :bind (("C-c c" . org-capture)
+           ("C-c t" . org-todo-list)
+           ("C-c a" . org-agenda))
+    :config
+    ;; (advice-add
+    ;;  'org-edit-special
+    ;;  :after
+    ;;  (lambda (&rest r) (maximize-window) (linum-mode))
+    ;;  '((name . "my-org-edit-special-with-maximize-window")))
+    ;; (add-hook 'org-src-mode-hook
+    ;;           (lambda ()
+    ;;             ;; (maximize-window)
+    ;;             (display-line-numbers-mode 1)))
+    )
 #+end_src
 ** org-modeでは行を折り返す
 #+begin_src emacs-lisp
-(add-hook
- 'org-mode-hook
- (lambda ()
-   (setq-local truncate-lines nil)))
+  (add-hook
+   'org-mode-hook
+   (lambda ()
+     (setq-local truncate-lines nil)))
 #+end_src
 ** macOSでorg-modeとorg-agendaの曜日に日本語を使う
 #+begin_src emacs-lisp
-(when (eq system-type 'darwin)
-  (defun my-time-locale-japanese ()
-    (setq-local system-messages-locale "ja_JP.UTF-8")
-    (setq-local system-time-locale "ja_JP.UTF-8"))
-  (add-hook 'org-mode-hook 'my-time-locale-japanese)
-  (add-hook 'org-agenda-mode-hook 'my-time-locale-japanese))
+  (when (eq system-type 'darwin)
+    (defun my-time-locale-japanese ()
+      (setq-local system-messages-locale "ja_JP.UTF-8")
+      (setq-local system-time-locale "ja_JP.UTF-8"))
+    (add-hook 'org-mode-hook 'my-time-locale-japanese)
+    (add-hook 'org-agenda-mode-hook 'my-time-locale-japanese))
 #+end_src
 ** Modern Org Style (org-modern)
 #+begin_src emacs-lisp
-(leaf org-modern
-  :ensure t
-  :hook (
-         ;; (org-mode-hook . org-modern-mode)
-         (org-agenda-finalize-hook . org-modern-agenda)
-         ))
+  (leaf org-modern
+    :ensure t
+    :hook (
+           ;; (org-mode-hook . org-modern-mode)
+           (org-agenda-finalize-hook . org-modern-agenda)
+           ))
 #+end_src
 ** org-agendaのバッファにカーソルがあるときに自動更新する
 #+begin_src emacs-lisp
-(defvar my/org-agenda-update-timer nil)
-(defun my-toggle-org-agenda-buffer-auto-update ()
-  (interactive)
-  (if my/org-agenda-update-timer
+  (defvar my/org-agenda-update-timer nil)
+  (defun my-toggle-org-agenda-buffer-auto-update ()
+    (interactive)
+    (if my/org-agenda-update-timer
+        (progn
+          (cancel-timer my/org-agenda-update-timer)
+          (setq my/org-agenda-update-timer nil)
+          (message "org-agenda auto update disabled"))
       (progn
-        (cancel-timer my/org-agenda-update-timer)
-        (setq my/org-agenda-update-timer nil)
-        (message "org-agenda auto update disabled"))
-    (progn
-      (setq my/org-agenda-update-timer
-            (run-with-timer
-             2 2
-             (lambda ()
-               (condition-case nil
-                   (let ((bufname "*Org Agenda*")
-                         (oldmsg (current-message)))
-                     (when (eq (get-buffer bufname) (current-buffer))
-                       (with-current-buffer bufname
-                         (let ((current-position (point)))
-                           (let ((inhibit-message t))
-                             (call-interactively 'org-agenda-redo))
-                           (message "%s" (if oldmsg oldmsg "")) ; restore message
-                           (goto-char current-position)))))
-                 (error (message "An error occurred while updating the *Org Agenda* buffer"))))))
-      (message "org-agenda auto update enabled"))))
+        (setq my/org-agenda-update-timer
+              (run-with-timer
+               2 2
+               (lambda ()
+                 (condition-case nil
+                     (let ((bufname "*Org Agenda*")
+                           (oldmsg (current-message)))
+                       (when (eq (get-buffer bufname) (current-buffer))
+                         (with-current-buffer bufname
+                           (let ((current-position (point)))
+                             (let ((inhibit-message t))
+                               (call-interactively 'org-agenda-redo))
+                             (message "%s" (if oldmsg oldmsg "")) ; restore message
+                             (goto-char current-position)))))
+                   (error (message "An error occurred while updating the *Org Agenda* buffer"))))))
+        (message "org-agenda auto update enabled"))))
 #+end_src
 * カレンダー関連
 #+begin_src emacs-lisp
-(leaf *japanese-calendar-settings
-  :custom ((calendar-month-header . '(propertize
-                                      (format "%d年 %s月" year month)
-                                      'font-lock-face 'calendar-month-header))
-           (calendar-day-header-array . ["日" "月" "火" "水" "木" "金" "土"])
-           (calendar-day-name-array . calendar-day-header-array))
-  :hook ((calendar-today-visible-hook . calendar-mark-today)))
+  (leaf *japanese-calendar-settings
+    :custom ((calendar-month-header . '(propertize
+                                        (format "%d年 %s月" year month)
+                                        'font-lock-face 'calendar-month-header))
+             (calendar-day-header-array . ["日" "月" "火" "水" "木" "金" "土"])
+             (calendar-day-name-array . calendar-day-header-array))
+    :hook ((calendar-today-visible-hook . calendar-mark-today)))
 #+end_src
 * Dynamic Macro (dmacro.el)
 #+begin_src emacs-lisp
-(leaf dmacro
-  :ensure t
-  :custom `((dmacro-key . ,(kbd "C-S-e")))
-  :global-minor-mode global-dmacro-mode)
+  (leaf dmacro
+    :ensure t
+    :custom `((dmacro-key . ,(kbd "C-S-e")))
+    :global-minor-mode global-dmacro-mode)
 #+end_src
 * time-stamp
 #+begin_src emacs-lisp
-(add-hook 'before-save-hook 'my-time-stamp)
-(defun my-time-stamp ()
-  (when (memq major-mode '(org-mode))
-    (let (
-          (time-stamp-format "%Y-%02m-%02dT%02H:%02M:%02S%5z %l@%q")
-          ;; (time-stamp-start  "#\\+DATE: ")
-          ;; (time-stamp-end    "\$")
-          )
-      (time-stamp))))
+  (add-hook 'before-save-hook 'my-time-stamp)
+  (defun my-time-stamp ()
+    (when (memq major-mode '(org-mode))
+      (let (
+            (time-stamp-format "%Y-%02m-%02dT%02H:%02M:%02S%5z %l@%q")
+            ;; (time-stamp-start  "#\\+DATE: ")
+            ;; (time-stamp-end    "\$")
+            )
+        (time-stamp))))
 #+end_src
 * 雑多
 #+begin_src emacs-lisp
-(leaf generic-x
-  :require t)
+  (leaf generic-x
+    :require t)
 
-(leaf python-mode :ensure t)
-(leaf go-mode     :ensure t)
-(leaf json-mode   :ensure t)
+  (leaf python-mode :ensure t)
+  (leaf go-mode     :ensure t)
+  (leaf json-mode   :ensure t)
 
-(leaf web-mode
-  :ensure t
-  ;; :mode "\\.json\\'"
-  ;; :hook ((web-mode-hook . lsp))
-  :config
-  ;; (add-to-list 'auto-mode-alist '("\\.json\\'" . web-mode))
-  )
-
-(leaf company
-  :ensure t
-  :hook (after-init-hook . global-company-mode)
-  :custom ((company-minimum-prefix-length . 2)
-           (company-require-match         . nil)
-           (company-selection-wrap-around . nil)
-           (company-dabbrev-downcase      . nil)
-           (company-idle-delay            . nil))
-  :bind (("M-n" . company-complete))
-  :config
-  (leaf company-box
-    :when window-system
+  (leaf web-mode
     :ensure t
-    :hook (company-mode-hook company-box-mode)))
+    ;; :mode "\\.json\\'"
+    ;; :hook ((web-mode-hook . lsp))
+    :config
+    ;; (add-to-list 'auto-mode-alist '("\\.json\\'" . web-mode))
+    )
 
-(leaf lsp-mode
-  :ensure t
-  :hook (go-mode-hook json-mode-hook python-mode-hook)
-  ;; :custom ((lsp-keymap-prefix . "C-c l"))
-  :config
-  (leaf lsp-ui
+  (leaf company
     :ensure t
-    :hook (lsp-mode-hook lsp-ui-mode)
+    :hook (after-init-hook . global-company-mode)
+    :custom ((company-minimum-prefix-length . 2)
+             (company-require-match         . nil)
+             (company-selection-wrap-around . nil)
+             (company-dabbrev-downcase      . nil)
+             (company-idle-delay            . nil))
+    :bind (("M-n" . company-complete))
+    :config
+    (leaf company-box
+      :when window-system
+      :ensure t
+      :hook (company-mode-hook company-box-mode)))
+
+  (leaf lsp-mode
+    :ensure t
+    :hook (go-mode-hook json-mode-hook python-mode-hook)
+    ;; :custom ((lsp-keymap-prefix . "C-c l"))
+    :config
+    (leaf lsp-ui
+      :ensure t
+      :hook (lsp-mode-hook lsp-ui-mode)
+      :config
+      )
+    )
+
+  (leaf eglot
+    :disabled t
+    :ensure t
+    :hook (
+           ;; (js-mode-hook . eglot-ensure)
+           ;; (typescript-mode-hook . eglot-ensure)
+           (python-mode-hook . eglot-ensure)
+           (go-mode-hook . eglot-ensure)
+           )
+    :config
+    (add-to-list 'eglot-server-programs
+                 '((js-mode typescript-mode) . ("deno" "lsp" :initializationOptions (:enable t :lint t))))
+    (add-to-list 'eglot-server-programs '(python-mode "pylsp"))
+    (add-to-list 'eglot-server-programs '(go-mode "gopls"))
+    )
+
+  (leaf nyan-mode
+    :ensure t
+    :custom ((nyan-animate-nyancat . nil)
+             (nyan-wavy-trail      . nil))
+    :config
+    ;; (nyan-mode +1)
+    )
+
+  (leaf mlscroll
+    :ensure t
+    :config
+    ;; (mlscroll-mode +1)
+    )
+
+  (leaf whitespace
+    ;; :hook (after-init-hook . global-whitespace-mode)
+    :custom ((whitespace-style . '(face tabs tab-mark newline newline-mark))))
+
+  (leaf highlight-indent-guides
+    :disabled t
+    :ensure t
+    :hook ((prog-mode-hook . highlight-indent-guides-mode))
+    :custom ((highlight-indent-guides-method     . 'fill)
+             (highlight-indent-guides-responsive . 'top)))
+
+  (leaf mwim
+    :ensure t
+    :bind (("C-a" . mwim-beginning-of-code-or-line)
+           ("C-e" . mwim-end-of-code-or-line)))
+
+  (leaf delsel
+    :doc "delete selection if you insert"
+    :tag "builtin"
+    :global-minor-mode delete-selection-mode)
+
+  (leaf paren
+    :doc "highlight matching paren"
+    :tag "builtin"
+    :custom ((show-paren-style . 'parenthesis))
+    :global-minor-mode show-paren-mode)
+
+  (leaf rainbow-delimiters
+    :ensure t
+    :hook prog-mode-hook
+    :config
+    ;; (add-hook 'emacs-startup-hook
+    ;;           (lambda ()
+    ;;             (progn
+    ;;               (require 'cl-lib)
+    ;;               (require 'color)
+    ;;               (cl-loop
+    ;;                for index from 1 to rainbow-delimiters-max-face-count
+    ;;                do
+    ;;                (let ((face (intern (format "rainbow-delimiters-depth-%d-face" index))))
+    ;;                  (cl-callf color-saturate-name (face-foreground face) 20))))))
+    )
+
+  (leaf expand-region
+    :ensure t
+    :bind (("C-=" . er/expand-region)
+           ("C--" . er/contract-region)))
+
+  ;; (leaf linum
+  ;;   :custom
+  ;;   ((linum-format . "%5d ")))
+
+  (leaf display-line-numbers
+    :custom ((display-line-numbers-minor-tick . 0)
+             (display-line-numbers-major-tick . 0)
+             (display-line-numbers-grow-only  . t))
+    :bind (("C-c n" . display-line-numbers-mode))
     :config
     )
-  )
 
-(leaf eglot
-  :disabled t
-  :ensure t
-  :hook (
-         ;; (js-mode-hook . eglot-ensure)
-         ;; (typescript-mode-hook . eglot-ensure)
-         (python-mode-hook . eglot-ensure)
-         (go-mode-hook . eglot-ensure)
-         )
-  :config
-  (add-to-list 'eglot-server-programs
-               '((js-mode typescript-mode) . ("deno" "lsp" :initializationOptions (:enable t :lint t))))
-  (add-to-list 'eglot-server-programs '(python-mode "pylsp"))
-  (add-to-list 'eglot-server-programs '(go-mode "gopls"))
-  )
+  (leaf magit
+    :ensure t)
 
-(leaf nyan-mode
-  :ensure t
-  :custom ((nyan-animate-nyancat . nil)
-           (nyan-wavy-trail      . nil))
-  :config
-  ;; (nyan-mode +1)
-  )
+  (leaf git-gutter
+    :ensure t
+    :bind (("M-N" . git-gutter:next-hunk)
+           ("M-P" . git-gutter:previous-hunk))
+    :config
+    (global-git-gutter-mode 0))
 
-(leaf mlscroll
-  :ensure t
-  :config
-  ;; (mlscroll-mode +1)
-  )
+  (leaf macrostep
+    :ensure t
+    :bind (("C-c e" . macrostep-expand)))
 
-(leaf whitespace
-  ;; :hook (after-init-hook . global-whitespace-mode)
-  :custom ((whitespace-style . '(face tabs tab-mark newline newline-mark))))
+  (leaf recentf
+    :ensure t
+    :hook (after-init-hook . recentf-mode)
+    :custom `((recentf-auto-cleanup . 'never)
+              (recentf-max-saved-items . 2000)
+              (recentf-save-file . ,(expand-file-name "~/var/emacs/recentf"))
+              (recentf-auto-save-timer . ,(run-with-idle-timer 30 t 'my-recentf-save-list-silently)))
+    :config
+    (defun my-recentf-save-list-silently ()
+      "ミニバッファに Wrote ... のメッセージを出さずに (recentf-save-list) を実行します。"
+      (let* ((inhibit-message t))
+        (recentf-save-list))))
 
-(leaf highlight-indent-guides
-  :disabled t
-  :ensure t
-  :hook ((prog-mode-hook . highlight-indent-guides-mode))
-  :custom ((highlight-indent-guides-method     . 'fill)
-           (highlight-indent-guides-responsive . 'top)))
+  (leaf savehist-mode
+    :custom `((savehist-file . ,(expand-file-name "~/var/emacs/history")))
+    :config
+    (savehist-mode +1))
 
-(leaf mwim
-  :ensure t
-  :bind (("C-a" . mwim-beginning-of-code-or-line)
-         ("C-e" . mwim-end-of-code-or-line)))
+  ;; (leaf ido-vertical-mode
+  ;;   :ensure t
+  ;;   :custom ((ido-enable-flex-matching . t)
+  ;;            (ido-vertical-define-keys . 'C-n-and-C-p-only))
+  ;;   :config
+  ;;   (ido-mode 1)
+  ;;   (ido-vertical-mode 1))
 
-(leaf delsel
-  :doc "delete selection if you insert"
-  :tag "builtin"
-  :global-minor-mode delete-selection-mode)
+  ;; (leaf vertico
+  ;;   :ensure t
+  ;;   :custom ((read-file-name-completion-ignore-case . t)
+  ;;            (read-buffer-completion-ignore-case    . t)
+  ;;            (completion-ignore-case                . t))
+  ;;   :config
+  ;;   (vertico-mode +1))
+  (fido-vertical-mode +1)
 
-(leaf paren
-  :doc "highlight matching paren"
-  :tag "builtin"
-  :custom ((show-paren-style . 'parenthesis))
-  :global-minor-mode show-paren-mode)
+  (leaf orderless
+    :disabled t ; TODO company で使わない設定ができたら有効に戻そう
+    :ensure t
+    :custom ((completion-styles . '(orderless basic))))
 
-(leaf rainbow-delimiters
-  :ensure t
-  :hook prog-mode-hook
-  :config
-  ;; (add-hook 'emacs-startup-hook
-  ;;           (lambda ()
-  ;;             (progn
-  ;;               (require 'cl-lib)
-  ;;               (require 'color)
-  ;;               (cl-loop
-  ;;                for index from 1 to rainbow-delimiters-max-face-count
-  ;;                do
-  ;;                (let ((face (intern (format "rainbow-delimiters-depth-%d-face" index))))
-  ;;                  (cl-callf color-saturate-name (face-foreground face) 20))))))
-  )
+  (leaf slime
+    :ensure t
+    :custom ((inferior-lisp-program . "sbcl"))
+    :config
+    (slime-setup '(slime-repl slime-fancy slime-banner)))
 
-(leaf expand-region
-  :ensure t
-  :bind (("C-=" . er/expand-region)
-         ("C--" . er/contract-region)))
+  (leaf end-mark
+    :init
+    (unless (locate-library "end-mark")
+      (el-get-bundle end-mark
+        :url "https://github.com/tarao/elisp.git"
+        :features end-mark))
+    :config
+    ;; (global-end-mark-mode)
+    )
 
-;; (leaf linum
-;;   :custom
-;;   ((linum-format . "%5d ")))
+  (leaf undo-tree
+    :ensure t
+    :custom ((undo-tree-history-directory-alist . '(("." . "~/var/emacs/undo-tree"))))
+    :config
+    (global-undo-tree-mode +1))
 
-(leaf display-line-numbers
-  :custom ((display-line-numbers-minor-tick . 0)
-           (display-line-numbers-major-tick . 0)
-           (display-line-numbers-grow-only  . t))
-  :bind (("C-c n" . display-line-numbers-mode))
-  :config
-  )
+  (leaf volatile-highlights
+    :ensure t
+    :config
+    (volatile-highlights-mode +1))
 
-(leaf magit
-  :ensure t)
+  ;; (leaf beacon
+  ;;   :ensure t
+  ;;   :config
+  ;;   (add-hook 'after-init-hook
+  ;;             '(lambda ()
+  ;;                (setq beacon-color (face-attribute 'highlight :background))))
+  ;;   ;; (beacon-mode +1)
+  ;;   )
 
-(leaf git-gutter
-  :ensure t
-  :bind (("M-N" . git-gutter:next-hunk)
-         ("M-P" . git-gutter:previous-hunk))
-  :config
-  (global-git-gutter-mode 0))
+  (leaf pulsar
+    :ensure t)
 
-(leaf macrostep
-  :ensure t
-  :bind (("C-c e" . macrostep-expand)))
+  (leaf doom-modeline
+    :ensure t
+    :custom ((doom-modeline-icon        . nil)
+             (doom-modeline-indent-info . t)
+             (doom-modeline-height      . 22)
+             (doom-modeline-hud         . t))
+    :config
+    (doom-modeline-mode +1))
 
-(leaf recentf
-  :ensure t
-  :hook (after-init-hook . recentf-mode)
-  :custom `((recentf-auto-cleanup . 'never)
-            (recentf-max-saved-items . 2000)
-            (recentf-save-file . ,(expand-file-name "~/var/emacs/recentf"))
-            (recentf-auto-save-timer . ,(run-with-idle-timer 30 t 'my-recentf-save-list-silently)))
-  :config
-  (defun my-recentf-save-list-silently ()
-    "ミニバッファに Wrote ... のメッセージを出さずに (recentf-save-list) を実行します。"
-    (let* ((inhibit-message t))
-      (recentf-save-list))))
+  (leaf paredit
+    :ensure t)
 
-(leaf savehist-mode
-  :custom `((savehist-file . ,(expand-file-name "~/var/emacs/history")))
-  :config
-  (savehist-mode +1))
+  (leaf dashboard
+    :ensure t
+    :custom ((dashboard-banner-logo-title . "お疲れ様です。")
+             (dashboard-footer-messages . '("以上、よろしくお願い致します。"))
+             (dashboard-footer-icon . "")
+             (dashboard-startup-banner . 'logo)
+             (dashboard-items . '(;; (agenda    . 10)
+                                  (recents   . 20)
+                                  (bookmarks . 10))))
+    :bind (("C-c r" . dashboard-open))
+    :config
+    (dashboard-setup-startup-hook))
 
-;; (leaf ido-vertical-mode
-;;   :ensure t
-;;   :custom ((ido-enable-flex-matching . t)
-;;            (ido-vertical-define-keys . 'C-n-and-C-p-only))
-;;   :config
-;;   (ido-mode 1)
-;;   (ido-vertical-mode 1))
+  ;; (setq custom-file "~/.emacs.d/custom.el")
+  ;; (load custom-file t)
 
-;; (leaf vertico
-;;   :ensure t
-;;   :custom ((read-file-name-completion-ignore-case . t)
-;;            (read-buffer-completion-ignore-case    . t)
-;;            (completion-ignore-case                . t))
-;;   :config
-;;   (vertico-mode +1))
-(fido-vertical-mode +1)
+  ;; (setq line-spacing 2.0)
 
-(leaf orderless
-  :disabled t ; TODO company で使わない設定ができたら有効に戻そう
-  :ensure t
-  :custom ((completion-styles . '(orderless basic))))
+  ;; (global-hl-line-mode 1)
 
-(leaf slime
-  :ensure t
-  :custom ((inferior-lisp-program . "sbcl"))
-  :config
-  (slime-setup '(slime-repl slime-fancy slime-banner)))
+  ;; (which-func-mode +1)
 
-(leaf end-mark
-  :init
-  (unless (locate-library "end-mark")
-    (el-get-bundle end-mark
-      :url "https://github.com/tarao/elisp.git"
-      :features end-mark))
-  :config
-  ;; (global-end-mark-mode)
-  )
+  (leaf-keys (
+              ;; ("C-h"     . delete-backward-char)
+              ;; ("C-x C-b" . electric-buffer-list)
+              ("C-l"     . my-recenter)
 
-(leaf undo-tree
-  :ensure t
-  :custom ((undo-tree-history-directory-alist . '(("." . "~/var/emacs/undo-tree"))))
-  :config
-  (global-undo-tree-mode +1))
+              ("<next>"  . scroll-up-line)
+              ("<prior>" . scroll-down-line)
 
-(leaf volatile-highlights
-  :ensure t
-  :config
-  (volatile-highlights-mode +1))
+              ;; ("C-c C-r" . recentf-open-files)
 
-;; (leaf beacon
-;;   :ensure t
-;;   :config
-;;   (add-hook 'after-init-hook
-;;             '(lambda ()
-;;                (setq beacon-color (face-attribute 'highlight :background))))
-;;   ;; (beacon-mode +1)
-;;   )
+              ("C-c w" . toggle-truncate-lines)
 
-(leaf pulsar
-  :ensure t)
-
-(leaf doom-modeline
-  :ensure t
-  :custom ((doom-modeline-icon        . nil)
-           (doom-modeline-indent-info . t)
-           (doom-modeline-height      . 22)
-           (doom-modeline-hud         . t))
-  :config
-  (doom-modeline-mode +1))
-
-(leaf paredit
-  :ensure t)
-
-(leaf dashboard
-  :ensure t
-  :custom ((dashboard-banner-logo-title . "お疲れ様です。")
-           (dashboard-footer-messages . '("以上、よろしくお願い致します。"))
-           (dashboard-footer-icon . "")
-           (dashboard-startup-banner . 'logo)
-           (dashboard-items . '(;; (agenda    . 10)
-                                (recents   . 20)
-                                (bookmarks . 10))))
-  :bind (("C-c r" . dashboard-open))
-  :config
-  (dashboard-setup-startup-hook))
-
-;; (setq custom-file "~/.emacs.d/custom.el")
-;; (load custom-file t)
-
-;; (setq line-spacing 2.0)
-
-;; (global-hl-line-mode 1)
-
-;; (which-func-mode +1)
-
-(leaf-keys (
-            ;; ("C-h"     . delete-backward-char)
-            ;; ("C-x C-b" . electric-buffer-list)
-            ("C-l"     . my-recenter)
-
-            ("<next>"  . scroll-up-line)
-            ("<prior>" . scroll-down-line)
-
-            ;; ("C-c C-r" . recentf-open-files)
-
-            ("C-c w" . toggle-truncate-lines)
-
-            ("C-c Z" . maximize-window)
-            ("C-c z" . balance-windows)
-            ))
+              ("C-c Z" . maximize-window)
+              ("C-c z" . balance-windows)
+              ))
 #+end_src
 * 日本語入力
 ** ddskk
 =M-x skk-get= で辞書ファイルを一括ダウンロードできる。
 #+begin_src emacs-lisp
-(leaf ddskk
-  :disabled t
-  :ensure t
-  :require t
-  :custom (
-           (default-input-method           . "japanese-skk")  ; C-\ で使えるようにする
-           ;; (skk-status-indicator           . 'minor-mode)
-           (skk-indicator-use-cursor-color . nil)
-           )
-  ;; :bind (("C-c C-j" . skk-mode))
-  :config
-  (let* ((jisyo-dir (file-name-as-directory skk-get-jisyo-directory))
-         (jisyo-path (concat jisyo-dir "SKK-JISYO.L")))
-    (when (file-exists-p jisyo-path)
-      (setq skk-large-jisyo jisyo-path))))
+  (leaf ddskk
+    :disabled t
+    :ensure t
+    :require t
+    :custom (
+             (default-input-method           . "japanese-skk")  ; C-\ で使えるようにする
+             ;; (skk-status-indicator           . 'minor-mode)
+             (skk-indicator-use-cursor-color . nil)
+             )
+    ;; :bind (("C-c C-j" . skk-mode))
+    :config
+    (let* ((jisyo-dir (file-name-as-directory skk-get-jisyo-directory))
+           (jisyo-path (concat jisyo-dir "SKK-JISYO.L")))
+      (when (file-exists-p jisyo-path)
+        (setq skk-large-jisyo jisyo-path))))
 #+end_src
 ** tr-ime (Windows)
 #+begin_src emacs-lisp
-(leaf tr-ime
-  :when (eq window-system 'w32)
-  :ensure t
-  :custom ((w32-ime-mode-line-state-indicator      . "[--]")
-           (w32-ime-mode-line-state-indicator-list . '("[--]" "[あ]" "[--]")))
-  :config
-  (tr-ime-advanced-install) ;; (tr-ime-standard-install)
-  (setq default-input-method "W32-IME")
-  (w32-ime-initialize)
-  (modify-all-frames-parameters '((ime-font . "UDEV Gothic JPDOC-11"))))
+  (leaf tr-ime
+    :when (eq window-system 'w32)
+    :ensure t
+    :custom ((w32-ime-mode-line-state-indicator      . "[--]")
+             (w32-ime-mode-line-state-indicator-list . '("[--]" "[あ]" "[--]")))
+    :config
+    (tr-ime-advanced-install) ;; (tr-ime-standard-install)
+    (setq default-input-method "W32-IME")
+    (w32-ime-initialize)
+    (modify-all-frames-parameters '((ime-font . "UDEV Gothic JPDOC-11"))))
 #+end_src
 * カラーテーマ
 ** 雑多
 #+begin_src emacs-lisp
-;; (load-theme 'wombat t)
+  ;; (load-theme 'wombat t)
 
-;; (leaf afternoon-theme
-;;   :disabled t
-;;   :ensure t
-;;   :config
-;;   (load-theme 'afternoon t))
+  ;; (leaf afternoon-theme
+  ;;   :disabled t
+  ;;   :ensure t
+  ;;   :config
+  ;;   (load-theme 'afternoon t))
 
-;; (leaf lambda-themes
-;;   :disabled t
-;;   :init
-;;   (unless (locate-library "lambda-themes")
-;;     (el-get-bundle lambda-emacs/lambda-themes))
-;;   :custom ((lambda-themes-set-variable-pitch . nil))
-;;   :config
-;;   (require 'lambda-themes)
-;;   (load-theme 'lambda-light-faded t)
+  ;; (leaf lambda-themes
+  ;;   :disabled t
+  ;;   :init
+  ;;   (unless (locate-library "lambda-themes")
+  ;;     (el-get-bundle lambda-emacs/lambda-themes))
+  ;;   :custom ((lambda-themes-set-variable-pitch . nil))
+  ;;   :config
+  ;;   (require 'lambda-themes)
+  ;;   (load-theme 'lambda-light-faded t)
 
-;;   (set-face-attribute 'outline-1 nil :height 1.1)
-;;   (set-face-attribute 'outline-2 nil :height 1.1)
-;;   (set-face-attribute 'outline-3 nil :height 1.1)
-;;   (set-face-attribute 'outline-4 nil :height 1.1))
+  ;;   (set-face-attribute 'outline-1 nil :height 1.1)
+  ;;   (set-face-attribute 'outline-2 nil :height 1.1)
+  ;;   (set-face-attribute 'outline-3 nil :height 1.1)
+  ;;   (set-face-attribute 'outline-4 nil :height 1.1))
 
-;; (leaf *theme-leuven
-;;   :disabled t
-;;   :custom ((leuven-scale-outline-headlines . nil))
-;;   :config
-;;   (load-theme 'leuven t)
+  ;; (leaf *theme-leuven
+  ;;   :disabled t
+  ;;   :custom ((leuven-scale-outline-headlines . nil))
+  ;;   :config
+  ;;   (load-theme 'leuven t)
 
-;;   (set-face-background 'secondary-selection "#FFFFBC")
+  ;;   (set-face-background 'secondary-selection "#FFFFBC")
 
-;;   (set-face-background 'line-number "gray97")
-;;   (set-face-attribute 'line-number-current-line nil
-;;                       :weight 'bold
-;;                       :foreground "black"
-;;                       :background (face-attribute 'highlight :background)))
+  ;;   (set-face-background 'line-number "gray97")
+  ;;   (set-face-attribute 'line-number-current-line nil
+  ;;                       :weight 'bold
+  ;;                       :foreground "black"
+  ;;                       :background (face-attribute 'highlight :background)))
 
-;; (leaf apropospriate-theme
-;;   :ensure t
-;;   :config
-;;   (load-theme 'apropospriate-light t))
+  ;; (leaf apropospriate-theme
+  ;;   :ensure t
+  ;;   :config
+  ;;   (load-theme 'apropospriate-light t))
 #+end_src
 ** modus良い
 #+begin_src emacs-lisp
-;; (leaf *theme-modus ; for Emacs 28.2 bundled version
-;;   :disabled t
-;;   :custom ((modus-themes-region            . 'bg-only)
-;;            (modus-themes-org-blocks        . 'gray-background)
-;;            (modus-themes-italic-constructs . t)
-;;            (modus-themes-no-mixed-fonts    . t))
-;;   :config
-;;   ;; (setq modus-themes-common-palette-overrides
-;;   ;;       '((border-mode-line-active unspecified)
-;;   ;;         (border-mode-line-inactive unspecified)))
-;;   (load-theme 'modus-operandi t)
-;;   (set-face-attribute 'show-paren-match nil
-;;                       :underline '(:color "red")
-;;                       :background nil)
-;;   (set-face-attribute 'vhl/default-face nil :background "#d0d6ff" :foreground nil)
-;;   ;; (set-face-attribute 'mode-line nil :box nil) ;; :weight 'normal
-;;   ;; (set-face-attribute 'mode-line-inactive nil :box nil)
-;;   (set-face-attribute 'font-lock-comment-face nil :foreground "#707070")
-;;   )
+  ;; (leaf *theme-modus ; for Emacs 28.2 bundled version
+  ;;   :disabled t
+  ;;   :custom ((modus-themes-region            . 'bg-only)
+  ;;            (modus-themes-org-blocks        . 'gray-background)
+  ;;            (modus-themes-italic-constructs . t)
+  ;;            (modus-themes-no-mixed-fonts    . t))
+  ;;   :config
+  ;;   ;; (setq modus-themes-common-palette-overrides
+  ;;   ;;       '((border-mode-line-active unspecified)
+  ;;   ;;         (border-mode-line-inactive unspecified)))
+  ;;   (load-theme 'modus-operandi t)
+  ;;   (set-face-attribute 'show-paren-match nil
+  ;;                       :underline '(:color "red")
+  ;;                       :background nil)
+  ;;   (set-face-attribute 'vhl/default-face nil :background "#d0d6ff" :foreground nil)
+  ;;   ;; (set-face-attribute 'mode-line nil :box nil) ;; :weight 'normal
+  ;;   ;; (set-face-attribute 'mode-line-inactive nil :box nil)
+  ;;   (set-face-attribute 'font-lock-comment-face nil :foreground "#707070")
+  ;;   )
 
-(leaf modus-themes
-  :ensure t
-  :custom ((modus-themes-region                   . 'bg-only)
-           (modus-themes-org-blocks               . 'gray-background)
-           (modus-themes-italic-constructs        . t)
-           (modus-themes-no-mixed-fonts           . t)
-           (modus-themes-common-palette-overrides . '((bg-paren-match bg-cyan-intense)
-                                                      (fg-region unspecified)
-                                                      (border-mode-line-active unspecified)
-                                                      (border-mode-line-inactive unspecified))))
-  :config
-  (defun my-update-mode-line-face-attribute-vars ()
-    (setq my:mode-line-active-background (face-attribute 'mode-line :background))
-    (setq my:mode-line-inactive-background (face-attribute 'mode-line-inactive :background)))
-  (add-hook 'modus-themes-after-load-theme-hook 'my-update-mode-line-face-attribute-vars)
-  (load-theme 'modus-operandi t) ; light
-  ;; (load-theme 'modus-vivendi t) ; dark
-  (my-update-mode-line-face-attribute-vars)
-  )
+  (leaf modus-themes
+    :ensure t
+    :custom ((modus-themes-region                   . 'bg-only)
+             (modus-themes-org-blocks               . 'gray-background)
+             (modus-themes-italic-constructs        . t)
+             (modus-themes-no-mixed-fonts           . t)
+             (modus-themes-common-palette-overrides . '((bg-paren-match bg-cyan-intense)
+                                                        (fg-region unspecified)
+                                                        (border-mode-line-active unspecified)
+                                                        (border-mode-line-inactive unspecified))))
+    :config
+    (defun my-update-mode-line-face-attribute-vars ()
+      (setq my:mode-line-active-background (face-attribute 'mode-line :background))
+      (setq my:mode-line-inactive-background (face-attribute 'mode-line-inactive :background)))
+    (add-hook 'modus-themes-after-load-theme-hook 'my-update-mode-line-face-attribute-vars)
+    (load-theme 'modus-operandi t) ; light
+    ;; (load-theme 'modus-vivendi t) ; dark
+    (my-update-mode-line-face-attribute-vars)
+    )
 #+end_src
 * ビープ音の代わりにモードラインを点滅させる
 #+begin_src emacs-lisp
-(setq visible-bell nil
-      ring-bell-function 'my-blink-mode-line)
-(defun my-blink-mode-line ()
-  (set-face-attribute 'mode-line nil :background my:mode-line-inactive-background)
-  (run-with-timer
-   0.1 nil #'set-face-attribute 'mode-line nil :background my:mode-line-active-background))
+  (setq visible-bell nil
+        ring-bell-function 'my-blink-mode-line)
+  (defun my-blink-mode-line ()
+    (set-face-attribute 'mode-line nil :background my:mode-line-inactive-background)
+    (run-with-timer
+     0.1 nil #'set-face-attribute 'mode-line nil :background my:mode-line-active-background))
 #+end_src
 * マウスホイール/トラックパッドのスクロールを快適に
 #+begin_src emacs-lisp
-(setq scroll-conservatively 1)
-(setq scroll-preserve-screen-position t)
+  (setq scroll-conservatively 1)
+  (setq scroll-preserve-screen-position t)
 #+end_src
 * コマンド
 ** init関連ファイルを開く
 #+begin_src emacs-lisp
-(defun edit-my-init ()
-  (interactive)
-  (let* ((items '("README.org" "init-local.el" "init.el" "early-init.el"))
-         (file (completing-read "edit-my-init> " items)))
-    (let* ((safe-local-variable-values '((org-src-preserve-indentation . t))))
-      (find-file (expand-file-name (concat user-emacs-directory file))))))
+  (defun edit-my-init ()
+    (interactive)
+    (let* ((items '("README.org" "init-local.el" "init.el" "early-init.el"))
+           (file (completing-read "edit-my-init> " items)))
+      (let* ((safe-local-variable-values '((org-src-preserve-indentation . t))))
+        (find-file (expand-file-name (concat user-emacs-directory file))))))
 #+end_src
 ** init.el再読み込み
 これで適切か？
 #+begin_src emacs-lisp
-(defun reload-init-file ()
-  (interactive)
-  (load-file user-init-file)
-  (when (fboundp 'org-mode-restart)
-    (org-mode-restart)))
+  (defun reload-init-file ()
+    (interactive)
+    (load-file user-init-file)
+    (when (fboundp 'org-mode-restart)
+      (org-mode-restart)))
 #+end_src
 ** 編集中のファイルが置かれているディレクトリをExplorerで開く
 #+begin_src emacs-lisp
-(defun explorer ()
-  (interactive)
-  (if (and default-directory buffer-file-name)
-      (browse-url (expand-file-name default-directory))))
+  (defun explorer ()
+    (interactive)
+    (if (and default-directory buffer-file-name)
+        (browse-url (expand-file-name default-directory))))
 #+end_src
 * その他関数
 #+begin_src emacs-lisp
-;; (defun my-blink-hl-line ()
-;;   ;; (unless (fboundp 'hl-line-mode) (require 'hl-line-mode))
-;;   (unless (boundp 'hl-line-mode)
-;;     (setq hl-line-mode nil))
-;;   (unless hl-line-mode
-;;     (run-with-timer
-;;      0.1 nil
-;;      #'(lambda ()
-;;          (hl-line-mode 1)
-;;          (run-with-timer
-;;           0.1 nil
-;;           #'(lambda ()
-;;               (hl-line-mode 0)
-;;               (run-with-timer
-;;                0.1 nil
-;;                #'(lambda ()
-;;                    (hl-line-mode 1)
-;;                    (run-with-timer
-;;                     0.1 nil
-;;                     #'(lambda ()
-;;                         (hl-line-mode 0)))))))))))
+  ;; (defun my-blink-hl-line ()
+  ;;   ;; (unless (fboundp 'hl-line-mode) (require 'hl-line-mode))
+  ;;   (unless (boundp 'hl-line-mode)
+  ;;     (setq hl-line-mode nil))
+  ;;   (unless hl-line-mode
+  ;;     (run-with-timer
+  ;;      0.1 nil
+  ;;      #'(lambda ()
+  ;;          (hl-line-mode 1)
+  ;;          (run-with-timer
+  ;;           0.1 nil
+  ;;           #'(lambda ()
+  ;;               (hl-line-mode 0)
+  ;;               (run-with-timer
+  ;;                0.1 nil
+  ;;                #'(lambda ()
+  ;;                    (hl-line-mode 1)
+  ;;                    (run-with-timer
+  ;;                     0.1 nil
+  ;;                     #'(lambda ()
+  ;;                         (hl-line-mode 0)))))))))))
 
-(defun my-recenter ()
-  (interactive)
-  ;; (when (fboundp 'git-gutter) (git-gutter))
-  (recenter-top-bottom) ;; (recenter)
-  ;; (my-blink-hl-line)
-  (when (fboundp 'vhl/add) (vhl/add (point) (1+ (point))))
-  ;; (when (fboundp 'pulsar-highlight-line) (pulsar-highlight-line))
-  )
+  (defun my-recenter ()
+    (interactive)
+    ;; (when (fboundp 'git-gutter) (git-gutter))
+    (recenter-top-bottom) ;; (recenter)
+    ;; (my-blink-hl-line)
+    (when (fboundp 'vhl/add) (vhl/add (point) (1+ (point))))
+    ;; (when (fboundp 'pulsar-highlight-line) (pulsar-highlight-line))
+    )
 #+end_src
 * provideの設定
 #+begin_src emacs-lisp
-(provide 'init)
-;;; init.el ends here
+  (provide 'init)
+  ;;; init.el ends here
 #+end_src
 * ローカルの設定があれば読み込む
 #+begin_src emacs-lisp
-(load (expand-file-name(concat user-emacs-directory "init-local.el")) t)
+  (load (expand-file-name(concat user-emacs-directory "init-local.el")) t)
 #+end_src
