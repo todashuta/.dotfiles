@@ -1,4 +1,3 @@
-# -*- org-src-preserve-indentation: t; -*-
 #+TITLE: My init file
 
 * ヘッダ
