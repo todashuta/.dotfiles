@@ -245,14 +245,13 @@
 #+begin_src emacs-lisp
 (add-hook 'before-save-hook 'my-time-stamp)
 (defun my-time-stamp ()
-  (when (eq major-mode 'org-mode)
-    (time-stamp)))
-;; (add-hook
-;;  'org-mode-hook (lambda ()
-;;                   (setq-local
-;;                    time-stamp-start  "#\\+DATE: "
-;;                    time-stamp-end    "\$"
-;;                    time-stamp-format "%Y-%02m-%02d %02H:%02M:%02S %l")))
+  (when (memq major-mode '(org-mode))
+    (let (
+          (time-stamp-format "%Y-%02m-%02dT%02H:%02M:%02S%5z %l@%q")
+          ;; (time-stamp-start  "#\\+DATE: ")
+          ;; (time-stamp-end    "\$")
+          )
+      (time-stamp))))
 #+end_src
 * 雑多
 #+begin_src emacs-lisp
