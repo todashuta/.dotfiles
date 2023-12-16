@@ -107,6 +107,12 @@
   (add-hook 'minibuffer-setup-hook 'my-minibuffer-setup)
   )
 #+end_src
+** インデントとか
+#+begin_src emacs-lisp
+(add-hook 'emacs-lisp-mode-hook
+          (lambda ()
+            (setq indent-tabs-mode nil)))
+#+end_src
 * Org Mode
 便利
 #+begin_src emacs-lisp
