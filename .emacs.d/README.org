@@ -118,6 +118,14 @@
   (global-unset-key (kbd "C-<wheel-up>"))
   (global-unset-key (kbd "C-<wheel-down>"))
 #+end_src
+** ファイル名補完で無視する拡張子たち
+#+begin_src emacs-lisp
+  (dolist (ext '(
+                 ".DS_Store"
+                 ".zip"
+                 ))
+    (add-to-list 'completion-ignored-extensions ext))
+#+end_src
 * Org Mode
 便利
 #+begin_src emacs-lisp
