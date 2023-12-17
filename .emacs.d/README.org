@@ -266,6 +266,12 @@
                time-stamp-format "%Y-%02m-%02dT%02H:%02M:%02S%5z %l@%q"
                )))
 #+end_src
+* fido-vertical-mode
+- ミニバッファの補完UI
+- =M-j= で補完内容を無視して入力内容で確定する (icomplete-fido-exit)
+#+begin_src emacs-lisp
+  (fido-vertical-mode +1)
+#+end_src
 * 雑多
 #+begin_src emacs-lisp
   (leaf generic-x
@@ -447,7 +453,6 @@
   ;;            (completion-ignore-case                . t))
   ;;   :config
   ;;   (vertico-mode +1))
-  (fido-vertical-mode +1)
 
   (leaf orderless
     :disabled t ; TODO company で使わない設定ができたら有効に戻そう
