@@ -280,6 +280,24 @@
 #+begin_src emacs-lisp
   (fido-vertical-mode +1)
 #+end_src
+* Git関連
+** magit
+- commitで =-S= (Sign) を使えるようにする方法
+  - =M-x magit-commit=
+  - =C-x l= を2回、 =5= を設定
+#+begin_src emacs-lisp
+  (leaf magit
+    :ensure t)
+#+end_src
+** git-gutter
+#+begin_src emacs-lisp
+  (leaf git-gutter
+    :ensure t
+    :bind (("M-N" . git-gutter:next-hunk)
+           ("M-P" . git-gutter:previous-hunk))
+    :config
+    (global-git-gutter-mode 0))
+#+end_src
 * 雑多
 #+begin_src emacs-lisp
   (leaf generic-x
@@ -413,16 +431,6 @@
     :bind (("C-c n" . display-line-numbers-mode))
     :config
     )
-
-  (leaf magit
-    :ensure t)
-
-  (leaf git-gutter
-    :ensure t
-    :bind (("M-N" . git-gutter:next-hunk)
-           ("M-P" . git-gutter:previous-hunk))
-    :config
-    (global-git-gutter-mode 0))
 
   (leaf macrostep
     :ensure t
