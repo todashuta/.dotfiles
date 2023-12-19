@@ -161,6 +161,7 @@
              (org-indent-indentation-per-level      . 3)
 
              ;; (org-agenda-tags-column      . 0)
+             (org-agenda-align-tags-to-column . 0)
              (org-agenda-format-date      . "%Y-%m-%d (%a)")
              ;; (org-agenda-span             . 'day)
              (org-agenda-start-on-weekday . 0)
@@ -210,10 +211,25 @@
 #+begin_src emacs-lisp
   (leaf org-modern
     :ensure t
+    :custom ((org-modern-priority-faces . '((?A :background "#FF6361"
+                                                :foreground "white")
+                                            (?B :background "#BC5090"
+                                                :foreground "white")
+                                            (?C :background "#6F975C"
+                                                :foreground "white"))))
     :hook (
            ;; (org-mode-hook . org-modern-mode)
            (org-agenda-finalize-hook . org-modern-agenda)
            ))
+
+#+end_src
+*** agendaでTODOがラベルっぽい表示にならない問題の対処
+- org側に ~org-todo-keywords-for-agenda~ が適切に設定されないバグがあるらしい
+- 参考: https://github.com/minad/org-modern/issues/26#issuecomment-1722329496
+#+begin_src emacs-lisp
+  (add-hook 'org-agenda-finalize-hook
+            (lambda ()
+              (setq-local org-todo-keywords-for-agenda '("DONE" "WIP" "TODO"))))
 #+end_src
 ** org-agendaのバッファにカーソルがあるときに自動更新する
 #+begin_src emacs-lisp
