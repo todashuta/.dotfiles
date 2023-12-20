@@ -232,32 +232,53 @@
               (setq-local org-todo-keywords-for-agenda '("DONE" "WIP" "TODO"))))
 #+end_src
 ** org-agendaのバッファにカーソルがあるときに自動更新する
+優先度やTODO変えている最中に更新が動いて順番が入れ替わると誤爆するのでやめた
 #+begin_src emacs-lisp
-  (defvar my/org-agenda-update-timer nil)
+  ;; (defvar my/org-agenda-update-timer nil)
+  ;; (defun my-toggle-org-agenda-buffer-auto-update ()
+  ;;   (interactive)
+  ;;   (if my/org-agenda-update-timer
+  ;;       (progn
+  ;;         (cancel-timer my/org-agenda-update-timer)
+  ;;         (setq my/org-agenda-update-timer nil)
+  ;;         (message "org-agenda auto update disabled"))
+  ;;     (progn
+  ;;       (setq my/org-agenda-update-timer
+  ;;             (run-with-timer
+  ;;              2 2
+  ;;              (lambda ()
+  ;;                (condition-case nil
+  ;;                    (let ((bufname "*Org Agenda*")
+  ;;                          (oldmsg (current-message)))
+  ;;                      (when (eq (get-buffer bufname) (current-buffer))
+  ;;                        (with-current-buffer bufname
+  ;;                          (let ((current-position (point)))
+  ;;                            (let ((inhibit-message t))
+  ;;                              (call-interactively 'org-agenda-redo))
+  ;;                            (message "%s" (if oldmsg oldmsg "")) ; restore message
+  ;;                            (goto-char current-position)))))
+  ;;                  (error (message "An error occurred while updating the *Org Agenda* buffer"))))))
+  ;;       (message "org-agenda auto update enabled"))))
+#+end_src
+** org-agendaのバッファのウインドウにカーソルが入ったときに更新する
+#+begin_src emacs-lisp
+  (add-hook 'window-selection-change-functions 'my-org-agenda-update)
+  (defun my-org-agenda-update (_frame)
+    (let* ((window (selected-window))
+           (buffer (window-buffer window)))
+      (when (eq (buffer-local-value 'major-mode buffer) 'org-agenda-mode)
+        (let ((current-position (point)))
+          (call-interactively 'org-agenda-redo)
+          (goto-char current-position)))))
   (defun my-toggle-org-agenda-buffer-auto-update ()
     (interactive)
-    (if my/org-agenda-update-timer
+    (if (memq 'my-org-agenda-update window-selection-change-functions)
         (progn
-          (cancel-timer my/org-agenda-update-timer)
-          (setq my/org-agenda-update-timer nil)
-          (message "org-agenda auto update disabled"))
+          (remove-hook 'window-selection-change-functions 'my-org-agenda-update)
+          (message "%s" "my-org-agenda-update removed"))
       (progn
-        (setq my/org-agenda-update-timer
-              (run-with-timer
-               2 2
-               (lambda ()
-                 (condition-case nil
-                     (let ((bufname "*Org Agenda*")
-                           (oldmsg (current-message)))
-                       (when (eq (get-buffer bufname) (current-buffer))
-                         (with-current-buffer bufname
-                           (let ((current-position (point)))
-                             (let ((inhibit-message t))
-                               (call-interactively 'org-agenda-redo))
-                             (message "%s" (if oldmsg oldmsg "")) ; restore message
-                             (goto-char current-position)))))
-                   (error (message "An error occurred while updating the *Org Agenda* buffer"))))))
-        (message "org-agenda auto update enabled"))))
+        (add-hook 'window-selection-change-functions 'my-org-agenda-update)
+        (message "%s" "my-org-agenda-update added"))))
 #+end_src
 * カレンダー関連
 #+begin_src emacs-lisp
@@ -772,6 +793,12 @@
     (when (fboundp 'vhl/add) (vhl/add (point) (1+ (point))))
     ;; (when (fboundp 'pulsar-highlight-line) (pulsar-highlight-line))
     )
+#+end_src
+* =C-h h= でハングするので無効化しとく（Windows）
+#+begin_src emacs-lisp
+  (when (eq window-system 'w32)
+    (global-set-key (kbd "C-h h")
+                    (lambda () (interactive) (message "%s" "代わりに M-x view-hello-file を使ってください ※多分固まります"))))
 #+end_src
 * provideの設定
 #+begin_src emacs-lisp
