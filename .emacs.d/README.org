@@ -149,12 +149,13 @@
                                          "~/org-docs/"
                                          "~/org-docs/projects/"
                                          ))
-             (org-capture-templates . '(
-                                        ;; ("t" "タスク" entry (file+headline "~/org-docs/tasks.org" "タスク一覧") "** TODO %?\n%^T")
-                                        ;; ("m" "メモ"   entry (file+headline "~/org-docs/notes.org" "メモ帳")     "** %U %?\n%l")
-                                        ("t" "タスク" entry (file "~/org-docs/tasks.org") "* TODO %?\n%^T")
-                                        ("m" "メモ"   entry (file "~/org-docs/notes.org") "* %U %?\n%l")
-                                        ))
+             (org-capture-templates
+              . '(
+                  ;; ("t" "タスク" entry (file+headline "~/org-docs/tasks.org" "タスク一覧") "** TODO %?\n%^T")
+                  ;; ("m" "メモ"   entry (file+headline "~/org-docs/notes.org" "メモ帳")     "** %U %?\n%l")
+                  ("t" "タスク" entry (file "~/org-docs/tasks.org") "* TODO %?\n%^T")
+                  ("m" "メモ"   entry (file "~/org-docs/notes.org") "* %U %?\n%l")
+                  ))
 
              (org-startup-indented                  . t)
              (org-indent-mode-turns-on-hiding-stars . nil)
@@ -165,14 +166,15 @@
              (org-agenda-format-date      . "%Y-%m-%d (%a)")
              ;; (org-agenda-span             . 'day)
              (org-agenda-start-on-weekday . 0)
-             (org-agenda-custom-commands  . '(
-                                              ("n" "Agenda and all TODOs"
-                                               ((agenda "")
-                                                (alltodo "")))
-                                              ("d" "Today's Agenda and all TODOs"
-                                               ((agenda "" ((org-agenda-span 'day)))
-                                                (alltodo "")))
-                                              ))
+             (org-agenda-custom-commands
+              . '(
+                  ("n" "Agenda and all TODOs"
+                   ((agenda "")
+                    (alltodo "")))
+                  ("d" "Today's Agenda and all TODOs"
+                   ((agenda "" ((org-agenda-span 'day)))
+                    (alltodo "")))
+                  ))
 
              (org-html-validation-link . nil)
              )
@@ -211,12 +213,13 @@
 #+begin_src emacs-lisp
   (leaf org-modern
     :ensure t
-    :custom ((org-modern-priority-faces . '((?A :background "#FF6361"
-                                                :foreground "white")
-                                            (?B :background "#BC5090"
-                                                :foreground "white")
-                                            (?C :background "#6F975C"
-                                                :foreground "white"))))
+    :custom ((org-modern-priority-faces
+              . '((?A :background "#FF6361"
+                      :foreground "white")
+                  (?B :background "#BC5090"
+                      :foreground "white")
+                  (?C :background "#6F975C"
+                      :foreground "white"))))
     :hook (
            ;; (org-mode-hook . org-modern-mode)
            (org-agenda-finalize-hook . org-modern-agenda)
@@ -703,14 +706,15 @@
 
   (leaf modus-themes
     :ensure t
-    :custom ((modus-themes-region                   . 'bg-only)
-             (modus-themes-org-blocks               . 'gray-background)
-             (modus-themes-italic-constructs        . t)
-             (modus-themes-no-mixed-fonts           . t)
-             (modus-themes-common-palette-overrides . '((bg-paren-match bg-cyan-intense)
-                                                        (fg-region unspecified)
-                                                        (border-mode-line-active unspecified)
-                                                        (border-mode-line-inactive unspecified))))
+    :custom ((modus-themes-region            . 'bg-only)
+             (modus-themes-org-blocks        . 'gray-background)
+             (modus-themes-italic-constructs . t)
+             (modus-themes-no-mixed-fonts    . t)
+             (modus-themes-common-palette-overrides
+              . '((bg-paren-match bg-cyan-intense)
+                  (fg-region unspecified)
+                  (border-mode-line-active unspecified)
+                  (border-mode-line-inactive unspecified))))
     :config
     (defun my-update-mode-line-face-attribute-vars ()
       (setq my:mode-line-active-background (face-attribute 'mode-line :background))
