@@ -401,12 +401,12 @@
     :ensure t
     :custom ((nyan-animate-nyancat . nil)
              (nyan-wavy-trail      . nil))
-    ;; :global-minor-mode nyan-mode
+    ;; :global-minor-mode t
     )
 
   (leaf mlscroll
     :ensure t
-    ;; :global-minor-mode mlscroll-mode
+    ;; :global-minor-mode t
     )
 
   (leaf whitespace
@@ -486,9 +486,9 @@
       (let* ((inhibit-message t))
         (recentf-save-list))))
 
-  (leaf savehist-mode
+  (leaf savehist
     :custom `((savehist-file . ,(expand-file-name "~/var/emacs/history")))
-    :global-minor-mode savehist-mode)
+    :global-minor-mode t)
 
   ;; (leaf ido-vertical-mode
   ;;   :ensure t
@@ -533,7 +533,7 @@
 
   (leaf volatile-highlights
     :ensure t
-    :global-minor-mode volatile-highlights-mode)
+    :global-minor-mode t)
 
   ;; (leaf beacon
   ;;   :ensure t
@@ -553,7 +553,7 @@
              (doom-modeline-indent-info . t)
              (doom-modeline-height      . 22)
              (doom-modeline-hud         . t))
-    :global-minor-mode doom-modeline-mode)
+    :global-minor-mode t)
 
   (leaf paredit
     :ensure t)
