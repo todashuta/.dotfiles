@@ -129,7 +129,7 @@
 * Org Mode
 便利
 #+begin_src emacs-lisp
-  (leaf org-mode
+  (leaf org
     :custom (
              (org-use-speed-commands                 . t)
              (org-hide-leading-stars                 . nil)
@@ -224,7 +224,6 @@
            ;; (org-mode-hook . org-modern-mode)
            (org-agenda-finalize-hook . org-modern-agenda)
            ))
-
 #+end_src
 *** agendaでTODOがラベルっぽい表示にならない問題の対処
 - org側に ~org-todo-keywords-for-agenda~ が適切に設定されないバグがあるらしい
@@ -283,9 +282,9 @@
         (add-hook 'window-selection-change-functions 'my-org-agenda-update)
         (message "%s" "my-org-agenda-update added"))))
 #+end_src
-* カレンダー関連
+* カレンダーを日本語表記にする
 #+begin_src emacs-lisp
-  (leaf *japanese-calendar-settings
+  (leaf calendar
     :custom ((calendar-month-header . '(propertize
                                         (format "%d年 %s月" year month)
                                         'font-lock-face 'calendar-month-header))
@@ -318,7 +317,8 @@
 - ミニバッファの補完UI
 - =M-j= で補完内容を無視して入力内容で確定する (icomplete-fido-exit)
 #+begin_src emacs-lisp
-  (fido-vertical-mode +1)
+  (leaf icomplete
+    :global-minor-mode fido-vertical-mode)
 #+end_src
 * Git関連
 ** magit
@@ -335,8 +335,7 @@
     :ensure t
     :bind (("M-N" . git-gutter:next-hunk)
            ("M-P" . git-gutter:previous-hunk))
-    :config
-    (global-git-gutter-mode 0))
+    :global-minor-mode global-git-gutter-mode)
 #+end_src
 * 雑多
 #+begin_src emacs-lisp
@@ -402,14 +401,12 @@
     :ensure t
     :custom ((nyan-animate-nyancat . nil)
              (nyan-wavy-trail      . nil))
-    :config
-    ;; (nyan-mode +1)
+    ;; :global-minor-mode nyan-mode
     )
 
   (leaf mlscroll
     :ensure t
-    :config
-    ;; (mlscroll-mode +1)
+    ;; :global-minor-mode mlscroll-mode
     )
 
   (leaf whitespace
@@ -491,8 +488,7 @@
 
   (leaf savehist-mode
     :custom `((savehist-file . ,(expand-file-name "~/var/emacs/history")))
-    :config
-    (savehist-mode +1))
+    :global-minor-mode savehist-mode)
 
   ;; (leaf ido-vertical-mode
   ;;   :ensure t
@@ -527,20 +523,17 @@
       (el-get-bundle end-mark
         :url "https://github.com/tarao/elisp.git"
         :features end-mark))
-    :config
-    ;; (global-end-mark-mode)
+    ;; :global-minor-mode global-end-mark-mode
     )
 
   (leaf undo-tree
     :ensure t
     :custom ((undo-tree-history-directory-alist . '(("." . "~/var/emacs/undo-tree"))))
-    :config
-    (global-undo-tree-mode +1))
+    :global-minor-mode global-undo-tree-mode)
 
   (leaf volatile-highlights
     :ensure t
-    :config
-    (volatile-highlights-mode +1))
+    :global-minor-mode volatile-highlights-mode)
 
   ;; (leaf beacon
   ;;   :ensure t
@@ -560,8 +553,7 @@
              (doom-modeline-indent-info . t)
              (doom-modeline-height      . 22)
              (doom-modeline-hud         . t))
-    :config
-    (doom-modeline-mode +1))
+    :global-minor-mode doom-modeline-mode)
 
   (leaf paredit
     :ensure t)
