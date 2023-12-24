@@ -275,11 +275,14 @@
 #+begin_src emacs-lisp
   (add-hook 'window-selection-change-functions 'my-org-agenda-update)
   (defun my-org-agenda-update (_frame)
-    (let* ((window (selected-window))
+    (let* ((oldmsg (current-message))
+           (window (selected-window))
            (buffer (window-buffer window)))
       (when (eq (buffer-local-value 'major-mode buffer) 'org-agenda-mode)
         (let ((current-position (point)))
-          (call-interactively 'org-agenda-redo)
+          (let ((inhibit-message t))
+            (call-interactively 'org-agenda-redo))
+          (message "%s" (if oldmsg oldmsg "")) ; restore message
           (goto-char current-position)))))
   (defun my-toggle-org-agenda-buffer-auto-update ()
     (interactive)
