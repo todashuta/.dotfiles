@@ -75,6 +75,8 @@
               (frame-title-format             . '("%b - Emacs " emacs-version))
               (initial-scratch-message        . ,(concat ";; *scratch* - Emacs " emacs-version "\n\n"))
               (mouse-highlight                . nil)
+              (mouse-1-click-follows-link     . nil)
+              (indicate-buffer-boundaries     . t)
               )
     :config
     (dolist (elt '((default   . normal)
@@ -232,6 +234,13 @@
   (add-hook 'org-agenda-finalize-hook
             (lambda ()
               (setq-local org-todo-keywords-for-agenda '("DONE" "WIP" "TODO"))))
+#+end_src
+** org-rainbow-tags
+#+begin_src emacs-lisp
+  (leaf org-rainbow-tags
+    :ensure t
+    :custom ((org-rainbow-tags-extra-face-attributes . '(:inverse-video nil :box t :weight 'bold)))
+    :hook ((org-mode-hook . org-rainbow-tags-mode)))
 #+end_src
 ** org-agendaのバッファにカーソルがあるときに自動更新する
 優先度やTODO変えている最中に更新が動いて順番が入れ替わると誤爆するのでやめた
@@ -489,6 +498,9 @@
   (leaf savehist
     :custom `((savehist-file . ,(expand-file-name "~/var/emacs/history")))
     :global-minor-mode t)
+
+  (leaf saveplace
+    :global-minor-mode save-place-mode)
 
   ;; (leaf ido-vertical-mode
   ;;   :ensure t
