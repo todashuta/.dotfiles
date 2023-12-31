@@ -765,12 +765,24 @@
     (when (fboundp 'org-mode-restart)
       (org-mode-restart)))
 #+end_src
-** 編集中のファイルが置かれているディレクトリをExplorerで開く
+** 編集中のファイルが置かれているディレクトリをExplorer/Finderで開く
 #+begin_src emacs-lisp
-  (defun explorer ()
+  (defun my-explorer ()
     (interactive)
-    (if (and default-directory buffer-file-name)
-        (browse-url (expand-file-name default-directory))))
+    (if buffer-file-name
+        (let ((default-directory (file-name-directory buffer-file-name)))
+          (cond
+           ((and (eq system-type 'darwin)
+                 (executable-find "/usr/bin/open")) ; macOS
+            (call-process-shell-command "/usr/bin/open ."))
+           ((and (eq system-type 'windows-nt)
+                 (executable-find "explorer.exe")) ; Windows
+            (call-process-shell-command "explorer.exe ."))
+           ;; ((and (eq system-type 'gnu/linux)
+           ;;       (executable-find "xdg-open")) ; Linux
+           ;;  (call-process-shell-command "xdg-open ."))
+           (t (message "%s" "Unknown system-type"))))
+      (message "%s" "buffer-file-name is nil")))
 #+end_src
 * その他関数
 #+begin_src emacs-lisp
