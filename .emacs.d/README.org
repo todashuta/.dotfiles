@@ -767,22 +767,27 @@
 #+end_src
 ** 編集中のファイルが置かれているディレクトリをExplorer/Finderで開く
 #+begin_src emacs-lisp
-  (defun my-explorer ()
+  (defun browse-buffer-directory ()
     (interactive)
-    (if buffer-file-name
-        (let ((default-directory (file-name-directory buffer-file-name)))
-          (cond
-           ((and (eq system-type 'darwin)
-                 (executable-find "/usr/bin/open")) ; macOS
-            (call-process-shell-command "/usr/bin/open ."))
-           ((and (eq system-type 'windows-nt)
-                 (executable-find "explorer.exe")) ; Windows
-            (call-process-shell-command "explorer.exe ."))
-           ;; ((and (eq system-type 'gnu/linux)
-           ;;       (executable-find "xdg-open")) ; Linux
-           ;;  (call-process-shell-command "xdg-open ."))
-           (t (message "%s" "Unknown system-type"))))
-      (message "%s" "buffer-file-name is nil")))
+    (let* ((file-name (or (and (boundp 'org-src-source-file-name)
+                               org-src-source-file-name)
+                          buffer-file-name))
+           (directory (when file-name
+                        (file-name-directory file-name))))
+      (if directory
+          (let ((default-directory directory))
+            (cond
+             ((and (eq system-type 'darwin)
+                   (executable-find "/usr/bin/open")) ; macOS
+              (call-process-shell-command "/usr/bin/open ."))
+             ((and (eq system-type 'windows-nt)
+                   (executable-find "explorer.exe")) ; Windows
+              (call-process-shell-command "explorer.exe ."))
+             ;; ((and (eq system-type 'gnu/linux)
+             ;;       (executable-find "xdg-open")) ; Linux
+             ;;  (call-process-shell-command "xdg-open ."))
+             (t (message "%s" "Unknown system-type"))))
+        (message "%s" "バッファのディレクトリが取得できませんでした"))))
 #+end_src
 * その他関数
 #+begin_src emacs-lisp
