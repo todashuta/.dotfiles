@@ -79,19 +79,19 @@
               (indicate-buffer-boundaries     . t)
               )
     :config
-    (dolist (elt '((default   . normal)
-                   (mode-line . bold)
-                   (org-block . normal)))
-      (let* ((face (car elt))
-             (weight (cdr elt)))
+    (dolist ($item '((default   normal)
+                     (mode-line bold)
+                     (org-block normal)))
+      (let (($face   (elt $item 0))
+            ($weight (elt $item 1)))
         (custom-set-faces
-         `(,face
+         `(,$face
            ((t (:family "UDEV Gothic JPDOC"
                         :foundry "outline"
                         :slant normal
                         :height 100
                         :width normal
-                        :weight ,weight)))))))
+                        :weight ,$weight)))))))
     ;; (set-fontset-font t 'japanese-jisx0208 (font-spec :family "BIZ UD明朝"))
 
     (tab-bar-mode +1)
