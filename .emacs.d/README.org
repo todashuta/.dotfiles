@@ -278,9 +278,11 @@
     (let* ((oldmsg (current-message))
            (window (selected-window))
            (buffer (window-buffer window)))
-      (when (eq (buffer-local-value 'major-mode buffer) 'org-agenda-mode)
+      (when (and (eq (buffer-local-value 'major-mode buffer) 'org-agenda-mode)
+                 (not (memq org-agenda-current-span '(year month))))
         (let ((current-position (point)))
           (let ((inhibit-message t))
+            (call-interactively 'org-agenda-redo)
             (call-interactively 'org-agenda-redo))
           (message "%s" (if oldmsg oldmsg "")) ; restore message
           (goto-char current-position)))))
