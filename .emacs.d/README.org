@@ -133,6 +133,7 @@
 #+begin_src emacs-lisp
   (leaf org
     :custom (
+             (org-ellipsis                           . "…") ; "▼" "↴"
              (org-use-speed-commands                 . t)
              (org-hide-leading-stars                 . nil)
              (org-src-fontify-natively               . t)
@@ -435,6 +436,7 @@
              (highlight-indent-guides-responsive . 'top)))
 
   (leaf mwim
+    :disabled t
     :ensure t
     :bind (("C-a" . mwim-beginning-of-code-or-line)
            ("C-e" . mwim-end-of-code-or-line)))
