@@ -122,11 +122,11 @@
 #+end_src
 ** ファイル名補完で無視する拡張子たち
 #+begin_src emacs-lisp
-  (dolist (ext '(
+  (dolist ($ext '(
                  ".DS_Store"
                  ".zip"
                  ))
-    (add-to-list 'completion-ignored-extensions ext))
+    (add-to-list 'completion-ignored-extensions $ext))
 #+end_src
 * Org Mode
 便利
@@ -336,6 +336,13 @@
 #+begin_src emacs-lisp
   (leaf icomplete
     :global-minor-mode fido-vertical-mode)
+#+end_src
+* recursive-narrow
+#+begin_src emacs-lisp
+  (leaf recursive-narrow
+    :ensure t
+    :bind (("C-x n w" . recursive-widen)
+           ("C-x n n" . recursive-narrow-or-widen-dwim)))
 #+end_src
 * Git関連
 ** magit
