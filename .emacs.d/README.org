@@ -62,6 +62,7 @@
               ;; (scroll-bar-mode         . nil)
               ;; (inhibit-startup-message . t)
               (use-short-answers              . t)
+              (confirm-kill-emacs             . 'yes-or-no-p)
               (truncate-lines                 . t)
               (line-number-mode               . t)
               (column-number-mode             . t)
@@ -445,10 +446,11 @@
              (highlight-indent-guides-responsive . 'top)))
 
   (leaf mwim
-    :disabled t
     :ensure t
-    :bind (("C-a" . mwim-beginning-of-code-or-line)
-           ("C-e" . mwim-end-of-code-or-line)))
+    :config
+    (leaf-keys ((:prog-mode-map
+                 ("C-a" . mwim-beginning-of-code-or-line)
+                 ("C-e" . mwim-end-of-code-or-line)))))
 
   (leaf delsel
     :doc "delete selection if you insert"
@@ -557,7 +559,14 @@
   (leaf undo-tree
     :ensure t
     :custom ((undo-tree-history-directory-alist . '(("." . "~/var/emacs/undo-tree"))))
-    :global-minor-mode global-undo-tree-mode)
+    :global-minor-mode global-undo-tree-mode
+    :bind (("C-z" . undo-tree-undo)
+           ("C-S-z" . undo-tree-redo))
+    ;; :config
+    ;; (leaf-keys ((:global-map
+    ;;              ("C-z" . undo-tree-undo)
+    ;;              ("C-S-z" . undo-tree-redo))))
+    )
 
   (leaf volatile-highlights
     :ensure t
