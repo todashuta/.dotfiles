@@ -133,6 +133,8 @@
 #+begin_src emacs-lisp
   (leaf org
     :custom (
+             (org-special-ctrl-a/e . t)
+             (org-special-ctrl-k   . t)
              (org-ellipsis                           . "…") ; "▼" "↴"
              (org-use-speed-commands                 . t)
              (org-hide-leading-stars                 . nil)
