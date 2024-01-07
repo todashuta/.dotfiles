@@ -136,7 +136,7 @@
     :custom (
              (org-special-ctrl-a/e . t)
              (org-special-ctrl-k   . t)
-             (org-ellipsis                           . "…") ; "▼" "↴"
+             (org-ellipsis                           . "…") ; "▼" "\N{RIGHTWARDS ARROW WITH CORNER DOWNWARDS}"
              (org-use-speed-commands                 . t)
              (org-hide-leading-stars                 . nil)
              (org-src-fontify-natively               . t)
@@ -542,7 +542,8 @@
     :custom ((completion-styles . '(orderless basic))))
 
   (leaf *roswell-slime
-    :when (and (executable-find "ros")
+    :when (and (not (eq system-type 'windows-nt))
+               (executable-find "ros")
                (file-readable-p (expand-file-name "~/.roswell/helper.el"))) ; $ ros install slime
     :init (load (expand-file-name "~/.roswell/helper.el"))
     :custom ((inferior-lisp-program . "ros -Q run"))
