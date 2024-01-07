@@ -541,9 +541,11 @@
     :ensure t
     :custom ((completion-styles . '(orderless basic))))
 
-  (leaf slime
-    :ensure t
-    :custom ((inferior-lisp-program . "sbcl"))
+  (leaf *roswell-slime
+    :when (and (executable-find "ros")
+               (file-readable-p (expand-file-name "~/.roswell/helper.el"))) ; $ ros install slime
+    :init (load (expand-file-name "~/.roswell/helper.el"))
+    :custom ((inferior-lisp-program . "ros -Q run"))
     :config
     (slime-setup '(slime-repl slime-fancy slime-banner)))
 
@@ -843,6 +845,23 @@
     (when (fboundp 'vhl/add) (vhl/add (point) (1+ (point))))
     ;; (when (fboundp 'pulsar-highlight-line) (pulsar-highlight-line))
     )
+
+  (defun my-toggle-buffer-drawer (buffer-name &optional goto-eob)
+    (let* ((window (get-buffer-window buffer-name)))
+      (if window
+          (if (eq (get-buffer buffer-name) (current-buffer))
+              (delete-window)
+            (progn (select-window window)
+                   (if goto-eob
+                       (end-of-buffer))))
+        (progn (select-window (split-root-window-below))
+               (switch-to-buffer buffer-name)
+               (if goto-eob
+                   (end-of-buffer))))))
+  (global-set-key (kbd "C-c s")
+                  (lambda () (interactive) (my-toggle-buffer-drawer "*scratch*")))
+  (global-set-key (kbd "C-c S")
+                  (lambda () (interactive) (my-toggle-buffer-drawer "*Messages*" t)))
 #+end_src
 * =C-h h= でハングするので無効化しとく（Windows）
 #+begin_src emacs-lisp
