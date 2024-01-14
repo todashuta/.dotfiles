@@ -225,7 +225,9 @@
                   (?B :background "#BC5090"
                       :foreground "white")
                   (?C :background "#6F975C"
-                      :foreground "white"))))
+                      :foreground "white")))
+             (org-modern-todo-faces
+              . '(("WIP" :background "#ccdfff" :foreground "#193668"))))
     :hook (
            ;; (org-mode-hook . org-modern-mode)
            (org-agenda-finalize-hook . org-modern-agenda)
@@ -549,6 +551,10 @@
     :custom ((inferior-lisp-program . "ros -Q run"))
     :config
     (slime-setup '(slime-repl slime-fancy slime-banner)))
+
+  (leaf scheme
+    :when (executable-find "/opt/homebrew/bin/gosh")
+    :custom ((scheme-program-name . "/opt/homebrew/bin/gosh -i")))
 
   (leaf end-mark
     :init
