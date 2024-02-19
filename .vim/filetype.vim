@@ -13,6 +13,7 @@ augroup filetypedetect
   autocmd! BufRead,BufNewFile *.usda setfiletype usda
 
   autocmd! BufRead,BufNewFile *.geojson setfiletype json
+  autocmd! BufRead,BufNewFile *.czml setfiletype json
   autocmd! BufRead,BufNewFile *.uproject setfiletype json
   autocmd! BufRead,BufNewFile *.uefnproject setfiletype json
 augroup END
