@@ -355,7 +355,7 @@ if exists('##TextChangedP')
   packadd! vim-vsnip-integ
 endif
 
-let s:denops_available = executable('deno') && has('patch-9.0.1499')
+let s:denops_available = executable('deno') && has('patch-9.0.2189')
 if get(s:, 'denops_available')
   packadd! denops.vim
   packadd! denops-helloworld.vim
