@@ -922,6 +922,17 @@ endfunction
 call operator#user#define('backslash2slash', 'OperatorBackslashToSlash')
 map s/  <Plug>(operator-backslash2slash)
 
+function! OperatorCR2LF(motion_wise)
+  let save_reg_0 = [@0, getregtype('0')]
+  let v = operator#user#visual_command_from_wise_name(a:motion_wise)
+  execute 'normal!' '`[' . v . '`]"0y'
+  let @0 = substitute(@0, '\r', '\n', 'g')
+  execute 'normal!' '`[' . v . '`]"0P`['
+  call setreg('0', save_reg_0[0], save_reg_0[1])
+endfunction
+call operator#user#define('cr2lf', 'OperatorCR2LF')
+map s<CR>  <Plug>(operator-cr2lf)
+
 function! Deg2rad(deg)
   let pi = acos(-1.0)
   return a:deg * pi / 180.0
