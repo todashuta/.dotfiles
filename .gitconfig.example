@@ -1,0 +1,16 @@
+# ~/.gitconfig の例
+
+# cloneしたdotfilesのgitconfigを使う際は、シンボリックリンクにせずincludeで読み込む。
+#   ツールによっては ~/.gitconfig に勝手に設定を書き込む場合があり、
+#   シンボリックリンクにしているとdotfilesに差分が発生して面倒なため。
+[include]
+	path = ~/dotfiles/.gitconfig  # cloneしたパスに合わせて適宜変更する
+
+# 以下、環境に依存する設定など
+[core]
+	autocrlf = false
+	longpaths = true
+[ghq]
+	root = C:/Devel/Repos
+
+# vim: set syntax=gitconfig:

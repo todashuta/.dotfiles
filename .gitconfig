@@ -19,6 +19,7 @@
 #     preloadindex = true
 #     fscache = true
 #     #precomposeunicode = true  # for macOS
+#     #longpaths = true  # for Windows
 # [gc]
 #     auto = 256
 # [merge]
