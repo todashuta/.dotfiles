@@ -10,6 +10,11 @@
 [core]
 	autocrlf = false
 	longpaths = true
+
+	# Windowsでgvimを指定するときは、フルパスで記載すること。
+	#   コマンド名だけだと、 gvim --nofork がうまく機能しないのか、
+	#   編集せずにエディタがすぐに終了したことになってしまう...。
+	editor = c:/vim/gvim.exe
 [ghq]
 	root = C:/Devel/Repos
 
