@@ -2,89 +2,77 @@ local wezterm = require 'wezterm'
 local act = wezterm.action
 local utils = require 'utils'
 
-local launch_menu
-if utils.is_windows() then
-	launch_menu = {}
-	table.insert(launch_menu, {
-		label = 'pwsh.exe -ExecutionPolicy RemoteSigned',
-		args = { 'pwsh.exe', '-ExecutionPolicy', 'RemoteSigned' },
-	})
-	table.insert(launch_menu, {
-		label = 'powershell.exe -ExecutionPolicy RemoteSigned',
-		args = { 'powershell.exe', '-ExecutionPolicy', 'RemoteSigned' },
-	})
-	table.insert(launch_menu, {
-		label = 'cmd.exe',
-		args = { 'cmd.exe' },
-	})
-	table.insert(launch_menu, {
-		label = 'wsl.exe',
-		args = { 'wsl.exe', '--cd', '~' },
-	})
+local C = {}
+if wezterm.config_builder then
+	C = wezterm.config_builder()
 end
 
-return {
-	use_ime = true,
+C.use_ime = true
 
-	initial_cols = 150,
-	initial_rows = 40,
+C.initial_cols = 150
+C.initial_rows = 40
 
-	hide_tab_bar_if_only_one_tab = true,
+C.hide_tab_bar_if_only_one_tab = true
 
-	window_background_opacity = 0.9,
+C.window_background_opacity = 0.9
 
-	font = wezterm.font_with_fallback {
-		'M PLUS 1 Code',
-		'VL Gothic',
+if utils.is_mac() then
+	C.window_decorations = "TITLE | RESIZE | MACOS_FORCE_ENABLE_SHADOW"
+end
 
-		{
-			family = 'JetBrains Mono',
-			harfbuzz_features = { 'calt=0', 'clig=0', 'liga=0' },
-		},
+C.font = wezterm.font_with_fallback {
+	'M PLUS 1 Code',
+	'VL Gothic',
 
-		{ family = 'Shorai Sans StdN Var', weight = 1000 },
-
-		'BIZ UDGothic', 'Meiryo', 'MS Gothic',
-	},
-	font_size = 11.0,
-	line_height = 1.1,
-	warn_about_missing_glyphs = false,
-
-	--color_scheme = 'Builtin Tango Dark',
-	--color_scheme = 'tokyonight-storm',
-	color_scheme = 'iceberg-dark',
-
-	launch_menu = launch_menu,
-
-	keys = {
-		{
-			key = 'Space',
-			mods = 'CTRL|SHIFT',
-			action = act.ShowLauncher,
-		},
+	{
+		family = 'JetBrains Mono',
+		harfbuzz_features = { 'calt=0', 'clig=0', 'liga=0' },
 	},
 
-	mouse_bindings = {
-		-- Disable middle click paste
-		{
-			event = { Down = { streak = 1, button = 'Middle' } },
-			mods = 'NONE',
-			action = act.Nop,
-		},
+	{ family = 'Shorai Sans StdN Var', weight = 1000 },
 
-		-- Change the default click behavior so that it only selects
-		-- text and doesn't open hyperlinks
-		{
-			event = { Up = { streak = 1, button = 'Left' } },
-			mods = 'NONE',
-			action = act.CompleteSelection 'PrimarySelection',
-		},
+	'BIZ UDGothic', 'Meiryo', 'MS Gothic',
+}
+C.font_size = 11.0
+C.line_height = 1.1
+C.warn_about_missing_glyphs = false
 
-		-- and make CTRL-Click open hyperlinks
-		{
-			event = { Up = { streak = 1, button = 'Left' } },
-			mods = 'CTRL',
-			action = act.OpenLinkAtMouseCursor,
-		},
+--C.color_scheme = 'Builtin Tango Dark'
+--C.color_scheme = 'tokyonight-storm'
+C.color_scheme = 'iceberg-dark'
+
+C.launch_menu = require 'launch_menu'
+
+C.keys = {
+	{
+		key = 'Space',
+		mods = 'CTRL|SHIFT',
+		action = act.ShowLauncher,
 	},
 }
+
+C.mouse_bindings = {
+	-- Disable middle click paste
+	{
+		event = { Down = { streak = 1, button = 'Middle' } },
+		mods = 'NONE',
+		action = act.Nop,
+	},
+
+	-- Change the default click behavior so that it only selects
+	-- text and doesn't open hyperlinks
+	{
+		event = { Up = { streak = 1, button = 'Left' } },
+		mods = 'NONE',
+		action = act.CompleteSelection 'PrimarySelection',
+	},
+
+	-- and make CTRL-Click open hyperlinks
+	{
+		event = { Up = { streak = 1, button = 'Left' } },
+		mods = 'CTRL',
+		action = act.OpenLinkAtMouseCursor,
+	},
+}
+
+return C
