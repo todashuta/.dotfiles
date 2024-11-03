@@ -408,6 +408,7 @@ let g:quickrun_config['_'] = {
       \   'message/log': 1,
       \   'running_mark': "(*'_')> じっこうちゅう...",
       \ }
+"let g:quickrun_config['_']['time/dest'] = 'notification'
 if executable('zig')
   let g:quickrun_config['c/zig_cc'] = {
         \   'type': 'c/clang',
