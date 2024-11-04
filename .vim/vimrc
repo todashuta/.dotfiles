@@ -112,7 +112,8 @@ nnoremap          S           <Nop>
 nnoremap          <Space>/    :<C-u>silent grep!<Space>
 nnoremap          <Space>?    :<C-u>/j **/* <Bar> cwindow<Home>noautocmd vimgrep /<C-f>
 "nnoremap          <Space>?    :<C-u>/j ## <Bar> cwindow<Home>noautocmd vimgrep /<C-f>
-nnoremap <silent> <Esc><Esc>  :<C-u>let v:hlsearch = !v:hlsearch<CR>
+"nnoremap <silent> <Esc><Esc>  :<C-u>let v:hlsearch = !v:hlsearch<CR>
+nnoremap <silent> <Space>h    :<C-u>let v:hlsearch = !v:hlsearch<CR>
 nnoremap          <C-l>       :<C-u>call MyRedraw()<CR><C-l>
 
 function! MyRedraw() abort
