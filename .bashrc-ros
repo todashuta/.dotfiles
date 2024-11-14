@@ -18,6 +18,8 @@ ros1-init() {
 ros2-init() {
 	unset -f ros2-init
 
+	export ROS_LOCALHOST_ONLY=1
+
 	#source /opt/ros/humble/setup.bash || return 1
 	#cd ~/ros2_ws || return 1
 	#. install/local_setup.bash
