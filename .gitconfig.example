@@ -15,6 +15,9 @@
 	#   コマンド名だけだと、 gvim --nofork がうまく機能しないのか、
 	#   編集せずにエディタがすぐに終了したことになってしまう...。
 	editor = c:/vim/gvim.exe
+
+	excludesfile = ~/dotfiles/.gitignore_global
+
 [ghq]
 	root = C:/Devel/Repos
 
