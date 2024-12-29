@@ -1,0 +1,30 @@
+# Ghostty Configuration
+
+term = xterm-256color
+
+shell-integration-features = no-cursor
+
+cursor-style = block
+cursor-style-blink = false
+
+#font-family = SF Mono
+font-family = Go Mono
+font-family = Hiragino Maru Gothic ProN
+font-size = 14
+font-feature = -calt
+font-feature = -liga
+font-feature = -dlig
+window-inherit-font-size = false
+
+adjust-cell-height = 8
+
+window-padding-x = 12
+
+background-opacity = 0.9
+background-blur-radius = 20
+
+theme = iceberg-dark
+
+macos-option-as-alt = true
+
+config-file = ?./config_local
