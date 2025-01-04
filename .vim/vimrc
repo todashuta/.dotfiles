@@ -109,7 +109,9 @@ map               Q           <Nop>
 nnoremap          s           <Nop>
 xnoremap          s           <Nop>
 nnoremap          S           <Nop>
-nnoremap          g/          :<C-u>Kensaku<Space>
+nnoremap          <Space>k    :<C-u>Kensaku<Space>
+nnoremap          <Space>l    :<C-u>g//l#<CR>
+nnoremap          <Space>L    :<C-u>vimgrep //j %<CR>
 nnoremap          <Space>/    :<C-u>silent grep!<Space>
 nnoremap          <Space>?    :<C-u>/j **/* <Bar> cwindow<Home>noautocmd vimgrep /<C-f>
 "nnoremap          <Space>?    :<C-u>/j ## <Bar> cwindow<Home>noautocmd vimgrep /<C-f>
@@ -163,7 +165,7 @@ nnoremap <Space>tp  :<C-u>set paste! paste?<CR>
 nnoremap <Space>tl  :<C-u>call <SID>windo_toggle_list()<CR>
 nnoremap <Space>tr  :<C-u>RainbowToggle<CR>
 
-nnoremap <Space>l  :<C-u>CtrlPLauncher! lsp<CR>
+"nnoremap <Space>l  :<C-u>CtrlPLauncher! lsp<CR>
 nnoremap <Space>q  :<C-u>CtrlPLauncher quickrun<CR>
 nnoremap <Space>w  :<C-u>CtrlPLauncher vimwiki<CR>
 nnoremap <Space><F12>  :<C-u>CtrlPLauncher f12map<CR>
