@@ -109,6 +109,7 @@ map               Q           <Nop>
 nnoremap          s           <Nop>
 xnoremap          s           <Nop>
 nnoremap          S           <Nop>
+nnoremap          g/          :<C-u>Kensaku<Space>
 nnoremap          <Space>/    :<C-u>silent grep!<Space>
 nnoremap          <Space>?    :<C-u>/j **/* <Bar> cwindow<Home>noautocmd vimgrep /<C-f>
 "nnoremap          <Space>?    :<C-u>/j ## <Bar> cwindow<Home>noautocmd vimgrep /<C-f>
@@ -356,11 +357,13 @@ if exists('##TextChangedP')
   packadd! vim-vsnip-integ
 endif
 
-let s:denops_available = executable('deno') && has('patch-9.0.2189')
+let s:denops_available = executable('deno') && has('patch-9.1.0448')
 if get(s:, 'denops_available')
   packadd! denops.vim
   packadd! denops-helloworld.vim
   packadd! skkeleton
+  packadd! vim-kensaku
+  packadd! vim-kensaku-command
 endif
 
 

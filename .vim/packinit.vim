@@ -110,6 +110,8 @@ call s:add('superfunc/usda-syntax')
 call s:add('vim-denops/denops.vim')
 call s:add('vim-denops/denops-helloworld.vim')
 call s:add('vim-skk/skkeleton')
+call s:add('lambdalisue/vim-kensaku')
+call s:add('lambdalisue/vim-kensaku-command')
 
 """ ----------------------------------------
 """ vim: set et ts=2 sts=2 sw=2 fdm=marker:
