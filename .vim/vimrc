@@ -293,6 +293,7 @@ let g:is_bash = 1  " See :h ft-bash-syntax
 let g:vim_json_conceal = 0  " See :h ft-json-syntax
 
 " Packages
+packadd! vimdoc-ja
 "packadd! matchit
 packadd! ctrlp.vim
 packadd! ctrlp-launcher
@@ -767,7 +768,6 @@ endfunction
 
 "set pythonthreedll=C:/Python37/python37.dll
 "set pythonthreedll=~/scoop/apps/python/current/python310.dll
-"packadd! vimdoc-ja
 
 nnoremap <silent> <Space>d  :<C-u>call <SID>MyDiffOrigToggle()<CR>
 function! s:MyDiffOrigToggle()
