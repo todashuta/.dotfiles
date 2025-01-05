@@ -211,7 +211,8 @@ command!       NrformatsAlphaToggle    exe 'setlocal nf'.(&nf =~# 'alpha' ? '-='
 command!       PackUpdate              source $VIMDIR/packinit.vim | call minpac#update('', {'do': 'call minpac#status()'})
 command!       PackClean               source $VIMDIR/packinit.vim | call minpac#clean()
 command!       PackEdit                tabedit $VIMDIR/packinit.vim
-command!       Swapfiles               PP map(glob(&directory .. '/*', v:true, v:true), 'swapinfo(v:val)')
+"command!       Swapfiles               botright call term_start('vim -r', { 'term_name': ':Swapfiles', 'term_highlight': 'Normal' })
+command!       Swapfiles               PP map(glob(&directory .. '/*', v:true, v:true), '{fnamemodify(v:val, ":~"): swapinfo(v:val)}')
 command!       LineNumberToggle        let [&l:rnu, &l:nu] = (&l:rnu || &l:nu) ? [0, 0] : [1, 1]
 command! -bang RemoveInvalidQfixItems  call setqflist(filter(copy(getqflist()), 'v:val.valid'), (<bang>0 ? 'r' : ' '))
 
