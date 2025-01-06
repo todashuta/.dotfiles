@@ -406,7 +406,7 @@ call add(g:sonictemplate_vim_template_dir, expand($VIMDIR.'/template-bpy'))
 let g:molder_show_hidden = 1
 let g:quickrun_config = {}
 let g:quickrun_config['_'] = {
-      \   'runner': (exists('*ch_close_in') ? 'job' : 'vimproc'),
+      \   'runner': (exists('*ch_close_in') ? 'job' : 'system'),
       \   'outputter': (exists('*deletebufline') ? 'buffer' : 'buffer_legacy'),
       \   'outputter/buffer/opener': 'new',
       \   'time/enable': 1,
