@@ -355,10 +355,10 @@ packadd! vim-jsonpath
 packadd! rainbow
 packadd! vim-aomi-grayscale
 
-if exists('##TextChangedP')
-  packadd! vim-vsnip
-  packadd! vim-vsnip-integ
-endif
+"if exists('##TextChangedP')
+"  packadd! vim-vsnip
+"  packadd! vim-vsnip-integ
+"endif
 
 let s:denops_available = executable('deno') && has('patch-9.1.0448')
 if get(s:, 'denops_available')
@@ -657,6 +657,7 @@ let g:lsp_diagnostics_echo_cursor = 1
 
 autocmd vimrc User lsp_buffer_enabled call s:on_lsp_buffer_enabled()
 function! s:on_lsp_buffer_enabled() abort
+  let g:lsp_diagnostics_virtual_text_align = 'after'
   let g:lsp_diagnostics_signs_error['text']   = 'E'
   let g:lsp_diagnostics_signs_warning['text'] = 'W'
 
