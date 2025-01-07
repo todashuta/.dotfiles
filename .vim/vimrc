@@ -3,6 +3,7 @@
 let s:is_windows = has('win32')
 let $VIMDIR = resolve(expand(s:is_windows ? '~/vimfiles' : '~/.vim'))
 let $MYVIMRC = resolve($MYVIMRC)
+let s:SID_PREFIX = expand('<SID>')
 
 if has('vim_starting')
   silent! autocmd! vimrcEx
@@ -909,44 +910,20 @@ function! s:ResizeInteractive()
   redraw
 endfunction
 
-function! OperatorSlashToBackslash(motion_wise)
-  let save_reg_0 = [@0, getregtype('0')]
-  let v = operator#user#visual_command_from_wise_name(a:motion_wise)
-  execute 'normal!' '`[' . v . '`]"0y'
-  let @0 = substitute(@0, '/', '\', 'g')
-  execute 'normal!' '`[' . v . '`]"0P`['
-  call setreg('0', save_reg_0[0], save_reg_0[1])
-endfunction
-call operator#user#define('slash2backslash', 'OperatorSlashToBackslash')
+call operator#user#define('slash2backslash', 'vimrc#opfunc#SlashToBackslash')
 map s\  <Plug>(operator-slash2backslash)
 
-function! OperatorBackslashToSlash(motion_wise)
-  let save_reg_0 = [@0, getregtype('0')]
-  let v = operator#user#visual_command_from_wise_name(a:motion_wise)
-  execute 'normal!' '`[' . v . '`]"0y'
-  let @0 = substitute(@0, '\', '/', 'g')
-  execute 'normal!' '`[' . v . '`]"0P`['
-  call setreg('0', save_reg_0[0], save_reg_0[1])
-endfunction
-call operator#user#define('backslash2slash', 'OperatorBackslashToSlash')
+call operator#user#define('backslash2slash', 'vimrc#opfunc#BackslashToSlash')
 map s/  <Plug>(operator-backslash2slash)
 
-function! OperatorCR2LF(motion_wise)
-  let save_reg_0 = [@0, getregtype('0')]
-  let v = operator#user#visual_command_from_wise_name(a:motion_wise)
-  execute 'normal!' '`[' . v . '`]"0y'
-  let @0 = substitute(@0, '\r', '\n', 'g')
-  execute 'normal!' '`[' . v . '`]"0P`['
-  call setreg('0', save_reg_0[0], save_reg_0[1])
-endfunction
-call operator#user#define('cr2lf', 'OperatorCR2LF')
+call operator#user#define('cr2lf', 'vimrc#opfunc#CR2LF')
 map s<CR>  <Plug>(operator-cr2lf)
 
 function! Deg2rad(deg)
   let pi = acos(-1.0)
   return a:deg * pi / 180.0
 endfunction
-function! OperatorDeg2rad(motion_wise)
+function! s:OperatorDeg2rad(motion_wise)
   let save_reg_0 = [@0, getregtype('0')]
   let v = operator#user#visual_command_from_wise_name(a:motion_wise)
   execute 'normal!' '`[' . v . '`]"0y'
@@ -954,14 +931,14 @@ function! OperatorDeg2rad(motion_wise)
   execute 'normal!' '`[' . v . '`]"0P`['
   call setreg('0', save_reg_0[0], save_reg_0[1])
 endfunction
-call operator#user#define('deg2rad', 'OperatorDeg2rad')
+call operator#user#define('deg2rad', s:SID_PREFIX .. 'OperatorDeg2rad')
 "map <F11> <Plug>(operator-deg2rad)
 
 function! Rad2deg(rad)
   let pi = acos(-1.0)
   return a:rad * 180.0 / pi
 endfunction
-function! OperatorRad2deg(motion_wise)
+function! s:OperatorRad2deg(motion_wise)
   let save_reg_0 = [@0, getregtype('0')]
   let v = operator#user#visual_command_from_wise_name(a:motion_wise)
   execute 'normal!' '`[' . v . '`]"0y'
@@ -969,7 +946,7 @@ function! OperatorRad2deg(motion_wise)
   execute 'normal!' '`[' . v . '`]"0P`['
   call setreg('0', save_reg_0[0], save_reg_0[1])
 endfunction
-call operator#user#define('rad2deg', 'OperatorRad2deg')
+call operator#user#define('rad2deg', s:SID_PREFIX .. 'OperatorRad2deg')
 "map <F12> <Plug>(operator-rad2deg)
 
 if s:is_windows
