@@ -48,6 +48,8 @@ set undofile undodir=~/var/vim/undo
 set nobackup writebackup backupdir=~/var/vim/backup
 
 set helplang=ja,en
+set formatoptions+=mM
+set formatexpr=autofmt#japanese#formatexpr()  " https://github.com/vim-jp/autofmt
 set fileformats=unix,dos,mac
 set nofixendofline
 set history=800
@@ -299,6 +301,7 @@ let g:vim_json_conceal = 0  " See :h ft-json-syntax
 
 " Packages
 packadd! vimdoc-ja
+packadd! autofmt
 "packadd! matchit
 packadd! ctrlp.vim
 packadd! ctrlp-launcher
