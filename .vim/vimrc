@@ -378,7 +378,7 @@ endif
 let g:ctrlp_map = ''
 let g:ctrlp_mruf_max = 512
 "let g:ctrlp_show_hidden = 1
-let g:ctrlp_launcher_file = $VIMDIR . '/ctrlp-launcher'
+let g:ctrlp_launcher_file = $VIMDIR .. '/ctrlp-launcher'
 let g:ctrlp_status_func = {
       \   'main': 'CtrlPStatusFunc_main',
       \   'prog': 'CtrlPStatusFunc_progress',
@@ -404,8 +404,8 @@ function! CtrlPBufferFunc_exit()
 endfunction
 
 
-let g:sonictemplate_vim_template_dir = [ expand($VIMDIR.'/template') ]
-call add(g:sonictemplate_vim_template_dir, expand($VIMDIR.'/template-bpy'))
+let g:sonictemplate_vim_template_dir = [ expand($VIMDIR .. '/template') ]
+call add(g:sonictemplate_vim_template_dir, expand($VIMDIR .. '/template-bpy'))
 
 let g:molder_show_hidden = 1
 let g:quickrun_config = {}
@@ -687,7 +687,7 @@ autocmd vimrc User lsp_float_opened call popup_setoptions(
 let s:npm_available = executable('npm')
 let g:lsp_settings = {
       \   'efm-langserver': {
-      \     'cmd': [lsp_settings#exec_path('efm-langserver'), '-c='.$VIMDIR.'/efm-langserver-config.yaml'],
+      \     'cmd': [lsp_settings#exec_path('efm-langserver'), '-c=' .. $VIMDIR .. '/efm-langserver-config.yaml'],
       \     'blocklist': ['vimwiki'],
       \     'disabled': !executable('go') || 0,
       \   },
@@ -922,9 +922,9 @@ endfunction
 function! s:OperatorDeg2rad(motion_wise)
   let save_reg_0 = [@0, getregtype('0')]
   let v = operator#user#visual_command_from_wise_name(a:motion_wise)
-  execute 'normal!' '`[' . v . '`]"0y'
+  execute 'normal!' '`[' .. v .. '`]"0y'
   let @0 = printf('%f', Deg2rad(str2float(@0)))
-  execute 'normal!' '`[' . v . '`]"0P`['
+  execute 'normal!' '`[' .. v .. '`]"0P`['
   call setreg('0', save_reg_0[0], save_reg_0[1])
 endfunction
 call operator#user#define('deg2rad', s:SID_PREFIX .. 'OperatorDeg2rad')
@@ -937,9 +937,9 @@ endfunction
 function! s:OperatorRad2deg(motion_wise)
   let save_reg_0 = [@0, getregtype('0')]
   let v = operator#user#visual_command_from_wise_name(a:motion_wise)
-  execute 'normal!' '`[' . v . '`]"0y'
+  execute 'normal!' '`[' .. v .. '`]"0y'
   let @0 = printf('%f', Rad2deg(str2float(@0)))
-  execute 'normal!' '`[' . v . '`]"0P`['
+  execute 'normal!' '`[' .. v .. '`]"0P`['
   call setreg('0', save_reg_0[0], save_reg_0[1])
 endfunction
 call operator#user#define('rad2deg', s:SID_PREFIX .. 'OperatorRad2deg')
@@ -972,7 +972,7 @@ if s:is_windows
   command! -bang -bar Uptime :call s:cmd_Uptime(<bang>0)
 endif
 
-let s:vimrclocal = $MYVIMRC.'_local'
+let s:vimrclocal = $MYVIMRC .. '_local'
 if filereadable(s:vimrclocal)
   execute 'source' s:vimrclocal
 endif
