@@ -9,12 +9,4 @@
 /.zsh/.zcompcache/*
 /.zsh/.chpwd-recent-dirs
 
-/.vim/.netrwhist
-/.vim/vimrc_local
-/.vim/gvimrc_local
-/.vim/bundle/*
-!/.vim/bundle/neobundle.vim
-/.vim/pack/*
-/.vim/use_system_encoding.txt
-
 # end of gitignore
