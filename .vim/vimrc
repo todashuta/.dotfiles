@@ -98,6 +98,7 @@ set previewheight=24
 let &ambiwidth = has('kaoriya') ? 'auto' : 'double'
 set winminwidth=16
 
+cnoreabbrev <expr> pp   (getcmdtype() ==# ':' && getcmdline() ==# 'pp')  ? 'PP'  : 'pp'
 cnoreabbrev <expr> git  (getcmdtype() ==# ':' && getcmdline() ==# 'git') ? 'Git' : 'git'
 cnoreabbrev <expr> w'  (getcmdtype() ==# ':' && getcmdline() ==# "w'") ? 'w' : "w'"
 cnoreabbrev <expr> w[  (getcmdtype() ==# ':' && getcmdline() ==# 'w[') ? 'w' : 'w['
