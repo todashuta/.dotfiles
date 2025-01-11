@@ -413,8 +413,9 @@ function! CtrlPBufferFunc_exit()
 endfunction
 
 
-let g:sonictemplate_vim_template_dir = [ expand($VIMDIR .. '/template') ]
-call add(g:sonictemplate_vim_template_dir, expand($VIMDIR .. '/template-bpy'))
+let g:sonictemplate_vim_template_dir = [ expand($VIMDIR .. '/templates/_') ]
+"call add(g:sonictemplate_vim_template_dir, expand($VIMDIR .. '/templates/bpy'))
+command! -bang TemplateDir  :call ctrlp#templatedir#launch(<bang>0)
 
 let g:molder_show_hidden = 1
 let g:quickrun_config = {}
