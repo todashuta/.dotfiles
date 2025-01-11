@@ -31,6 +31,9 @@ scriptencoding utf-8  " Must after set of 'encoding'.
 if exists('+shellslash')
   set noshellslash
 endif
+if exists('+completeslash')
+  setglobal completeslash=slash  " Use forward slash for command line completion.
+endif
 
 if s:is_windows
   language messages en
@@ -373,6 +376,9 @@ if get(s:, 'denops_available')
   packadd! skkeleton
   packadd! vim-kensaku
   packadd! vim-kensaku-command
+
+  command! DenopsRestart   :call denops#server#restart()
+  command! DenopsFixCache  :call denops#cache#update(#{reload: v:true})
 endif
 
 
@@ -747,6 +753,9 @@ function! s:set_json_indent()
 endfunction
 
 "autocmd vimrc CursorHold *.json :JsonPath
+
+"autocmd vimrc FileType dosbatch,ps1 setlocal completeslash=backslash
+autocmd vimrc FileType html setlocal completeslash=slash
 
 nnoremap <silent> <C-p>  :<C-u>call <SID>QFPrevious()<CR>
 nnoremap <silent> <C-n>  :<C-u>call <SID>QFNext()<CR>
