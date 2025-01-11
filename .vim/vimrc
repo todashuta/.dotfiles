@@ -317,6 +317,8 @@ packadd! tokyonight-vim
 packadd! vim-niceblock
 packadd! vim-sandwich
 packadd! vim-textobj-user
+packadd! vim-textobj-line
+packadd! vim-textobj-entire
 packadd! vim-textobj-syntax
 packadd! vim-textobj-python
 packadd! vim-quickrun
