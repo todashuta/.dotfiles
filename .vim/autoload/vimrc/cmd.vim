@@ -1,6 +1,12 @@
-function! vimrc#cmd#ResizeInteractive()
-  while 1
-    let c = getchar()
+vim9script
+
+export def ResizeInteractive(): void
+  if winnr('$') == 1
+    return
+  endif
+
+  while true
+    const c = getcharstr()
     if     c == "\<Up>"    | wincmd +
     elseif c == "\<Down>"  | wincmd -
     elseif c == "\<Left>"  | wincmd <
@@ -10,4 +16,6 @@ function! vimrc#cmd#ResizeInteractive()
     redraw
   endwhile
   redraw
-endfunction
+enddef
+
+#defcompile
