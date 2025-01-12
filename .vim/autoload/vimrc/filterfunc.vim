@@ -1,21 +1,25 @@
-function! vimrc#filterfunc#SlashToBackslash(str)
-  return substitute(a:str, '/', '\', 'g')
-endfunction
+vim9script
 
-function! vimrc#filterfunc#BackslashToSlash(str)
-  return substitute(a:str, '\', '/', 'g')
-endfunction
+export def SlashToBackslash(s: string): string
+  return substitute(s, '/', '\', 'g')
+enddef
 
-function! vimrc#filterfunc#CR2LF(str)
-  return substitute(a:str, '\r', '\n', 'g')
-endfunction
+export def BackslashToSlash(s: string): string
+  return substitute(s, '\', '/', 'g')
+enddef
 
-function! vimrc#filterfunc#decodeURI(str)
-  "return vital#vital#import('Web.URI').decode(a:str)
-  return denops#request('vimrc', 'decodeURIComponent', [a:str])
-endfunction
+export def CR2LF(s: string): string
+  return substitute(s, '\r', '\n', 'g')
+enddef
 
-function! vimrc#filterfunc#encodeURI(str)
-  "return vital#vital#import('Web.URI').encode(a:str)
-  return denops#request('vimrc', 'encodeURIComponent', [a:str])
-endfunction
+export def DecodeURI(s: string): string
+  #return vital#vital#import('Web.URI').decode(s)
+  return denops#request('vimrc', 'decodeURIComponent', [s])
+enddef
+
+export def EncodeURI(s: string): string
+  #return vital#vital#import('Web.URI').encode(s)
+  return denops#request('vimrc', 'encodeURIComponent', [s])
+enddef
+
+#defcompile
