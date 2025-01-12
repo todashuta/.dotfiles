@@ -913,10 +913,10 @@ command! -nargs=* -complete=file ArgSet  :%argdelete | :exe (<q-args> != '' ? 'a
 
 command! ResizeInteractive  :call vimrc#cmd#ResizeInteractive()
 
-call operator#user#define('decodeURI', 'vimrc#opfunc#decodeURI')
+call operator#user#define('decodeURI', 'vimrc#opfunc#DecodeURI')
 map s%d  <Plug>(operator-decodeURI)
 
-call operator#user#define('encodeURI', 'vimrc#opfunc#encodeURI')
+call operator#user#define('encodeURI', 'vimrc#opfunc#EncodeURI')
 map s%e  <Plug>(operator-encodeURI)
 
 call operator#user#define('slash2backslash', 'vimrc#opfunc#SlashToBackslash')
