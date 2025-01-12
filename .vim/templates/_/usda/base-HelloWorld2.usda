@@ -1,0 +1,44 @@
+#usda 1.0
+
+def Xform "world"
+{
+	double3 xformOp:translate = (0, 0, 0)
+	uniform token[] xformOpOrder = ["xformOp:translate"]
+
+	def Xform "sphere1"
+	{
+		double3 xformOp:translate = (-1.5, 0, 0)
+		uniform token[] xformOpOrder = ["xformOp:translate"]
+
+		def Sphere "sphere1"
+		{
+			color3f[] primvars:displayColor = [(1, 0, 0)]
+			double radius = 0.5
+		}
+	}
+
+	def Xform "cube1"
+	{
+		double3 xformOp:translate = (0, 0, 0)
+		uniform token[] xformOpOrder = ["xformOp:translate"]
+
+		def Cube "cube1"
+		{
+			color3f[] primvars:displayColor = [(0, 1, 0)]
+			double size = 1
+		}
+	}
+
+	def Xform "cone1"
+	{
+		double3 xformOp:translate = (1.5, 0, 0)
+		uniform token[] xformOpOrder = ["xformOp:translate"]
+
+		def Cone "cone1"
+		{
+			color3f[] primvars:displayColor = [(0, 0, 1)]
+			double radius = 0.5
+			double height = 1
+		}
+	}
+}

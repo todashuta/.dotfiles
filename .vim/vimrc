@@ -443,6 +443,23 @@ if executable('zig')
         \   'cmdopt': 'c++',
         \ }
 endif
+if executable('qlmanage')
+  let g:quickrun_config['usda/quicklook'] = {
+        \   'command': 'qlmanage',
+        \   'cmdopt': '-c public.3d-content -p',
+        \   'exec': '%c %o %s',
+        \   'tempfile': '%{tempname()}.usda',
+        \ }
+  let g:quickrun_config['usda'] = { 'type': 'usda/quicklook' }
+endif
+if executable('usdview')
+  let g:quickrun_config['usda/usdview'] = {
+        \   'command': 'usdview',
+        \   'exec': '%c %o %s',
+        \   'tempfile': '%{tempname()}.usda',
+        \ }
+  let g:quickrun_config['usda'] = { 'type': 'usda/usdview' }
+endif
 if s:is_windows && executable('py')
   let g:quickrun_config['py'] = {
         \   'type': 'python',
