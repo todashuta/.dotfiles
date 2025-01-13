@@ -11,6 +11,7 @@ augroup filetypedetect
   "autocmd! BufRead,BufNewFile *.gltf setfiletype gltf
   autocmd! BufRead,BufNewFile *.gltf setfiletype json
   autocmd! BufRead,BufNewFile *.usda setfiletype usda
+  autocmd! BufRead,BufNewFile *.usd if getline(1) ==# '#usda 1.0' | setfiletype usda | endif
 
   autocmd! BufRead,BufNewFile *.geojson setfiletype json
   autocmd! BufRead,BufNewFile *.czml setfiletype json
