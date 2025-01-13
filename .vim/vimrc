@@ -31,9 +31,9 @@ scriptencoding utf-8  " Must after set of 'encoding'.
 if exists('+shellslash')
   set noshellslash
 endif
-if exists('+completeslash')
-  setglobal completeslash=slash  " Use forward slash for command line completion.
-endif
+"if exists('+completeslash')
+"  setglobal completeslash=slash  " Use forward slash for command line completion.
+"endif
 
 if s:is_windows
   language messages en
