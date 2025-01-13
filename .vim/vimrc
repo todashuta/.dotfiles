@@ -501,13 +501,13 @@ autocmd vimrc User FugitivePager
 let g:lightline = {
       \   'colorscheme': 'iceberg',
       \   'component_function': {
-      \     'git': 'MyGitStatus',
-      \     'myfilename': 'MyFilename',
-      \     'mywintype': 'MyWinType',
-      \     'myfiletype': 'MyFiletype',
+      \     'git': 'vimrc#stl#GitStatus',
+      \     'myfilename': 'vimrc#stl#Filename',
+      \     'mywintype': 'vimrc#stl#Wintype',
+      \     'myfiletype': 'vimrc#stl#Filetype',
       \   },
       \   'component': {
-      \     'mycharvaluehex': '%<0x%{FencB()}',
+      \     'mycharvaluehex': '%<0x%{vimrc#stl#FencB()}',
       \     'myfileformat': '%{g:FFTable[&ff].(&eol?"":"-NoEOL")}',
       \     'myfileencoding': '%{toupper(&fenc==""?(&enc."*"):&fenc).(&bomb?"(BOM)":"")}',
       \   },
