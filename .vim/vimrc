@@ -443,7 +443,7 @@ if executable('zig')
         \   'cmdopt': 'c++',
         \ }
 endif
-if executable('qlmanage')
+if has('mac') && executable('qlmanage')
   let g:quickrun_config['usda/quicklook'] = {
         \   'command': 'qlmanage',
         \   'cmdopt': '-c public.3d-content -p',
@@ -452,9 +452,11 @@ if executable('qlmanage')
         \ }
   let g:quickrun_config['usda'] = { 'type': 'usda/quicklook' }
 endif
-if executable('usdview')
+let s:usdview_exe = exepath(expand('~/bin/run-usdview'))
+"let s:usdview_exe = exepath('C:\ProgramData\Autodesk\ApplicationPlugins\3dsmax-usd-2022\Contents\bin\RunUsdView.bat')
+if !empty(s:usdview_exe)
   let g:quickrun_config['usda/usdview'] = {
-        \   'command': 'usdview',
+        \   'command': s:usdview_exe,
         \   'exec': '%c %o %s',
         \   'tempfile': '%{tempname()}.usda',
         \ }
