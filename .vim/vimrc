@@ -418,6 +418,7 @@ let g:sonictemplate_vim_template_dir = [ expand($VIMDIR .. '/templates/_') ]
 command! -bang TemplateDir  :call ctrlp#templatedir#launch(<bang>0)
 
 let g:molder_show_hidden = 1
+
 let g:quickrun_config = {}
 let g:quickrun_config['_'] = {
       \   'runner': (exists('*ch_close_in') ? 'job' : 'system'),
@@ -431,37 +432,36 @@ let g:quickrun_config['_'] = {
       \ }
 "let g:quickrun_config['_']['time/dest'] = 'notification'
 "let g:quickrun_config['_']['time/format'] = "QuickRun\ntime: %g"
-if executable('zig')
-  let g:quickrun_config['c/zig_cc'] = {
-        \   'type': 'c/clang',
-        \   'command': 'zig',
-        \   'cmdopt': 'cc',
-        \ }
-  let g:quickrun_config['cpp/zig_c++'] = {
-        \   'type': 'cpp/clang++',
-        \   'command': 'zig',
-        \   'cmdopt': 'c++',
-        \ }
-endif
-if has('mac') && executable('qlmanage')
-  let g:quickrun_config['usda/quicklook'] = {
-        \   'command': 'qlmanage',
-        \   'cmdopt': '-c public.3d-content -p',
-        \   'exec': '%c %o %s',
-        \   'tempfile': '%{tempname()}.usda',
-        \ }
-  let g:quickrun_config['usda'] = { 'type': 'usda/quicklook' }
-endif
-let s:usdview_exe = exepath(expand('~/bin/run-usdview'))
-"let s:usdview_exe = exepath('C:\ProgramData\Autodesk\ApplicationPlugins\3dsmax-usd-2022\Contents\bin\RunUsdView.bat')
-if !empty(s:usdview_exe)
-  let g:quickrun_config['usda/usdview'] = {
-        \   'command': s:usdview_exe,
-        \   'exec': '%c %o %s',
-        \   'tempfile': '%{tempname()}.usda',
-        \ }
-  let g:quickrun_config['usda'] = { 'type': 'usda/usdview' }
-endif
+
+let g:quickrun_config['c/zig_cc'] = {
+      \   'type': 'c/clang',
+      \   'command': 'zig',
+      \   'cmdopt': 'cc',
+      \ }
+let g:quickrun_config['c'] = { 'type': 'c/zig_cc' }
+
+let g:quickrun_config['cpp/zig_c++'] = {
+      \   'type': 'cpp/clang++',
+      \   'command': 'zig',
+      \   'cmdopt': 'c++',
+      \ }
+let g:quickrun_config['cpp'] = { 'type': 'cpp/zig_c++' }
+
+let g:quickrun_config['usda/mac-quicklook'] = {
+      \   'command': '/usr/bin/qlmanage',
+      \   'cmdopt': '-c public.3d-content -p',
+      \   'exec': '%c %o %s',
+      \   'tempfile': '%{tempname()}.usda',
+      \ }
+
+let g:quickrun_config['usda/usdview'] = {
+      \   'command': expand('~/bin/run-usdview'),
+      \   'exec': '%c %o %s',
+      \   'tempfile': '%{tempname()}.usda',
+      \ }
+let g:quickrun_config['usda'] = { 'type': 'usda/usdview' }
+"let g:quickrun_config['usda/usdview']['command'] = 'C:\ProgramData\Autodesk\ApplicationPlugins\3dsmax-usd-2022\Contents\bin\RunUsdView.bat'
+
 if s:is_windows && executable('py')
   let g:quickrun_config['py'] = {
         \   'type': 'python',
@@ -512,6 +512,7 @@ let g:lightline = {
       \     'mycharvaluehex': '%<0x%{vimrc#stl#FencB()}',
       \     'myfileformat': '%{g:FFTable[&ff].(&eol?"":"-NoEOL")}',
       \     'myfileencoding': '%{toupper(&fenc==""?(&enc."*"):&fenc).(&bomb?"(BOM)":"")}',
+      \     'quickrun': '%{quickrun#session#exists()?"(''_''*)":""}',
       \   },
       \   'component_expand': {
       \     'lsp_warnings': 'lightline_lsp#warnings',
@@ -528,7 +529,7 @@ let g:lightline = {
       \       ['readonly', 'myfilename', 'modified'],
       \     ],
       \     'right': [
-      \       ['lsp_errors', 'lsp_warnings', 'lineinfo'],
+      \       ['lsp_errors', 'lsp_warnings', 'lineinfo', 'quickrun'],
       \       ['percent'],
       \       ['mycharvaluehex', 'myfileformat', 'myfileencoding', 'myfiletype'],
       \     ],
