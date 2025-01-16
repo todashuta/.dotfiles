@@ -47,7 +47,7 @@ enddef
 
 export def Wintype(): string
   if !empty(get(b:, 'mybufnameoverride', ''))
-    return $'{b:mybufnameoverride}'
+    return '{' .. b:mybufnameoverride .. '}'
   endif
   if get(b:, 'mydifforigbuf', 0)
     return 'DiffOrig'
