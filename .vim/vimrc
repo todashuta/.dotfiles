@@ -195,6 +195,13 @@ cnoremap <expr> \      getcmdtype() ==# '/' && getcmdline()[0:1] ==# '\V' ? '\\'
 "nnoremap <Leader>/  /\V
 nnoremap <M-/>      /\V
 
+nnoremap H H<Plug>(H)
+nnoremap L L<Plug>(L)
+nnoremap <Plug>(H)H <PageUp>H<Plug>(H)
+nnoremap <Plug>(L)L <PageDown>Lzb<Plug>(L)
+nnoremap <Plug>(H) <Nop>
+nnoremap <Plug>(L) <Nop>
+
 augroup vimrc
   autocmd QuickFixCmdPost [^l]*  botright cwindow | redraw!
 
