@@ -466,16 +466,16 @@ let g:quickrun_config['usda/mac-quicklook'] = {
 let g:quickrun_config['usda/usdview'] = {
       \   'command': expand('~/bin/run-usdview'),
       \   'exec': '%c %o %s',
-      \   'tempfile': '%{tempname()}.usda',
+      \   'tempfile': '%{fnamemodify(tempname(), ":r")}.usd',
       \ }
 let g:quickrun_config['usda'] = { 'type': 'usda/usdview' }
+let g:quickrun_config['usd']  = { 'type': 'usda/usdview' }
 "let g:quickrun_config['usda/usdview']['command'] = 'C:\ProgramData\Autodesk\ApplicationPlugins\3dsmax-usd-2022\Contents\bin\RunUsdView.bat'
 
 if s:is_windows && executable('py.exe')
   for s:ver in ['3.8', '3.9', '3.10', '3.11', '3.12', '3.13']
     let g:quickrun_config[$'py.exe/{s:ver}'] = {
           \   'hook/eval/template': 'print(%s)',
-          \   'tempfile': '%{tempname()}.py',
           \   'command': 'py.exe',
           \   'cmdopt': $'-{s:ver}',
           \ }
