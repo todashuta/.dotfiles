@@ -3,6 +3,7 @@
 let s:is_windows = has('win32')
 let $VIMDIR = resolve(expand(s:is_windows ? '~/vimfiles' : '~/.vim'))
 let $MYVIMRC = resolve($MYVIMRC)
+let $MYVIMDIR = resolve($MYVIMDIR)
 let s:SID_PREFIX = expand('<SID>')
 
 if has('vim_starting')
@@ -14,15 +15,15 @@ if has('vim_starting')
     "let $PATH .= ';'.expand('~/bin')
     "let $PATH .= ';'.'C:\Windows\Microsoft.NET\Framework64\v4.0.30319'
   endif
-  let s:myrtp = join(glob($VIMDIR.'/plugins/*[^~]', 0, 1), ',')
+  let s:myrtp = join(glob($VIMDIR .. '/plugins/*[^~]', 0, 1), ',')
   if s:myrtp != ''
-    let &runtimepath .= ','.s:myrtp
+    let &runtimepath ..= ',' .. s:myrtp
   endif
   unlet s:myrtp
   "helptags ALL
 endif
 
-if &encoding !=? 'utf-8' && !filereadable($VIMDIR.'/use_system_encoding.txt')
+if &encoding !=? 'utf-8' && !filereadable($VIMDIR .. '/use_system_encoding.txt')
   let &termencoding = &encoding
   set encoding=utf-8
 endif
@@ -382,7 +383,7 @@ packadd! vim-aomi-grayscale
 let s:denops_available = executable('deno') && has('patch-9.1.0448')
 if get(s:, 'denops_available')
   packadd! denops.vim
-  packadd! denops-helloworld.vim
+  "packadd! denops-helloworld.vim
   packadd! skkeleton
   packadd! vim-kensaku
   packadd! vim-kensaku-command
@@ -934,7 +935,7 @@ let g:rainbow_active = 0  " set to 0 if you want to enable it later via :Rainbow
 "command!                Blame   :exe 'Git blame'
 "command! -nargs=*       Fetch   :exe 'Git fetch -p <args>'
 
-command! -nargs=* QR  :exe &modified ? 'echo "modified!"' : 'QuickRun <args>'
+"command! -nargs=* QR  :exe &modified ? 'echo "modified!"' : 'QuickRun <args>'
 command! -nargs=* -complete=file ArgSet  :%argdelete | :exe (<q-args> != '' ? 'argadd <args>' : '') | :args
 
 command! ResizeInteractive  :call vimrc#cmd#ResizeInteractive()
