@@ -1,0 +1,1 @@
+{{_expr_:denops#request('vimrc', 'dateIso8601', [])}}{{_cursor_}}
