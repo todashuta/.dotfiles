@@ -719,6 +719,7 @@ autocmd vimrc User lsp_float_opened call popup_setoptions(
       \   'borderchars': ['-', '|', '-', '|', '+', '+', '+', '+'],
       \ })
 
+let s:clangd_command = 'clangd'
 let s:npm_available = executable('npm')
 let g:lsp_settings = {
       \   'efm-langserver': {
@@ -727,8 +728,8 @@ let g:lsp_settings = {
       \     'disabled': !executable('go') || 0,
       \   },
       \   'clangd': {
-      \     'cmd': ['clangd-6.0'],
-      \     'disabled': !executable('clangd-6.0') || 0,
+      \     'cmd': [s:clangd_command],
+      \     'disabled': !executable(s:clangd_command) || 0,
       \   },
       \   'intelephense': {
       \     'disabled': !s:npm_available || 0,
