@@ -519,9 +519,9 @@ let g:lightline = {
       \   },
       \   'component': {
       \     'mycharvaluehex': '%<0x%{vimrc#stl#FencB()}',
-      \     'myfileformat': '%{g:FFTable[&ff].(&eol?"":"-NoEOL")}',
-      \     'myfileencoding': '%{toupper(&fenc==""?(&enc."*"):&fenc).(&bomb?"(BOM)":"")}',
-      \     'quickrun': '%{quickrun#session#exists()?"(''_''*)":""}',
+      \     'myfileformat': '%{vimrc#stl#Fileformat()}',
+      \     'myfileencoding': '%{vimrc#stl#Fileencoding()}',
+      \     'quickrun': '%{vimrc#stl#QuickRun()}',
       \   },
       \   'component_expand': {
       \     'lsp_warnings': 'lightline_lsp#warnings',

@@ -102,5 +102,22 @@ export def GitStatus(): string
   return join(xs, ' ')
 enddef
 
+const fileformats = {
+  dos: 'CR+LF(dos)',
+  unix: 'LF(unix)',
+  mac: 'CR(mac)'
+}
+export def Fileformat(): string
+  return fileformats[&l:ff] .. (&l:eol ? '' : '-NoEOL')
+enddef
+
+export def Fileencoding(): string
+  return toupper(&l:fenc ?? (&enc .. '*')) .. (&l:bomb ? '(BOM)' : '')
+enddef
+
+export def QuickRun(mark: string = "('_'*)"): string
+  return quickrun#session#exists() ? mark : ''
+enddef
+
 #defcompile
 # vim: set et ts=2 sts=2 sw=2:
