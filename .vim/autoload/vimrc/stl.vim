@@ -83,8 +83,7 @@ export def GitStatus(): string
   if empty(fugitive_status)
     return ''
   endif
-  fugitive_status = substitute(fugitive_status, '^[Git:\?', '', '')
-  fugitive_status = substitute(fugitive_status, ']$', '', '')
+  fugitive_status = fugitive_status->substitute('^[Git:\?', '', '')->substitute(']$', '', '')
   xs += [fugitive_status]
 
   #let l:gitbranchname = gitbranch#name()

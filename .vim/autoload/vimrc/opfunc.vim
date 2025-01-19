@@ -33,11 +33,12 @@ export def EncodeURI(motion_wise: string)
 enddef
 
 export def DegToRad(motion_wise: string)
-  Opfunc((s) => printf('%f', math.DegToRad(str2float(s))), motion_wise)
+  Opfunc((s) => s->str2float()->math.DegToRad()->printf('%f'), motion_wise)
 enddef
 
 export def RadToDeg(motion_wise: string)
-  Opfunc((s) => printf('%f', math.RadToDeg(str2float(s))), motion_wise)
+  Opfunc((s) => s->str2float()->math.RadToDeg()->printf('%f'), motion_wise)
 enddef
 
 #defcompile
+# vim: set et ts=2 sts=2 sw=2:
