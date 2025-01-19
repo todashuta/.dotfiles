@@ -31,4 +31,12 @@ export def EncodeURI(motion_wise: string)
   Opfunc(filterfunc.EncodeURI, motion_wise)
 enddef
 
+export def DegToRad(motion_wise: string)
+  Opfunc((s) => printf('%f', math.DegToRad(str2float(s))), motion_wise)
+enddef
+
+export def RadToDeg(motion_wise: string)
+  Opfunc((s) => printf('%f', math.RadToDeg(str2float(s))), motion_wise)
+enddef
+
 #defcompile

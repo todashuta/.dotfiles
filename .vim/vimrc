@@ -967,34 +967,16 @@ map s/  <Plug>(operator-backslash2slash)
 call operator#user#define('cr2lf', 'vimrc#opfunc#CR2LF')
 map s<CR>  <Plug>(operator-cr2lf)
 
-function! Deg2rad(deg)
-  let pi = acos(-1.0)
-  return a:deg * pi / 180.0
+function! DegToRad(deg)
+  return vimrc#math#DegToRad(0.0 + a:deg)
 endfunction
-function! s:OperatorDeg2rad(motion_wise)
-  let save_reg_0 = [@0, getregtype('0')]
-  let v = operator#user#visual_command_from_wise_name(a:motion_wise)
-  execute 'normal!' '`[' .. v .. '`]"0y'
-  let @0 = printf('%f', Deg2rad(str2float(@0)))
-  execute 'normal!' '`[' .. v .. '`]"0P`['
-  call setreg('0', save_reg_0[0], save_reg_0[1])
-endfunction
-call operator#user#define('deg2rad', s:SID_PREFIX .. 'OperatorDeg2rad')
+call operator#user#define('deg2rad', 'vimrc#opfunc#DegToRad')
 "map <F11> <Plug>(operator-deg2rad)
 
-function! Rad2deg(rad)
-  let pi = acos(-1.0)
-  return a:rad * 180.0 / pi
+function! RadToDeg(rad)
+  return vimrc#math#RadToDeg(0.0 + a:rad)
 endfunction
-function! s:OperatorRad2deg(motion_wise)
-  let save_reg_0 = [@0, getregtype('0')]
-  let v = operator#user#visual_command_from_wise_name(a:motion_wise)
-  execute 'normal!' '`[' .. v .. '`]"0y'
-  let @0 = printf('%f', Rad2deg(str2float(@0)))
-  execute 'normal!' '`[' .. v .. '`]"0P`['
-  call setreg('0', save_reg_0[0], save_reg_0[1])
-endfunction
-call operator#user#define('rad2deg', s:SID_PREFIX .. 'OperatorRad2deg')
+call operator#user#define('rad2deg', 'vimrc#opfunc#RadToDeg')
 "map <F12> <Plug>(operator-rad2deg)
 
 if s:is_windows
