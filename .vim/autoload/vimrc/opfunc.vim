@@ -1,6 +1,7 @@
 vim9script
 
 import "./filterfunc.vim"
+import "./math.vim"
 
 def Opfunc(Filterfunc: func, motion_wise: string)
   const save_reg_0 = [@0, getregtype('0')]
