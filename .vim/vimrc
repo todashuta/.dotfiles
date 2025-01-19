@@ -999,7 +999,7 @@ call operator#user#define('rad2deg', s:SID_PREFIX .. 'OperatorRad2deg')
 
 if s:is_windows
   let s:vim_starttime = get(s:, 'vim_starttime', libcallnr('kernel32', 'GetTickCount64', '') / 1000)
-  command! -bang -bar Uptime :call vimrc#cmd_legacy#Uptime(s:vim_starttime, <bang>0)
+  command! -bang -bar Uptime :call vimrc#cmd#Uptime(s:vim_starttime, <bang>0)
 endif
 
 let s:vimrclocal = $MYVIMRC .. '_local'
