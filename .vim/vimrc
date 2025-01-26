@@ -249,9 +249,9 @@ if s:is_windows
   command! -bang -complete=dir -nargs=? Cmd          execute 'silent !start cmd.exe /k pushd' tr((<q-args> != '' ? fnamemodify(<q-args>, ':p:h') : (<bang>0 ? expand('%:p:h') : getcwd())), '/', '\')
   command! -bang -complete=dir -nargs=? Explorer     call s:start('explorer.exe .', <q-args>, <bang>0)
   command!                     -nargs=1 MyCd         execute 'cd '.iconv(<q-args>, 'cp932', &enc)
-  command! -bang -complete=dir -nargs=? PowerShell   call s:start('powershell.exe -Command "Start-Process powershell.exe"', <q-args>, <bang>0)
-  command! -bang -complete=dir -nargs=? LTerminalPS  call s:term('powershell.exe', <q-args>, <bang>0, 1)
-  command! -bang -complete=dir -nargs=? TTerminalPS  call s:term('powershell.exe', <q-args>, <bang>0, 0)
+  command! -bang -complete=dir -nargs=? PowerShell   call s:start('powershell.exe -ExecutionPolicy RemoteSigned -Command "Start-Process powershell.exe"', <q-args>, <bang>0)
+  command! -bang -complete=dir -nargs=? LTerminalPS  call s:term('powershell.exe -ExecutionPolicy RemoteSigned', <q-args>, <bang>0, 1)
+  command! -bang -complete=dir -nargs=? TTerminalPS  call s:term('powershell.exe -ExecutionPolicy RemoteSigned', <q-args>, <bang>0, 0)
   command!                              Code         execute '!start code.cmd' shellescape(expand('%'))
 endif
 
