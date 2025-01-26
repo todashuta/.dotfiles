@@ -955,32 +955,32 @@ command! ResizeInteractive  :call vimrc#cmd#ResizeInteractive()
 
 command! OperatorUserTemplate  :call vimrc#cmd#OperatorUserTemplate()
 
-call operator#user#define('decodeURI', 'vimrc#opfunc#DecodeURI')
-map s%d  <Plug>(operator-decodeURI)
+call operator#user#define('DecodeURI', 'vimrc#opfunc#DecodeURI')
+map s%d  <Plug>(operator-DecodeURI)
 
-call operator#user#define('encodeURI', 'vimrc#opfunc#EncodeURI')
-map s%e  <Plug>(operator-encodeURI)
+call operator#user#define('EncodeURI', 'vimrc#opfunc#EncodeURI')
+map s%e  <Plug>(operator-EncodeURI)
 
-call operator#user#define('slash2backslash', 'vimrc#opfunc#SlashToBackslash')
-map s\  <Plug>(operator-slash2backslash)
+call operator#user#define('SlashToBackslash', 'vimrc#opfunc#SlashToBackslash')
+map s\  <Plug>(operator-SlashToBackslash)
 
-call operator#user#define('backslash2slash', 'vimrc#opfunc#BackslashToSlash')
-map s/  <Plug>(operator-backslash2slash)
+call operator#user#define('BackslashToSlash', 'vimrc#opfunc#BackslashToSlash')
+map s/  <Plug>(operator-BackslashToSlash)
 
-call operator#user#define('cr2lf', 'vimrc#opfunc#CR2LF')
-map s<CR>  <Plug>(operator-cr2lf)
+call operator#user#define('CR2LF', 'vimrc#opfunc#CR2LF')
+map s<CR>  <Plug>(operator-CR2LF)
 
 function! DegToRad(deg)
   return vimrc#math#DegToRad(0.0 + a:deg)
 endfunction
-call operator#user#define('deg2rad', 'vimrc#opfunc#DegToRad')
-"map <F11> <Plug>(operator-deg2rad)
+call operator#user#define('DegToRad', 'vimrc#opfunc#DegToRad')
+"map s, <Plug>(operator-DegToRad)
 
 function! RadToDeg(rad)
   return vimrc#math#RadToDeg(0.0 + a:rad)
 endfunction
-call operator#user#define('rad2deg', 'vimrc#opfunc#RadToDeg')
-"map <F12> <Plug>(operator-rad2deg)
+call operator#user#define('RadToDeg', 'vimrc#opfunc#RadToDeg')
+"map s. <Plug>(operator-RadToDeg)
 
 if s:is_windows
   let s:vim_starttime = get(s:, 'vim_starttime', libcallnr('kernel32', 'GetTickCount64', '') / 1000)
