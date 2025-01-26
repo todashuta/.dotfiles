@@ -1,5 +1,17 @@
 vim9script
 
+export def OperatorUserTemplate(): void
+  const buffers = filter(range(1, bufnr('$')), (_, v) => getbufvar(v, "myoperatorusertemplatebuf", 0))
+  if empty(buffers)
+    tabnew
+    setfiletype vim
+    b:myoperatorusertemplatebuf = 1
+    Template operator_user
+  else
+    execute 'buffer' buffers[0]
+  endif
+enddef
+
 export def ResizeInteractive(): void
   if winnr('$') == 1
     return

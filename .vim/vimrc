@@ -952,6 +952,8 @@ command! -nargs=* -complete=file ArgSet  :%argdelete | :exe (<q-args> != '' ? 'a
 
 command! ResizeInteractive  :call vimrc#cmd#ResizeInteractive()
 
+command! OperatorUserTemplate  :call vimrc#cmd#OperatorUserTemplate()
+
 call operator#user#define('decodeURI', 'vimrc#opfunc#DecodeURI')
 map s%d  <Plug>(operator-decodeURI)
 
