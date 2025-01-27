@@ -7,15 +7,19 @@ let $MYVIMDIR = resolve($MYVIMDIR)
 let s:SID_PREFIX = expand('<SID>')
 
 if has('vim_starting')
+  " if s:is_windows
+  "   "let $HOME = $HOME  " See :h $HOME-windows
+  "   "let $PATH .= ';'.expand('~/bin')
+  "   "let $PATH .= ';'.'C:\Windows\Microsoft.NET\Framework64\v4.0.30319'
+  "   let $PYTHONUTF8 = 1
+  " endif
+  if filereadable($MYVIMRC .. '_env')
+    execute 'source' $MYVIMRC .. '_env'
+  endif
+
   silent! autocmd! vimrcEx
   filetype off
   filetype plugin indent off
-  if s:is_windows
-    "let $HOME = $HOME  " See :h $HOME-windows
-    "let $PATH .= ';'.expand('~/bin')
-    "let $PATH .= ';'.'C:\Windows\Microsoft.NET\Framework64\v4.0.30319'
-    let $PYTHONUTF8 = 1
-  endif
   let s:myrtp = join(glob($VIMDIR .. '/plugins/*[^~]', 0, 1), ',')
   if s:myrtp != ''
     let &runtimepath ..= ',' .. s:myrtp
@@ -1004,9 +1008,8 @@ if s:is_windows
   command! -bang -bar Uptime :call vimrc#cmd#Uptime(s:vim_starttime, <bang>0)
 endif
 
-let s:vimrclocal = $MYVIMRC .. '_local'
-if filereadable(s:vimrclocal)
-  execute 'source' s:vimrclocal
+if filereadable($MYVIMRC .. '_local')
+  execute 'source' $MYVIMRC .. '_local'
 endif
 
 filetype plugin indent on
