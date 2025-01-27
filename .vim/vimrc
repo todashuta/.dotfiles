@@ -659,6 +659,22 @@ let g:sandwich#recipes += [
       \ ]
 
 
+" vim-findroot
+let g:findroot_patterns = [
+      \   '.git/',
+      \   '.svn/',
+      \   '.hg/',
+      \   '.bzr/',
+      \   'Rakefile',
+      \   'pom.xml',
+      \   'project.clj',
+      \   'package.json',
+      \   'manifest.json',
+      \   '*.csproj',
+      \   '*.sln',
+      \ ]
+
+
 " colorscheme
 if has('termguicolors') && v:version > 800
   let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
