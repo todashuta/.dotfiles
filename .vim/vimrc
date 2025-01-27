@@ -976,6 +976,11 @@ command! ResizeInteractive  :call vimrc#cmd#ResizeInteractive()
 
 command! OperatorUserTemplate  :call vimrc#cmd#OperatorUserTemplate()
 
+call operator#user#define_ex_command('join', 'join')
+"map sj  <Plug>(operator-join)
+call operator#user#define_ex_command('sort', 'sort')
+call operator#user#define_ex_command('reverse', "global/^/move '[-1'")
+
 call operator#user#define('DecodeURI', 'vimrc#opfunc#DecodeURI')
 map s%d  <Plug>(operator-DecodeURI)
 
