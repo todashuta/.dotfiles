@@ -81,9 +81,8 @@ set guicursor& guicursor+=a:blinkwait550-blinkon550-blinkoff550
 nnoremap <C-Tab>    gt
 nnoremap <C-S-Tab>  gT
 
-let s:gvimrclocal = $MYGVIMRC.'_local'
-if filereadable(s:gvimrclocal)
-  execute 'source' s:gvimrclocal
+if filereadable($MYGVIMRC .. '_local')
+  execute 'source' $MYGVIMRC .. '_local'
 endif
 
 """ vim: set et ts=2 sts=2 sw=2:
