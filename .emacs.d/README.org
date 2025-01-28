@@ -617,6 +617,10 @@
     :config
     (dashboard-setup-startup-hook))
 
+  (leaf editorconfig
+    :ensure t
+    :global-minor-mode t)
+
   ;; (setq custom-file "~/.emacs.d/custom.el")
   ;; (load custom-file t)
 
