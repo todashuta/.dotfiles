@@ -24,6 +24,7 @@
       (package-install 'leaf))
 
     (leaf leaf-keywords
+      :disabled t ; 起動時に Package autoload is deprecated が出る原因になるので一旦オフる
       :ensure t
       :config
       (leaf hydra :ensure t)
@@ -557,11 +558,7 @@
     :custom ((scheme-program-name . "/opt/homebrew/bin/gosh -i")))
 
   (leaf end-mark
-    :init
-    (unless (locate-library "end-mark")
-      (el-get-bundle end-mark
-        :url "https://github.com/tarao/elisp.git"
-        :features end-mark))
+    :vc (:url "https://github.com/tarao/elisp.git")
     ;; :global-minor-mode global-end-mark-mode
     )
 
