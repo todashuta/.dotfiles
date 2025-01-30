@@ -26,7 +26,7 @@
     (leaf leaf-keywords
       :disabled t ; 起動時に Package autoload is deprecated が出る原因になるので一旦オフる
       :ensure t
-      :config
+      :init
       (leaf hydra :ensure t)
       (leaf el-get :ensure t
         :custom ((el-get-git-shallow-clone . t)))
@@ -607,6 +607,14 @@
              (dashboard-footer-messages . '("以上、よろしくお願い致します。"))
              (dashboard-footer-icon . "")
              (dashboard-startup-banner . 'logo)
+             ;; (dashboard-startupify-list
+             ;;  . '(dashboard-insert-newline
+             ;;      dashboard-insert-banner-title
+             ;;      dashboard-insert-newline
+             ;;      dashboard-insert-init-info
+             ;;      dashboard-insert-items
+             ;;      dashboard-insert-newline
+             ;;      dashboard-insert-footer))
              (dashboard-items . '(;; (agenda    . 10)
                                   (recents   . 20)
                                   (bookmarks . 10))))
