@@ -1,5 +1,27 @@
 #+TITLE: My init file
 
+* Windowsで使うときの追加設定メモ
+- Emacs for Windowsではデフォルトの ~HOME~ が ~%APPDATA%~ (例: ~C:\Users\username\AppData\Roaming~) になっている。
+- そのため ~%APPDATA%~ 以下に ~.emacs.d~ が作られるし、 =find-file (C-x C-f)= の =~= の場所なんかも ~%APPDATA%~ になる。
+- 個人的には ~%USERPROFILE%~ 以下に ~.emacs.d~ を設置したい。
+- OSの設定で ~HOME~ 環境変数を設定すればいいんだけど、他のツールに影響を与え得るのでなるべくEmacsだけに閉じた設定方法にしたい。
+- ++ というわけで ~%APPDATA%\.emacs.d~ に下記のファイルを置いて ~%USERPROFILE%\.emacs.d~ に置いた各種設定が使われるようにしている。 ++
+- Emacs用のレジストリで ~HOME~ を設定することができる。こっちのほうが良さそう。
+** Emacs用のレジストリに ~HOME~ を設定するコマンド
+コマンドプロンプト（cmd.exe）で下記コマンドを実行する。
+#+begin_src bat :tangle no
+  REG ADD HKEY_CURRENT_USER\SOFTWARE\GNU\Emacs /v HOME /t REG_SZ /d %USERPROFILE%
+#+end_src
+** ++ %APPDATA%\.emacs.d\init.el ++
+#+begin_src emacs-lisp :tangle no
+  (setenv "HOME" (getenv "USERPROFILE"))
+  (load (expand-file-name (concat user-emacs-directory "init.el")) t)
+#+end_src
+** ++ %APPDATA%\.emacs.d\early-init.el ++
+#+begin_src emacs-lisp :tangle no
+  (setenv "HOME" (getenv "USERPROFILE"))
+  (load (expand-file-name (concat user-emacs-directory "early-init.el")) t)
+#+end_src
 * ヘッダ
 #+begin_src emacs-lisp
   ;; -*- lexical-binding: t; -*-
