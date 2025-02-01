@@ -907,6 +907,20 @@
     (global-set-key (kbd "C-h h")
                     (lambda () (interactive) (message "%s" "代わりに M-x view-hello-file を使ってください ※多分固まります"))))
 #+end_src
+* Windowsでショートカットから起動したときの作業フォルダの設定
+- こんなことしなくてもショートカットのプロパティの作業フォルダーで変えればいいはずだけどうまくいかなかったので、引数無しで起動されて作業フォルダがemacs.exeが置かれているフォルダになってる場合に =~= に移動するようにしてみた。
+#+begin_src emacs-lisp
+  (when
+      (and
+       (eq system-type 'windows-nt)
+       (= (length command-line-args) 1))
+    (let* ((args0 (car command-line-args))
+           (emacs-exe (expand-file-name args0))
+           (exe-dir (file-name-directory emacs-exe)))
+      (when
+          (string= default-directory exe-dir)
+        (setq default-directory (expand-file-name "~")))))
+#+end_src
 * provideの設定
 #+begin_src emacs-lisp
   (provide 'init)
