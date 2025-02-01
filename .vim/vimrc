@@ -382,6 +382,7 @@ packadd! ctrlp-mr.vim
 packadd! vim-jsonpath
 packadd! rainbow
 packadd! vim-aomi-grayscale
+packadd! dmacro.vim
 
 "if exists('##TextChangedP')
 "  packadd! vim-vsnip
@@ -963,6 +964,10 @@ let g:filebeagle_show_hidden = 1
 
 " rainbow
 let g:rainbow_active = 0  " set to 0 if you want to enable it later via :RainbowToggle
+
+" dmacro
+inoremap <M-.>  <Plug>(dmacro-play-macro)
+nnoremap <M-.>  <Plug>(dmacro-play-macro)
 
 "command! -bang          Add     :exe <bang>0 ? 'Gwrite' : 'Gdiffsplit'
 "command! -bang -nargs=* Commit  :exe 'silent Git ' . (<bang>0 ? '-c "commit.verbose=false"' : '') . ' commit <args>' | wincmd L
