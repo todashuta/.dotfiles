@@ -615,10 +615,14 @@
 
   (leaf dashboard
     :ensure t
-    :custom ((dashboard-banner-logo-title . "お疲れ様です。")
+    :custom `((dashboard-banner-logo-title . "お疲れ様です。")
              (dashboard-footer-messages . '("以上、よろしくお願い致します。"))
              (dashboard-footer-icon . "")
-             (dashboard-startup-banner . 'logo)
+             ;; (dashboard-startup-banner . 'logo)
+             (dashboard-startup-banner . ,(let ((path "~/.emacs.d/dashboard-startup-banner.png"))
+                                            (if (file-readable-p path) path ''logo)))
+             (dashboard-image-banner-max-width  . 60)
+             (dashboard-image-banner-max-height . 60)
              ;; (dashboard-startupify-list
              ;;  . '(dashboard-insert-newline
              ;;      dashboard-insert-banner-title
