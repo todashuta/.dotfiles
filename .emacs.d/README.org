@@ -642,6 +642,16 @@
     :ensure t
     :global-minor-mode t)
 
+  (leaf embark
+    :ensure t
+    :bind
+    (("C-." . embark-act)
+     ("C-;" . embark-dwim)
+     ("C-h B" . embark-bindings))
+    ;; :init
+    ;; (setq prefix-help-command #'embark-prefix-help-command)
+    )
+
   ;; (setq custom-file "~/.emacs.d/custom.el")
   ;; (load custom-file t)
 
