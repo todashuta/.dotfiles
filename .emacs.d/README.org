@@ -915,12 +915,12 @@
           (string= default-directory exe-dir)
         (setq default-directory (expand-file-name "~")))))
 #+end_src
+* ローカルの設定があれば読み込む
+#+begin_src emacs-lisp
+  (load (expand-file-name(concat user-emacs-directory "init-local.el")) t)
+#+end_src
 * provideの設定
 #+begin_src emacs-lisp
   (provide 'init)
   ;;; init.el ends here
-#+end_src
-* ローカルの設定があれば読み込む
-#+begin_src emacs-lisp
-  (load (expand-file-name(concat user-emacs-directory "init-local.el")) t)
 #+end_src
