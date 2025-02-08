@@ -22,5 +22,7 @@
 (setq inhibit-splash-screen t)
 (setq inhibit-startup-message t)
 
+(load (expand-file-name(concat user-emacs-directory "early-init-local.el")) t)
+
 (provide 'early-init)
 ;;; early-init.el ends here

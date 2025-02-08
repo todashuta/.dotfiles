@@ -812,7 +812,7 @@
 #+begin_src emacs-lisp
   (defun edit-my-init ()
     (interactive)
-    (let* ((items '("README.org" "init-local.el" "init.el" "early-init.el"))
+    (let* ((items '("README.org" "init-local.el" "init.el" "early-init-local.el" "early-init.el"))
            (file (completing-read "edit-my-init> " items)))
       (let* ((safe-local-variable-values '((org-src-preserve-indentation . t))))
         (find-file (expand-file-name (concat user-emacs-directory file))))))
