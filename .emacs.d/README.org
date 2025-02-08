@@ -125,9 +125,9 @@
 #+end_src
 ** インデントとか
 #+begin_src emacs-lisp
-  (add-hook 'emacs-lisp-mode-hook
-            (lambda ()
-              (setq indent-tabs-mode nil)))
+  (defun my-emacs-lisp-mode-hooks ()
+    (setq indent-tabs-mode nil))
+  (add-hook 'emacs-lisp-mode-hook 'my-emacs-lisp-mode-hooks)
 #+end_src
 ** Ctrl-マウスホイール回転の拡大縮小を無効化
 #+begin_src emacs-lisp
@@ -210,21 +210,17 @@
     ;;           (lambda ()
     ;;             ;; (maximize-window)
     ;;             (display-line-numbers-mode 1)))
-    )
-#+end_src
-** org-modeでは行を折り返す
-#+begin_src emacs-lisp
-  (add-hook
-   'org-mode-hook
-   (lambda ()
-     (setq-local truncate-lines nil)))
+    (defun my-org-mode-hooks ()
+      (setq-local truncate-lines nil) ; 行を折り返す
+      )
+    (add-hook 'org-mode-hook 'my-org-mode-hooks))
 #+end_src
 ** macOSでorg-modeとorg-agendaの曜日に日本語を使う
 #+begin_src emacs-lisp
   (when (eq system-type 'darwin)
     (defun my-time-locale-japanese ()
-      (setq-local system-messages-locale "ja_JP.UTF-8")
-      (setq-local system-time-locale "ja_JP.UTF-8"))
+      (setq-local system-messages-locale "ja_JP.UTF-8"
+                  system-time-locale "ja_JP.UTF-8"))
     (add-hook 'org-mode-hook 'my-time-locale-japanese)
     (add-hook 'org-agenda-mode-hook 'my-time-locale-japanese))
 #+end_src
@@ -250,9 +246,9 @@
 - org側に ~org-todo-keywords-for-agenda~ が適切に設定されないバグがあるらしい
 - 参考: https://github.com/minad/org-modern/issues/26#issuecomment-1722329496
 #+begin_src emacs-lisp
-  (add-hook 'org-agenda-finalize-hook
-            (lambda ()
-              (setq-local org-todo-keywords-for-agenda '("DONE" "WIP" "TODO"))))
+  (defun my-fix-org-todo-keywords-for-agenda ()
+    (setq-local org-todo-keywords-for-agenda '("DONE" "WIP" "TODO")))
+  (add-hook 'org-agenda-finalize-hook 'my-fix-org-todo-keywords-for-agenda)
 #+end_src
 ** org-rainbow-tags
 #+begin_src emacs-lisp
@@ -334,17 +330,16 @@
 #+end_src
 * time-stamp
 #+begin_src emacs-lisp
-  (add-hook 'before-save-hook 'my-time-stamp)
   (defun my-time-stamp ()
     (when (memq major-mode '(org-mode))
       (time-stamp)))
-  (add-hook 'org-mode-hook
-            (lambda ()
-              (setq-local
-               ;; (time-stamp-start  "#\\+DATE: ")
-               ;; (time-stamp-end    "\$")
-               time-stamp-format "%Y-%02m-%02dT%02H:%02M:%02S%5z %l@%q"
-               )))
+  (add-hook 'before-save-hook 'my-time-stamp)
+  (defun my-org-mode-time-stamp-format ()
+    (setq-local
+     ;; time-stamp-start  "#\\+DATE: "
+     ;; time-stamp-end    "\$"
+     time-stamp-format "%Y-%02m-%02dT%02H:%02M:%02S%5z %l@%q"))
+  (add-hook 'org-mode-hook 'my-org-mode-time-stamp-format)
 #+end_src
 * fido-vertical-mode
 - ミニバッファの補完UI
