@@ -55,5 +55,24 @@ export def Uptime(vim_starttime: number, system: bool)
   echo printf('%s Uptime: %s.', (system ? 'System' : 'Vim'), join(parts, ', '))
 enddef
 
+export def MyPrevimOpen()
+  const previm_installed = exists(':PrevimOpen') == 2
+  if !previm_installed
+    echo 'previm not installed'
+    return
+  endif
+  if has('win32')
+    g:previm_open_cmd = 'echo'
+    execute 'PrevimOpen'
+    job_start('cmd /c start index.html', { 'cwd': previm#make_preview_file_path('') })
+  elseif has('osxdarwin')
+    g:previm_open_cmd = 'open -a "Google Chrome"'
+    execute 'PrevimOpen'
+  else
+    execute 'PrevimOpen'
+  else
+  endif
+enddef
+
 #defcompile
 # vim: set et ts=2 sts=2 sw=2:
