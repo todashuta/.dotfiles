@@ -200,20 +200,18 @@
     :bind (("C-c c" . org-capture)
            ("C-c t" . org-todo-list)
            ("C-c a" . org-agenda))
+    :hook ((org-mode-hook . my-org-mode-hooks)
+           (org-src-mode-hook . my-org-src-mode-hooks))
     :config
-    ;; (advice-add
-    ;;  'org-edit-special
-    ;;  :after
-    ;;  (lambda (&rest r) (maximize-window) (linum-mode))
-    ;;  '((name . "my-org-edit-special-with-maximize-window")))
-    ;; (add-hook 'org-src-mode-hook
-    ;;           (lambda ()
-    ;;             ;; (maximize-window)
-    ;;             (display-line-numbers-mode 1)))
     (defun my-org-mode-hooks ()
       (setq-local truncate-lines nil) ; 行を折り返す
       )
-    (add-hook 'org-mode-hook 'my-org-mode-hooks))
+    (defun my-org-src-mode-hooks ()
+      ;; (maximize-window)
+      (display-line-numbers-mode 1)
+      (hl-line-mode 1)
+      (end-mark-mode 1)
+      ))
 #+end_src
 ** macOSでorg-modeとorg-agendaの曜日に日本語を使う
 #+begin_src emacs-lisp
@@ -782,7 +780,8 @@
               . '((bg-paren-match bg-cyan-intense)
                   (fg-region unspecified)
                   (border-mode-line-active unspecified)
-                  (border-mode-line-inactive unspecified))))
+                  (border-mode-line-inactive unspecified)
+                  (bg-hover-secondary bg-hl-line))))
     :config
     (defun my-update-mode-line-face-attribute-vars ()
       (setq my:mode-line-active-background (face-attribute 'mode-line :background))
