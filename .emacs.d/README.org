@@ -879,9 +879,9 @@
     (recenter-top-bottom) ;; (recenter)
     ;; (my-blink-hl-line)
     (when (fboundp 'vhl/add)
-      (cond ((and (bolp) (eolp)) (vhl/add (point) (1+ (point))))
-            ((eolp) (vhl/add (1- (point)) (point)))
-            (t (vhl/add (point) (1+ (point))))))
+      (let ((is-empty-line (and (bolp) (eolp))))
+        (cond ((and (not is-empty-line) (eolp)) (vhl/add (1- (point)) (point)))
+              (t (vhl/add (point) (1+ (point)))))))
     ;; (when (fboundp 'pulsar-highlight-line) (pulsar-highlight-line))
     )
 
