@@ -142,6 +142,18 @@
                  ))
     (add-to-list 'completion-ignored-extensions $ext))
 #+end_src
+** my-recenter
+#+begin_src emacs-lisp
+  (defvar my-recenter-hook nil
+    "Hook called after my-recenter")
+
+  (defun my-recenter ()
+    (interactive)
+    (recenter-top-bottom) ;; (recenter)
+    (run-hooks 'my-recenter-hook))
+
+  (global-set-key (kbd "C-l") 'my-recenter)
+#+end_src
 * Org Mode
 便利
 #+begin_src emacs-lisp
@@ -368,6 +380,7 @@
     :ensure t
     :bind (("M-N" . git-gutter:next-hunk)
            ("M-P" . git-gutter:previous-hunk))
+    :hook (my-recenter-hook . git-gutter)
     :global-minor-mode global-git-gutter-mode)
 #+end_src
 * 雑多
@@ -581,7 +594,14 @@
 
   (leaf volatile-highlights
     :ensure t
-    :global-minor-mode t)
+    :global-minor-mode t
+    :config
+    (add-hook 'my-recenter-hook
+              (lambda ()
+                (let ((is-empty-line (and (bolp) (eolp))))
+                  (cond ((and (not is-empty-line) (eolp)) (vhl/add (1- (point)) (point)))
+                        (t (vhl/add (point) (1+ (point))))))))
+    )
 
   ;; (leaf beacon
   ;;   :ensure t
@@ -593,7 +613,9 @@
   ;;   )
 
   (leaf pulsar
-    :ensure t)
+    :ensure t
+    ;; :hook (my-recenter-hook . pulsar-highlight-line)
+    )
 
   (leaf doom-modeline
     :ensure t
@@ -657,7 +679,6 @@
   (leaf-keys (
               ;; ("C-h"     . delete-backward-char)
               ;; ("C-x C-b" . electric-buffer-list)
-              ("C-l"     . my-recenter)
 
               ("<next>"  . scroll-up-line)
               ("<prior>" . scroll-down-line)
@@ -872,18 +893,6 @@
   ;;                     0.1 nil
   ;;                     #'(lambda ()
   ;;                         (hl-line-mode 0)))))))))))
-
-  (defun my-recenter ()
-    (interactive)
-    ;; (when (fboundp 'git-gutter) (git-gutter))
-    (recenter-top-bottom) ;; (recenter)
-    ;; (my-blink-hl-line)
-    (when (fboundp 'vhl/add)
-      (let ((is-empty-line (and (bolp) (eolp))))
-        (cond ((and (not is-empty-line) (eolp)) (vhl/add (1- (point)) (point)))
-              (t (vhl/add (point) (1+ (point)))))))
-    ;; (when (fboundp 'pulsar-highlight-line) (pulsar-highlight-line))
-    )
 
   (defun my-toggle-buffer-drawer (buffer-name &optional goto-eob)
     (let* ((window (get-buffer-window buffer-name)))
