@@ -131,8 +131,8 @@
 #+end_src
 ** Ctrl-マウスホイール回転の拡大縮小を無効化
 #+begin_src emacs-lisp
-  (global-unset-key (kbd "C-<wheel-up>"))
-  (global-unset-key (kbd "C-<wheel-down>"))
+  (keymap-global-unset "C-<wheel-up>")
+  (keymap-global-unset "C-<wheel-down>")
 #+end_src
 ** ファイル名補完で無視する拡張子たち
 #+begin_src emacs-lisp
@@ -152,7 +152,7 @@
     (recenter-top-bottom) ;; (recenter)
     (run-hooks 'my-recenter-hook))
 
-  (global-set-key (kbd "C-l") 'my-recenter)
+  (keymap-global-set "C-l" 'my-recenter)
 #+end_src
 * Org Mode
 便利
@@ -906,16 +906,16 @@
                (switch-to-buffer buffer-name)
                (if goto-eob
                    (end-of-buffer))))))
-  (global-set-key (kbd "C-c s")
-                  (lambda () (interactive) (my-toggle-buffer-drawer "*scratch*")))
-  (global-set-key (kbd "C-c S")
-                  (lambda () (interactive) (my-toggle-buffer-drawer "*Messages*" t)))
+  (keymap-global-set "C-c s"
+                     (lambda () (interactive) (my-toggle-buffer-drawer "*scratch*")))
+  (keymap-global-set "C-c S"
+                     (lambda () (interactive) (my-toggle-buffer-drawer "*Messages*" t)))
 #+end_src
 * =C-h h= でハングするので無効化しとく（Windows）
 #+begin_src emacs-lisp
   (when (eq window-system 'w32)
-    (global-set-key (kbd "C-h h")
-                    (lambda () (interactive) (message "%s" "代わりに M-x view-hello-file を使ってください ※多分固まります"))))
+    (keymap-global-set "C-h h"
+                       (lambda () (interactive) (message "%s" "代わりに M-x view-hello-file を使ってください ※多分固まります"))))
 #+end_src
 * Windowsでショートカットから起動したときの作業フォルダの設定
 - こんなことしなくてもショートカットのプロパティの作業フォルダーで変えればいいはずだけどうまくいかなかったので、引数無しで起動されて作業フォルダがemacs.exeが置かれているフォルダになってる場合に =~= に移動するようにしてみた。
