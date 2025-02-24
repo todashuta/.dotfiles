@@ -27,8 +27,7 @@
   ;; <leaf-install-code>
   (eval-and-compile
     (customize-set-variable
-     'package-archives '(("org"   . "https://orgmode.org/elpa/")
-                         ("melpa" . "https://melpa.org/packages/")
+     'package-archives '(("melpa" . "https://melpa.org/packages/")
                          ("gnu"   . "https://elpa.gnu.org/packages/")))
     (package-initialize)
     (unless (package-installed-p 'leaf)
@@ -457,7 +456,9 @@
 
   (leaf whitespace
     ;; :hook (after-init-hook . global-whitespace-mode)
-    :custom ((whitespace-style . '(face tabs tab-mark newline newline-mark))))
+    :custom ((whitespace-style . '(face tabs tab-mark newline newline-mark space-mark)))
+    ;; :bind (("C-c l" . whitespace-mode))
+    )
 
   (leaf highlight-indent-guides
     :disabled t
@@ -465,6 +466,8 @@
     :hook ((prog-mode-hook . highlight-indent-guides-mode))
     :custom ((highlight-indent-guides-method     . 'fill)
              (highlight-indent-guides-responsive . 'top)))
+
+  (leaf indent-bars :ensure t)
 
   (leaf mwim
     :ensure t
@@ -666,6 +669,11 @@
     ;; :init
     ;; (setq prefix-help-command #'embark-prefix-help-command)
     )
+
+  (leaf gcmh
+    :ensure t
+    :custom ((gcmh-verbose . t))
+    :global-minor-mode t)
 
   ;; (setq custom-file "~/.emacs.d/custom.el")
   ;; (load custom-file t)
