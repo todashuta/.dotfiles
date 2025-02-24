@@ -702,6 +702,16 @@
               ("C-c z" . balance-windows)
               ))
 #+end_src
+** C-wでシェルのような単語削除
+参考: http://dev.ariel-networks.com/wp/documents/aritcles/emacs/part16/
+#+begin_src emacs-lisp
+  (defun my-backward-kill-word-or-kill-region ()
+    (interactive)
+    (if (and (called-interactively-p) transient-mark-mode (not mark-active))
+        (call-interactively 'backward-kill-word)
+      (call-interactively 'kill-region)))
+  (keymap-global-set "C-w" 'my-backward-kill-word-or-kill-region)
+#+end_src
 * 日本語入力
 ** ddskk
 =M-x skk-get= で辞書ファイルを一括ダウンロードできる。
