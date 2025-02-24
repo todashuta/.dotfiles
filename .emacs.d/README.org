@@ -114,12 +114,15 @@
     ;; (setq-default line-spacing 2)
     ;; (set-frame-parameter nil 'alpha 95)
 
-    ;; 行間を広げる
+    ;; デフォルトの行間を広げる
     (setq default-text-properties '(line-spacing 0.25 line-height 1.25))
-    ;; minibufferでは行間を広げない
-    (defun my-minibuffer-setup ()
+    ;; 行間を広げたくないやつはnilに戻す
+    (defun my-reset-line-spacing-and-line-height ()
+      ;; (interactive)
       (setq-local default-text-properties '(line-spacing nil line-height nil)))
-    (add-hook 'minibuffer-setup-hook 'my-minibuffer-setup)
+    (add-hook 'minibuffer-setup-hook 'my-reset-line-spacing-and-line-height)
+    (add-hook 'tetris-mode-hook 'my-reset-line-spacing-and-line-height)
+    (add-hook 'snake-mode-hook 'my-reset-line-spacing-and-line-height)
     )
 #+end_src
 ** インデントとか
