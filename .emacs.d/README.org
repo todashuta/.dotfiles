@@ -325,6 +325,8 @@
         (message "%s" "my-org-agenda-update added"))))
 #+end_src
 * Lisp Interaction Mode
+- =C-j= でバッファに挿入される内容の先頭に =;= を入れてコメント化する。
+- =C-S-j= で元の =C-j= の動作を行う。
 #+begin_src emacs-lisp
   (defun my-eval-print-last-sexp (&optional eval-last-sexp-arg-internal)
     (interactive "P")
