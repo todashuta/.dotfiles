@@ -26,6 +26,7 @@
 #+begin_src emacs-lisp
   ;; <leaf-install-code>
   (eval-and-compile
+    (setq package-user-dir (concat user-emacs-directory (concat "elpa-" emacs-version)))
     (customize-set-variable
      'package-archives '(("melpa" . "https://melpa.org/packages/")
                          ("gnu"   . "https://elpa.gnu.org/packages/")))
@@ -322,6 +323,20 @@
       (progn
         (add-hook 'window-selection-change-functions 'my-org-agenda-update)
         (message "%s" "my-org-agenda-update added"))))
+#+end_src
+* Lisp Interaction Mode
+#+begin_src emacs-lisp
+  (defun my-eval-print-last-sexp (&optional eval-last-sexp-arg-internal)
+    (interactive "P")
+    (let ((standard-output (current-buffer)))
+      (write-char (string-to-char " "))
+      (write-char (string-to-char ";"))
+      (write-char (string-to-char " "))
+      (eval-last-sexp (or eval-last-sexp-arg-internal t))
+      ;;(terpri)
+      ))
+  (keymap-set lisp-interaction-mode-map "C-j" 'my-eval-print-last-sexp)
+  (keymap-set lisp-interaction-mode-map "C-S-j" 'eval-print-last-sexp)
 #+end_src
 * カレンダーを日本語表記にする
 #+begin_src emacs-lisp
