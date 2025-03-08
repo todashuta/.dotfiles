@@ -28,7 +28,7 @@ Author: todashuta
 	[!] を付けると非ASCII文字のエスケープが行われます。
 
 	デフォルトでは、 "python3" コマンドが使われます。Pythonが "python3"
-	以外のコマンド名でインストールされている際は、 [python-command] で上書
+	以外のコマンド名でインストールされている際は、 [python_command] で上書
 	きできます。
 	例: >
 		:JsonFormat py.exe -3.10
