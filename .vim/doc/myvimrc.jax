@@ -18,7 +18,7 @@ Author: todashuta
 	参考: |number_relativenumber|
 
 						*:JsonFormat*
-:[count]JsonFormat[!] [python-command]
+:[count]JsonFormat[!] [python_command]
 	バッファの内容をPythonのjsonモジュールのコマンドラインツール
 	(python3 -m json.tool) でフィルタ処理 |:range!| し、整形します。
 
