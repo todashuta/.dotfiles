@@ -820,7 +820,7 @@ endfunction
 
 "autocmd vimrc CursorHold *.json :JsonPath
 command! -bang -count -nargs=? JsonFormat
-      \ :exe ':%!' .. (empty(<q-args>) ? 'python3' : <q-args>) '-m json.tool'
+      \ :exe ':%!' .. (<q-args> ?? 'python3') '-m json.tool'
       \ (<bang>0 ? '' : '--no-ensure-ascii') (<count> > 0 ? ($'--indent={<count>}') : '--tab')
 
 "autocmd vimrc FileType dosbatch,ps1 setlocal completeslash=backslash
