@@ -1,4 +1,5 @@
 :Explorer	myvimrc.jax	/*:Explorer*
+:JsonFormat	myvimrc.jax	/*:JsonFormat*
 :LineNumberToggle	myvimrc.jax	/*:LineNumberToggle*
 myvimrc-commands	myvimrc.jax	/*myvimrc-commands*
 myvimrc.txt	myvimrc.jax	/*myvimrc.txt*
