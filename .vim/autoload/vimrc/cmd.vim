@@ -74,5 +74,21 @@ export def MyPrevimOpen()
   endif
 enddef
 
+export def FilterEntireFile(cmd: string): void
+  const result = systemlist(cmd, getline(1, '$'))
+  if v:shell_error != 0
+    echohl Error
+    for l in result
+      echo l
+    endfor
+    echohl None
+    return
+  endif
+  const pos = getpos('.')
+  deletebufline('%', 1, '$')
+  setline(1, result)
+  setpos('.', pos)
+enddef
+
 #defcompile
 # vim: set et ts=2 sts=2 sw=2:
