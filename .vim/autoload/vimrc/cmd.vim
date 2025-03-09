@@ -74,8 +74,11 @@ export def MyPrevimOpen()
   endif
 enddef
 
-export def FilterEntireFile(cmd: string): void
-  const result = systemlist(cmd, getline(1, '$'))
+export def FilterEntireFile(cmd: string, trim_trailing_cr = false): void
+  var result = systemlist(cmd, getline(1, '$'))
+  if trim_trailing_cr
+    result->map((_, v) => v->trim("\r", 2))
+  endif
   if v:shell_error != 0
     echohl Error
     for l in result
