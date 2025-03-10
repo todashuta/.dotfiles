@@ -1,5 +1,7 @@
 vim9script
 
+import "./msg.vim"
+
 export def OperatorUserTemplate(): void
   const buffers = filter(range(1, bufnr('$')), (_, v) => getbufvar(v, "myoperatorusertemplatebuf", 0))
   if empty(buffers)
@@ -58,7 +60,7 @@ enddef
 export def MyPrevimOpen()
   const previm_installed = exists(':PrevimOpen') == 2
   if !previm_installed
-    echo 'previm not installed'
+    msg.Error('previm not installed')
     return
   endif
   if has('win32')
@@ -74,14 +76,6 @@ export def MyPrevimOpen()
   endif
 enddef
 
-def PrintError(msg: string): void
-  echohl ErrorMsg
-  for m in msg->split("\n")
-    echomsg m
-  endfor
-  echohl None
-enddef
-
 export def FilterEntireFile(cmd: string, trim_trailing_cr = false): void
   var result = systemlist(cmd, getline(1, '$'))
   if trim_trailing_cr
@@ -89,7 +83,7 @@ export def FilterEntireFile(cmd: string, trim_trailing_cr = false): void
   endif
   if v:shell_error != 0
     for l in result
-      PrintError(l)
+      msg.Error(l)
     endfor
     return
   endif
