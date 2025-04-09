@@ -830,6 +830,11 @@ command! -bang -count -nargs=? JsonFormat
 "autocmd vimrc FileType dosbatch,ps1 setlocal completeslash=backslash
 autocmd vimrc FileType html setlocal completeslash=slash
 
+autocmd vimrc BufWritePost *.bat
+      \   if !(&l:ff == 'dos' && &l:fenc == 'cp932')
+      \ |   echowindow 'please check ff and fenc'
+      \ | endif
+
 nnoremap <silent> <C-p>  :<C-u>call <SID>QFPrevious()<CR>
 nnoremap <silent> <C-n>  :<C-u>call <SID>QFNext()<CR>
 function! s:QFPrevious()
