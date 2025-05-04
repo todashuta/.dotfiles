@@ -9,7 +9,7 @@ def Byte2hex(bytes: list<number>): string
 enddef
 
 export def FencB(): string
-  const c = getline('.')->matchstr('.', col('.') - 1)
+  const c = getline('.')[charcol('.') - 1]
   if empty(c)
     return '0'
   endif
