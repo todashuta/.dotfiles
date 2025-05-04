@@ -9,13 +9,11 @@ def Byte2hex(bytes: list<number>): string
 enddef
 
 export def FencB(): string
-  var c = matchstr(getline('.'), '.', col('.') - 1)
-  if c != ''
-    c = iconv(c, &enc, &fenc)
-    return Byte2hex(Str2byte(c))
-  else
+  const c = getline('.')->matchstr('.', col('.') - 1)
+  if empty(c)
     return '0'
   endif
+  return c->iconv(&enc, &fenc)->Str2byte()->Byte2hex()
 enddef
 
 export def Filetype(): string
