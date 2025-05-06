@@ -527,7 +527,7 @@ let g:lightline = {
       \     'myfiletype': 'vimrc#stl#Filetype',
       \   },
       \   'component': {
-      \     'mycharvaluehex': '%<0x%{vimrc#stl#FencB()}',
+      \     'mycharvaluehex': '%<0x%02{vimrc#stl#FencB()}',
       \     'myfileformat': '%{vimrc#stl#Fileformat()}',
       \     'myfileencoding': '%{vimrc#stl#Fileencoding()}',
       \     'quickrun': '%{vimrc#stl#QuickRun()}',
