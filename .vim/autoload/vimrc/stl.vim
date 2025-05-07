@@ -1,19 +1,16 @@
 vim9script
 
-def Str2byte(str: string): list<number>
-  return range(len(str))->map((_, v) => char2nr(strpart(str, v, 1)))
-enddef
-
-def Byte2hex(bytes: list<number>): string
-  return join(copy(bytes)->map((_, v) => printf("%02X", v)), '')
-enddef
-
 export def FencB(): string
-  const c = getline('.')[charcol('.') - 1]
-  if empty(c)
-    return '0'
-  endif
-  return c->iconv(&enc, &fenc)->Str2byte()->Byte2hex()
+  var s = ''
+  try
+    const c = getline('.')[charcol('.') - 1]
+    const blob = [c]->str2blob({'encoding': &l:fenc ?? &enc})
+    const hex  = blob->blob2list()->map((_, v) => printf('%02X', v))->join('')
+    s = hex ?? '00'
+  catch /^Vim\%((\a\+)\)\=:E1515:/
+    s = '#ERR!'
+  endtry
+  return s
 enddef
 
 export def Filetype(): string
