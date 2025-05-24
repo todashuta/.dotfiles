@@ -1030,6 +1030,16 @@ endfunction
 call operator#user#define('RadToDeg', 'vimrc#opfunc#RadToDeg')
 "map s. <Plug>(operator-RadToDeg)
 
+inoremap <expr> <C-y>dd denops#request('vimrc', 'dateFormat', ['yyyyMMdd'])
+inoremap <expr> <C-y>di denops#request('vimrc', 'dateFormat', ["yyMMdd'T'HHmmssXX"])
+inoremap <expr> <C-y>d- denops#request('vimrc', 'dateFormat', ['yyyy-MM-dd'])
+inoremap <expr> <C-y>d. denops#request('vimrc', 'dateFormat', ['yyyy.MM.dd'])
+inoremap <expr> <C-y>d/ denops#request('vimrc', 'dateFormat', ['yyyy/MM/dd'])
+
+cnoremap <expr> <C-y>dd denops#request('vimrc', 'dateFormat', ['yyyyMMdd'])
+cnoremap <expr> <C-y>di denops#request('vimrc', 'dateFormat', ["yyMMdd'T'HHmmssXX"])
+cnoremap <expr> <C-y>d- denops#request('vimrc', 'dateFormat', ['yyyy-MM-dd'])
+
 if s:is_windows
   let s:vim_starttime = get(s:, 'vim_starttime', libcallnr('kernel32', 'GetTickCount64', '') / 1000)
   command! -bang -bar Uptime :call vimrc#cmd#Uptime(s:vim_starttime, <bang>0)

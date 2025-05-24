@@ -16,5 +16,9 @@ export const main: Entrypoint = (denops: Denops) => {
     dateIso8601() {
       return format(new Date(), "yyyyMMdd'T'HHmmssXX");
     },
+    dateFormat(s: unknown) {
+      assert(s, is.String);
+      return format(new Date(), s);
+    },
   };
 };
