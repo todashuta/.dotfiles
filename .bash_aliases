@@ -29,5 +29,7 @@ alias update-SSH_AUTH_SOCK="eval \$(tmux show-environment -s SSH_AUTH_SOCK 2>/de
 alias update-DISPLAY="export DISPLAY=\$(awk '/^nameserver/ {print \$2}' /etc/resolv.conf):0.0; echo \$DISPLAY"
 
 alias Man='env MANWIDTH=$(( COLUMNS < ${maxmanwidth:-80} ? COLUMNS : ${maxmanwidth:-80} )) man'
+complete -F _man Man
 
 alias Journalctl='journalctl -o short-full'
+complete -F _journalctl Journalctl
