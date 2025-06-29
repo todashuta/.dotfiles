@@ -30,6 +30,8 @@ alias update-DISPLAY="export DISPLAY=\$(awk '/^nameserver/ {print \$2}' /etc/res
 
 alias Man='env MANWIDTH=$(( COLUMNS < ${maxmanwidth:-80} ? COLUMNS : ${maxmanwidth:-80} )) man'
 complete -F _man Man
+__load_completion man
 
 alias Journalctl='journalctl -o short-full'
 complete -F _journalctl Journalctl
+__load_completion journalctl
