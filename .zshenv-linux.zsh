@@ -2,7 +2,6 @@
 
 export ZDOTDIR="$HOME/.zsh"
 
-export GOROOT="$HOME/opt/go"
 export GOPATH="$HOME/go"
 
 typeset -gx -U path
@@ -13,7 +12,6 @@ path=(
     $HOME/.rbenv/bin(N-/^W)
     $HOME/.cargo/bin(N-/^W)
     $path
-    $GOROOT/bin(N-/^W)
     $GOPATH/bin(N-/^W)
     $HOME/local/bin(N-/^W)
     $HOME/.local/bin(N-/^W)
