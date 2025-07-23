@@ -1,0 +1,4 @@
+# ~/.inputrc example
+
+$include /etc/inputrc
+$include ~/.dotfiles/.inputrc

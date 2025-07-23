@@ -1,6 +1,4 @@
-# inputrc
-
-#$include /etc/inputrc
+# my inputrc
 
 $if Bash
 	#set completion-ignore-case on
