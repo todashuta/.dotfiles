@@ -11,7 +11,7 @@ where /q peco.exe
 if errorlevel 1 (
 	echo peco not found!
 	echo Please install peco
-	exit /b 1
+	goto ERR
 )
 
 for /f %%i in ('ghq list -p ^| peco') do (
