@@ -1,3 +1,5 @@
 ls=dir
 v=gvim $*
 c=cls
+
+vcvars64-2022="P:\Apps\Visual Studio 2022 Community\VC\Auxiliary\Build\vcvars64.bat"
