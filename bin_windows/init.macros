@@ -1,0 +1,3 @@
+ls=dir
+v=gvim $*
+c=cls
