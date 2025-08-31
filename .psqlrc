@@ -8,4 +8,5 @@
 \setenv PAGER less
 \setenv LESS '-R -S --shift 5 -M -X -g -j3'
 
+\x auto
 \timing on
