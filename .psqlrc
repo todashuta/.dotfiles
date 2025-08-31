@@ -1,5 +1,7 @@
 -- \include ~/.dotfiles/.psqlrc
 
+\set QUIET 1
+
 \set PROMPT1 '(psql:%p) %[%033[1;36m%]%n%[%033[0m%]%[%033[34m%]@%[%033[0m%]%[%033[1;36m%]%M:%>%[%033[0m%]%[%033[33m%]/%[%033[0m%]%[%033[1;33m%]%/%[%033[0m%]\n%l%R%x%# '
 \set PROMPT2 :PROMPT1
 
@@ -10,3 +12,7 @@
 
 \x auto
 \timing on
+
+--\set COMP_KEYWORD_CASE upper
+
+\unset QUIET
