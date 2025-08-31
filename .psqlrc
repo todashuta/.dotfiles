@@ -1,4 +1,11 @@
 -- \include ~/.dotfiles/.psqlrc
 
 \set PROMPT1 '(psql:%p) %[%033[1;36m%]%n%[%033[0m%]%[%033[34m%]@%[%033[0m%]%[%033[1;36m%]%M:%>%[%033[0m%]%[%033[33m%]/%[%033[0m%]%[%033[1;33m%]%/%[%033[0m%]\n%l%R%x%# '
-\set PROMPT2 '(psql:%p) %[%033[1;36m%]%n%[%033[0m%]%[%033[34m%]@%[%033[0m%]%[%033[1;36m%]%M:%>%[%033[0m%]%[%033[33m%]/%[%033[0m%]%[%033[1;33m%]%/%[%033[0m%]\n%l%R%x%# '
+\set PROMPT2 :PROMPT1
+
+\set reload '\\include ~/.psqlrc;'
+
+\setenv PAGER less
+\setenv LESS '-R -S --shift 5 -M -X -g -j3'
+
+\timing on
