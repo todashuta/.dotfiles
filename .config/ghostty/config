@@ -1,6 +1,6 @@
 # Ghostty Configuration
 
-term = xterm-256color
+#term = xterm-256color
 
 shell-integration-features = no-cursor
 
