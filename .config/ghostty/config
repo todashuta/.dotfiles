@@ -23,7 +23,7 @@ window-padding-x = 12
 background-opacity = 0.9
 background-blur-radius = 20
 
-theme = iceberg-dark
+theme = Iceberg Dark
 
 macos-option-as-alt = true
 
