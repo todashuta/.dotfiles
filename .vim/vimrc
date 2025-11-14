@@ -797,6 +797,7 @@ let g:lsp_settings = {
       \     }
       \   },
       \ }
+autocmd vimrc VimEnter * call timer_start(0, { -> vimrc#util#CheckEfmLangserverInstalled() })
 
 
 autocmd vimrc FileType json
