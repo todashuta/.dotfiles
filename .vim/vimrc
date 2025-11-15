@@ -797,7 +797,12 @@ let g:lsp_settings = {
       \     }
       \   },
       \ }
-autocmd vimrc VimEnter * call timer_start(0, { -> vimrc#util#CheckEfmLangserverInstalled() })
+function! s:install_efm_langserver_if_needed()
+  if empty(lsp_settings#exec_path('efm-langserver'))
+    LspInstallServer efm-langserver
+  endif
+endfunction
+autocmd vimrc VimEnter * call timer_start(0, { -> s:install_efm_langserver_if_needed() })
 
 
 autocmd vimrc FileType json
