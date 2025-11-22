@@ -616,20 +616,20 @@ fi
 alias tree='tree -N'
 
 # tmux のセッションがあればアタッチする
-alias tmuxx='tmux a || tmux'
+#alias tmuxx='tmux a || tmux'
 
 # Use MacVim.
-if [[ -d '/Applications/MacVim.app/Contents/MacOS' ]]; then
-    # Use MacVim's binary on Terminal.
-    alias vim='/Applications/MacVim.app/Contents/MacOS/Vim'
-    alias vimdiff='/Applications/MacVim.app/Contents/MacOS/vimdiff'
-    alias view='/Applications/MacVim.app/Contents/MacOS/view'
-
-    # Use GUI MacVim.
-    alias mvim='/Applications/MacVim.app/Contents/MacOS/mvim'
-    alias mvimdiff='/Applications/MacVim.app/Contents/MacOS/mvimdiff'
-    alias mview='/Applications/MacVim.app/Contents/MacOS/mview'
-fi
+#if [[ -d '/Applications/MacVim.app/Contents/MacOS' ]]; then
+#    # Use MacVim's binary on Terminal.
+#    alias vim='/Applications/MacVim.app/Contents/MacOS/Vim'
+#    alias vimdiff='/Applications/MacVim.app/Contents/MacOS/vimdiff'
+#    alias view='/Applications/MacVim.app/Contents/MacOS/view'
+#
+#    # Use GUI MacVim.
+#    alias mvim='/Applications/MacVim.app/Contents/MacOS/mvim'
+#    alias mvimdiff='/Applications/MacVim.app/Contents/MacOS/mvimdiff'
+#    alias mview='/Applications/MacVim.app/Contents/MacOS/mview'
+#fi
 
 # Minimal vim for emergency
 alias vi='vim -u NONE -i NONE -N'
