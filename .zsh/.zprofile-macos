@@ -11,7 +11,7 @@ PATH="/opt/local/bin:/opt/local/sbin:$PATH"
 PATH="$PATH:$HOME/go/bin"
 
 PATH="$PATH:$HOME/bin"
-PATH="/Applications/MacVim.app/Contents/bin:$PATH"
+PATH="$PATH:/Applications/MacVim.app/Contents/bin"
 
 # Homebrew
 #export HOMEBREW_PREFIX="/opt/homebrew";
