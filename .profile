@@ -16,21 +16,13 @@ if [ -n "$WSL_DISTRO_NAME" ] ; then
     export SCREENDIR
 fi
 
-#GOROOT="$HOME/opt/go"
-#export GOROOT
-GOPATH="$HOME/go"
-export GOPATH
-
 if [ -z "$LOADED_DOTPROFILE" ] ; then
     if [ -z "$PATH" ] ; then
         PATH="/usr/sbin:/usr/bin:/sbin:/bin"
     fi
 
-    #if [ -d "$GOROOT/bin" ] ; then
-    #    PATH="$PATH:$GOROOT/bin"
-    #fi
-    if [ -d "$GOPATH/bin" ] ; then
-        PATH="$PATH:$GOPATH/bin"
+    if [ -d "$HOME/go/bin" ] ; then
+        PATH="$PATH:$HOME/go/bin"
     fi
 
     if [ -d "$HOME/.cargo/bin" ] ; then
