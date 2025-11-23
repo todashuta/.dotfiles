@@ -2,11 +2,4 @@
 
 .DS_Store
 
-/.zsh/.zshrc_local
-/.zsh/.zsh_history
-/.zsh/.zcompdump
-/.zsh/.zcalc_history
-/.zsh/.zcompcache/*
-/.zsh/.chpwd-recent-dirs
-
 # end of gitignore

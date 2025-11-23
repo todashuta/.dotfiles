@@ -1,1 +1,7 @@
 /.zprofile
+/.zshrc_local
+/.zsh_history
+/.zcompdump
+/.zcalc_history
+/.zcompcache/*
+/.chpwd-recent-dirs
