@@ -2,7 +2,7 @@
 
 export ZDOTDIR="$HOME/.dotfiles/.zsh"
 
-typeset -gx -U path
+typeset -gx -U path PATH
 path=(
     $HOME/bin(N-/^W)
     $HOME/.plenv/shims(N-/^W)
