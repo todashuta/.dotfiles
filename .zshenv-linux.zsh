@@ -1,6 +1,6 @@
 ## zshenv for Linux
 
-export ZDOTDIR="$HOME/.zsh"
+export ZDOTDIR="$HOME/.dotfiles/.zsh"
 
 typeset -gx -U path
 path=(

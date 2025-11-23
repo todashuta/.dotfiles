@@ -1,6 +1,6 @@
 # .zshenv for macOS
 
-export ZDOTDIR=~/.dotfiles/.zsh
+export ZDOTDIR="$HOME/.dotfiles/.zsh"
 
 # ~/.zsh_sessions/ が生成されないようにする (Save/Restore Shell Stateの無効化)
 # 参考: /etc/zshrc_Apple_Terminal
