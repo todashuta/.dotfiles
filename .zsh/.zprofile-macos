@@ -1,13 +1,15 @@
 # .zprofile for macOS
 
 if [ -x /usr/libexec/path_helper ]; then
-	eval `PATH= /usr/libexec/path_helper -s`
+	eval `PATH= MANPATH= /usr/libexec/path_helper -s`
 fi
 
 typeset -gx -U path PATH
+typeset -gx -U manpath MANPATH
 
 # macports
 path=(/opt/local/bin /opt/local/sbin $path)
+manpath=(/opt/local/share/man $manpath)
 
 # golang
 path=($path ~/go/bin)
@@ -17,6 +19,10 @@ path=($path ~/bin)
 
 # MacVim
 path=($path /Applications/MacVim.app/Contents/bin)
+
+# Ghostty
+path=($path /Applications/Ghostty.app/Contents/MacOS)
+manpath=($manpath /Applications/Ghostty.app/Contents/Resources/man)
 
 # Homebrew
 #export HOMEBREW_PREFIX="/opt/homebrew";
