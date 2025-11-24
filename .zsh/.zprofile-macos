@@ -6,19 +6,17 @@ fi
 
 typeset -gx -U path PATH
 
-path=(
-	# macports
-	/opt/local/bin
-	/opt/local/sbin
+# macports
+path=(/opt/local/bin /opt/local/sbin $path)
 
-	$path
+# golang
+path=($path ~/go/bin)
 
-	# golang
-	~/go/bin
+# my tools
+path=($path ~/bin)
 
-	~/bin
-	/Applications/MacVim.app/Contents/bin
-)
+# MacVim
+path=($path /Applications/MacVim.app/Contents/bin)
 
 # Homebrew
 #export HOMEBREW_PREFIX="/opt/homebrew";
