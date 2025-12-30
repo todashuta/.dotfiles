@@ -1,0 +1,7 @@
+{
+  "imports": {
+    "@denops/std": "jsr:@denops/std@^8.0.0",
+    "@core/unknownutil": "jsr:@core/unknownutil@^4.0.0",
+    "date-fns": "npm:date-fns@4"
+  }
+}

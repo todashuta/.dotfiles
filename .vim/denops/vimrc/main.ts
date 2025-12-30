@@ -1,7 +1,7 @@
-import type { Entrypoint, Denops } from "jsr:@denops/std@^8.0.0";
-import { assert, is } from "jsr:@core/unknownutil@^4.0.0";
+import type { Entrypoint, Denops } from "@denops/std";
+import { assert, is } from "@core/unknownutil";
 
-import { format } from "npm:date-fns@4";
+import { format } from "date-fns";
 
 export const main: Entrypoint = (denops: Denops) => {
   denops.dispatcher = {
