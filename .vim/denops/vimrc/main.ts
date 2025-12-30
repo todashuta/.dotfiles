@@ -1,4 +1,4 @@
-import type { Entrypoint, Denops } from "jsr:@denops/std@^7.0.0";
+import type { Entrypoint, Denops } from "jsr:@denops/std@^8.0.0";
 import { assert, is } from "jsr:@core/unknownutil@^4.0.0";
 
 import { format } from "npm:date-fns@4";
