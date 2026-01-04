@@ -469,6 +469,13 @@ let g:quickrun_config['cpp/zig_c++'] = {
       \ }
 let g:quickrun_config['cpp'] = { 'type': 'cpp/zig_c++' }
 
+let g:quickrun_config['cuda/nvcc'] = {
+      \   'type': 'c/clang',
+      \   'command': 'nvcc',
+      \   'tempfile': '%{tempname()}.cu',
+      \ }
+let g:quickrun_config['cuda'] = { 'type': 'cuda/nvcc' }
+
 let g:quickrun_config['rust/cargo-script'] = {
       \   'command': 'cargo',
       \   'cmdopt': '+nightly -Z script run --release --manifest-path',
