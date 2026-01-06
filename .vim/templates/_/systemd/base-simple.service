@@ -1,0 +1,22 @@
+#
+# ~/.config/systemd/user/example.service
+#
+# $ systemctl --user daemon-reload
+# $ systemctl --user start example example.service
+# $ systemctl --user enable example example.service
+# $ loginctl enable-linger $USER
+#
+
+[Unit]
+Description=Example Description
+#After=network.target
+
+[Service]
+Type=simple
+#Environment=FOO=value
+WorkingDirectory=%h/path/to/directory
+ExecStart=%h/path/to/directory/prog arg
+Restart=always
+
+[Install]
+WantedBy=default.target
