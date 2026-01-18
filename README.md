@@ -42,7 +42,8 @@ ln -s ~/.dotfiles/.emacs.d ~/.emacs.d
 `~/.tmux.conf`を作成し下記の内容を書く。
 
 ```
-source-file ~/.dotfiles/.tmux.conf
+set -g @tmux_dir ~/.dotfiles/tmux
+source-file -F '#{@tmux_dir}/tmux.conf'
 
 # ステータスラインの色とか環境別で変えたい設定を追加（任意）
 set -g default-terminal "xterm-256color"
