@@ -1,6 +1,6 @@
 #!/bin/bash
 
-installdir="/path/to/project/root/_install" # FIXME
+installdir="{{_cursor_}}/path/to/project/root/_install" # FIXME
 name="${0##*/}"
 
 export LD_LIBRARY_PATH="$installdir/lib${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}"
