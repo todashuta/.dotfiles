@@ -93,5 +93,14 @@ export def FilterEntireFile(cmd: string, trim_trailing_cr = false): void
   setpos('.', pos)
 enddef
 
+export def Update_SSH_AUTH_SOCK(): void
+  if empty($TMUX)
+    return
+  endif
+  const res = system('sh -c "tmux showenv SSH_AUTH_SOCK" 2>/dev/null')
+  const val = substitute(trim(res), '^SSH_AUTH_SOCK=', '', '')
+  $SSH_AUTH_SOCK = val
+enddef
+
 #defcompile
 # vim: set et ts=2 sts=2 sw=2:

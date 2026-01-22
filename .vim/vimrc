@@ -1025,6 +1025,10 @@ cnoremap <expr> <C-y>dd denops#request('vimrc', 'dateFormat', ['yyyyMMdd'])
 cnoremap <expr> <C-y>di denops#request('vimrc', 'dateFormat', ["yyMMdd'T'HHmmssXX"])
 cnoremap <expr> <C-y>d- denops#request('vimrc', 'dateFormat', ['yyyy-MM-dd'])
 
+if !empty($TMUX)
+  command! UpdateSshAuthSock :call vimrc#cmd#Update_SSH_AUTH_SOCK()
+endif
+
 if s:is_windows
   let s:vim_starttime = get(s:, 'vim_starttime', libcallnr('kernel32', 'GetTickCount64', '') / 1000)
   command! -bang -bar Uptime :call vimrc#cmd#Uptime(s:vim_starttime, <bang>0)
