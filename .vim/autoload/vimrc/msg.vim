@@ -1,19 +1,23 @@
 vim9script
 
+def EchohlNone(): void
+  echohl None
+enddef
+
 export def Error(msg: string): void
   echohl ErrorMsg
+  defer EchohlNone()
   for m in msg->split("\n")
     echomsg m
   endfor
-  echohl None
 enddef
 
 export def Warn(msg: string): void
   echohl WarningMsg
+  defer EchohlNone()
   for m in msg->split("\n")
     echomsg m
   endfor
-  echohl None
 enddef
 
 #defcompile

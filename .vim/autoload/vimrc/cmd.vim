@@ -87,10 +87,9 @@ export def FilterEntireFile(cmd: string, trim_trailing_cr = false): void
     endfor
     return
   endif
-  const pos = getpos('.')
+  defer setpos('.', getpos('.'))
   deletebufline('%', 1, '$')
   setline(1, result)
-  setpos('.', pos)
 enddef
 
 export def Update_SSH_AUTH_SOCK(): void
