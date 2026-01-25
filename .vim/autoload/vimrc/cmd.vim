@@ -96,9 +96,14 @@ export def Update_SSH_AUTH_SOCK(): void
   if empty($TMUX)
     return
   endif
-  const res = system('sh -c "tmux showenv SSH_AUTH_SOCK" 2>/dev/null')
-  const val = substitute(trim(res), '^SSH_AUTH_SOCK=', '', '')
-  $SSH_AUTH_SOCK = val
+  const res = system('/bin/sh -c "tmux showenv SSH_AUTH_SOCK 2>/dev/null"')
+  const sock_path = substitute(trim(res), '^SSH_AUTH_SOCK=', '', '')
+  if !empty(glob(sock_path))
+    $SSH_AUTH_SOCK = sock_path
+  else
+    unlet $SSH_AUTH_SOCK
+  endif
+  echo $'SSH_AUTH_SOCK={$SSH_AUTH_SOCK}'
 enddef
 
 #defcompile
