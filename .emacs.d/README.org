@@ -87,7 +87,9 @@
                                                    "~/var/emacs/autosave/" ; 末尾のスラッシュ必要
                                                    t)))
               (frame-title-format             . '("%b - Emacs " emacs-version))
-              (initial-scratch-message        . ,(concat ";; *scratch* - Emacs " emacs-version "\n\n"))
+              (initial-scratch-message        . ,(concat
+                                                  ";; -*- mode: lisp-interaction; -*-\n"
+                                                  ";; *scratch* - Emacs " emacs-version "\n\n"))
               (mouse-highlight                . nil)
               (mouse-1-click-follows-link     . nil)
               (indicate-buffer-boundaries     . t)
