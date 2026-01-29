@@ -71,8 +71,7 @@ export def MyPrevimOpen()
     g:previm_open_cmd = 'open -a "Google Chrome"'
     execute 'PrevimOpen'
   else
-    execute 'PrevimOpen'
-  else
+    msg.Error('[MyPrevimOpen] Unsupported environment')
   endif
 enddef
 
