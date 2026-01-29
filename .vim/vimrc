@@ -75,8 +75,8 @@ set nonumber norelativenumber
 set title
 set backspace=indent,eol,start
 set scrolloff=5 sidescrolloff=16
-let g:FFTable = { 'dos': 'CR+LF(dos)', 'unix': 'LF(unix)', 'mac': 'CR(mac)' }
-let &statusline = '%#WarningMsg#%{&paste?"*PASTE*":""}%*#%n%{MyGitStatus()} %#WarningMsg#%{&modified?"*":""}%*%<%t%h%r [%{toupper(&fenc==""?(&enc."*"):&fenc).(&bomb?"(BOM)":"")};%{g:FFTable[&ff].(&eol?"":"-NoEOL")}] 0x%{FencB()}%= %y %l/%LL %2c%VC %3p%%'
+"let g:FFTable = { 'dos': 'CR+LF(dos)', 'unix': 'LF(unix)', 'mac': 'CR(mac)' }
+"let &statusline = '%#WarningMsg#%{&paste?"*PASTE*":""}%*#%n%{MyGitStatus()} %#WarningMsg#%{&modified?"*":""}%*%<%t%h%r [%{toupper(&fenc==""?(&enc."*"):&fenc).(&bomb?"(BOM)":"")};%{g:FFTable[&ff].(&eol?"":"-NoEOL")}] 0x%{FencB()}%= %y %l/%LL %2c%VC %3p%%'
 let &grepprg = s:is_windows ? 'jvgrep.exe -I -C' : 'grep -rnIH --exclude-dir=.git --exclude-dir=.hg --exclude-dir=.svn --exclude=tags'
 set grepformat& grepformat^=%f:%l:%c:%m
 "set wildignore& wildignore+=*.exe,*.dll,*.zip,*.mp3,Thumbs.db,*.xls,*.xlsx,*.eml,*.fol,*.3dm,*.3dmbak,*.ods,*.odp,*.psd,*.pdf,*.bmp,*.jpg,*.jpeg,*.gif,*.png
@@ -260,50 +260,6 @@ if s:is_windows
   command! -bang -complete=dir -nargs=? TTerminalPS  call s:term('powershell.exe -ExecutionPolicy RemoteSigned', <q-args>, <bang>0, 0)
   command!                              Code         execute '!start code.cmd' shellescape(expand('%'))
 endif
-
-function! FencB()
-  let c = matchstr(getline('.'), '.', col('.')-1)
-  if c != ''
-    let c = iconv(c, &enc, &fenc)
-    return s:byte2hex(s:str2byte(c))
-  else
-    return '0'
-  endif
-endfunction
-
-function! s:str2byte(str)
-  return map(range(len(a:str)), 'char2nr(a:str[v:val])')
-endfunction
-
-function! s:byte2hex(bytes)
-  return join(map(copy(a:bytes), 'printf("%02X", v:val)'), '')
-endfunction
-
-function! MyGitStatus() abort
-  let l:xs = []
-
-  let l:fugitive_status = FugitiveStatusline()
-  if l:fugitive_status == ''
-    return ''
-  endif
-  let l:fugitive_status = substitute(l:fugitive_status, '^[Git:\?', '', '')
-  let l:fugitive_status = substitute(l:fugitive_status, ']$', '', '')
-  let l:xs += [l:fugitive_status]
-
-  "let l:gitbranchname = gitbranch#name()
-  "if l:gitbranchname == ''
-  "  return ''
-  "endif
-  "let l:is_index = get(b:, 'fugitive_type', '') ==# 'blob' && &modifiable
-  "let l:xs += [(l:is_index ? '*' : '') . '(' . l:gitbranchname . ')']
-
-  let l:signify_stats = sy#repo#get_stats_decorated()
-  if l:signify_stats != ''
-    let l:xs += [l:signify_stats]
-  endif
-
-  return join(l:xs, ' ')
-endfunction
 
 
 let g:loaded_matchparen = 1
@@ -583,65 +539,6 @@ let g:lightline = {
       \   },
       \   'subseparator': {'left': '', 'right': ''},
       \ }
-
-function! MyFilename() abort
-  if &filetype ==# 'ctrlp' && get(g:lightline, 'ctrlp_numscanned', 0) > 0
-    return g:lightline.ctrlp_numscanned . ' files... (press ctrl-c to abort)'
-  endif
-  if &filetype ==# 'ctrlp' && has_key(g:lightline, 'ctrlp_item')
-    let l:regmark = g:lightline.ctrlp_regex ? '[.*] ' : '[  ] '
-    return l:regmark . join([
-          \   ('<' . g:lightline.ctrlp_prev . '>'),
-          \   ('{' . g:lightline.ctrlp_item . '}'),
-          \   ('<' . g:lightline.ctrlp_next . '>'),
-          \ ], '=') . g:lightline.ctrlp_marked
-  endif
-  if &buftype ==# 'quickfix' && get(w:, 'quickfix_title', '') != ''
-    return w:quickfix_title
-  endif
-  let name = fnamemodify(@%, ':t') " expand('%:t')
-  return name != '' ? name : '[No Name]'
-endfunction
-
-function! MyFiletype() abort
-  let ft = &ft !=# '' ? &ft : 'no-ft'
-  if get(w:, 'current_syntax', '') !=# ''
-    let ft = w:current_syntax . '/' . ft
-  endif
-  return ft
-endfunction
-
-function! MyWinType() abort
-  if get(b:, 'mybufnameoverride', '') !=# ''
-    return '{' . b:mybufnameoverride . '}'
-  endif
-  if get(b:, 'mydifforigbuf', 0)
-    return 'DiffOrig'
-  endif
-  if &buftype ==# 'terminal'
-    let l:bnr = bufnr('')
-    if term_getstatus(l:bnr) =~# 'finished'
-      return 'Terminal-exited:' . string(job_info(term_getjob(l:bnr))['exitval'])
-    else
-      return 'Terminal'
-    endif
-  endif
-  let l:cmdwintype = getcmdwintype()
-  if l:cmdwintype != ''
-    return l:cmdwintype
-  endif
-  let l:ret = get({
-        \   '': '--',
-        \   'ctrlp': 'CtrlP',
-        \   'fugitive': 'Git',
-        \   'fugitiveblame': 'Git',
-        \   'help': 'Help',
-        \   'qf': 'QuickFix',
-        \ }, &filetype, &filetype)
-  return &modifiable ? l:ret : ('*'.l:ret.'*')
-  "let w = winnr()
-  "return bufnr('').'|'.w.(w==winnr('#')?'#':'')
-endfunction
 
 
 xnoremap <expr> gr  niceblock#force_blockwise('r')
