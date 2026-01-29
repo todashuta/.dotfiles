@@ -321,7 +321,7 @@ let g:vim_json_conceal = 0  " See :h ft-json-syntax
 " Packages
 "packadd! editorconfig
 packadd! vimdoc-ja
-packadd! termdebug
+"packadd! termdebug
 packadd! hlyank
 packadd! previm
 packadd! autofmt
