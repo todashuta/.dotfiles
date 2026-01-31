@@ -76,6 +76,17 @@ export def Filename(): string
   return name ?? '[No Name]'
 enddef
 
+def TerminalInfo(): string
+  if &l:buftype != 'terminal'
+    return null_string
+  endif
+  const bnr = bufnr('')
+  if term_getstatus(bnr) =~# 'finished'
+    return $'Terminal-exited: {job_info(term_getjob(bnr)).exitval}'
+  endif
+  return 'Terminal'
+enddef
+
 export def Wintype(): string
   if !empty(get(b:, 'mybufnameoverride', ''))
     return '{' .. b:mybufnameoverride .. '}'
@@ -83,13 +94,9 @@ export def Wintype(): string
   if get(b:, 'mydifforigbuf', 0)
     return 'DiffOrig'
   endif
-  if &l:buftype ==# 'terminal'
-    const bnr = bufnr('')
-    if term_getstatus(bnr) =~# 'finished'
-      return $'Terminal-exited: {job_info(term_getjob(bnr)).exitval}'
-    else
-      return 'Terminal'
-    endif
+  const terminalInfo = TerminalInfo()
+  if !empty(terminalInfo)
+    return terminalInfo
   endif
   const cmdwintype = getcmdwintype()
   if !empty(cmdwintype)
