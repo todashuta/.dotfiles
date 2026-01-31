@@ -732,12 +732,7 @@ endfunction
 
 "autocmd vimrc CursorHold *.json :JsonPath
 command! -bang -count -nargs=? JsonFormat
-      \ :call vimrc#cmd#FilterEntireFile(join([
-      \   (<q-args> ?? 'python3'),
-      \   '-m json.tool',
-      \   (<bang>0 ? '' : '--no-ensure-ascii'),
-      \   (<count> > 0 ? ($'--indent={<count>}') : '--tab'),
-      \ ]), s:is_windows)
+      \ :call vimrc#cmd#JsonFormat(<q-args>, <bang>0, <count>)
 
 "autocmd vimrc FileType dosbatch,ps1 setlocal completeslash=backslash
 autocmd vimrc FileType html setlocal completeslash=slash

@@ -91,6 +91,16 @@ export def FilterEntireFile(cmd: string, trim_trailing_cr = false): void
   setline(1, result)
 enddef
 
+export def JsonFormat(python_command: string, ensure_ascii: bool, indent_count: number): void
+  const cmd = join([
+    (python_command ?? 'python3'),
+    '-m json.tool',
+    (ensure_ascii ? null_string : '--no-ensure-ascii'),
+    (indent_count > 0 ? $'--indent={indent_count}' : '--tab'),
+  ])
+  FilterEntireFile(cmd, has('win32'))
+enddef
+
 export def Update_SSH_AUTH_SOCK(): void
   if empty($TMUX)
     return
