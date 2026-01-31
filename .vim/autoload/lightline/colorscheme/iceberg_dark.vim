@@ -1,10 +1,6 @@
-let s:save_cpo = &cpo
-set cpo&vim
+vim9script
 
 if &background ==# 'dark'
   runtime autoload/lightline/colorscheme/iceberg.vim
-  let g:lightline#colorscheme#iceberg_dark#palette = deepcopy(g:lightline#colorscheme#iceberg#palette)
+  g:lightline#colorscheme#iceberg_dark#palette = deepcopy(g:lightline#colorscheme#iceberg#palette)
 endif
-
-let &cpo = s:save_cpo
-unlet s:save_cpo
