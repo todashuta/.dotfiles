@@ -30,7 +30,23 @@ export def Filetype(): string
   return s
 enddef
 
+def FileBeagleInfo(): string
+  if !exists('g:FileBeagleStatusLineCurrentDirInfo')
+    return null_string
+  endif
+  const currentDirInfo = g:FileBeagleStatusLineCurrentDirInfo()
+  if empty(currentDirInfo)
+    return null_string
+  endif
+  const filterAndHiddenInfo = g:FileBeagleStatusLineFilterAndHiddenInfo()
+  return filterAndHiddenInfo .. fnamemodify(currentDirInfo, ':~')
+enddef
+
 export def Filename(): string
+  const fileBeagleInfo = FileBeagleInfo()
+  if !empty(fileBeagleInfo)
+    return fileBeagleInfo
+  endif
   if &l:filetype ==# 'ctrlp' && get(g:lightline, 'ctrlp_numscanned', 0) > 0
     return $'{g:lightline.ctrlp_numscanned} files... (press ctrl-c to abort)'
   endif

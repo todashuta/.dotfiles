@@ -840,6 +840,8 @@ nnoremap <M-b>  :<C-u>BuffergatorToggle<CR>
 " vim-filebeagle
 let g:filebeagle_suppress_keymaps = 1
 let g:filebeagle_show_hidden = 1
+autocmd vimrc User FileBeagleBufNew
+      \ call timer_start(0, { -> lightline#update() })
 
 " rainbow
 let g:rainbow_active = 0  " set to 0 if you want to enable it later via :RainbowToggle
