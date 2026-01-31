@@ -32,7 +32,7 @@ export def ResizeInteractive(): void
   redraw
 enddef
 
-export def Uptime(vim_starttime: number, system: bool)
+export def Uptime(vim_starttime: number, system: bool): void
   var up = libcallnr('kernel32', 'GetTickCount64', '') / 1000
   up = up - (system ? 0 : vim_starttime)
   var parts = []
@@ -57,7 +57,7 @@ export def Uptime(vim_starttime: number, system: bool)
   echo printf('%s Uptime: %s.', (system ? 'System' : 'Vim'), parts->join(', '))
 enddef
 
-export def MyPrevimOpen()
+export def MyPrevimOpen(): void
   const previm_installed = exists(':PrevimOpen') == 2
   if !previm_installed
     msg.Error('previm not installed')
