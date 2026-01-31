@@ -367,22 +367,9 @@ let g:ctrlp_mruf_max = 512
 "let g:ctrlp_show_hidden = 1
 let g:ctrlp_launcher_file = $VIMDIR .. '/ctrlp-launcher'
 let g:ctrlp_status_func = {
-      \   'main': 'CtrlPStatusFunc_main',
-      \   'prog': 'CtrlPStatusFunc_progress',
+      \   'main': 'vimrc#stl#CtrlP_main',
+      \   'prog': 'vimrc#stl#CtrlP_progress',
       \ }
-function! CtrlPStatusFunc_main(focus, byfname, regex, prev, item, next, marked)
-  let g:lightline.ctrlp_prev = a:prev
-  let g:lightline.ctrlp_item = a:item
-  let g:lightline.ctrlp_next = a:next
-  let g:lightline.ctrlp_marked = a:marked
-  let g:lightline.ctrlp_regex = a:regex
-  let g:lightline.ctrlp_numscanned = 0
-  return lightline#statusline(0)
-endfunction
-function! CtrlPStatusFunc_progress(numscanned)
-  let g:lightline.ctrlp_numscanned = a:numscanned
-  return lightline#statusline(0)
-endfunction
 let g:ctrlp_buffer_func = {
       \   'exit': 'CtrlPBufferFunc_exit',
       \ }

@@ -122,5 +122,21 @@ export def QuickRun(mark: string = "('_'*)"): string
   return quickrun#session#exists() ? mark : ''
 enddef
 
+export def CtrlP_main(focus: string, byfname: string, regex: bool,
+    prev: string, item: string, next: string, marked: string): string
+  g:lightline.ctrlp_prev = prev
+  g:lightline.ctrlp_item = item
+  g:lightline.ctrlp_next = next
+  g:lightline.ctrlp_marked = marked
+  g:lightline.ctrlp_regex = regex
+  g:lightline.ctrlp_numscanned = 0
+  return lightline#statusline(0)
+enddef
+
+export def CtrlP_progress(numscanned: number): string
+  g:lightline.ctrlp_numscanned = numscanned
+  return lightline#statusline(0)
+enddef
+
 #defcompile
 # vim: set et ts=2 sts=2 sw=2:
