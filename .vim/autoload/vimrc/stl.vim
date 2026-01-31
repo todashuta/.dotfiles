@@ -42,21 +42,32 @@ def FileBeagleInfo(): string
   return filterAndHiddenInfo .. fnamemodify(currentDirInfo, ':~')
 enddef
 
-export def Filename(): string
-  const fileBeagleInfo = FileBeagleInfo()
-  if !empty(fileBeagleInfo)
-    return fileBeagleInfo
+def CtrlPInfo(): string
+  if &l:filetype != 'ctrlp'
+    return null_string
   endif
-  if &l:filetype ==# 'ctrlp' && get(g:lightline, 'ctrlp_numscanned', 0) > 0
+  if get(g:lightline, 'ctrlp_numscanned', 0) > 0
     return $'{g:lightline.ctrlp_numscanned} files... (press ctrl-c to abort)'
   endif
-  if &l:filetype ==# 'ctrlp' && has_key(g:lightline, 'ctrlp_item')
+  if has_key(g:lightline, 'ctrlp_item')
     const regmark = g:lightline.ctrlp_regex ? '[.*] ' : '[  ] '
     return regmark .. join([
       '<' .. g:lightline.ctrlp_prev .. '>',
       '{' .. g:lightline.ctrlp_item .. '}',
       '<' .. g:lightline.ctrlp_next .. '>',
     ], '=') .. g:lightline.ctrlp_marked
+  endif
+  return null_string
+enddef
+
+export def Filename(): string
+  const fileBeagleInfo = FileBeagleInfo()
+  if !empty(fileBeagleInfo)
+    return fileBeagleInfo
+  endif
+  const ctrlpInfo = CtrlPInfo()
+  if !empty(ctrlpInfo)
+    return ctrlpInfo
   endif
   if &l:buftype ==# 'quickfix' && !empty(get(w:, 'quickfix_title', ''))
     return w:quickfix_title
