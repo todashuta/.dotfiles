@@ -69,12 +69,12 @@ export def Wintype(): string
     return cmdwintype
   endif
   const ret = get({
-    '': '--',
-    'ctrlp': 'CtrlP',
-    'fugitive': 'Git',
-    'fugitiveblame': 'Git',
-    'help': 'Help',
-    'qf': 'QuickFix',
+    [null_string]: '--',
+    ctrlp: 'CtrlP',
+    fugitive: 'Git',
+    fugitiveblame: 'Git',
+    help: 'Help',
+    qf: 'QuickFix',
   }, &l:filetype, &l:filetype)
   return &l:modifiable ? ret : $'*{ret}*'
   #let w = winnr()
