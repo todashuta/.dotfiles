@@ -1,0 +1,53 @@
+" minimal vimrc
+
+let s:is_windows = has('win32')
+
+if s:is_windows
+  language messages en
+else
+  language messages C
+endif
+
+packadd! vimdoc-ja
+
+set laststatus=2 cmdheight=2 ruler showcmd
+set list listchars=tab:>-,trail:-,nbsp:%
+let g:FFTable = { 'dos': 'CR+LF(dos)', 'unix': 'LF(unix)', 'mac': 'CR(mac)' }
+let &statusline = '%#WarningMsg#%{&paste?"*PASTE*":""}%*#%n %#WarningMsg#%{&modified?"*":""}%*%<%t%h%r [%{toupper(&l:fenc==""?(&enc."*"):&l:fenc).(&l:bomb?"(BOM)":"")};%{g:FFTable[&l:ff].(&l:eol?"":"-NoEOL")}] 0x%{FencB()}%= %y %l/%LL %2c%VC %3p%%'
+let &grepprg = 'grep -rnIH'
+
+function! FencB()
+  let c = matchstr(getline('.'), '.', col('.')-1)
+  if c != ''
+    let c = iconv(c, &enc, &fenc)
+    return s:byte2hex(s:str2byte(c))
+  else
+    return '0'
+  endif
+endfunction
+function! s:str2byte(str)
+  return map(range(len(a:str)), 'char2nr(a:str[v:val])')
+endfunction
+function! s:byte2hex(bytes)
+  return join(map(copy(a:bytes), 'printf("%02X", v:val)'), '')
+endfunction
+
+nnoremap Q      <Nop>
+cnoremap <C-p>  <Up>
+cnoremap <C-n>  <Down>
+nnoremap <C-h>  :<C-u>h<Space>
+
+augroup vimrc
+  autocmd!
+  autocmd QuickFixCmdPost [^l]* botright cwindow | redraw!
+  autocmd VimEnter,WinEnter,ColorScheme * if !has('gui_running') | execute 'highlight Pmenu ctermbg=3' | endif
+  autocmd VimEnter,WinEnter,ColorScheme * highlight MatchParen guifg=NONE guibg=NONE ctermfg=NONE ctermbg=NONE term=underline cterm=underline gui=underline
+augroup END
+
+"colorscheme industry
+
+filetype plugin indent on
+syntax enable
+set secure
+
+" vim: set et ts=2 sts=2 sw=2:

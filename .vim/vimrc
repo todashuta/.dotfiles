@@ -1,5 +1,11 @@
 """ vimrc
 
+if v:versionlong < 9011000
+  let s:minimal_vimrc = printf('%s_minimal', $MYVIMRC)
+  if filereadable(s:minimal_vimrc) | execute 'source' s:minimal_vimrc | endif
+  finish
+endif
+
 let s:is_windows = has('win32')
 let $VIMDIR = resolve(expand(s:is_windows ? '~/vimfiles' : '~/.vim'))
 let $MYVIMRC = resolve($MYVIMRC)
