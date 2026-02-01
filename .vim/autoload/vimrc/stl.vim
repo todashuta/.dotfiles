@@ -60,20 +60,16 @@ def CtrlPInfo(): string
   return null_string
 enddef
 
+def QuickfixInfo(): string
+  if &l:buftype != 'quickfix'
+    return null_string
+  endif
+  return get(w:, 'quickfix_title', '')
+enddef
+
 export def Filename(): string
-  const fileBeagleInfo = FileBeagleInfo()
-  if !empty(fileBeagleInfo)
-    return fileBeagleInfo
-  endif
-  const ctrlpInfo = CtrlPInfo()
-  if !empty(ctrlpInfo)
-    return ctrlpInfo
-  endif
-  if &l:buftype ==# 'quickfix' && !empty(get(w:, 'quickfix_title', ''))
-    return w:quickfix_title
-  endif
-  const name = fnamemodify(@%, ':t') # expand('%:t')
-  return name ?? '[No Name]'
+  return FileBeagleInfo() ??  CtrlPInfo() ?? QuickfixInfo() ??
+      fnamemodify(@%, ':t') ?? '[No Name]'
 enddef
 
 def TerminalInfo(): string
