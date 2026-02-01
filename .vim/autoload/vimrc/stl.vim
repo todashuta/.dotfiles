@@ -68,8 +68,8 @@ def QuickfixInfo(): string
 enddef
 
 export def Filename(): string
-  return FileBeagleInfo() ??  CtrlPInfo() ?? QuickfixInfo() ??
-      fnamemodify(@%, ':t') ?? '[No Name]'
+  return (FileBeagleInfo() ?? CtrlPInfo() ?? QuickfixInfo() ??
+      fnamemodify(@%, ':t') ?? '[No Name]')
 enddef
 
 def TerminalInfo(): string

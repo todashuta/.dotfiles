@@ -23,3 +23,4 @@ export def EncodeURI(s: string): string
 enddef
 
 #defcompile
+# vim: set et ts=2 sts=2 sw=2:
