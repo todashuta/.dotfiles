@@ -83,21 +83,21 @@ def TerminalInfo(): string
   return 'Terminal'
 enddef
 
-export def Wintype(): string
+def BufnameOverride(): string
   if !empty(get(b:, 'mybufnameoverride', ''))
     return '{' .. b:mybufnameoverride .. '}'
   endif
+  return null_string
+enddef
+
+def DiffOrig(): string
   if get(b:, 'mydifforigbuf', 0)
     return 'DiffOrig'
   endif
-  const terminalInfo = TerminalInfo()
-  if !empty(terminalInfo)
-    return terminalInfo
-  endif
-  const cmdwintype = getcmdwintype()
-  if !empty(cmdwintype)
-    return cmdwintype
-  endif
+  return null_string
+enddef
+
+def FiletypeEx(): string
   const ret = get({
     [null_string]: '--',
     ctrlp: 'CtrlP',
@@ -106,7 +106,15 @@ export def Wintype(): string
     help: 'Help',
     qf: 'QuickFix',
   }, &l:filetype, &l:filetype)
-  return &l:modifiable ? ret : $'*{ret}*'
+  if &l:modifiable
+    return ret
+  else
+    return $'*{ret}*'
+  endif
+enddef
+
+export def Wintype(): string
+  return BufnameOverride() ?? DiffOrig() ?? TerminalInfo() ?? getcmdwintype() ?? FiletypeEx()
   #let w = winnr()
   #return bufnr('').'|'.w.(w==winnr('#')?'#':'')
 enddef
