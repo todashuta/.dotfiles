@@ -5,7 +5,7 @@ def Str2byte(str: string): list<number>
 enddef
 
 def Byte2hex(bytes: list<number>): string
-  return join(bytes->mapnew((_, v) => printf("%02X", v)), '')
+  return join(bytes->mapnew((_, v) => printf('%02X', v)), '')
 enddef
 
 export def FencB(): string
@@ -23,20 +23,20 @@ export def FencB(): string
 enddef
 
 export def Filetype(): string
-  var s = &l:filetype ?? 'no-ft'
+  const ft = &l:filetype ?? 'no-ft'
   if !empty(get(w:, 'current_syntax', ''))
-    s = $'{w:current_syntax}/{s}'
+    return $'{w:current_syntax}/{ft}'
   endif
-  return s
+  return ft
 enddef
 
 def FileBeagleInfo(): string
   if !exists('g:FileBeagleStatusLineCurrentDirInfo')
-    return null_string
+    return ''
   endif
   const currentDirInfo = g:FileBeagleStatusLineCurrentDirInfo()
   if empty(currentDirInfo)
-    return null_string
+    return ''
   endif
   const filterAndHiddenInfo = g:FileBeagleStatusLineFilterAndHiddenInfo()
   return filterAndHiddenInfo .. fnamemodify(currentDirInfo, ':~')
@@ -44,7 +44,7 @@ enddef
 
 def CtrlPInfo(): string
   if &l:filetype != 'ctrlp'
-    return null_string
+    return ''
   endif
   if get(g:lightline, 'ctrlp_numscanned', 0) > 0
     return $'{g:lightline.ctrlp_numscanned} files... (press ctrl-c to abort)'
@@ -57,12 +57,12 @@ def CtrlPInfo(): string
       '<' .. g:lightline.ctrlp_next .. '>',
     ], '=') .. g:lightline.ctrlp_marked
   endif
-  return null_string
+  return ''
 enddef
 
 def QuickfixInfo(): string
   if &l:buftype != 'quickfix'
-    return null_string
+    return ''
   endif
   return get(w:, 'quickfix_title', '')
 enddef
@@ -74,7 +74,7 @@ enddef
 
 def TerminalInfo(): string
   if &l:buftype != 'terminal'
-    return null_string
+    return ''
   endif
   const bnr = bufnr('')
   if term_getstatus(bnr) =~# 'finished'
@@ -87,14 +87,14 @@ def BufnameOverride(): string
   if !empty(get(b:, 'mybufnameoverride', ''))
     return '{' .. b:mybufnameoverride .. '}'
   endif
-  return null_string
+  return ''
 enddef
 
 def DiffOrig(): string
   if get(b:, 'mydifforigbuf', 0)
     return 'DiffOrig'
   endif
-  return null_string
+  return ''
 enddef
 
 def FiletypeEx(): string
@@ -105,6 +105,20 @@ def FiletypeEx(): string
     fugitiveblame: 'Git',
     help: 'Help',
     qf: 'QuickFix',
+
+    vim: 'Vim script',
+    go: 'Go',
+    python: 'Python',
+    ruby: 'Ruby',
+    cmake: 'CMake',
+    make: 'Make',
+    cuda: 'CUDA',
+    cpp: 'C++',
+    c: 'C',
+    cs: 'C#',
+    typescript: 'TS',
+    javascript: 'JS',
+    json: 'JSON',
   }, &l:filetype, &l:filetype)
   if &l:modifiable
     return ret
@@ -119,14 +133,22 @@ export def Wintype(): string
   #return bufnr('').'|'.w.(w==winnr('#')?'#':'')
 enddef
 
-export def GitStatus(): string
-  var xs = []
-  var fugitive_status = g:FugitiveStatusline()
-  if empty(fugitive_status)
+def FugitiveInfo(): string
+  const stat = g:FugitiveStatusline()
+  if empty(stat)
     return ''
   endif
-  fugitive_status = fugitive_status->substitute('^[Git:\?', '', '')->substitute(']$', '', '')
-  xs += [fugitive_status]
+  return (stat->substitute('^[Git:\?', '', '')
+      ->substitute(']$', '', ''))
+enddef
+
+export def GitStatus(): string
+  var xs = []
+  const fugitiveInfo = FugitiveInfo()
+  if empty(fugitiveInfo)
+    return ''
+  endif
+  xs->add(fugitiveInfo)
 
   #let l:gitbranchname = gitbranch#name()
   #if l:gitbranchname == ''
@@ -135,12 +157,12 @@ export def GitStatus(): string
   #let l:is_index = get(b:, 'fugitive_type', '') ==# 'blob' && &modifiable
   #let l:xs += [(l:is_index ? '*' : '') . '(' . l:gitbranchname . ')']
 
-  var signify_stats = sy#repo#get_stats_decorated()
+  const signify_stats = sy#repo#get_stats_decorated()
   if !empty(signify_stats)
-    xs += [signify_stats]
+    xs->add(signify_stats)
   endif
 
-  return join(xs, ' ')
+  return xs->join()
 enddef
 
 const fileformats = {
