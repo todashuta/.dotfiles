@@ -42,7 +42,7 @@ def FileBeagleInfo(): string
   return filterAndHiddenInfo .. fnamemodify(currentDirInfo, ':~')
 enddef
 
-def CtrlPInfo(): string
+def CtrlPStatus(): string
   if &l:filetype != 'ctrlp'
     return ''
   endif
@@ -60,7 +60,7 @@ def CtrlPInfo(): string
   return ''
 enddef
 
-def QuickfixInfo(): string
+def QuickfixTitle(): string
   if &l:buftype != 'quickfix'
     return ''
   endif
@@ -68,7 +68,7 @@ def QuickfixInfo(): string
 enddef
 
 export def Filename(): string
-  return (FileBeagleInfo() ?? CtrlPInfo() ?? QuickfixInfo() ??
+  return (FileBeagleInfo() ?? CtrlPStatus() ?? QuickfixTitle() ??
       fnamemodify(@%, ':t') ?? '[No Name]')
 enddef
 
@@ -133,7 +133,7 @@ export def Wintype(): string
   #return bufnr('').'|'.w.(w==winnr('#')?'#':'')
 enddef
 
-def FugitiveInfo(): string
+def FugitiveStatus(): string
   const stat = g:FugitiveStatusline()
   if empty(stat)
     return ''
@@ -144,11 +144,11 @@ enddef
 
 export def GitStatus(): string
   var xs = []
-  const fugitiveInfo = FugitiveInfo()
-  if empty(fugitiveInfo)
+  const fugitiveStatus = FugitiveStatus()
+  if empty(fugitiveStatus)
     return ''
   endif
-  xs->add(fugitiveInfo)
+  xs->add(fugitiveStatus)
 
   #let l:gitbranchname = gitbranch#name()
   #if l:gitbranchname == ''
