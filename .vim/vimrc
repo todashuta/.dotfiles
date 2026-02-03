@@ -155,6 +155,7 @@ nnoremap <Space>r  :<C-u>CtrlPMRUFiles<CR>
 nnoremap <Space>b  :<C-u>BuffergatorOpen<CR>
 nnoremap <Space>f  :<C-u>CtrlPCurWD<CR>
 nnoremap <Space>F  :<C-u>CtrlPCurFile<CR>
+nnoremap <Space>P  :<C-u>CtrlPLauncher<CR>
 
 nnoremap <Space>   <Nop>
 xnoremap <Space>   <Nop>
