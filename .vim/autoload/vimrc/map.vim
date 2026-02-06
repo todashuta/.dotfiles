@@ -2,6 +2,15 @@ vim9script
 
 import "./msg.vim"
 
+export def ToggleQuickfixWindow(): void
+  const numwin = winnr('$')
+  cclose
+  if numwin == winnr('$')
+    botright cwindow
+    wincmd p
+  endif
+enddef
+
 export def QFPrevious(): void
   if getwininfo(win_getid())[0].quickfix
     msg.Warn('QFPrevious NOOP')
