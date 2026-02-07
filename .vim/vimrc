@@ -127,8 +127,10 @@ nnoremap          <C-h>       :<C-u>h<Space>
 map               Q           <Nop>
 nnoremap          s           <Nop>
 xnoremap          s           <Nop>
-nnoremap          ss          :<C-u>call vimrc#map#ToggleQuickfixWindow()<CR>
+nnoremap          ss          <Cmd>call vimrc#map#ToggleLoclistWindow()<CR>
 nnoremap          S           <Nop>
+xnoremap          S           <Nop>
+nnoremap          SS          <Cmd>call vimrc#map#ToggleQuickfixWindow()<CR>
 nnoremap          <Space>k    :<C-u>Kensaku<Space>
 nnoremap          <Space>l    :<C-u>g//l#<CR>
 nnoremap          <Space>L    :<C-u>vimgrep //j %<CR>

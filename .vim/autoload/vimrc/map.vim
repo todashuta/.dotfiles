@@ -2,12 +2,31 @@ vim9script
 
 import "./msg.vim"
 
+export def ToggleLoclistWindow(): void
+  var numwin = winnr('$')
+  lclose
+  if numwin == winnr('$')
+    numwin = winnr('$')
+    silent! botright lwindow
+    if numwin != winnr('$')
+      #wincmd p
+    else
+      msg.Warn('no location-list items')
+    endif
+  endif
+enddef
+
 export def ToggleQuickfixWindow(): void
-  const numwin = winnr('$')
+  var numwin = winnr('$')
   cclose
   if numwin == winnr('$')
+    numwin = winnr('$')
     botright cwindow
-    wincmd p
+    if numwin != winnr('$')
+      #wincmd p
+    else
+      msg.Warn('no quickfix items')
+    endif
   endif
 enddef
 
