@@ -2,6 +2,27 @@ vim9script
 
 import "./msg.vim"
 
+export def MyDiffOrigToggle(): void
+  const mydifforig_wins = filter(range(1, winnr('$')),
+      (_, v) => getbufvar(winbufnr(v), 'mydifforigbuf', 0))
+  if !empty(mydifforig_wins)
+    diffoff!
+    for w in mydifforig_wins
+      execute $'bwipeout {winbufnr(w)}'
+    endfor
+  else
+    vertical new
+    setlocal buftype=nofile
+    b:mydifforigbuf = 1
+    execute $'ownsyntax {getbufvar(bufname("#"), "&filetype")}'
+    read ++edit %%
+    :0delete _
+    diffthis
+    wincmd p
+    diffthis
+  endif
+enddef
+
 export def OperatorUserTemplate(): void
   const buffers = filter(range(1, bufnr('$')), (_, v) => getbufvar(v, "myoperatorusertemplatebuf", 0))
   if empty(buffers)

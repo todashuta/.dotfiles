@@ -744,18 +744,7 @@ nnoremap <silent> <C-n>  :<C-u>call vimrc#map#QFNext()<CR>
 "set pythonthreedll=C:/Python37/python37.dll
 "set pythonthreedll=~/scoop/apps/python/current/python310.dll
 
-nnoremap <silent> <Space>d  :<C-u>call <SID>MyDiffOrigToggle()<CR>
-function! s:MyDiffOrigToggle()
-  let l:mydifforig_wins = filter(range(1, winnr('$')), 'getbufvar(winbufnr(v:val), "mydifforigbuf", 0)')
-  if len(l:mydifforig_wins) > 0
-    diffoff!
-    for l:w in l:mydifforig_wins
-      exe 'bwipeout' winbufnr(l:w)
-    endfor
-  else
-    vert new | set bt=nofile | let b:mydifforigbuf = 1 | r ++edit # | 0d_ | diffthis | wincmd p | diffthis
-  endif
-endfunction
+nnoremap <silent> <Space>d  :<C-u>call vimrc#cmd#MyDiffOrigToggle()<CR>
 
 function! s:windo_toggle_list()
   let l:wnr = winnr()
