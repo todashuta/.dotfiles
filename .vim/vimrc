@@ -851,6 +851,7 @@ inoremap <M-.>  <Plug>(dmacro-play-macro)
 nnoremap <M-.>  <Plug>(dmacro-play-macro)
 
 " previm
+let g:previm_custom_preview_base_dir = '~/var/vim/previm-preview/'
 command! -nargs=0 MyPrevimOpen  :call vimrc#cmd#MyPrevimOpen()
 
 "command! -bang          Add     :exe <bang>0 ? 'Gwrite' : 'Gdiffsplit'

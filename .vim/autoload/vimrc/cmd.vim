@@ -91,6 +91,10 @@ export def MyPrevimOpen(): void
   elseif has('osxdarwin')
     g:previm_open_cmd = 'open -a "Google Chrome"'
     execute 'PrevimOpen'
+  elseif has('linux') && executable('firefox')
+    #g:previm_open_cmd = 'xdg-open'
+    g:previm_open_cmd = 'firefox'
+    execute 'PrevimOpen'
   else
     msg.Error('[MyPrevimOpen] Unsupported environment')
   endif
