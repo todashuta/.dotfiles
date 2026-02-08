@@ -291,6 +291,7 @@ packadd! vimdoc-ja
 "packadd! termdebug
 packadd! hlyank
 packadd! previm
+packadd! open-browser.vim
 packadd! autofmt
 "packadd! matchit
 packadd! ctrlp.vim
@@ -852,7 +853,7 @@ nnoremap <M-.>  <Plug>(dmacro-play-macro)
 
 " previm
 let g:previm_custom_preview_base_dir = '~/var/vim/previm-preview/'
-command! -nargs=0 MyPrevimOpen  :call vimrc#cmd#MyPrevimOpen()
+"command! -nargs=0 MyPrevimOpen  :call vimrc#cmd#MyPrevimOpen()
 
 "command! -bang          Add     :exe <bang>0 ? 'Gwrite' : 'Gdiffsplit'
 "command! -bang -nargs=* Commit  :exe 'silent Git ' . (<bang>0 ? '-c "commit.verbose=false"' : '') . ' commit <args>' | wincmd L
