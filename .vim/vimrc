@@ -471,6 +471,9 @@ if s:is_windows && executable('py.exe')
 endif
 
 let g:switch_mapping = 'gs'
+autocmd vimrc FileType sh
+      \ let b:switch_custom_definitions = [{'\<ON\>': 'OFF', '\<OFF\>': 'ON'}]
+
 let g:cursorword_highlight = 0
 let g:cursorword = 0
 
