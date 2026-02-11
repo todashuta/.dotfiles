@@ -379,6 +379,8 @@ let g:ctrlp_map = ''
 let g:ctrlp_mruf_max = 512
 "let g:ctrlp_show_hidden = 1
 let g:ctrlp_launcher_file = $VIMDIR .. '/ctrlp-launcher'
+"let g:ctrlp_match_func = { 'match': 'ctrlp_matchfuzzy#matcher' }
+let g:ctrlp_match_func = { 'match': 'vimrc#ctrlp#Matcher' }
 let g:ctrlp_status_func = {
       \   'main': 'vimrc#stl#CtrlP_main',
       \   'prog': 'vimrc#stl#CtrlP_progress',

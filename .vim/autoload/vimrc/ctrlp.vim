@@ -2,16 +2,27 @@ vim9script
 
 var timer = 0
 
-export def MigemoMatch(items: list<string>,
-    str: string, limit: number, mmode: string,
+def Esc(s: string): string
+  return '\c' .. substitute(tolower(s), '.', '\0[^\0]\\{-}', 'g')
+enddef
+
+export def Matcher(items: list<string>,
+    userstr: string, limit: number, mmode: string,
     ispath: bool, crfile: string, regex: bool): list<string>
+
+  var str = userstr
+
+  const use_migemo = !regex && (str[0 : 1] == '/j')
+  if use_migemo
+    str = str[2 :]
+  endif
 
   if empty(str)
     clearmatches()
     return items[ : &lines]
   endif
 
-  const pat = regex ? str : kensaku#query(str)
+  const pat = regex ? str : (use_migemo ? kensaku#query(str) : Esc(str))
   timer_stop(timer)
   timer = timer_start(10, (t) => {
     clearmatches()
@@ -21,7 +32,14 @@ export def MigemoMatch(items: list<string>,
     endif
     redraw
   }, {repeat: 0})
-  return filter(copy(items), (_, val) => val =~ pat)
+
+  if regex
+    return filter(copy(items), (_, val) => val =~ str)
+  elseif use_migemo
+    return filter(copy(items), (_, val) => val =~ pat)
+  else
+    return matchfuzzy(items, str, {limit: &lines})
+  endif
 enddef
 
 #defcompile
