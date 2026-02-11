@@ -2,6 +2,14 @@ vim9script
 
 import "./msg.vim"
 
+export def MinpacInstall(name: string, option = {}): void
+  const opt = extend(copy(option), {type: 'opt'}, 'keep')
+  packadd minpac
+  minpac#init()
+  minpac#add(name, opt)
+  minpac#update('', {'do': 'call minpac#status()'})
+enddef
+
 export def MyDiffOrigToggle(): void
   const mydifforig_wins = filter(range(1, winnr('$')),
       (_, v) => getbufvar(winbufnr(v), 'mydifforigbuf', 0))
