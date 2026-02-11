@@ -296,6 +296,7 @@ packadd! autofmt
 "packadd! matchit
 packadd! ctrlp.vim
 packadd! ctrlp-launcher
+packadd! ctrlp-matchfuzzy
 packadd! html5.vim
 packadd! sonictemplate-vim
 "packadd! vim-molder
