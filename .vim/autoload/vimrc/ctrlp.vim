@@ -12,9 +12,9 @@ export def Matcher(items: list<string>,
 
   var str = userstr
 
-  const use_migemo = !regex && (str[-1] == '!')
+  const use_migemo = !regex && (str[0] == '!')
   if use_migemo
-    str = str[0 : -2]
+    str = str[1 :]
   endif
 
   if empty(str)
