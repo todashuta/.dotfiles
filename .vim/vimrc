@@ -673,7 +673,7 @@ let s:npm_available = executable('npm')
 let g:lsp_settings = {
       \   'efm-langserver': {
       \     'cmd': [lsp_settings#exec_path('efm-langserver'), '-c=' .. $VIMDIR .. '/efm-langserver-config.yaml'],
-      \     'blocklist': ['', 'vimwiki'],
+      \     'blocklist': ['', 'vimwiki', 'ctrlp', 'fugitive', 'filebeagle', 'buffergator', 'qf', 'help'],
       \     'disabled': !executable('go') || 0,
       \   },
       \   'clangd': {
