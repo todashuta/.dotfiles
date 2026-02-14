@@ -746,7 +746,9 @@
              )
     ;; :bind (("C-c C-j" . skk-mode))
     :config
-    (let* ((jisyo-dir (file-name-as-directory skk-get-jisyo-directory))
+    (let* ((jisyo-dir (file-name-as-directory
+                       ;; skk-get-jisyo-directory
+                       (concat user-emacs-directory "skk-dict")))
            (jisyo-path (concat jisyo-dir "SKK-JISYO.L")))
       (when (file-exists-p jisyo-path)
         (setq skk-large-jisyo jisyo-path))))
