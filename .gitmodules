@@ -15,3 +15,6 @@
 [submodule ".zsh/zsh-autosuggestions"]
 	path = .zsh/zsh-autosuggestions
 	url = https://github.com/zsh-users/zsh-autosuggestions
+[submodule ".emacs.d/skk-dict"]
+	path = .emacs.d/skk-dict
+	url = https://github.com/skk-dev/dict
