@@ -98,6 +98,10 @@ def DiffOrig(): string
 enddef
 
 def FiletypeEx(): string
+  const skkeletonMode = SkkeletonMode()
+  if !empty(skkeletonMode)
+    return skkeletonMode
+  endif
   const ret = get({
     [null_string]: '--',
     ctrlp: 'CtrlP',
@@ -119,12 +123,24 @@ def FiletypeEx(): string
     typescript: 'TS',
     javascript: 'JS',
     json: 'JSON',
+    html: 'HTML',
+    xml: 'XML',
   }, &l:filetype, &l:filetype)
   if &l:modifiable
     return ret
   else
     return $'*{ret}*'
   endif
+enddef
+
+def SkkeletonMode(): string
+  return get({
+    hira:    '[あ]',
+    kata:    '[ア]',
+    hankata: '[ ｱ]',
+    zenkaku: '[Ａ]',
+    abbrev:  'abbr',
+  }, skkeleton#mode(), '')
 enddef
 
 export def Wintype(): string
