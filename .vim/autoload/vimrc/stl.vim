@@ -98,10 +98,6 @@ def DiffOrig(): string
 enddef
 
 def FiletypeEx(): string
-  const skkeletonMode = SkkeletonMode()
-  if !empty(skkeletonMode)
-    return skkeletonMode
-  endif
   const ret = get({
     [null_string]: '--',
     ctrlp: 'CtrlP',
@@ -144,7 +140,7 @@ def SkkeletonMode(): string
 enddef
 
 export def Wintype(): string
-  return BufnameOverride() ?? DiffOrig() ?? TerminalInfo() ?? getcmdwintype() ?? FiletypeEx()
+  return SkkeletonMode() ?? BufnameOverride() ?? DiffOrig() ?? TerminalInfo() ?? getcmdwintype() ?? FiletypeEx()
   #let w = winnr()
   #return bufnr('').'|'.w.(w==winnr('#')?'#':'')
 enddef
