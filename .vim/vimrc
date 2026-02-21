@@ -663,7 +663,7 @@ function! s:on_lsp_buffer_enabled() abort
 endfunction
 
 autocmd vimrc User lsp_float_opened call popup_setoptions(
-      \ lsp#ui#vim#output#getpreviewwinid(),
+      \ lsp#document_hover_preview_winid(),
       \ {
       \   'borderchars': ['-', '|', '-', '|', '+', '+', '+', '+'],
       \ })
