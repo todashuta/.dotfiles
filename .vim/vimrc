@@ -666,6 +666,7 @@ autocmd vimrc User lsp_float_opened call popup_setoptions(
       \ lsp#document_hover_preview_winid(),
       \ {
       \   'borderchars': ['-', '|', '-', '|', '+', '+', '+', '+'],
+      \   'opacity': 97,
       \ })
 
 let s:clangd_command = 'clangd'
