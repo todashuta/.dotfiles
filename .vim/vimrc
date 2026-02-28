@@ -107,7 +107,7 @@ set t_fd= t_fe=  " :h xterm-focus-event
 silent! set nrformats= nrformats+=unsigned
 "set updatetime=500
 set previewheight=24
-let &ambiwidth = has('kaoriya') ? 'auto' : 'double'
+"let &ambiwidth = has('kaoriya') ? 'auto' : 'double'
 set winminwidth=16
 
 cnoreabbrev <expr> pp   (getcmdtype() ==# ':' && getcmdline() ==# 'pp')  ? 'PP'  : 'pp'
@@ -665,7 +665,7 @@ endfunction
 autocmd vimrc User lsp_float_opened call popup_setoptions(
       \ lsp#document_hover_preview_winid(),
       \ {
-      \   'borderchars': ['-', '|', '-', '|', '+', '+', '+', '+'],
+      \   'borderchars': s:is_windows ? ['-', '|', '-', '|', '+', '+', '+', '+'] : [],
       \   'opacity': 97,
       \ })
 
