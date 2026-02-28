@@ -7,6 +7,7 @@ if v:versionlong < 9011000
 endif
 
 let s:is_windows = has('win32')
+let s:is_terminal = !has('gui_running')
 let $VIMDIR = resolve(expand(s:is_windows ? '~/vimfiles' : '~/.vim'))
 let $MYVIMRC = resolve($MYVIMRC)
 let $MYVIMDIR = resolve($MYVIMDIR)
@@ -100,6 +101,7 @@ set timeoutlen=2000
 set matchpairs+=<:>,「:」,【:】,『:』,（:）,＜:＞
 set cscopetag tags& tags-=tags tags+=./tags;
 set pumheight=10
+set pumborder=double
 set cryptmethod=blowfish2
 set noequalalways
 set shortmess-=S
@@ -603,7 +605,7 @@ if has('termguicolors') && v:version > 800
   set termguicolors
 endif
 
-if !has('gui_running')
+if s:is_terminal
   autocmd vimrc ColorScheme
         \ * if &background ==# 'dark'
         \ |   execute 'highlight Normal ctermbg=NONE guibg=NONE'
@@ -616,7 +618,7 @@ let g:tokyonight_menu_selection_background = 'blue'
 
 let g:gruvbox_italic = 0
 
-if has('vim_starting') && !has('gui_running')
+if has('vim_starting') && s:is_terminal
   set background=dark
   if s:is_windows
     colorscheme industry
@@ -665,7 +667,7 @@ endfunction
 autocmd vimrc User lsp_float_opened call popup_setoptions(
       \ lsp#document_hover_preview_winid(),
       \ {
-      \   'borderchars': s:is_windows ? ['-', '|', '-', '|', '+', '+', '+', '+'] : [],
+      \   'borderchars': (s:is_windows && s:is_terminal) ? ['-', '|', '-', '|', '+', '+', '+', '+'] : [],
       \   'opacity': 97,
       \ })
 
