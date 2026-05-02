@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 set -euxo pipefail
 
 if [[ "$(pwd)" != "$(cd "$(dirname "$0")" && pwd)" ]]; then
@@ -8,10 +8,6 @@ fi
 
 build_dir=./build
 install_dir=./_install
-vcpkg_toolchain=~/devel/vcpkg/scripts/buildsystems/vcpkg.cmake # FIXME
-
-make_prog=$(which ninja); generator=Ninja
-#make_prog=$(which make); generator='Unix Makefiles'
 
 njobs=$(( $(nproc)-2 ))
 #njobs=$(( $(sysctl -n hw.ncpu)-2 )) # macOS
@@ -21,14 +17,24 @@ test -d $install_dir && rm -r $install_dir || true
 
 export CLICOLOR_FORCE=1
 
-cmake -B "$build_dir" \
-	-DCMAKE_INSTALL_PREFIX="$install_dir" \
-	-DCMAKE_MAKE_PROGRAM="$make_prog" -G "$generator" \
-	-DCMAKE_TOOLCHAIN_FILE="$vcpkg_toolchain" \
-	-DCMAKE_COLOR_DIAGNOSTICS=ON \
-	-DCMAKE_BUILD_TYPE=Release \
-	-DCMAKE_C_COMPILER=clang-20 \
-	-DCMAKE_CXX_COMPILER=clang++-20 \
-	-DCMAKE_CUDA_COMPILER=/usr/local/cuda-13.1/bin/nvcc
+cmake_configure_args=(
+	-B "$build_dir"
+	-DCMAKE_INSTALL_PREFIX="$install_dir"
+
+	-DCMAKE_MAKE_PROGRAM="$(which ninja)" -G Ninja
+	#-DCMAKE_MAKE_PROGRAM="$(which make)" -G 'Unix Makefiles'
+
+	-DCMAKE_TOOLCHAIN_FILE="$HOME/devel/vcpkg/scripts/buildsystems/vcpkg.cmake" # must after -DCMAKE_MAKE_PROGRAM
+	-DCMAKE_COLOR_DIAGNOSTICS=ON
+
+	#-DCMAKE_BUILD_TYPE=Debug
+	-DCMAKE_BUILD_TYPE=Release
+
+	#-DCMAKE_C_COMPILER=clang-20 -DCMAKE_CXX_COMPILER=clang++-20
+	-DCMAKE_C_COMPILER=gcc-14 -DCMAKE_CXX_COMPILER=g++-14
+
+	#-DCMAKE_CUDA_COMPILER=/usr/local/cuda-13.1/bin/nvcc
+)
+cmake "${cmake_configure_args[@]}"
 cmake --build "$build_dir" -- -j${njobs}
 cmake --install "$build_dir"
