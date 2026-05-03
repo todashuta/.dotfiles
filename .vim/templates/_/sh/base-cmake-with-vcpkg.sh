@@ -34,6 +34,8 @@ cmake_configure_args=(
 	-DCMAKE_C_COMPILER=gcc-14 -DCMAKE_CXX_COMPILER=g++-14
 
 	#-DCMAKE_CUDA_COMPILER=/usr/local/cuda-13.1/bin/nvcc
+
+	-DCMAKE_EXPORT_COMPILE_COMMANDS=ON
 )
 cmake "${cmake_configure_args[@]}"
 cmake --build "$build_dir" -- -j${njobs}
