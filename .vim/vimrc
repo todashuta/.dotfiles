@@ -670,7 +670,7 @@ autocmd vimrc User lsp_float_opened call popup_setoptions(
       \   'borderchars': (s:is_windows && s:is_terminal) ? ['-', '|', '-', '|', '+', '+', '+', '+'] : [],
       \ })
 
-let s:clangd_command = 'clangd'
+let s:clangd_command = exepath('clangd-mp-22') ?? exepath('clangd-23') ?? 'clangd'
 let s:npm_available = executable('npm')
 let g:lsp_settings = {
       \   'efm-langserver': {
