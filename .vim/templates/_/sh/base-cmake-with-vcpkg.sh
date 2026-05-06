@@ -35,6 +35,9 @@ cmake_configure_args=(
 
 	#-DCMAKE_CUDA_COMPILER=/usr/local/cuda-13.1/bin/nvcc
 
+	#-DCMAKE_LINKER_TYPE=GOLD
+	-DCMAKE_LINKER_TYPE=LLD
+
 	-DCMAKE_EXPORT_COMPILE_COMMANDS=ON
 )
 cmake "${cmake_configure_args[@]}"
