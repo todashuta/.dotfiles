@@ -16,8 +16,11 @@ if errorlevel 1 (
 )
 
 :EOF
+popd
+rem timeout /t 5
 exit /b 0
 
 :ERR
+popd
 pause
 exit /b 1
