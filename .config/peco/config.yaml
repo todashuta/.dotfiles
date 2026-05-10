@@ -1,0 +1,11 @@
+# peco config file
+# ~/.config/peco/config.yaml
+
+Style: 
+  Selected: 
+    - on_cyan
+    - black
+  Matched: 
+    - reverse
+    - on_cyan
+    - black
