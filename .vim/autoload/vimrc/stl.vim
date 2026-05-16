@@ -31,7 +31,7 @@ export def Filetype(): string
 enddef
 
 def FileBeagleInfo(): string
-  if !exists('g:FileBeagleStatusLineCurrentDirInfo')
+  if !exists('*g:FileBeagleStatusLineCurrentDirInfo')
     return ''
   endif
   const currentDirInfo = g:FileBeagleStatusLineCurrentDirInfo()
@@ -130,6 +130,9 @@ def FiletypeEx(): string
 enddef
 
 def SkkeletonMode(): string
+  if !exists('*skkeleton#mode')
+    return ''
+  endif
   return get({
     hira:    '[あ]',
     kata:    '[ア]',
