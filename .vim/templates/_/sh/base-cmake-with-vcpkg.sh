@@ -15,6 +15,7 @@ njobs=$(( $(nproc)-2 ))
 test -d $build_dir && rm -r $build_dir || true
 test -d $install_dir && rm -r $install_dir || true
 
+#export VCPKG_FORCE_SYSTEM_BINARIES=1
 export CLICOLOR_FORCE=1
 
 cmake_configure_args=(
@@ -23,6 +24,8 @@ cmake_configure_args=(
 
 	-DCMAKE_MAKE_PROGRAM="$(which ninja)" -G Ninja
 	#-DCMAKE_MAKE_PROGRAM="$(which make)" -G 'Unix Makefiles'
+
+	#-DPKG_CONFIG_EXECUTABLE=$(which pkg-config)
 
 	-DCMAKE_TOOLCHAIN_FILE="$HOME/devel/vcpkg/scripts/buildsystems/vcpkg.cmake" # must after -DCMAKE_MAKE_PROGRAM
 	-DCMAKE_COLOR_DIAGNOSTICS=ON
