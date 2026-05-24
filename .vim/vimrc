@@ -660,7 +660,7 @@ function! s:syntax_completor(opt, ctx) abort
 endfunction
 autocmd vimrc User asyncomplete_setup call asyncomplete#register_source({
       \   'name': 'syntax',
-      \   'allowlist': ['cmake', 'sh', 'usda'],
+      \   'allowlist': ['cmake', 'sh', 'dosbatch', 'usda'],
       \   'blocklist': ['vim'],
       \   'completor': function('s:syntax_completor'),
       \ })
