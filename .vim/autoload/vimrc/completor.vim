@@ -1,12 +1,11 @@
 vim9script
 
-var omniSyntaxListCache = {}
+var cache = {}
 def OmniSyntaxList(filetype: string): list<string>
-  if !has_key(omniSyntaxListCache, filetype)
-    omniSyntaxListCache[filetype] =
-      syntaxcomplete#OmniSyntaxList([])->sort()->uniq() # See :h ft-syntax-omni
+  if !has_key(cache, filetype)
+    cache[filetype] = syntaxcomplete#OmniSyntaxList([])->sort()->uniq() # See :h ft-syntax-omni
   endif
-  return omniSyntaxListCache[filetype]
+  return cache[filetype]
 enddef
 
 export def Syntax(opt: dict<any>, ctx: dict<any>): void

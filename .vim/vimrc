@@ -648,7 +648,7 @@ autocmd vimrc User asyncomplete_setup call asyncomplete#register_source(asyncomp
 autocmd vimrc User asyncomplete_setup call asyncomplete#register_source({
       \   'name': 'syntax',
       \   'allowlist': ['*'],
-      \   'blocklist': ['vim'],
+      \   'blocklist': ['vim', 'gitcommit'],
       \   'completor': function('vimrc#completor#Syntax'),
       \ })
 
