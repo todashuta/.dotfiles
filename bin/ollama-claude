@@ -1,31 +1,23 @@
 #!/bin/bash
 
-ollama_exe="$HOME/devel/ollama/ollama"
-models=$("$ollama_exe" list | awk 'NR > 1 {print $1}')
+[[ $1 == -h || $1 == --help ]] && exec claude --help
 
-err() {
-	echo "$@" 1>&2
-}
+export ANTHROPIC_AUTH_TOKEN=ollama
+export ANTHROPIC_API_KEY=""
+export ANTHROPIC_BASE_URL=http://localhost:11434
 
-if [[ $# -eq 0 ]]; then
-	err "Please specify a model name."
-	err "Available Models:"
-	err $models
-	exit 1
-fi
+arg_model_found=false
 
-modelname="$1" ; shift
-ok=false
-
-for m in $models; do
-	[[ $modelname = $m ]] && ok=true
+for opt in "$@"; do
+	case $opt in
+		--model=*) arg_model_found=true ;;
+	esac
 done
 
-if [[ $ok = false ]]; then
-	err "Unknown model name: $modelname."
-	err "Available Models:"
-	err $models
-	exit 1
+if [[ $arg_model_found = true ]]; then
+	exec claude "$@"
+else
+	model=$(curl -s "$ANTHROPIC_BASE_URL/api/tags" | jq -r '.models[].name' | sort | peco)
+	[[ -z "$model" ]] && exit 1
+	exec claude --model="$model" "$@"
 fi
-
-exec "$ollama_exe" launch claude --model="$modelname" -- "$@"
