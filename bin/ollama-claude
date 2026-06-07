@@ -17,7 +17,7 @@ done
 if [[ $arg_model_found = true ]]; then
 	exec claude "$@"
 else
-	model=$(curl -s "$ANTHROPIC_BASE_URL/api/tags" | jq -r '.models[].name' | sort | peco)
+	model=$(curl -s "$ANTHROPIC_BASE_URL/api/tags" | jq -r '.models[].name' | sort | peco --prompt="models@$ANTHROPIC_BASE_URL>")
 	[[ -z "$model" ]] && exit 1
 	exec claude --model="$model" "$@"
 fi
