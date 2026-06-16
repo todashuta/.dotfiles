@@ -1,0 +1,22 @@
+#!/bin/bash
+
+[[ $1 == -h || $1 == --help ]] && exec codex --help
+
+ollama_base_url=http://localhost:11434
+export CODEX_OSS_BASE_URL=$ollama_base_url/v1
+
+arg_model_found=false
+
+for opt in "$@"; do
+	case $opt in
+		--model=*) arg_model_found=true ;;
+	esac
+done
+
+if [[ $arg_model_found = true ]]; then
+	exec codex --oss "$@"
+else
+	model=$(curl -s "$ollama_base_url/api/tags" | jq -r '.models[].name' | sort | peco --prompt="models@$ollama_base_url>")
+	[[ -z "$model" ]] && exit 1
+	exec codex --oss --model="$model" "$@"
+fi
