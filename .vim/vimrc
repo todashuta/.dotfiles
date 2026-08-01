@@ -264,8 +264,16 @@ if s:is_windows
     call term_start(a:cmd, { 'term_finish': 'close', 'hidden': 1, 'cwd': cwd })
   endfunction
 
+  function! s:explorer(bang, dir)
+    if a:bang
+      execute '!start explorer.exe' (empty(@%) ? '.' : '/select,"%:p"')
+    else
+      call s:start('explorer.exe .', a:dir, 0)
+    endif
+  endfunction
+
   command! -bang -complete=dir -nargs=? Cmd          execute 'silent !start cmd.exe /k pushd' tr((<q-args> != '' ? fnamemodify(<q-args>, ':p:h') : (<bang>0 ? expand('%:p:h') : getcwd())), '/', '\')
-  command! -bang -complete=dir -nargs=? Explorer     call s:start('explorer.exe .', <q-args>, <bang>0)
+  command! -bang -complete=dir -nargs=? Explorer     call s:explorer(<bang>0, <q-args>)
   "command!                     -nargs=1 MyCd         execute 'cd '.iconv(<q-args>, 'cp932', &enc)
   command! -bang -complete=dir -nargs=? PowerShell   call s:start('powershell.exe -ExecutionPolicy RemoteSigned -Command "Start-Process powershell.exe"', <q-args>, <bang>0)
   command! -bang -complete=dir -nargs=? Pwsh         call s:start('pwsh.exe -ExecutionPolicy RemoteSigned -Command "Start-Process pwsh.exe"', <q-args>, <bang>0)
