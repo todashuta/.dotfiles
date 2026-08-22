@@ -166,7 +166,7 @@ nnoremap <Space><Space>  :<C-u>CtrlPLauncher<CR>
 nnoremap <Space>   <Nop>
 xnoremap <Space>   <Nop>
 
-nmap     <Space>s  <Plug>(toggle-split-orientation)
+nnoremap <Space>s  <Plug>(toggle-split-orientation)
 
 "nnoremap <Space>g  :<C-u>CtrlPLauncher! git<CR>
 nnoremap <Space>g   <Nop>
@@ -557,12 +557,12 @@ let g:lightline = {
 
 
 xnoremap <expr> gr  niceblock#force_blockwise('r')
-map sR  <Plug>(operator-replace)
+noremap sR  <Plug>(operator-replace)
 
-omap aa  <Plug>(textobj-sandwich-auto-a)
-omap ii  <Plug>(textobj-sandwich-auto-i)
-xmap aa  <Plug>(textobj-sandwich-auto-a)
-xmap ii  <Plug>(textobj-sandwich-auto-i)
+onoremap aa  <Plug>(textobj-sandwich-auto-a)
+onoremap ii  <Plug>(textobj-sandwich-auto-i)
+xnoremap aa  <Plug>(textobj-sandwich-auto-a)
+xnoremap ii  <Plug>(textobj-sandwich-auto-i)
 
 
 " vim-signify
@@ -848,9 +848,9 @@ function! s:winignore_wincmd_w() abort
 endfunction
 
 " vim-quickhl
-nmap <Space>m  <Plug>(quickhl-manual-this-whole-word)
-xmap <Space>m  <Plug>(quickhl-manual-this)
-nmap <Space>M  <Plug>(quickhl-manual-reset)
+nnoremap <Space>m  <Plug>(quickhl-manual-this-whole-word)
+xnoremap <Space>m  <Plug>(quickhl-manual-this)
+nnoremap <Space>M  <Plug>(quickhl-manual-reset)
 
 " Vimwiki
 "let g:vimwiki_list = [{'path': '~/vimwiki/'}]
