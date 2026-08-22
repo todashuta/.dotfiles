@@ -776,6 +776,8 @@ autocmd vimrc BufWritePost *.bat
       \ |   echowindow 'please check ff and fenc'
       \ | endif
 
+nnoremap <expr> <Up>    vimrc#map#QFPrevious() ?? "\<Up>"
+nnoremap <expr> <Down>  vimrc#map#QFNext()     ?? "\<Down>"
 nnoremap <expr> <C-p>   &diff ? '[czz' : "\<Plug>(signify-prev-hunk)"
 nnoremap <expr> <C-n>   &diff ? ']czz' : "\<Plug>(signify-next-hunk)"
 

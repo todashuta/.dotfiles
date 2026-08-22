@@ -34,53 +34,33 @@ export def ToggleQuickfixWindow(keepcursor = true): void
   endif
 enddef
 
-export def QFPrevious(): void
-  if getwininfo(win_getid())[0].quickfix
-    msg.Warn('QFPrevious NOOP')
-    return
-  endif
+def LoclistOpened(): bool
   const xs = filter(copy(getwininfo()), 'v:val.tabnr == tabpagenr()')
-  if len(filter(copy(xs), 'v:val.loclist')) > 0
-    try
-      lprevious
-      normal! zz
-    catch /^Vim\%((\a\+)\)\=:E553:/
-      msg.Warn('No more items')
-    endtry
-  elseif len(filter(copy(xs), 'v:val.quickfix')) > 0
-    try
-      cprevious
-      normal! zz
-    catch /^Vim\%((\a\+)\)\=:E553:/
-      msg.Warn('No more items')
-    endtry
+  return len(filter(copy(xs), 'v:val.loclist')) > 0
+enddef
+
+def QflistOpened(): bool
+  const xs = filter(copy(getwininfo()), 'v:val.tabnr == tabpagenr()')
+  return len(filter(copy(xs), 'v:val.quickfix')) > 0
+enddef
+
+export def QFPrevious(): string
+  if LoclistOpened()
+    return ":\<C-u>lprevious\<CR>zz"
+  elseif QflistOpened()
+    return ":\<C-u>cprevious\<CR>zz"
   else
-    msg.Warn('QFPrevious NOOP')
+    return ''
   endif
 enddef
 
-export def QFNext(): void
-  if getwininfo(win_getid())[0].quickfix
-    msg.Warn('QFNext NOOP')
-    return
-  endif
-  const xs = filter(copy(getwininfo()), 'v:val.tabnr == tabpagenr()')
-  if len(filter(copy(xs), 'v:val.loclist')) > 0
-    try
-      lnext
-      normal! zz
-    catch /^Vim\%((\a\+)\)\=:E553:/
-      msg.Warn('No more items')
-    endtry
-  elseif len(filter(copy(xs), 'v:val.quickfix')) > 0
-    try
-      cnext
-      normal! zz
-    catch /^Vim\%((\a\+)\)\=:E553:/
-      msg.Warn('No more items')
-    endtry
+export def QFNext(): string
+  if LoclistOpened()
+    return ":\<C-u>lnext\<CR>zz"
+  elseif QflistOpened()
+    return ":\<C-u>cnext\<CR>zz"
   else
-    msg.Warn('QFNext NOOP')
+    return ''
   endif
 enddef
 
