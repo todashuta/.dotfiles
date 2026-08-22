@@ -64,7 +64,14 @@ def QuickfixTitle(): string
   if &l:buftype != 'quickfix'
     return ''
   endif
-  return get(w:, 'quickfix_title', '')
+  const wininfo = getwininfo(win_getid())[0]
+  var qftype = '?? '
+  if wininfo.loclist
+    qftype = '[Loc] '
+  elseif !wininfo.loclist && wininfo.quickfix
+    qftype = '[Qf] '
+  endif
+  return qftype .. get(w:, 'quickfix_title', '')
 enddef
 
 export def Filename(): string

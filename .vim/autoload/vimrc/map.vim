@@ -35,13 +35,11 @@ export def ToggleQuickfixWindow(keepcursor = true): void
 enddef
 
 def LoclistOpened(): bool
-  const xs = filter(copy(getwininfo()), 'v:val.tabnr == tabpagenr()')
-  return len(filter(copy(xs), 'v:val.loclist')) > 0
+  return getwininfo()->filter((_, v) => v.tabnr == tabpagenr() && v.loclist)->len() > 0
 enddef
 
 def QflistOpened(): bool
-  const xs = filter(copy(getwininfo()), 'v:val.tabnr == tabpagenr()')
-  return len(filter(copy(xs), 'v:val.quickfix')) > 0
+  return getwininfo()->filter((_, v) => v.tabnr == tabpagenr() && v.quickfix && !v.loclist)->len() > 0
 enddef
 
 export def QFPrevious(): string
