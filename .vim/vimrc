@@ -776,8 +776,8 @@ autocmd vimrc BufWritePost *.bat
       \ |   echowindow 'please check ff and fenc'
       \ | endif
 
-nnoremap <silent><expr> <C-p>   &diff ? '[czz' : "\<Plug>(signify-prev-hunk)"
-nnoremap <silent><expr> <C-n>   &diff ? ']czz' : "\<Plug>(signify-next-hunk)"
+nnoremap <expr> <C-p>   &diff ? '[czz' : "\<Plug>(signify-prev-hunk)"
+nnoremap <expr> <C-n>   &diff ? ']czz' : "\<Plug>(signify-next-hunk)"
 
 "set pythonthreedll=C:/Python37/python37.dll
 "set pythonthreedll=~/scoop/apps/python/current/python310.dll
