@@ -778,8 +778,8 @@ autocmd vimrc BufWritePost *.bat
 
 nnoremap <expr> <Up>    vimrc#map#QFPrevious() ?? "\<Up>"
 nnoremap <expr> <Down>  vimrc#map#QFNext()     ?? "\<Down>"
-nnoremap <expr> <C-p>   &diff ? '[czz' : "\<Plug>(signify-prev-hunk)"
-nnoremap <expr> <C-n>   &diff ? ']czz' : "\<Plug>(signify-next-hunk)"
+nnoremap        <C-p>   <Plug>(signify-prev-hunk)
+nnoremap        <C-n>   <Plug>(signify-next-hunk)
 
 "set pythonthreedll=C:/Python37/python37.dll
 "set pythonthreedll=~/scoop/apps/python/current/python310.dll
