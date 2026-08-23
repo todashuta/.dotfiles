@@ -911,31 +911,31 @@ call operator#user#define_ex_command('sort', 'sort')
 call operator#user#define_ex_command('reverse', "global/^/move '[-1'")
 
 call operator#user#define('DecodeURI', 'vimrc#opfunc#DecodeURI')
-map s%d  <Plug>(operator-DecodeURI)
+noremap s%d  <Plug>(operator-DecodeURI)
 
 call operator#user#define('EncodeURI', 'vimrc#opfunc#EncodeURI')
-map s%e  <Plug>(operator-EncodeURI)
+noremap s%e  <Plug>(operator-EncodeURI)
 
 call operator#user#define('SlashToBackslash', 'vimrc#opfunc#SlashToBackslash')
-map s\  <Plug>(operator-SlashToBackslash)
+noremap s\  <Plug>(operator-SlashToBackslash)
 
 call operator#user#define('BackslashToSlash', 'vimrc#opfunc#BackslashToSlash')
-map s/  <Plug>(operator-BackslashToSlash)
+noremap s/  <Plug>(operator-BackslashToSlash)
 
 call operator#user#define('CR2LF', 'vimrc#opfunc#CR2LF')
-map s<CR>  <Plug>(operator-CR2LF)
+noremap s<CR>  <Plug>(operator-CR2LF)
 
 function! DegToRad(deg)
   return vimrc#math#DegToRad(0.0 + a:deg)
 endfunction
 call operator#user#define('DegToRad', 'vimrc#opfunc#DegToRad')
-"map s, <Plug>(operator-DegToRad)
+"noremap s, <Plug>(operator-DegToRad)
 
 function! RadToDeg(rad)
   return vimrc#math#RadToDeg(0.0 + a:rad)
 endfunction
 call operator#user#define('RadToDeg', 'vimrc#opfunc#RadToDeg')
-"map s. <Plug>(operator-RadToDeg)
+"noremap s. <Plug>(operator-RadToDeg)
 
 inoremap <expr> <C-y>dd denops#request('vimrc', 'dateFormat', ['yyyyMMdd'])
 inoremap <expr> <C-y>di denops#request('vimrc', 'dateFormat', ["yyMMdd'T'HHmmssXX"])
