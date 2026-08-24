@@ -134,14 +134,14 @@ nnoremap          S           <Nop>
 xnoremap          S           <Nop>
 nnoremap          SS          <Cmd>call vimrc#map#ToggleQuickfixWindow()<CR>
 nnoremap          <Space>k    :<C-u>Kensaku<Space>
-nnoremap          <Space>l    :<C-u>g//l#<CR>
-nnoremap          <Space>L    :<C-u>vimgrep //j %<CR>
+nnoremap          <Space>l    <Cmd>g//l#<CR>
+nnoremap          <Space>L    <Cmd>vimgrep //j %<CR>
 nnoremap          <Space>/    :<C-u>silent grep!<Space>
 nnoremap          <Space>?    :<C-u>/j **/* <Bar> cwindow<Home>noautocmd vimgrep /<C-f>
 "nnoremap          <Space>?    :<C-u>/j ## <Bar> cwindow<Home>noautocmd vimgrep /<C-f>
 "nnoremap <silent> <Esc><Esc>  :<C-u>let v:hlsearch = !v:hlsearch<CR>
-nnoremap <silent> <Space>h    :<C-u>let v:hlsearch = !v:hlsearch<CR>
-nnoremap          <C-l>       :<C-u>call MyRedraw()<CR><C-l>
+nnoremap <silent> <Space>h    <Cmd>let v:hlsearch = !v:hlsearch<CR>
+nnoremap          <C-l>       <Cmd>call MyRedraw()<CR><C-l>
 
 function! MyRedraw() abort
   call lightline#update()
@@ -151,53 +151,53 @@ endfunction
 
 if s:is_windows
   "nnoremap  se      :<C-u>Explorer<Space>
-  "nnoremap  sE      :<C-u>Explorer!<CR>
-  nnoremap  <C-w>N  :<C-u>!start gvim.exe<CR>
+  "nnoremap  sE      <Cmd>Explorer!<CR>
+  nnoremap  <C-w>N  <Cmd>!start gvim.exe<CR>
 endif
 
-nnoremap <Space>r  :<C-u>CtrlPMRUFiles<CR>
-"nnoremap <Space>b  :<C-u>CtrlPBuffer<CR>
-nnoremap <Space>b  :<C-u>BuffergatorOpen<CR>
-nnoremap <Space>f  :<C-u>CtrlPCurWD<CR>
-nnoremap <Space>F  :<C-u>CtrlPCurFile<CR>
-"nnoremap <Space>P  :<C-u>CtrlPLauncher<CR>
-nnoremap <Space><Space>  :<C-u>CtrlPLauncher<CR>
+nnoremap <Space>r  <Cmd>CtrlPMRUFiles<CR>
+"nnoremap <Space>b  <Cmd>CtrlPBuffer<CR>
+nnoremap <Space>b  <Cmd>BuffergatorOpen<CR>
+nnoremap <Space>f  <Cmd>CtrlPCurWD<CR>
+nnoremap <Space>F  <Cmd>CtrlPCurFile<CR>
+"nnoremap <Space>P  <Cmd>CtrlPLauncher<CR>
+nnoremap <Space><Space>  <Cmd>CtrlPLauncher<CR>
 
 nnoremap <Space>   <Nop>
 xnoremap <Space>   <Nop>
 
 nnoremap <Space>s  <Plug>(toggle-split-orientation)
 
-"nnoremap <Space>g  :<C-u>CtrlPLauncher! git<CR>
+"nnoremap <Space>g  <Cmd>CtrlPLauncher! git<CR>
 nnoremap <Space>g   <Nop>
 nnoremap <Space>g<Space>  :<C-u>Git<Space>
 nnoremap g<Space>   :<C-u>Git<Space>
-nnoremap <Space>gs  :<C-u>Git<CR>
-nnoremap <Space>gc  :<C-u>silent vert below Git commit<CR>
-nnoremap <Space>ga  :<C-u>Gdiffsplit<CR>
+nnoremap <Space>gs  <Cmd>Git<CR>
+nnoremap <Space>gc  <Cmd>silent vert below Git commit<CR>
+nnoremap <Space>ga  <Cmd>Gdiffsplit<CR>
 nnoremap <Space>gf  :<C-u>Git fetch -p<Space>
-nnoremap <Space>gb  :<C-u>Git blame<CR>
+nnoremap <Space>gb  <Cmd>Git blame<CR>
 nnoremap <Space>gl  :<C-u>Git -p log<Space>
 nnoremap <Space>gL  :<C-u>Git -p log --follow<Space>
-nnoremap <Space>gd  :<C-u>CtrlPLauncher! gdiffsplit<CR>
+nnoremap <Space>gd  <Cmd>CtrlPLauncher! gdiffsplit<CR>
 
 nnoremap <Space>t   <Nop>
-nnoremap <Space>tt  :<C-u>CtrlPLauncher! toggle<CR>
-nnoremap <Space>tn  :<C-u>LineNumberToggle<CR>
-nnoremap <Space>tw  :<C-u>setlocal wrap! wrap?<CR>
-nnoremap <Space>t/  :<C-u>set wrapscan! wrapscan?<CR>
-nnoremap <Space>ts  :<C-u>SignifyToggleHighlight<CR>
-nnoremap <Space>tp  :<C-u>set paste! paste?<CR>
-nnoremap <Space>tl  :<C-u>call <SID>windo_toggle_list()<CR>
-nnoremap <Space>tr  :<C-u>RainbowToggle<CR>
-nnoremap <Space>t%  :<C-u>let b:parenmatch = !get(b:, 'parenmatch', 0)<CR>
+nnoremap <Space>tt  <Cmd>CtrlPLauncher! toggle<CR>
+nnoremap <Space>tn  <Cmd>LineNumberToggle<CR>
+nnoremap <Space>tw  <Cmd>setlocal wrap! wrap?<CR>
+nnoremap <Space>t/  <Cmd>set wrapscan! wrapscan?<CR>
+nnoremap <Space>ts  <Cmd>SignifyToggleHighlight<CR>
+nnoremap <Space>tp  <Cmd>set paste! paste?<CR>
+nnoremap <Space>tl  <Cmd>call <SID>windo_toggle_list()<CR>
+nnoremap <Space>tr  <Cmd>RainbowToggle<CR>
+nnoremap <Space>t%  <Cmd>let b:parenmatch = !get(b:, 'parenmatch', 0)<CR>
 
-"nnoremap <Space>l  :<C-u>CtrlPLauncher! lsp<CR>
-nnoremap <Space>q  :<C-u>CtrlPLauncher quickrun<CR>
-nnoremap <Space>w  :<C-u>CtrlPLauncher vimwiki<CR>
-nnoremap <Space><F12>  :<C-u>CtrlPLauncher f12map<CR>
-nnoremap <Space>e  :<C-u>FileBeagleBufferDir<CR>
-"nnoremap <Space>e  :<C-u>call <SID>edit_buffer_directory()<CR>
+"nnoremap <Space>l  <Cmd>CtrlPLauncher! lsp<CR>
+nnoremap <Space>q  <Cmd>CtrlPLauncher quickrun<CR>
+nnoremap <Space>w  <Cmd>CtrlPLauncher vimwiki<CR>
+nnoremap <Space><F12>  <Cmd>CtrlPLauncher f12map<CR>
+nnoremap <Space>e  <Cmd>FileBeagleBufferDir<CR>
+"nnoremap <Space>e  <Cmd>call <SID>edit_buffer_directory()<CR>
 "function s:edit_buffer_directory()
 "  :e `=(@%==''?'.':fnamemodify(@%,':~:.:h')).(exists('+shellslash')&&!&shellslash?'\':'/')`
 "endfunction
@@ -205,9 +205,9 @@ nnoremap <Space>e  :<C-u>FileBeagleBufferDir<CR>
 nnoremap <expr> gc  '`[' . getregtype()[0] . '`]'
 
 autocmd vimrc FileType help
-      \ nnoremap <buffer> Q  :<C-u>helpclose<CR>
+      \ nnoremap <buffer> Q  <Cmd>helpclose<CR>
 
-nnoremap <C-w>C  :<C-u>tabclose<CR>
+nnoremap <C-w>C  <Cmd>tabclose<CR>
 
 cnoremap <expr> <M-/>  getcmdtype() ==# '/' && getcmdline() ==# '' ? '\V' : ''
 cnoremap <expr> /      getcmdtype() ==# '/' && getcmdline()[0:1] ==# '\V' ? '\/' : '/'
@@ -492,7 +492,7 @@ let g:cursorword = 0
 
 autocmd vimrc User FugitivePager
       \   if get(b:, 'fugitive_type', '') ==# 'temp'
-      \ |   exe 'nnoremap <buffer> Q  :<C-u>close<CR>'
+      \ |   exe 'nnoremap <buffer> Q  <Cmd>close<CR>'
       \ | endif
 "let g:fugitive_dynamic_colors = 0
 
@@ -675,8 +675,8 @@ function! s:on_lsp_buffer_enabled() abort
 
   inoremap <buffer><C-space>  <Plug>(asyncomplete_force_refresh)
 
-  "nnoremap <silent><buffer> [e  :<C-u>LspPreviousDiagnostic<CR>
-  "nnoremap <silent><buffer> ]e  :<C-u>LspNextDiagnostic<CR>
+  "nnoremap <silent><buffer> [e  <Cmd>LspPreviousDiagnostic<CR>
+  "nnoremap <silent><buffer> ]e  <Cmd>LspNextDiagnostic<CR>
 endfunction
 
 autocmd vimrc User lsp_float_opened call popup_setoptions(
@@ -748,8 +748,8 @@ inoremap <C-j> <Plug>(skkeleton-enable)
 autocmd vimrc FileType json
       \ call s:join_block_keymaps()
 function! s:join_block_keymaps()
-  nnoremap <buffer> <F9>    :<C-u>normal! v%J+<CR><Esc>
-  nnoremap <buffer> <S-F9>  :<C-u>call feedkeys("vi[:g/{$/normal! v%J<Bslash><lt>CR>0zz", 'n')<CR>
+  nnoremap <buffer> <F9>    <Cmd>normal! v%J+<CR><Esc>
+  nnoremap <buffer> <S-F9>  <Cmd>call feedkeys("vi[:g/{$/normal! v%J<Bslash><lt>CR>0zz", 'n')<CR>
 endfunction
 
 autocmd vimrc FileType json
@@ -784,7 +784,7 @@ nnoremap        <C-n>   <Plug>(signify-next-hunk)
 "set pythonthreedll=C:/Python37/python37.dll
 "set pythonthreedll=~/scoop/apps/python/current/python310.dll
 
-nnoremap <silent> <Space>d  :<C-u>call vimrc#cmd#MyDiffOrigToggle()<CR>
+nnoremap <silent> <Space>d  <Cmd>call vimrc#cmd#MyDiffOrigToggle()<CR>
 
 function! s:windo_toggle_list()
   let l:wnr = winnr()
@@ -812,8 +812,8 @@ command! WinfixWidth   call feedkeys("\<C-Bslash>\<C-n>:set wfw | exe 'vert resi
 "command! WinIgnoreToggle
 "      \ : let b:winignore = !get(b:, 'winignore', 1)
 "      \ | echo (b:winignore ? 'This window will be ignored.' : 'This window will NOT be ignored.')
-"nnoremap <silent> <C-w><C-w>  :<C-u>call <SID>winignore_wincmd_w()<CR>
-"tnoremap <silent> <C-w><C-w>  <C-\><C-n>:<C-u>call <SID>winignore_wincmd_w()<CR>
+"nnoremap <silent> <C-w><C-w>  <Cmd>call <SID>winignore_wincmd_w()<CR>
+"tnoremap <silent> <C-w><C-w>  <C-\><C-n><Cmd>call <SID>winignore_wincmd_w()<CR>
 function! s:winignore_wincmd_w() abort
   let l:curwin = winnr()
   let l:targets = []
@@ -869,11 +869,11 @@ let g:buffergator_sort_regime = 'mru'
 autocmd vimrc FileType buffergator
       \ call s:buffergator_keymaps()
 function! s:buffergator_keymaps()
-  nnoremap <silent><buffer> <C-g>  :<C-u>call b:buffergator_catalog_viewer.close(1)<CR>
+  nnoremap <silent><buffer> <C-g>  <Cmd>call b:buffergator_catalog_viewer.close(1)<CR>
 endfunction
 "nnoremap <silent><expr> <C-^>  (&filetype ==# 'buffergator') ?
 "      \ ":\<C-u>call b:buffergator_catalog_viewer.close(1)\<CR>\<C-^>" : ":\<C-u>BuffergatorOpen\<CR>"
-nnoremap <M-b>  :<C-u>BuffergatorToggle<CR>
+nnoremap <M-b>  <Cmd>BuffergatorToggle<CR>
 
 " vim-filebeagle
 let g:filebeagle_suppress_keymaps = 1
