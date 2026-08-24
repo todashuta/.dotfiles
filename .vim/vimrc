@@ -639,6 +639,7 @@ endif
 
 
 " vim-lsp
+let g:lsp_use_native_client = 1
 let g:lsp_log_file = s:is_windows ? 'nul' : '/dev/null'
 "let g:lsp_log_file = expand('~/var/vim/vim-lsp.log')
 let g:asyncomplete_log_file = s:is_windows ? 'nul' : '/dev/null'
