@@ -140,7 +140,7 @@ nnoremap          <Space>/    :<C-u>silent grep!<Space>
 nnoremap          <Space>?    :<C-u>/j **/* <Bar> cwindow<Home>noautocmd vimgrep /<C-f>
 "nnoremap          <Space>?    :<C-u>/j ## <Bar> cwindow<Home>noautocmd vimgrep /<C-f>
 "nnoremap <silent> <Esc><Esc>  :<C-u>let v:hlsearch = !v:hlsearch<CR>
-nnoremap <silent> <Space>h    <Cmd>let v:hlsearch = !v:hlsearch<CR>
+nnoremap          <Space>h    <Cmd>let v:hlsearch = !v:hlsearch<CR>
 nnoremap          <C-l>       <Cmd>call MyRedraw()<CR><C-l>
 
 function! MyRedraw() abort
@@ -788,7 +788,7 @@ nnoremap        <C-n>   <Plug>(signify-next-hunk)
 "set pythonthreedll=C:/Python37/python37.dll
 "set pythonthreedll=~/scoop/apps/python/current/python310.dll
 
-nnoremap <silent> <Space>d  <Cmd>call vimrc#cmd#MyDiffOrigToggle()<CR>
+nnoremap <Space>d  <Cmd>call vimrc#cmd#MyDiffOrigToggle()<CR>
 
 function! s:windo_toggle_list()
   let l:wnr = winnr()
@@ -873,7 +873,7 @@ let g:buffergator_sort_regime = 'mru'
 autocmd vimrc FileType buffergator
       \ call s:buffergator_keymaps()
 function! s:buffergator_keymaps()
-  nnoremap <silent><buffer> <C-g>  <Cmd>call b:buffergator_catalog_viewer.close(1)<CR>
+  nnoremap <buffer> <C-g>  <Cmd>call b:buffergator_catalog_viewer.close(1)<CR>
 endfunction
 "nnoremap <silent><expr> <C-^>  (&filetype ==# 'buffergator') ?
 "      \ ":\<C-u>call b:buffergator_catalog_viewer.close(1)\<CR>\<C-^>" : ":\<C-u>BuffergatorOpen\<CR>"
