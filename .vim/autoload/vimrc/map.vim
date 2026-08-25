@@ -1,6 +1,7 @@
 vim9script
 
 import "./msg.vim"
+import "./qf.vim"
 
 export def ToggleLoclistWindow(keepcursor = true): void
   var numwin = winnr('$')
@@ -34,31 +35,23 @@ export def ToggleQuickfixWindow(keepcursor = true): void
   endif
 enddef
 
-def LoclistOpened(): bool
-  return getwininfo()->filter((_, v) => v.tabnr == tabpagenr() && v.loclist)->len() > 0
-enddef
-
-def QflistOpened(): bool
-  return getwininfo()->filter((_, v) => v.tabnr == tabpagenr() && v.quickfix && !v.loclist)->len() > 0
-enddef
-
-export def QFPrevious(): string
-  if LoclistOpened()
-    return ":\<C-u>lprevious\<CR>zz"
-  elseif QflistOpened()
-    return ":\<C-u>cprevious\<CR>zz"
+export def QfPrevious(fallback: string = ''): string
+  if qf.LoclistOpened()
+    return "\<Cmd>lprevious\<CR>zz"
+  elseif qf.QflistOpened()
+    return "\<Cmd>cprevious\<CR>zz"
   else
-    return ''
+    return fallback
   endif
 enddef
 
-export def QFNext(): string
-  if LoclistOpened()
-    return ":\<C-u>lnext\<CR>zz"
-  elseif QflistOpened()
-    return ":\<C-u>cnext\<CR>zz"
+export def QfNext(fallback: string = ''): string
+  if qf.LoclistOpened()
+    return "\<Cmd>lnext\<CR>zz"
+  elseif qf.QflistOpened()
+    return "\<Cmd>cnext\<CR>zz"
   else
-    return ''
+    return fallback
   endif
 enddef
 
