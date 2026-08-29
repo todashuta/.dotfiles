@@ -187,7 +187,7 @@ nnoremap <Space>tw  <Cmd>setlocal wrap! wrap?<CR>
 nnoremap <Space>t/  <Cmd>set wrapscan! wrapscan?<CR>
 nnoremap <Space>ts  <Cmd>SignifyToggleHighlight<CR>
 nnoremap <Space>tp  <Cmd>set paste! paste?<CR>
-nnoremap <Space>tl  <Cmd>call <SID>windo_toggle_list()<CR>
+nnoremap <Space>tl  <Cmd>call vimrc#cmd#WindoToggleList()<CR>
 nnoremap <Space>tr  <Cmd>RainbowToggle<CR>
 nnoremap <Space>t%  <Cmd>let b:parenmatch = !get(b:, 'parenmatch', 0)<CR><Cmd>let b:parenmatch<CR>
 nnoremap <Space>th  <Cmd>set hlsearch! hlsearch?<CR>
@@ -790,12 +790,6 @@ nnoremap        <C-n>   <Plug>(signify-next-hunk)
 
 nnoremap <Space>d  <Cmd>call vimrc#cmd#MyDiffOrigToggle()<CR>
 
-function! s:windo_toggle_list()
-  let l:wnr = winnr()
-  exe 'windo setlocal' (&l:list ? 'nolist' : 'list')
-  exe l:wnr . 'wincmd w'
-endfunction
-
 command! -nargs=? Name :let b:mybufnameoverride = <q-args>
 command! IPython :terminal python -m IPython
 
@@ -807,40 +801,8 @@ command! WinfixWidth   call feedkeys("\<C-Bslash>\<C-n>:set wfw | exe 'vert resi
 "command! WinIgnoreToggle
 "      \ : let b:winignore = !get(b:, 'winignore', 1)
 "      \ | echo (b:winignore ? 'This window will be ignored.' : 'This window will NOT be ignored.')
-"nnoremap <silent> <C-w><C-w>  <Cmd>call <SID>winignore_wincmd_w()<CR>
-"tnoremap <silent> <C-w><C-w>  <C-\><C-n><Cmd>call <SID>winignore_wincmd_w()<CR>
-function! s:winignore_wincmd_w() abort
-  let l:curwin = winnr()
-  let l:targets = []
-  for l:w in range(1, winnr('$'))
-    let l:ignore = 0
-    if getwinvar(l:w, '&filetype', '') =~# '^\%(fugitive\|qf\|help\)$'
-      let l:ignore = 1
-    endif
-    if getwinvar(l:w, '&buftype', '') =~# '^\%(terminal\)$'
-      let l:ignore = 1
-    endif
-    if getwinvar(l:w, '&previewwindow', 0)
-      let l:ignore = 1
-    endif
-    let l:override = getbufvar(winbufnr(l:w), 'winignore', -1)
-    if l:override >= 0
-      let l:ignore = l:override
-    endif
-    if !l:ignore
-      call add(l:targets, l:w)
-    endif
-  endfor
-  if empty(l:targets)
-    return
-  endif
-  if index(l:targets, l:curwin) >= 0
-    let l:i = (index(l:targets, l:curwin) + 1) % len(l:targets)
-    exe l:targets[l:i] . 'wincmd w'
-  else
-    exe l:targets[0] . 'wincmd w'
-  endif
-endfunction
+nnoremap <C-w><C-w>  <Cmd>call vimrc#cmd#WinignoreWincmdW()<CR>
+tnoremap <C-w><C-w>  <Cmd>call vimrc#cmd#WinignoreWincmdW()<CR>
 
 " vim-quickhl
 nnoremap <Space>m  <Plug>(quickhl-manual-this-whole-word)

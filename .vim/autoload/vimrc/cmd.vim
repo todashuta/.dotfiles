@@ -160,5 +160,44 @@ export def ToggleBackground(): void
   g:lightline#update()
 enddef
 
+export def WinignoreWincmdW(): void
+  const curwin = winnr()
+  var targets = []
+  for win in range(1, winnr('$'))
+    var ignore = false
+    if win->getwinvar('&filetype', '') =~# '^\%(fugitive\|qf\|help\)$'
+      ignore = true
+    endif
+    if win->getwinvar('&buftype', '') =~# '^\%(terminal\)$'
+      ignore = true
+    endif
+    if win->getwinvar('&previewwindow', 0)
+      ignore = true
+    endif
+    const override = win->winbufnr()->getbufvar('winignore', -1)
+    if override >= 0
+      ignore = !!override
+    endif
+    if !ignore
+      targets->add(win)
+    endif
+  endfor
+  if targets->empty()
+    return
+  endif
+  if targets->index(curwin) >= 0
+    const idx = (targets->index(curwin) + 1) % len(targets)
+    execute $':{targets[idx]}wincmd w'
+  else
+    execute $':{targets[0]}wincmd w'
+  endif
+enddef
+
+export def WindoToggleList(): void
+  const wnr = winnr()
+  execute $'windo setlocal {&l:list ? "nolist" : "list"}'
+  execute $':{wnr}wincmd w'
+enddef
+
 #defcompile
 # vim: set et ts=2 sts=2 sw=2:
