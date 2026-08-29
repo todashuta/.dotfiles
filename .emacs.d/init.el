@@ -1,3 +1,5 @@
+;; -*- lexical-binding: t; -*-
+
 (if (version<= "29.1" emacs-version)
     (progn
       (org-babel-load-file
