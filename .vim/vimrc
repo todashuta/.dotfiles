@@ -140,7 +140,7 @@ nnoremap          <Space>/    :<C-u>silent grep!<Space>
 nnoremap          <Space>?    :<C-u>/j **/* <Bar> cwindow<Home>noautocmd vimgrep /<C-f>
 "nnoremap          <Space>?    :<C-u>/j ## <Bar> cwindow<Home>noautocmd vimgrep /<C-f>
 "nnoremap <silent> <Esc><Esc>  :<C-u>let v:hlsearch = !v:hlsearch<CR>
-nnoremap          <Space>h    <Cmd>let v:hlsearch = !v:hlsearch<CR>
+nnoremap          <Space>h    <Cmd>let v:hlsearch = !v:hlsearch<CR><Cmd>let v:hlsearch<CR>
 nnoremap          <C-l>       <Cmd>call MyRedraw()<CR><C-l>
 
 function! MyRedraw() abort
@@ -170,10 +170,9 @@ nnoremap <Space>s  <Plug>(toggle-split-orientation)
 
 "nnoremap <Space>g  <Cmd>CtrlPLauncher! git<CR>
 nnoremap <Space>g   <Nop>
-nnoremap <Space>g<Space>  :<C-u>Git<Space>
-nnoremap g<Space>   :<C-u>Git<Space>
+nnoremap <Space>gg  :<C-u>Git<Space>
 nnoremap <Space>gs  <Cmd>Git<CR>
-nnoremap <Space>gc  <Cmd>silent vert below Git commit<CR>
+nnoremap <Space>gc  :<C-u>Git commit -S<Space>
 nnoremap <Space>ga  <Cmd>Gdiffsplit<CR>
 nnoremap <Space>gf  :<C-u>Git fetch -p<Space>
 nnoremap <Space>gb  <Cmd>Git blame<CR>
@@ -190,7 +189,8 @@ nnoremap <Space>ts  <Cmd>SignifyToggleHighlight<CR>
 nnoremap <Space>tp  <Cmd>set paste! paste?<CR>
 nnoremap <Space>tl  <Cmd>call <SID>windo_toggle_list()<CR>
 nnoremap <Space>tr  <Cmd>RainbowToggle<CR>
-nnoremap <Space>t%  <Cmd>let b:parenmatch = !get(b:, 'parenmatch', 0)<CR>
+nnoremap <Space>t%  <Cmd>let b:parenmatch = !get(b:, 'parenmatch', 0)<CR><Cmd>let b:parenmatch<CR>
+nnoremap <Space>th  <Cmd>set hlsearch! hlsearch?<CR>
 
 "nnoremap <Space>l  <Cmd>CtrlPLauncher! lsp<CR>
 nnoremap <Space>q  <Cmd>CtrlPLauncher quickrun<CR>
