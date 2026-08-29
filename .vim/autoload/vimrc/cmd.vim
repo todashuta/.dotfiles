@@ -199,5 +199,11 @@ export def WindoToggleList(): void
   execute $':{wnr}wincmd w'
 enddef
 
+export def RepeatNormal(cmd: string, num = 9999): void
+  for i in range(num)
+    execute $'normal! {cmd}'
+  endfor
+enddef
+
 #defcompile
 # vim: set et ts=2 sts=2 sw=2:
