@@ -150,7 +150,7 @@ enddef
 
 export def ToggleBackground(): void
   const supported_colorschemes = ['edge', 'iceberg']
-  if index(supported_colorschemes, g:colors_name) < 0
+  if supported_colorschemes->index(g:colors_name) < 0
     return
   endif
   &background = &background ==# 'dark' ? 'light' : 'dark'
