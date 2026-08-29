@@ -148,5 +148,17 @@ export def Update_SSH_AUTH_SOCK(): void
   echo $'SSH_AUTH_SOCK={$SSH_AUTH_SOCK}'
 enddef
 
+export def ToggleBackground(): void
+  const supported_colorschemes = ['edge', 'iceberg']
+  if index(supported_colorschemes, g:colors_name) < 0
+    return
+  endif
+  &background = &background ==# 'dark' ? 'light' : 'dark'
+  g:lightline.colorscheme = g:colors_name .. '_' .. &background # see ~/.vim/autoload/lightline/colorscheme/
+  g:lightline#init()
+  g:lightline#colorscheme()
+  g:lightline#update()
+enddef
+
 #defcompile
 # vim: set et ts=2 sts=2 sw=2:

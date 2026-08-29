@@ -799,16 +799,7 @@ endfunction
 command! -nargs=? Name :let b:mybufnameoverride = <q-args>
 command! IPython :terminal python -m IPython
 
-command! ToggleBackground  call s:cmd_ToggleBackground()
-function! s:cmd_ToggleBackground()
-  let supported_colorschemes = ['edge', 'iceberg']
-  if index(supported_colorschemes, g:colors_name) < 0
-    return
-  endif
-  let &background = &background ==# 'dark' ? 'light' : 'dark'
-  let g:lightline.colorscheme = g:colors_name . '_' . &background
-  call lightline#init() | call lightline#colorscheme() | call lightline#update()
-endfunction
+command! ToggleBackground  :call vimrc#cmd#ToggleBackground()
 
 command! WinfixHeight  call feedkeys("\<C-Bslash>\<C-n>:set wfh | exe 'resize' string(\<C-r>=winheight(0)\<CR>)\<Left>", 'n')
 command! WinfixWidth   call feedkeys("\<C-Bslash>\<C-n>:set wfw | exe 'vert resize' string(\<C-r>=winwidth(0)\<CR>)\<Left>", 'n')
