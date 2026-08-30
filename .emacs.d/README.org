@@ -859,8 +859,9 @@
       (setq my:mode-line-active-background (face-attribute 'mode-line :background))
       (setq my:mode-line-inactive-background (face-attribute 'mode-line-inactive :background)))
     (add-hook 'modus-themes-after-load-theme-hook 'my-update-mode-line-face-attribute-vars)
-    (load-theme 'modus-operandi t) ; light
-    ;; (load-theme 'modus-vivendi t) ; dark
+    (if (display-graphic-p)
+        (load-theme 'modus-operandi t) ; light
+      (load-theme 'modus-vivendi t)) ; dark
     (my-update-mode-line-face-attribute-vars)
     )
 #+end_src
