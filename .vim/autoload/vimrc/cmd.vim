@@ -193,6 +193,22 @@ export def WinignoreWincmdW(): void
   endif
 enddef
 
+export def WincmdWSameBufferOnly(): void
+  const curwin = winnr()
+  const bufnr = curwin->winbufnr()
+  var targets = []
+  for win in range(1, winnr('$'))
+    if win->winbufnr() == bufnr
+      targets->add(win)
+    endif
+  endfor
+  if targets->len() == 1
+    return
+  endif
+  const idx = (targets->index(curwin) + 1) % len(targets)
+  execute $':{targets[idx]}wincmd w'
+enddef
+
 export def WindoToggleList(): void
   const wnr = winnr()
   execute $'windo setlocal {&l:list ? "nolist" : "list"}'
