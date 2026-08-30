@@ -205,5 +205,17 @@ export def RepeatNormal(cmd: string, num = 9999): void
   endfor
 enddef
 
+export def FugitiveBlameToggle(): void
+  const wins = range(1, winnr('$'))
+    ->filter((_, v) => getwinvar(v, '&filetype', '') == 'fugitiveblame')
+  if wins->empty()
+    :Git blame
+  else
+    for w in wins
+      execute $':{w}close'
+    endfor
+  endif
+enddef
+
 #defcompile
 # vim: set et ts=2 sts=2 sw=2:

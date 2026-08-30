@@ -175,7 +175,7 @@ nnoremap <Space>gs  <Cmd>Git<CR>
 nnoremap <Space>gc  :<C-u>Git commit -S<Space>
 nnoremap <Space>ga  <Cmd>Gdiffsplit<CR>
 nnoremap <Space>gf  :<C-u>Git fetch -p<Space>
-nnoremap <Space>gb  <Cmd>Git blame<CR>
+nnoremap <Space>gb  <Cmd>call vimrc#cmd#FugitiveBlameToggle()<CR>
 nnoremap <Space>gl  :<C-u>Git -p log<Space>
 nnoremap <Space>gL  :<C-u>Git -p log --follow<Space>
 nnoremap <Space>gd  <Cmd>CtrlPLauncher! gdiffsplit<CR>
@@ -694,7 +694,7 @@ let s:npm_available = executable('npm')
 let g:lsp_settings = {
       \   'efm-langserver': {
       \     'cmd': [lsp_settings#exec_path('efm-langserver'), '-c=' .. $VIMDIR .. '/efm-langserver-config.yaml'],
-      \     'blocklist': ['', 'vimwiki', 'ctrlp', 'fugitive', 'filebeagle', 'buffergator', 'qf', 'help'],
+      \     'blocklist': ['', 'vimwiki', 'ctrlp', 'fugitive', 'filebeagle', 'buffergator', 'qf', 'help', 'git'],
       \     'disabled': !executable('go') || 0,
       \   },
       \   'clangd': {
