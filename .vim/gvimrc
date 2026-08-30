@@ -78,6 +78,15 @@ set guicursor& guicursor+=a:blinkwait550-blinkon550-blinkoff550
 "command! Diff2  browse tabedit | browse vsplit | windo diffthis
 "command! Diff3  browse tabedit | browse vsplit | browse vsplit | windo diffthis
 
+nnoremap <S-Left>   <Cmd>wincmd <<CR>
+nnoremap <S-Right>  <Cmd>wincmd ><CR>
+nnoremap <S-Up>     <Cmd>wincmd +<CR>
+nnoremap <S-Down>   <Cmd>wincmd -<CR>
+tnoremap <S-Left>   <Cmd>wincmd <<CR>
+tnoremap <S-Right>  <Cmd>wincmd ><CR>
+tnoremap <S-Up>     <Cmd>wincmd +<CR>
+tnoremap <S-Down>   <Cmd>wincmd -<CR>
+
 nnoremap <C-Tab>    gt
 nnoremap <C-S-Tab>  gT
 
