@@ -729,6 +729,7 @@ let g:lsp_settings = {
       \     }
       \   },
       \ }
+let g:lsp_settings_filetype_python = [ 'ty', 'ruff' ]
 function! s:install_efm_langserver_if_needed()
   if empty(lsp_settings#exec_path('efm-langserver'))
     LspInstallServer efm-langserver
