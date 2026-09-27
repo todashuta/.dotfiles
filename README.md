@@ -48,8 +48,6 @@ source-file -F '#{@tmux_dir}/tmux.conf'
 # ステータスラインの色とか環境別で変えたい設定を追加（任意）
 set -g default-terminal "xterm-256color"
 set -g status-bg colour136
-set -g pane-active-border-style fg=colour136,bg=colour136
-set -g pane-border-style fg=colour136,bg=default
 ```
 
 ### Zsh
