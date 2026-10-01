@@ -216,7 +216,7 @@ export def WindoToggleList(): void
 enddef
 
 export def RepeatNormal(cmd: string, num = 9999): void
-  for i in range(num)
+  for _ in range(num)
     execute $'normal! {cmd}'
   endfor
 enddef
