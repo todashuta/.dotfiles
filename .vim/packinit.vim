@@ -109,6 +109,7 @@ call s:add('luochen1990/rainbow')
 call s:add('eihigh/vim-aomi-grayscale')
 call s:add('superfunc/usda-syntax')
 call s:add('tani/dmacro.vim')
+call s:add('h-east/vim9ls')
 
 "" denops
 call s:add('vim-denops/denops.vim')

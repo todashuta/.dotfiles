@@ -365,6 +365,7 @@ packadd! vim-jsonpath
 packadd! rainbow
 packadd! vim-aomi-grayscale
 packadd! dmacro.vim
+packadd! vim9ls
 
 "if exists('##TextChangedP')
 "  packadd! vim-vsnip
@@ -687,6 +688,12 @@ autocmd vimrc User lsp_float_opened call popup_setoptions(
       \ lsp#document_hover_preview_winid(),
       \ {
       \   'borderchars': (s:is_windows && s:is_terminal) ? ['-', '|', '-', '|', '+', '+', '+', '+'] : [],
+      \ })
+
+autocmd vimrc User lsp_setup call lsp#register_server({
+      \   'name': 'vim9ls',
+      \   'cmd': vim9ls#Command(),
+      \   'allowlist': ['vim'],
       \ })
 
 let s:clangd_command = exepath('clangd-mp-22') ?? exepath('clangd-23') ?? 'clangd'
