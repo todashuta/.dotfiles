@@ -414,6 +414,7 @@ command! SweepQuickRunSessions  call quickrun#sweep_sessions()
 "map <Leader>r  <Plug>(quickrun)
 let g:quickrun_config = {}
 let g:quickrun_config['_'] = {
+      \   'debug': 'quickrun_last_session',
       \   'runner': (exists('*ch_close_in') ? 'job' : 'system'),
       \   'outputter': (exists('*deletebufline') ? 'buffer' : 'buffer_legacy'),
       \   'outputter/buffer/opener': 'new',
