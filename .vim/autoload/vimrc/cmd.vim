@@ -126,7 +126,7 @@ enddef
 
 export def JsonFormat(python_command: string, ensure_ascii: bool, indent_count: number): void
   const cmd = join([
-    (python_command ?? 'python3'),
+    (python_command ?? (executable('py.exe') ? 'py.exe -3' : '') ?? 'python3'),
     '-m json.tool',
     (ensure_ascii ? null_string : '--no-ensure-ascii'),
     (indent_count > 0 ? $'--indent={indent_count}' : '--tab'),
