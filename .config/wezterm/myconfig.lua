@@ -75,4 +75,9 @@ C.mouse_bindings = {
 	},
 }
 
+if utils.is_windows() then
+	-- See: https://github.com/wezterm/wezterm/discussions/3772
+	C.default_ssh_auth_sock = "\\\\.\\pipe\\openssh-ssh-agent"
+end
+
 return C
