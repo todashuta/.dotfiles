@@ -27,12 +27,12 @@ if errorlevel 1 (
 	goto ERR
 )
 
-:EOF
+:DONE
 popd
-rem timeout /t 5
+rem if /i %0 equ "%~f0" timeout /t 5
 exit /b 0
 
 :ERR
 popd
-pause
+if /i %0 equ "%~f0" pause
 exit /b 1
