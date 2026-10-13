@@ -34,7 +34,8 @@ cmake_configure_args=(
 	-DCMAKE_BUILD_TYPE=Release
 
 	#-DCMAKE_C_COMPILER=clang-20 -DCMAKE_CXX_COMPILER=clang++-20
-	-DCMAKE_C_COMPILER=gcc-14 -DCMAKE_CXX_COMPILER=g++-14
+	#-DCMAKE_C_COMPILER=gcc-14 -DCMAKE_CXX_COMPILER=g++-14
+	-DCMAKE_C_COMPILER="zig;cc" -DCMAKE_CXX_COMPILER="zig;c++"
 
 	#-DCMAKE_CUDA_COMPILER=/usr/local/cuda-13.1/bin/nvcc
 
