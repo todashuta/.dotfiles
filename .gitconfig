@@ -52,6 +52,8 @@
 # [user]
 #     signingkey = "公開鍵(.pub)の中身"
 
+[user]
+	useConfigOnly = true
 [color]
 	ui = true
 [commit]
