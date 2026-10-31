@@ -14,12 +14,15 @@
   REG ADD HKEY_CURRENT_USER\SOFTWARE\GNU\Emacs /v HOME /t REG_SZ /d %USERPROFILE%
 #+end_src
 ** M-x list-packages でgpgのエラー（Failed to verify signature archive-contents.sig）が発生する場合の対処
-- PATHの状況でmsysのgpgが使われると発生する(?)
-- 参考
-  - https://www.reddit.com/r/emacs/comments/ymzw78/comment/l77lqkt/
-*** エラーが発生する環境では init-local.el に下記を追記する
+- PATHの状況で Git for Widnows 同梱の MSYS2 版 gpg が使われると発生する。
+*** 対策方法: gpg を GnuPG ネイティブ版に差し替える
+**** Scoop で gnupg をインストール
+#+begin_src bat :tangle no
+  scoop install gnupg
+#+end_src
+**** init-local.el に下記を追記する
 #+begin_src emacs-lisp :tangle no
-  (setq package-gnupghome-dir (concat package-user-dir "/gnupg"))
+  (setq epg-gpg-program "C:/Scoop/apps/gnupg/current/bin/gpg.exe") ; パスは適宜変更すること
 #+end_src
 * ヘッダ
 #+begin_src emacs-lisp
