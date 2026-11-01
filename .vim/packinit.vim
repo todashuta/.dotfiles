@@ -114,8 +114,8 @@ call s:add('h-east/vim9ls')
 "" denops
 call s:add('vim-denops/denops.vim')
 call s:add('vim-denops/denops-helloworld.vim')
-call s:add('vim-skk/skkeleton')
-call s:add('lambdalisue/vim-kensaku')
+call s:add('todashuta/skkeleton', {'branch': 'vim9script'})
+call s:add('todashuta/vim-kensaku', {'branch': 'vim9script'})
 call s:add('lambdalisue/vim-kensaku-command')
 
 """ ----------------------------------------
