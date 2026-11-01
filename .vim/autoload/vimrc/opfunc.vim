@@ -24,11 +24,11 @@ export def CR2LF(motion_wise: string)
 enddef
 
 export def DecodeURI(motion_wise: string)
-  Opfunc(filterfunc.DecodeURI, motion_wise)
+  Opfunc(function('uri_decode'), motion_wise)
 enddef
 
 export def EncodeURI(motion_wise: string)
-  Opfunc(filterfunc.EncodeURI, motion_wise)
+  Opfunc(function('uri_encode'), motion_wise)
 enddef
 
 export def DegToRad(motion_wise: string)
