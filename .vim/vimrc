@@ -49,10 +49,10 @@ endif
 "endif
 
 if s:is_windows
-  language messages en
   let $LANG = 'ja_JP.UTF-8'
   let $LC_ALL = 'ja_JP.UTF-8'
   let $LESSCHARSET = 'utf-8'
+  language messages en
 else
   language messages C
 endif
