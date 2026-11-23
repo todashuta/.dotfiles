@@ -1,3 +1,12 @@
+# /// script
+# requires-python = "==3.14.*"
+# dependencies = [
+#     "gradio",
+#     "numpy",
+# ]
+# ///
+
+
 import gradio as gr
 import numpy as np
 

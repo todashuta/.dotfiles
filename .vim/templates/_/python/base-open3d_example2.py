@@ -1,3 +1,11 @@
+# /// script
+# requires-python = "==3.14.*"
+# dependencies = [
+#     "open3d",
+#     "numpy",
+# ]
+# ///
+
 import numpy as np
 import open3d as o3d
 

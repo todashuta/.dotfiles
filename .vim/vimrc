@@ -487,6 +487,23 @@ if s:is_windows && executable('py.exe')
   endfor
   unlet s:ver
 endif
+if executable('uv')
+  let g:quickrun_config[$'uv-run'] = {
+        \   'hook/eval/template': 'print(%s)',
+        \   'command': 'uv',
+        \   'cmdopt': $'run --isolated --managed-python --script',
+        \   'runner': 'terminal',
+        \ }
+  for s:ver in ['3.11', '3.12', '3.13', '3.14', '3.15']
+    let g:quickrun_config[$'uv-run/{s:ver}'] = {
+          \   'hook/eval/template': 'print(%s)',
+          \   'command': 'uv',
+          \   'cmdopt': $'run --isolated --managed-python -p {s:ver} --script',
+          \   'runner': 'terminal',
+          \ }
+  endfor
+  unlet s:ver
+endif
 
 let g:switch_mapping = 'gs'
 autocmd vimrc FileType sh
