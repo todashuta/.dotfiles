@@ -50,7 +50,7 @@
 #     allowedSignersFile = ~/.ssh/allowed_signers
 #     program = "C:/Windows/System32/OpenSSH/ssh-keygen.exe"
 # [user]
-#     signingkey = "公開鍵(.pub)の中身"
+#     signingkey = ~/.ssh/id_ed25519.pub
 
 [user]
 	useConfigOnly = true
